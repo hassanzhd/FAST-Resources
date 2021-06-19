@@ -1,0 +1,89 @@
+db.createCollection('hotel');
+
+db.hotel.insertMany([
+{
+  Address: {
+    Building: "123",
+    Street: "ABC-01",
+    Zipcode: "7500"
+  },
+  Town: "Karachi Down Town",
+  Cuisine: "Bakery",
+  Dishes: [
+    {
+      Pakistani: { 
+        Price: "1K" 
+      }, 
+      ratings: "9/10" 
+    },
+    {
+      Chinese: {
+        Price: "1.5K" 
+      },
+      ratings: "8/10" },
+    { 
+      British: {
+        Price: "1.6" 
+      }, 
+      ratings: "7/10" 
+    },
+  ],
+  Name: "New Down Town Hotel",
+  Hotel_ID: "PAK-30075"
+},
+{
+  Address: {
+    Building: "124",
+    Street: "ABC-01",
+    Zipcode: "7500"
+  },
+  Town: "Karachi Up Town",
+  Cuisine: "Bakery",
+  Dishes: [
+    { 
+      Pakistani: { 
+        Price: "1K" 
+      }, 
+      ratings: "9/10" 
+    },
+    { 
+      Chinese: { 
+        Price: "1.5K" 
+      }, 
+      ratings: "8/10" 
+    },
+    { 
+      British: { 
+        Price: "1.6" 
+      }, 
+      ratings: "7/10" 
+    },
+  ],
+  Name: "Sheraton",
+  Hotel_ID: "PAK-30076"
+},
+{
+  Address: {
+    Building: "125",
+    Street: "ABC-01",
+    Zipcode: "7500"
+  },
+  Town: "Old Karachi",
+  Cuisine: "Bakery",
+  Dishes: [
+  { 
+    British: { 
+      Price: "1.6" 
+    }, 
+    ratings: "7/10" 
+    },
+  ],
+  Name: "Marriott",
+  Hotel_ID: "PAK-30077"
+}]);
+
+db.hotel.find({ }, { Hotel_ID:1, Name:1, Town:1, Cuisine:1 });
+
+db.hotel.find({ Hotel_ID: "PAK-30075" }, { Name:0, Hotel_ID:0 }).pretty();
+
+db.hotel.find({ $and: [{ Town: { $ne: "Karachi Down Town" }}, { $or: [{ 'Dishes.Pakistani': { $exists: true }}, { 'Dishes.Chinese': { $exists: true }}]}]}).pretty();

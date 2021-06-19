@@ -1,0 +1,72 @@
+CREATE TABLE HR.Worker 
+(
+	WORKER_ID NUMBER(10) constraint p_k primary key,
+	FIRST_NAME VARCHAR(20),
+	LAST_NAME VARCHAR(20),
+	SALARY NUMBER(20),
+	JOINING_DATE date,
+	DEPARTMENT VARCHAR(20)
+);
+
+    
+		INSERT INTO HR.Worker VALUES(001, 'Dr Zulfqar', 'Memon', 100000, '14-FEB-20', 'SE');
+		INSERT INTO HR.Worker VALUES(002, 'Dr Atif ', 'Tahir', 80000, '14-JUN-11', 'CS')
+		INSERT INTO HR.Worker VALUES(003, 'Ms Anum', 'Quarshi', 300000, '14-FEB-20', 'SE')
+		INSERT INTO HR.Worker VALUES(004, 'Ms Tania', 'Ali', 500000, '14-FEB-20', 'CS')
+		INSERT INTO HR.Worker VALUES(005, 'Ms Farah', 'Sadia', 500000, '14-JUN-11', 'CS')
+		INSERT INTO HR.Worker VALUES(006, 'Muhammad Nadeem', 'Ghouri', 200000, '14-JUN-11', 'AI')
+		INSERT INTO HR.Worker VALUES(007, 'Muhammad Faheem', 'Mughal', 75000, '14-JAN-20', 'AI')
+		INSERT INTO HR.Worker VALUES(008, 'Fazad', 'Ahmed', 90000, '14-APR-11', 'CS');
+
+CREATE TABLE HR.Bonus 
+(
+	WORKER_REF_ID NUMBER(10),
+	BONUS_AMOUNT NUMBER(10),
+	BONUS_DATE DATE,
+	CONSTRAINT F_KEY FOREIGN KEY (WORKER_REF_ID)
+		REFERENCES hr.Worker(WORKER_ID)
+        
+        
+);
+
+
+	 
+		INSERT INTO hr.Bonus VALUES(001, 5000, '16-FEB-20');
+		INSERT INTO hr.Bonus VALUES(002, 3000, '16-JUN-11');
+		INSERT INTO hr.Bonus VALUES(003, 4000, '16-FEB-20');
+		INSERT INTO hr.Bonus VALUES(001, 4500, '16-FEB-20');
+		INSERT INTO hr.Bonus VALUES(002, 3500, '16-JUN-11');
+CREATE TABLE hr.Title (
+	WORKER_REF_ID NUMBER(10),
+	WORKER_TITLE VARCHAR(20),
+	AFFECTED_FROM DATE,
+	FOREIGN KEY (WORKER_REF_ID)
+		REFERENCES HR.Worker(WORKER_ID)
+);
+
+ 
+ INSERT INTO hr.Title VALUES(001, 'Manager', '20-FEB-2016');
+ INSERT INTO hr.Title VALUES(002, 'Executive', '11-JUN-2016');
+ INSERT INTO hr.Title VALUES(008, 'Executive', '11-JUN-2016');
+ INSERT INTO hr.Title VALUES(005, 'Manager', '11-JUN-2016');
+ INSERT INTO hr.Title VALUES(004, 'Asst. Manager', '11-JUN-2016');
+ INSERT INTO hr.Title VALUES(007, 'Executive', '11-JUN-2016');
+ INSERT INTO hr.Title VALUES(006, 'Lead', '11-JUN-2016');
+ INSERT INTO hr.Title VALUES(003, 'Lead', '11-JUN-2016');
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
