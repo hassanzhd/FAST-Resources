@@ -1,0 +1,270 @@
+CONCURRENCY AND PARALLELISM:
+There is a slight difference between concurrency and parallelism. Concurrency means "in progress at the same time" however parallelism means "executing simultaneously". In concurrency there is a slight schedule difference between the two actions/ processes (e.g. A and B processes occur concurrently, then A will run and after some milli seconds B will run and this goes on until both complete. However in parallelism A and B are assigned to two different cores and are ran simultaneously without any disruption).
+
+OPERATING SYSTEM:
+OS is a resource allocator that maintains fair and efficient use of resources, it is also a control program that prevents errors and improper use of the computer.
+A program that keeps running at all times is the "kernel".
+
+BOOTLOADER/ BOOTSTRAP PROGRAM:
+Bootstrap program is loaded at power-up or reboot. It is stored on the ROM or EPROM generally known as firmware. It initializes all aspects of the system, loads the system kernel and starts execution.
+
+COMPUTER SYSTEM ORGRANIZAION:
+One or more CPUS, device controllers connect through a common bus providing access to shared memory. Concurrent execution of CPU and devices takes place competing for memory cycles.
+
+INTERRUPTS:
+Interrupts transfer control to interrupt service routine through the interrupt vector which contain addresses of all service routines. Interrupt architecture must save the address of the interrupted instruction. "Exception" is a software driven interrupt caused by an error or user request. Operating systems are interrupt driven.
+
+INTERRUPT HANDLING: 
+OS preserves the state of the CPU by storing registers and program counter. Seprate segments of code determine what action should be taken for each type of interrupt.
+
+DIRECT MEMORY ACCESS STRUCTURE: 
+This allows transfer of data from buffer storage to main memory without CPU intervention. One interrupt per block is generated rather than one interrupt per byte. This speeds up the overall process.
+
+STORAGE HEIRARCHY:
+Storage systems are organized in heirarchy as: cost, volatility, speed
+
+CACHING: Copying information into faster storage system. It is performed at many levels of the computer. Faster storage is checked first if information is present there: if it is present then it is used (fast) otherwise copied into cache and then used.
+
+DEVICE DRIVER: for each device controller to manage I/O, provides interface b/w controller and kernel.
+
+COMPUTER SYSTEM ARCHITECTURE:
+Multiprocessor system growing in use and importance. They are known as parallel systems, tightly coupled systems. 
+
+Two types: 
+
+Symmetric multiprocessing: An architecture in which multiple processors use a shared memory space to perform tasks. Processors are self scheduling.
+
+Asymmetic multiprocessing: An architecture in which multiple processors are connected together each having their own memory space. Tasks are scheduled by a master processor. 
+
+UNIFORM MEMORY ACCESS: Each processor has uniform access to memory
+
+NON UNIFORM MEMORY ACCESS: Time for memory access depends upon location of data. Local access is faster than non local access
+
+CLUSTERED SYSTEMS: Like multiprocessing systems but multiple systems working together.
+
+MULTIPROGRAMMING: needed for efficiency.
+A single user cannot keep the CPU and I/O devices busy at all times hence a subset of all jobs is kept in memory. Multiprogramming organizes jobs such that CPU has one to execute always. Job is selected by JOB SCHEDULING. When it has to wait, OS switches to another job.
+
+TIMESHARING: is a logical extension in which CPU switches jobs so frequently that user can interact with each job while it is running, creating interactive computing. Each user should have atleast one job in memory. if several jobs are ready to be run at the same time then CPU scheduling takes place. if processes dont fit in memory swapping moves them in and out to run.
+
+COMPUTING ENVIRONMENTS: Distributed, Cloud and Real time embedded systems.
+
+DISTRIBUTED SYSTEM: A collection of seprate, hetrogenous systems networked together. Network is a communication path. (LAN & WAN are two popular types)
+
+CLIENT-SERVER: In this mechanism one central computer acting as a server directs various other systems called clients. They communicate through network.
+
+PEER TO PEER: In this mechanism systems are connected to one other without a central server. Files can be shared with one another. It can also be said every system in a P2P network is a client as well as a server.
+
+CLOUD: a network of remote servers over the internet used to process, store and manage data rather than over a local server. Services include: software as a service, platform as a service and infrastucture as a service.
+
+CLI: CLI or command interpreter allows direct command entry. It takes input from user and executes it. 
+GUI: User friendly desktop metaphor interface. Usually involves mouse, keyboard and monitor. Icons are used to represent files, programs etc. 
+TOUCHSCREEN: Touchscreen are where mouse is not preferred or advised. Actions are based on gestures. Virtual keyboard is available and also voice commands.
+
+SYSTEM CALLS: Programming interface to use services provided by the OS. Usually used by an API rather than direct system call.
+PARAMETER PASSING: 3 ways to pass parameteres: Registers, Creating a block or table and passing address as parameter in a registers, Parameters are pushed onto the stack by the program and popped off by the OS.
+TYPES: Types of system calls are: Process control, maintainance, file management, device management, information maintainance.
+
+LINKER: Linker combines object files by bringing in libraries converting into binary executable file.
+LOADER: Loaders brings the program into memory inorder for it to be executed. Modern systems dont bring in libraries into executable rather use DLLs that are loaded as needed.
+
+ABI is architecture equivalent of API. It determines how different components of binary code can interface for OS on a specific architecture, CPU etc.
+
+OPERATING SYSTEM DESIGN AND IMPLEMENTATION: 
+Design starts by defining goals and specfications: 
+
+USER GOALS: OS should be easy to use, learn, reliable safe and fast
+SYSTEM GOALS: OS should be easy to desgin, implement and maintain as well as reliable, flexible and efficient.
+
+POLICY: WHAT needs to be done. MECHANISM: HOW to do it. 
+It is very much needed to seprate these two inorder to reach maximum flexibility if policy changes afterwards.
+
+OS STRUCTURE: 5 basic structures: 
+
+MONOLYTHIC: Doesnot break into subsystems and has no distinction between user and kernel mode. Provides direct access to hardware.
+
+LAYERED: Another approach is to create multiple small layers. In which each layer depends upon the services the layer below. No lower layer can use services of upper layer. This can be inefficient as request for service from higher layer has to filter all lower layers.
+
+MICRO-KERNEL: In this approach all non-essential services are removed from the kernel and implemented as seprate applications. Security and performance can be enhanced as most services are performed at user mode rather than kernel mode. System expansion is easier as only new application programs need to be added and complete kernel is not be rebuild. 
+
+MODULES: Modern OS development is Object Oriented with small kernel. Modules is similar to layers in which each subsystem has clearly defined tasks. Kernel doesnot need to implement message passing as modules can communicate with each other.
+
+One program can be multiple processes (multiple user using the same program)
+
+PROCESS STATE:
+As a process executes, it changes state.
+New:  The process is being created
+Running:  Instructions are being executed
+Waiting:  The process is waiting for some event to occur
+Ready:  The process is waiting to be assigned to a processor
+Terminated:  The process has finished execution
+
+PROCESS CONTROL BLOCK: information associated with each process. 
+Process state, program counter, CPU registers, CPU scheduling information, memory management information, accounting information, I/O status information.
+
+Ready Queue: set of processes residing in main memory ready and waiting to be executed.
+Wait Queue: set of processes waiting for an event (i.e I/O)
+
+Time slice: the amount of time a process is allowed to run uninterrupted. 
+
+CONTEXT SWITCH: Whenever the OS switches from one process to another process, it must save the state of old process and load the state of new process via a context switch. Context switch is represented in PCB, the system does no useful work while switching. The more complex the os the longer it takes for context switch.
+
+Early version of iOS allowed one process to run and others suspended. One foreground process and other background processes in memory but not on display
+
+Process creation: Parent process creates a child process which in turn create more processes creating a tree. 
+Resource sharing options: All shared, subset shared, no shared
+Execution options: concurrent execution, parent waits for child.
+
+Process Termination: process excutes last statement and asks OS to delete it using exit() call, resources are deallocated. another way is to use abort() call  if child has exceeded resources limit, parent is exiting and child must not continue. 
+Zombie: No parent waiting for child process
+Orphan: Parent exited without invoking wait() for child process.
+
+Processes can be either independent or cooperating. Cooperating processes need inter process communication which can be enabled by message passing or shared memory.
+
+Shared memory: an area of memory for processes that wish to communicate. Major issue is to provide a mechanism that will synchonize their actions when they access it. 
+Message passing: a mechanism for processes to communicate without resorting to shared variables. message size can either be fixed or variable. send()/ recieve() are used.
+
+Types: direct/ indirect, synchronous/ asynchrounous, explicit/ automatic buffering.
+
+DIRECT: process must name each other explicitly. Links are established automatically. One pair have only one link to communicate. maybe unidirectional, mostly bi
+INDIRECT: processes communicate using mailboxes, each mailbox has a unique id. Processes only communicate if they have a common mailbox. multiple communication links can exist. both uni and bi directional. 
+
+Synchronization: either blocking or non blocking.
+BLOCKING: sender is blocked until message is recieved. reciever is blocked until message is available. 
+NON-BLOCKING: sender sends the message and continues. The reciever recieves.
+
+BUFFERING: message attached to link. Three types: zero capacity, bounded, un-bounded.
+zero: no links are attached
+bounded: only n finite messages can be attached. if links is full sender must wait.
+un-bounded: infinite length. sender never waits.
+
+-------
+THREADS
+-------
+
+THREAD CONTROL BLOCK: It consists of: 
+1. CPU registers
+2. CPU scheduling information 
+3. pending I/O information 
+4. program counter
+
+Each thread in a process has a execution running state, a thread context when it is not running, an execution stack, some storage for local variables and access to memory and resources of its process. Suspension of process causes all threads to be suspended however termination of process causes all threads to be terminated.
+
+ADVANTAGES OF MULTITHREADING: 
+1. Threads can be dedicated a single user event creating responsiveness
+2. All threads share the same address space
+3. Multiple cores can be utilized for parallel execution
+4. Faster creation and termination of activities
+
+DISADVANTAGES OF MULTITHREADING:
+1. Coordinate termination must be created
+2. Signal and error handling
+
+THREAD STATES:
+1. Running
+2. Ready
+3. Blocked
+
+Some thread operations that can cause change in state are as follows:
+1. Spawn: a thread in a process spawns (creates) another thread
+2. Block: a thread is waiting for an event to occur (I/O)
+3. Unblock: when the event for which the thread is waiting, occurs
+4. Finish: when a thread completes and its register context and stacks are deallocated
+
+MULTICORE PROGRAMMING: Following are the challanges faced by programmers:
+1. What tasks can be seprated to run on different processors.
+2. Balance work between processors.
+3. Seprate data to run with tasks.
+4. Watch for dependency between tasks.
+5. Testing and debugging.
+
+TYPES OF PARALLELISM:
+1. DATA: Data is distributed across different parallel computing nodes
+2. PROCESS: Execution processes (threads) are distributed across different parallel computing nodes.
+
+MULTITHREADING MODELS:
+1. Kernel Threads: These are supported and managed directly by OS
+2. User Threads: These are supported above kernel and managed without kernel support
+
+User thread to kernel thread modelling: 
+1. Many-to-one: One thread can access the kernel at a time, multiple threads are unable to run in parallel on multicore systems. The entire process is blocked if a thread makes a blocking call.
+
+2. One-to-one: Another thread can run if another makes a blocking call, multiple threads can run in parallel. Every user thread has a corresponding kernel thread
+
+3. Many-to-many: Any number of user threads can be mapped to equal or lesser number of kernel threads. If thread performs a blocking call then another thread can be schduled for execution
+
+SIGNAL HANDLING: Signals are used in UNIX systems to notify a process that a certain event has occured. A signal handler processes signals.
+1. Signal is generated by an event.
+2. Signal is delivered to a process.
+3. Signal is handled.
+
+Options: 
+1. Deliver signal to the thread it applies to 
+2. Deliver signal to all threads in the process
+3. Deliver signal to certain threads
+4. Assign a thread for all signals in the process
+
+-----------------------
+PROCESS SYNCHRONIZATION
+-----------------------
+
+MULTIPROCESSING: 
+The management of multiple processes running within in a multiprocessor
+
+DISTRIBUTED-PROCESSING:
+The management of multiple processes running on multiple distributed computer system e.g. clusters
+
+There are multiple design issues that occur in multi processing:
+1. Communication amoung processes
+2. sharing and competing for resources
+3. synchronization of activities
+
+Concurrency arises in:
+1. Mutiple applications
+2. Strucutred applications
+3. Operating System strucutre
+
+Difficulties: 
+1. Allocation of resouces.
+2. Difficulty in debugging as code is not deterministic
+
+RACE CONDITION:
+A situation where multiple processes access and manupilate the same data concurrently and outcome depends upon the order in which access takes place
+
+THE CRITICAL SECTION: 
+Each process includes a section of code where shared data is accessed
+
+THE CRITICAL REGION PROBLEM:
+The problem is to ensure no more than one process is in its critical section at a given moment
+
+CONDITIONS TO AVOID RACE CONDITION:
+1. No two processes are simultaneously inside their critical regions
+2. No process outside its critical region may block other processes
+3. No process should wait forever to enter its critical region
+
+SOLUTION TO CRITICAL-SECTION PROBLEM:
+1. Mutual exclusion: No other process can be executing in their critical sections if process P1 is executing in its critical section
+2. A bound must exist on the number of times the other processes are allowed to enter their critical section after a process has made a request to enter its critical section and before that request is granted
+
+There are two approached depending upon if system is preemtive or non preemtive
+1. Preemptive: allows preemtion of process when running in kernel mode
+2. Non preemtive: It is free of race conditions in kernel mode. Runs until exits kernel mode, blocks or voluntarily yields CPU 
+
+MEMORY BARRIER: 
+It is an instruction that forces any change in memory to be propogated to all other processors
+
+1. Strongly ordered: memory modification of one processor is immediately visible to all other processors.
+2. Weakly ordered: memory modification of one proceesor is not immediately visible to all other processors.
+
+When a memory barrier instruction is performed then it is ensured all LOAD and STORES are completed before any subsequent load or store operation 
+
+Hardware Synchronization:
+Many systems provide hardware support for implementing critical section code
+
+Two types of hardware support:
+1. Hardware instruction: Special hardware instruction allow us to either test and modify content or swap the contents of words atomically
+
+- test and set: if two test and set() instructions are executed simultaneously(each on a different core), they will be executed sequentially in some arbitrary order. If the machine supports the test and set() instruction, then we can implement mutual exclusion by declaring a boolean variable lock, initialized to false.
+
+- compare and swap: 
+	 	 	

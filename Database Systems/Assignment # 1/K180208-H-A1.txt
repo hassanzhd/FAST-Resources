@@ -1,0 +1,325 @@
+NAME: MUHAMMAD HASSAN ZAHID
+ROLL NO: 18K-0208
+SECTION: H
+
+
+CHAPTER # 5
+
+====
+5.11
+====
+
+(a)  No violation 
+
+(b) Referential integrity is violated as there is no record in DEPARTMENT table with DNUMBER=2.
+
+    Solution : 
+    (i). Changing the DNUMBER attribute to 5, 4 or 1 
+
+    (ii). Inserting a new record with DNUMBER=2 in the DEPARTMENT table. 
+
+(c) 
+    (i). Key constraint violated since there already exists a record in DEPARTMENT with DNUMBER=4 
+
+    (ii). Referential integrity violated since there is no EMPLOYEE record with MGR_SSN=943775543
+
+    Solution (key constraint) : 
+    (i). changing DNUMBER in the record being inserted to such a value that is not already used in DEPARTMENT table  
+
+    Solution (referential integrity) : 
+    (i). changing the value of MGR_SSN to a valid SSN value in EMPLOYEE table
+
+    (ii). inserting a new EMPLOYEE record with SSN='943775543'. 
+
+(d) 
+    (1). Entity Integrity violated since primary key (PNO) is NULL. 
+
+    (ii). Referential integrity is violated because there is no EMPLOYEE record with SSN='677678989'. 
+
+    Solution (entity integrity) : 
+    (i). changing PNO in the record being inserted to such a value that exists in PNUMBER of PROJECT table 
+    
+    Solution (referential integrity) : 
+    (i). changing the value of ESSN to a valid SSN value in EMPLOYEE table
+    
+    (ii). inserting a new EMPLOYEE record with SSN='677678989' 
+
+(e) No violation
+
+(f) No violation
+
+(g) Violates referential integrity since many tuples exist in the WORKS_ON, DEPENDENT, DEPARTMENT, and EMPLOYEE tables that reference the tuple being record from EMPLOYEE table. 
+
+    Solution (referential integrity) : 
+    (i). Deleting all records in the WORKS_ON, DEPENDENT, DEPARTMENT, and EMPLOYEE tables whose values for ESSN, ESSN, MGRSSN, and SUPERSSN respectively is 987654321. 
+
+(h) Violates referential integrity since two records exist in the WORKS_ON table that reference the record being deleted from PROJECT. 
+
+    Solution (referential integrity) : 
+    (i). deleting the two records in the WORKS_ON relation whose value for PNO=1 
+
+(i) No violation 
+
+(j) Violates referential integrity since no record exists in the EMPLOYEE table with SSN='943775543'. 
+
+    Solution (referential integrity) : 
+    (i). inserting a new EMPLOYEE record with SSN='943775543'. 
+
+k) No Violation
+
+====
+5.12
+====
+
+(a) INSERT INTO SEAT_RESERVATIONS VALUES (Flight_number, Leg_number, Date Seat_number, Customer_name, Customer_phone);
+
+(b & c) 
+    (i). ENTITY CONSTRAINT: Entity constraint violation might occur if primary key attributes of SEAT_RESERVATIONS are set to NULL
+    
+    (ii). REFERENTIAL CONSTRAINT: Referential constraint violation might occur if foreign key attributes are not from primary key 
+    in referenced table OR if they are part of primary key and are set to NULL.
+    
+    (iii). KEY CONSTRAINT: Key constraint might occur if primary key is replicated in the table during insertion.
+
+(d) 
+
+DEPARTURE_AIRPORT_CODE, ARRIVAL_AIRPORT_CODE of FLIGHT_LEG and LEG_INSTANCE, AIRPORT_CODE of CAN_LAND references AIRPORT_CODE of AIRPORT
+
+FLIGHT_NUMBER of FLIGHT_LEG, LEG_INSTANCE, FARE, SEAT_RESERVATION references FLIGHT_NUMBER of FLIGHT
+
+LEG_NUMBER of LEG_INSTANCE, SEAT_RESERVATION references LEG_NUMBER of FLIGHT_LEG
+
+AIRPLANE_TYPE_NAME of CAN_LAND, AIRPLANE_TYPE of AIRPLANE references AIRPLANE_TYPE_NAME of AIRPLANE_TYPE 
+
+====
+5.13
+====
+
+1. Since UNIVERSITY_SECTION# is unique hence it a canidate key
+2. If only a single insturctor is teaching a specific course then INSTRUCTOR_NAME can also be a canidate key
+3. If only one course is being taught per semester then SEMESTER can also be a canidate key
+4. If courses are identified by a unique COURSE# then it can also be a canidate key
+5. If each class is being taught at a specific building then BUILDING_CODE can also be a canidate key
+6. If each course is being taught in a specific room then ROOM# can also be a canidate key
+
+====
+5.14
+====
+
+CUST# of ORDER relation references CUST# of CUSTOMER
+ORDER# of ORDER_ITEM relation references ORDER# of ORDER
+ITEM# of ORDER_ITEM relation references ITEM# of ITEM
+ORDER# of SHIPMENT relation references ORDER# of ORDER
+WAREHOUSE# of SHIPMENT relation references WAREHOUSE# of WAREHOUSE
+
+====
+5.15
+====
+
+SSN of TRIP relation references SSN of SALESPERSON
+TRIP_ID of EXPENSE relation references TRIP_ID of TRIP
+
+====
+5.16
+====
+
+SSN of ENROLL relation references SSN of STUDENT 
+COURSE# of ENROLL relation references COURSE# of COURSE 
+COURSE# of BOOK_ADOPTION relation references COURSE# of COURSE 
+QUARTER of BOOK_ADOPTION relation references QUARTER of ENROLL 
+BOOK_ISBN of BOOK_ADOPTION relation references BOOK_ISBN of TEXT 
+
+====
+5.17
+====
+
+SERIAL_NO of OPTION relation references SERIAL_NO of CAR 
+SALESPERSON_ID of SALE relation references SALESPERSON_ID of SALESPERSON 
+SERIAL_NO of SALE relation references SERIAL_NO of CAR
+
+
+
+CHAPTER # 6
+
+===
+6.7
+===   
+
+BOOK_ID (FOREIGN_KEY in book_author, book_copies,book_loans)  
+ON DELETE: ON DELETE CASCADE  
+ON UPDATE: ON UPDATE CASCADE  
+Justification: Since it violates third clause of referential integrity constraint hence both SET NULL and SET DEFAULT cannot be used.   
+
+NAME (FOREIGN_KEY in book)  
+ON DELETE: ON DELETE SET NULL  
+ON UPDATE: ON UPDATE CASCADE  
+Justification: Since foreign key can be set to null and deletion of author record wont affect book record hence it can be set to NULL, however on update values should be updated wherever referenced
+
+BRANCH_ID (FOREIGN_KEY in book_copies)
+ON DELETE: ON DELETE CASCADE
+ON UPDATE: ON UPDATE CASCADE 
+Justification: Since it violates third clause of referential integrity constraint hence both SET NULL and SET DEFAULT cannot be used.
+
+CARD_NO (FOREIGN_KEY in book_loans)  
+ON DELETE: ON DELETE CASCADE  
+ON UPDATE: ON UPDATE CASCADE  
+Justification: Since it violates third clause of referential integrity constraint hence both SET NULL and SET DEFAULT cannot be used.
+
+===
+6.8
+===   
+
+CREATE TABLE BOOK (  
+BOOK_ID NUMBER,  
+TITLE VARCHAR(20),  
+PUBLISHER_NAME VARCHAR(20)  
+PRIMARY KEY (BOOK_ID),  
+FOREIGN KEY (PUBLISHER_NAME) REFERENCES PUBLISHER(NAME) ON DELETE SET NULL ON UPDATE CASCADE  
+);  
+
+CREATE TABLE BOOK_AUTHOR (   
+BOOK_ID NUMBER,  
+AUTHOR_NAME VARCHAR(20)  
+FOREIGN KEY BOOK_ID REFERENCES BOOK(BOOK_ID) ON DELETE CASCADE ON UPDATE CASCADE,  
+PRIMARY KEY (BOOK_ID, AUTHOR_NAME)  
+);  
+
+CREATE TABLE PUBLISHER (  
+NAME VARCHAR(20),  
+ADDRESS VARCHAR(30),  
+PHONE VARCHAR(13)  
+PRIMARY KEY (NAME)  
+);  
+
+CREATE TABLE BOOK_COPIES (  
+BOOK_ID NUMBER,  
+BRANCH_ID NUMBER,  
+NO_OF_COPIES NUMBER,  
+FOREIGN KEY BOOK_ID REFERENCES BOOK(BOOK_ID) ON DELETE CASCADE ON UPDATE CASCADE,  
+FOREIGN KEY BRANCH_ID REFERENCES LIBRARY_BRANCH(BRANCH_ID) ON DELETE CASCADE ON UPDATE CASCADE,  
+PRIMARY KEY (BOOK_ID, BRANCH_ID)   
+);  
+
+CREATE TABLE BOOK_LOANS (  
+BOOK_ID NUMBER,  
+BRANCH_ID NUMBER, 
+CARD_NO NUMBER,  
+DATE_OUT DATE,  
+DUE_DATE DATE,  
+FOREIGN KEY BOOK_ID REFERENCES BOOK(BOOK_ID) ON DELETE CASCADE ON UPDATE CASCADE,  
+FOREIGN KEY BRANCH_ID REFERENCES LIBRARY_BRANCH(BRANCH_ID) ON DELETE CASCADE ON UPDATE CASCADE,  
+FOREIGN KEY CARD_NO REFERENCES BORROWER(CARD_NO) ON DELETE CASCADE ON UPDATE CASCADE,  
+PRIMARY KEY (BOOK_ID, BRANCH_ID, CARD_NO)  
+);  
+
+CREATE TABLE LIBRARY_BRANCH (  
+BRANCH_ID NUMBER,  
+BRANCH_NAME VARCHAR(20),  
+ADDRESS VARCHAR(30)  
+PRIMARY KEY (BRANCH_ID)   
+);  
+
+CREATE TABLE BORROWER (  
+CARD_NO NUMBER,  
+NAME VARCHAR(20),  
+ADDRESS VARCHAR(30),  
+PHONE VARCHAR(13),   
+PRIMARY KEY (CARD_NO)  
+);  
+
+====
+6.10
+====   
+
+(a) SELECT FNAME, MINIT, LNAME FROM EMPLOYEE JOIN WORKS_ON ON SSN=ESSN WHERE PNO=(SELECT PNUMBER FROM PROJECT WHERE PNAME=’ProductX’) AND Hours > 10;  
+
+(b) SELECT FNAME, MINIT, LNAME FROM EMPLOYEE JOIN DEPENDENT ON SSN=ESSN WHERE FNAME=DEPENDENT_NAME;  
+
+(c) SELECT FNAME, MINIT, LNAME FROM EMPLOYEE E1, EMPLOYEE E2 WHERE E1.SUPER_SSN=E2.SSN AND E2.FNAME=’Franklin' AND E2.MINIT=’T’ AND E2.LNAME=’Wong’;  
+
+====
+6.12
+====  
+
+(a) SELECT NAME FROM STUDENT WHERE CLASS=4 AND MAJOR=’CS’; 
+
+(b) SELECT COURSE_NAME FROM COURSE JOIN SECTION ON COURSE.COURSE_NUMBER=SECTION.COURSE_NUMBER WHERE INSTRUCTOR=’King’ AND (YEAR=7 OR YEAR=8);
+
+(c) SELECT COURSE_NUMBER, SEMESTER, YEAR, COUNT(Name) FROM SECTION JOIN COURSE ON SECTION.COURSE_NUMBER=COURSE.COURSE_NUMBER JOIN STUDENT ON MAJOR=DEPARTMENT WHERE INSTRUCTOR='King';
+
+(d) SELECT NAME, COURSE_NAME, COURSE_NUMBER, CREDIT_HOURS, SEMESTER, YEAR, GRADE FROM STUDENT JOIN COURSE ON MAJOR=DEPARTMENT JOIN SECTION ON COURSE.COURSE_NUMBER=SECTION.COURSE_NUMBER JOIN GRADE_REPORT ON STUDENT.STUDENT_NUMBER=GRADE_REPORT.STUDENT_NUMBER WHERE CLASS=4;
+
+====
+6.13
+====
+
+(a) INSERT INTO STUDENT VALUES ('Johnson', 25, 1, 'Math');
+
+(b) UPDATE STUDENT SET CLASS=2 WHERE NAME='Smith';
+
+(c) INSERT INTO COURSE VALUES ('Knowledge','Engineering', 'cs4390', 3, 'cs');
+
+(d) DELETE FROM STUDENT WHERE NAME='Smith' AND STUDENT_NUMBER=17;
+
+====
+6.14
+====
+
+(a)
+
+CREATE TABLE USER (
+    USER_ID NUMBER,
+    USER_NAME VARCHAR(20),
+    PRIMARY KEY (USER_ID)
+);
+
+CREATE TABLE FRIENDSHIP (
+    FRIENDSHIP_ID NUMBER,
+    PERSON_1 NUMBER,
+    PERSON_2 NUMBER,
+    STATUS VARCHAR(20),
+    PRIMARY KEY FRIENDSHIP_ID,
+    FOREIGN_KEY PERSON_1 REFERENCES USER(USER_ID) ON DELETE CASCADE,
+    FOREIGN_KEY PERSON_2 REFERENCES USER(USER_ID) ON DELETE CASCADE
+);
+
+(b)
+
+INSERT INTO USER VALUES (1,'Hassan');
+INSERT INTO USER VALUES (2,'Farzan');
+INSERT INTO USER VALUES (3,'Tashik');
+INSERT INTO USER VALUES (4,'Saif');
+
+INSERT INTO FRIENDSHIP VALUES (1,1,2,'Request Sent');
+INSERT INTO FRIENDSHIP VALUES (2,3,4,'Friends');
+
+
+CHAPTER # 7
+
+===
+7.5
+===  
+
+(a) SELECT Dname, COUNT(*) FROM EMPLOYEE JOIN DEPARTMENT ON Dno=Dnumber GROUP BY Dname HAVING AVG(Salary) > 30000;  
+
+(b) 
+    SELECT COUNT(*) FROM EMPLOYEE JOIN DEPARTMENT ON Dno=Dnumber WHERE Sex=’Male’ AND Salary > 30000 GROUP BY Dname;
+    WHY: Since we can first get all records that are MALE and make more than 30,000 and then group by on the basis of Dname then getting the count of employees is possible.
+
+===
+7.6
+=== 
+
+(a) SELECT DISTINCT NAME, MAJOR FROM STUDENT s JOIN GRADE_REPORT ON STUDENT.STUDENT_NUMBER=GRADE_REPORT=STUDENT_NUMBER WHERE (SELECT COUNT(*) FROM STUDENT JOIN GRADE_REPORT ON STUDENT.STUDENT_NUMBER=GRADE_REPORT.STUDENT_NUMBER WHERE STUDENT_NUMBER=s.STUDENT_NUMBER)=(SELECT COUNT(*) FROM STUDENT JOIN GRADE_REPORT ON STUDENT.STUDENT_NUMBER=GRADE_REPORT.STUDENT_NUMBER WHERE STUDENT_NUMBER=s.STUDENT_NUMBER AND GRADE='A');
+
+(b) SELECT DISTINCT NAME, MAJOR FROM STUDENT s JOIN GRADE_REPORT ON STUDENT.STUDENT_NUMBER=GRADE_REPORT.STUDENT_NUMBER WHERE (SELECT COUNT(*) FROM STUDENT JOIN GRADE_REPORT ON STUDENT.STUDENT_NUMBER=GRADE_REPORT.STUDENT_NUMBER WHERE STUDENT_NUMBER=s.STUDENT_NUMBER AND GRADE='A')=0;
+
+===
+7.7
+===
+
+(a) SELECT FNAME, MINIT, LNAME FROM EMPLOYEE WHERE DNO=(SELECT DNO FROM EMPLOYEE WHERE SALARY=(SELECT MAX(SALARY) FROM EMPLOYEE));
+
+(b) SELECT FNAME, MINIT, LNAME FROM EMPLOYEE E1, EMPLOYEE E2 WHERE E1.SUPER_SSN=E2.SSN AND E2.SUPER_SSN=888665555;
+
+(c) SELECT FNAME, MINIT, LNAME FROM EMPLOYEE WHERE SALARY=(SELECT MIN(Salary) FROM EMPLOYEE)+10000;
