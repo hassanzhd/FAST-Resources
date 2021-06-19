@@ -1,0 +1,2 @@
+Get-ChildItem -Recurse 'F:\CPP programs\*.cpp' | Select-String "car" | Select-Object -Unique Path 
+ls -r 'F:\CPP programs\*.cpp' | sls "car" | select -u Path

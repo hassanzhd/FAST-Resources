@@ -1,0 +1,15 @@
+expr = input('prompt string')
+disp('prompt string')
+
+1. declaration of symbols: syms x y z a b c
+
+2. coefficient of an equation can be stored in a matrix using:
+[A,b]=equationsToMatrix(eqn);
+if eqn is in ax+b==0 format then a b go in A matrix whereas 0 goes in b matrix
+
+3. equations can be solved in terms of a specific varibale using:
+solve(eqn,variableName(x,y,z));
+
+4. formulas/ expressions can be converted into functions using matlabFunction()
+
+5. diag(A) returns a vector of diagonal elements if A is a matrix

@@ -1,0 +1,5 @@
+A company gives a bonus at the end of each fiscal year. For an employee to get a bonus, the employee has ben working at the company for more than six months
+
+Not every case needs to contain a break. If no break appears, the flow of control will fall through to subsequent cases until a break is reached.
+
+In a company, worker efficiency is determined on the basis of the time required for a worker to complete a particular job. If the time taken by worker is 1 hour, then the worker said to be highly effiency. If the time required by the worker is 2 hours, then the worker is said to be moderately efficiency. If the time taken is 3 hours, the worker is said to be less efficiency and if the time taken by workers is more than 3 hours, then the worker is said to be inefficient. Find the efficiency of the worker.

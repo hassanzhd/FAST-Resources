@@ -1,0 +1,14 @@
+1. Move constructor works like copy constructor in default version but in reality it moves values and sets source object elements to NULL.
+2. Move constructor are invoked when r-values are passed i.e particularly not existing temporary expressions,variables etc.
+3. R-value acts as temporary object, move constructor is called and then object deletes itself.
+4. Syntactically, e[0]=emp(1,2) is correct as it invokes move constructor.
+5. In order to properly use move constructor we must define it.
+6. Defining of destructor, copy constructor or copy assignment operator overwrites default move constructor which should be user defined afterwards.
+7. Same happens vice versa if move is defined then copy, destructor should be as well.
+8. &obj => l value refrence (normal refrence)
+   &&obj => r value refrence
+9. Inheritance can be done in templates as well. if base class has no typename then only derived will be template. but for child having typename, both must be templates as type needs to be specified on object creation.
+
+10. Encapsulation refers to bundling of data with methods manipulating that data (together in a class). Encapsulation is a practise involving both abstraction and data hiding. Abstraction (generalizing) is the process to hide (making those operations/functions not part of the public API) the complex implementation of operation from the user and provide a simple public interface for user to interact with. for e.g a car has a complex internal implementation but we have simplified it by providing an easy public interface to work with which is common throughout. e.g. (2) in vector class there are various methods to get and set data but we as users are unaware of the algos and techniques being used. The use of private is encouraged because external access of data should not be allowed as it would lead to the whole application to break. Maybe the methods related to the field have certain checks which go unchecked leading to problems thoughout the program
+
+11. Interfaces are necessary while programming because they also help in polymorphism alonside hiding of implementation. Consider if one class A has multiple interfaces to implement hence there would be need to define all function in that specific class. If we create object of class A all methods will be available for the developer to use including the ones developer had no need to be aware of. This can be sorted out by using that specific interface as reference variable of which we want to access methods. This also hides details that we donot want the developer to know about which is the fundamental concept of abstraction. Even if developer tries to override functions by implementing the interface it would lead to nothing because he will only be exposed to the methods of public API.
