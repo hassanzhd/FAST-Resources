@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" dir="ltr">
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+     <link rel="preconnect" href="//www.computernetworkingnotes.org">
+    <link rel="preconnect" href="//www.google-analytics.com">
+
+	<link rel="icon" href="https://www.computernetworkingnotes.com/images/siteimg/favicon/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://www.computernetworkingnotes.com/images/siteimg/favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="https://www.computernetworkingnotes.com/images/siteimg/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="https://www.computernetworkingnotes.com/images/siteimg/favicon/favicon-16x16.png">
+	<link rel="manifest" href="https://www.computernetworkingnotes.com/images/siteimg/favicon/manifest.json">
+	<link rel="mask-icon" href="https://www.computernetworkingnotes.com/images/siteimg/favicon/safari-pinned-tab.svg" color="#17558a">
+	<meta name="theme-color" content="#17558a">
+	<meta name="msapplication-config" content="https://www.computernetworkingnotes.com/images/siteimg/favicon/browserconfig.xml">
+
+
+	<base href="https://www.computernetworkingnotes.com/ccna-study-guide/how-access-lists-work-on-cisco-routers.html" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="This tutorial explains how Cisco access lists work through examples. Learn how Cisco routers process access control lists.  " />
+	<title>How Access Lists work on Cisco routers</title>
+	<link href="https://www.computernetworkingnotes.com/ccna-study-guide/how-access-lists-work-on-cisco-routers.amp.html" rel="amphtml" />
+	<link href="/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+	<meta name="twitter:title" content="How Access Lists work on Cisco routers">
+                <meta name="twitter:card" content="summary">
+                <meta name="twitter:site" content="@CompNetNotesCom">
+                <meta name="twitter:creator" content="@CompNetNotesCom">
+                <meta name="twitter:url" content="https://www.computernetworkingnotes.com/ccna-study-guide/how-access-lists-work-on-cisco-routers.html">
+                <meta name="twitter:description" content="This tutorial explains how Cisco access lists work through examples. Learn how Cisco routers process access control lists.  ">
+                <meta name="twitter:image" content="https://www.computernetworkingnotes.org/images/intro/ccna-study-guide/how-access-lists-work-on-cisco-routers.png">
+	<meta property="og:title" content="How Access Lists work on Cisco routers"/>
+                <meta property="og:type" content="website"/>
+                <meta property="og:url" content="https://www.computernetworkingnotes.com/ccna-study-guide/how-access-lists-work-on-cisco-routers.html"/>
+                <meta property="og:image" content="https://www.computernetworkingnotes.org/images/intro/ccna-study-guide/how-access-lists-work-on-cisco-routers.png"/>
+                <meta property="og:site_name" content="ComputerNetworkingNotes"/>
+                <meta property="fb:admins" content="668925629869005"/>
+                <meta property="fb:app_id" content="126225281500548" /> 
+                <meta property="og:description" content="This tutorial explains how Cisco access lists work through examples. Learn how Cisco routers process access control lists.  "/>
+	<script type="application/ld+json">
+                {
+                  "@context": "http://schema.org",
+                  "@type": "Article",
+                  "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://www.computernetworkingnotes.com/ccna-study-guide/how-access-lists-work-on-cisco-routers.html"
+                  },
+                  "headline": "How Access Lists work on Cisco routers",
+                  "image": [
+                    "https://www.computernetworkingnotes.org/images/intro/ccna-study-guide/how-access-lists-work-on-cisco-routers.png"
+                   ],
+                  "datePublished": "2021-09-24 07:10:49",
+                  "dateModified": "2021-12-07 05:02:38",
+                  "author": {
+                    "@type": "Person",
+                    "name": "ComputerNetworkingNotes"
+                  },
+                   "publisher": {
+                    "@type": "Organization",
+                    "name": "ComputerNetworkingNotes",
+                    "logo": {
+                      "@type": "ImageObject",
+                      "url": "https://www.computernetworkingnotes.org/images/siteimg/system/logo-d.png",
+                      "height": "48px",
+                      "width" : "420px"
+                    }
+                  },
+                  "description": "This tutorial explains how Cisco access lists work through examples. Learn how Cisco routers process access control lists.  "
+                 }
+                </script>
+	<script type="application/ld+json">
+                {
+                  "@context": "http://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                      "@id": "https://www.computernetworkingnotes.com",
+                      "name": "ComputerNetworkingNotes"
+                    }
+                  },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                      "@id": "https://www.computernetworkingnotes.com/ccna-study-guide/",
+                      "name": "CCNA Study Guide"
+                    }
+                  },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "item": {
+                      "@id": "https://www.computernetworkingnotes.com/ccna-study-guide/how-access-lists-work-on-cisco-routers.html",
+                      "name": "How Access Lists work on Cisco routers"
+                    }
+                  }]
+                }
+                </script>
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1237473867467966" crossorigin="anonymous"></script>
+
+
+<style>
+.nav-link{color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,.25);display:block;padding:.5rem 1rem;}.nav-link:focus,.nav-link:hover{color:#ed790e;text-shadow:1px 1px 0 rgba(0,0,0,.5);-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;text-decoration:none;}.nav-link.disabled{color:#6c757d;pointer-events:none;cursor:default }.navbar{position:relative;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:.5rem 1rem }.navbar>.container,.navbar>.container-fluid{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between }.navbar-nav{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0;list-style:none }.navbar-nav .nav-link{padding-right:0;padding-left:0 }.navbar-nav .dropdown-menu{position:static;float:none }.navbar-text{display:inline-block;padding-top:.5rem;padding-bottom:.5rem }.navbar-collapse{-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-webkit-box-align:center;-ms-flex-align:center;align-items:center }.navbar-toggler{padding:.25rem .75rem;font-size:1.25rem;line-height:1;background-color:transparent;border:1px solid transparent;border-radius:.25rem }.navbar-toggler:focus,.navbar-toggler:hover{text-decoration:none }.navbar-toggler-icon{display:inline-block;width:1.5em;height:1.5em;vertical-align:middle;content:"";background:no-repeat center center;background-size:100% 100% }@media (max-width:991.98px){.navbar-expand-lg>.container,.navbar-expand-lg>.container-fluid{padding-right:0;padding-left:0 }}@media (min-width:992px){.navbar-expand-lg{-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-flow:row nowrap;flex-flow:row nowrap;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start }.navbar-expand-lg .navbar-nav{-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row }.navbar-expand-lg .navbar-nav .dropdown-menu{position:absolute }.navbar-expand-lg .navbar-nav .nav-link{padding-right:.5rem;padding-left:.5rem }.navbar-expand-lg>.container,.navbar-expand-lg>.container-fluid{-ms-flex-wrap:nowrap;flex-wrap:nowrap }.navbar-expand-lg .navbar-collapse{display:-webkit-box!important;display:-ms-flexbox!important;display:flex!important;-ms-flex-preferred-size:auto;flex-basis:auto }.navbar-expand-lg .navbar-toggler{display:none }}.collapse:not(.show){display:none }.navbar-bgblue{background-color:#1b63a2;border-top:1px solid #2d8bdc;border-bottom:1px solid #10223e;padding-top:0;padding-bottom:0 }.navbar-toggler{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 1px 0 rgba(255,255,255,.075);color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,.25);display:block;background:#17568c;background-color:#17568c;background-image:none;background-repeat:repeat;background-color:#184a7d;background-image:-moz-linear-gradient(top,#17568c,#1a3867);background-image:-webkit-gradient(linear,0 0,0 100%,from(#17568c),to(#1a3867));background-image:-webkit-linear-gradient(top,#17568c,#1a3867);background-image:-o-linear-gradient(top,#17568c,#1a3867);background-image:linear-gradient(to bottom,#17568c,#1a3867);background-repeat:repeat-x;border:1px solid #0d2242;margin-bottom:1px;margin-top:1px }.navbar-bgblue .navbar-toggler-icon{background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");}.nav-link:focus,.nav-link:hover,.navbar-toggler:focus,.navbar-toggler:hover,a:focus,a:hover,button:hover{outline:0;text-decoration:none }ul.bt-menu-ul{margin:0;padding:0 }ul.bt-menu-ul li{float:left;list-style:none;padding:5px }ul.bt-menu-ul li a.nav-link{padding:0;margin:0 }dl, ol, ul {margin-top: 0;margin-bottom: 1rem;}*,::after,::before{-webkit-box-sizing:border-box;box-sizing:border-box }.container-fluid{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto }.row{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px }.no-gutters{margin-right:0;margin-left:0 }.no-gutters>.col,.no-gutters>[class*=col-]{padding-right:0;padding-left:0 }.col,.col-1,.col-10,.col-11,.col-12,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-auto,.col-lg,.col-lg-1,.col-lg-10,.col-lg-11,.col-lg-12,.col-lg-2,.col-lg-3,.col-lg-4,.col-lg-5,.col-lg-6,.col-lg-7,.col-lg-8,.col-lg-9,.col-lg-auto,.col-md,.col-md-1,.col-md-10,.col-md-11,.col-md-12,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-auto,.col-sm,.col-sm-1,.col-sm-10,.col-sm-11,.col-sm-12,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-sm-auto,.col-xl,.col-xl-1,.col-xl-10,.col-xl-11,.col-xl-12,.col-xl-2,.col-xl-3,.col-xl-4,.col-xl-5,.col-xl-6,.col-xl-7,.col-xl-8,.col-xl-9,.col-xl-auto{position:relative;width:100%;padding-right:15px;padding-left:15px }.col{-ms-flex-preferred-size:0;flex-basis:0;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;max-width:100% }.col-3{-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25% }.col-6{-webkit-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50% }.col-9{-webkit-box-flex:0;-ms-flex:0 0 75%;flex:0 0 75%;max-width:75% }.col-12{-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;max-width:100% }@media (min-width:576px){.col-sm{-ms-flex-preferred-size:0;flex-basis:0;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;max-width:100% }.col-sm-3{-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25% }.col-sm-6{-webkit-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50% }.col-sm-9{-webkit-box-flex:0;-ms-flex:0 0 75%;flex:0 0 75%;max-width:75% }.col-sm-12{-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;max-width:100% }}@media (min-width:768px){.col-md{-ms-flex-preferred-size:0;flex-basis:0;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;max-width:100% }.col-md-3{-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25% }.col-md-6{-webkit-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50% }.col-md-9{-webkit-box-flex:0;-ms-flex:0 0 75%;flex:0 0 75%;max-width:75% }.col-md-12{-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;max-width:100% }}@media (min-width:992px){.col-lg{-ms-flex-preferred-size:0;flex-basis:0;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;max-width:100% }.col-lg-3{-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25% }.col-lg-6{-webkit-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50% }.col-lg-9{-webkit-box-flex:0;-ms-flex:0 0 75%;flex:0 0 75%;max-width:75% }.col-lg-12{-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;max-width:100% }}@media (min-width:1200px){.col-xl{-ms-flex-preferred-size:0;flex-basis:0;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;max-width:100% }.col-xl-3{-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25% }.col-xl-6{-webkit-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50% }.col-xl-9{-webkit-box-flex:0;-ms-flex:0 0 75%;flex:0 0 75%;max-width:75% }.col-xl-12{-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;max-width:100% }}.d-none{display:none!important }.d-inline{display:inline!important }.d-inline-block{display:inline-block!important }.d-block{display:block!important }@media (min-width:768px){.d-md-block{display:block!important }}@media (min-width:1200px){.d-xl-block{display:block!important }}@media(max-width:576px){.container-fluid{padding-left:10px;padding-right:10px }}@media(max-width:400px){.container-fluid{padding-left:5px;padding-right:5px }}@media(max-width:310px){.container-fluid{padding-left:0;padding-right:0 }}.fixed-top{position:fixed;top:0;right:0;left:0;z-index:1030 }.fixed-bottom{position:fixed;right:0;bottom:0;left:0;z-index:1030 }@supports ((position:-webkit-sticky) or (position:sticky)){.sticky-top{position:-webkit-sticky;position:sticky;top:0;z-index:1020 }}.right-siderbar-sticky{overflow:visible;position:-webkit-sticky;position:sticky;top:120px;right:0;padding-left:20px }@media(min-width:1260px){.right-siderbar-sticky{top:100px }}header{background-color:#17558a }@media(max-width:960px){.stay-connected{display:none }}.page-body{padding-top:100px }@media(min-width:992px) and (max-width:1270px){.page-body{padding-top:120px }}.page-content{padding:5px 10px }@media(min-width:1200px){.page-content{padding:0 20px }}footer{background-color:#17558a;color:#f5f5f5;border-top:1px solid #2d8bdc;padding:5px 15px;}.site-copyright p{padding:0;margin:0;}.site-copyright a{color:#f1eeea;}.site-copyright a:focus,.site-copyright a:hover{color:#f58d58;}.page-contact-us p{padding:0;margin:0 }.page-contact-us{background-color:#1b63a2;border-top:1px solid #10223e;color:#e7e9f7;padding:5px 15px }.float-left{float:left!important }.float-right{float:right!important }.float-none{float:none!important }.clearfix::after{display:block;clear:both;content:"" }html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;}article,aside,figcaption,figure,footer,header,hgroup,main,nav,section{display:block;}body{margin:0;font-family:Arial,sans-serif;font-size:1rem;font-weight:400;line-height:1.5;color:#212529;text-align:left;background-color:#fff;font-family: "Segoe UI",Arial,sans-serif;}a{color:#007bff;text-decoration:none;background-color:transparent;}a:hover{color:#0056b3;text-decoration:none;}img{vertical-align:middle;border-style:none;max-width:100%;max-height:100%;}.small,small{font-size:80%;font-weight:400;}.h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:.5rem;line-height:1.2;text-shadow: 1px 3px 2px rgba(0, 0, 0, 0.3);color: #42444e;font-weight: normal;}.h1,h1{font-size:2rem;}.h2,h2{font-size:1.75rem;}.h3,h3{font-size:1.5rem;}.h4,h4{font-size:1.25rem;}.h5,h5{font-size:1.15rem;}.h6,h6{font-size:1rem;}.text-right{text-align:right;}.text-left{text-align:left;}.logo-icon:before{display:inline-block;width:420px;height:48px;content:" ";line-height:1 }.logo-icon:before{background: url('/images/siteimg/css_sprites.png') -10px -10px;}.facebook-icon:before, .twitter-icon:before{display:inline-block;width:48px;height:48px;content:" ";line-height:1 }.facebook-icon:before{background: url('/images/siteimg/css_sprites.png') -10px -78px;}.twitter-icon:before{background: url('/images/siteimg/css_sprites.png') -78px -78px;}.email-icon:before{display:inline-block;width:16px;height:16px;content:" ";line-height:1;vertical-align: bottom;}.email-icon:before{background: url('/images/siteimg/css_sprites.png') -254px -78px;}.site-logo, .site-social, .site-logo span, .site-social span, .site-logo a, .site-social a{line-height: 1;padding: 0px;margin: 0;}.adlabel {color: #ccc;text-align: center;font-size: 10px;}
+ .right-siderbar-sticky h3 a{text-shadow:1px 3px 2px rgba(0,0,0,.3);color:#42444e }.right-siderbar-sticky{overflow:visible;position:-webkit-sticky;position:sticky;top:120px;right:0;padding-left:20px;}@media(min-width:1260px){.right-siderbar-sticky{top:100px;}}.social-share-cont{border-top:1px solid #c1cfdd;margin-top:10px;padding-top:10px }.social-share-bar img{padding:5px }.bd-angle-down:before,.bd-angle-right:before,.bd-hand-left:before,.bd-hand-right:before,.bd-house:before,.bd-page-add:before,.bd-page-refresh:before,.bd-user:before{display:inline-block;width:16px;height:16px;content:" ";line-height:1 }.bd-user:before{background: url('/images/siteimg/css_sprites.png') -82px -146px;}.bd-page-refresh:before{background: url('/images/siteimg/css_sprites.png') -46px -146px;}.bd-hand-left:before{background: url('/images/siteimg/css_sprites.png') -326px -78px;}.bd-hand-right:before{background: url('/images/siteimg/css_sprites.png') -362px -78px;}.bd-house:before{background: url('/images/siteimg/css_sprites.png') -398px -78px;}.bd-angle-right:before{background: url('/images/siteimg/css_sprites.png') -182px -78px;}.bd-angle-down:before{background: url('/images/siteimg/css_sprites.png') -146px -78px;}.ul-arrow{padding:0;margin:0;list-style:none }.ul-arrow li{position:relative;list-style:none;padding:2px 0 2px 20px }.ul-arrow li:before{width:16px;height:16px;display:block;position:absolute;content:" ";top:6px;left:0 }.ul-arrow li:before{background: url('/images/siteimg/css_sprites.png') -218px -78px;}.attn-block,.info-block,.msg-block,.warn-block{background-color:#eff1f3;border:1px solid #3d7fc9;border-radius:2px;border-left:2px solid #0a4a93;color:#021b37;padding:2px;margin:5px 0;box-shadow:0 2px 2px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08) }.attn-block p,.info-block p,.msg-block p,.warn-block p{margin:2px;padding:2px }.art-part-block{background-color:#fdfdfd;padding:3px 5px;margin:2px 0;border:1px solid #5f9ea0;border-radius:5px }.art-part-block em,.art-part-block i,.art-part-block p{padding:1px 0;margin:0 }table{border-collapse:collapse }.table{width:100%;margin-bottom:1rem;color:#212529 }.table td{padding:.75rem;vertical-align:top;border-top:1px solid #dee2e6 }.table-bordered{border:1px solid #dee2e6;}.table-bordered td{border:1px solid #dee2e6 }.table-hover tbody tr:hover{color:#212529;background-color:rgba(0,0,0,.075) }.table-responsive{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch }.cnn-art-page p{text-align:justify;margin-top:0;margin-bottom:.6rem;}.lead{font-size: 102%;}b,strong{color:#42444e;font-size: 103%;font-weight: bold;}i{color:#4e2a0b;font-size:103%;}pre{font-size:100%;font-weight:400;margin:0;padding:6px 0 6px 8px;word-wrap:break-word;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;}.code{font-family:"Courier New", Consolas,monospace,sans-serif;font-size:1em;margin:5px 0;background-color:#eff0f1;border-left:2px solid #4085b5;-webkit-box-shadow:inset 0 0 2px 2px rgba(77,66,53,1);-moz-box-shadow:inset 0 0 2px 2px rgba(77,66,53,1);box-shadow:inset 0 0 2px 2px rgba(77,66,53,1);}sub,sup{position:relative;font-size:75%;line-height:0;vertical-align:baseline }sub{bottom:-.25em }sup{top:-.5em }.text-primary {color: #007bff;}.text-secondary {color: #6c757d;}.text-success {color: #28a745;}.text-info {color: #17a2b8;}.text-warning {color: #ffc107;}.text-danger {color: #dc3545;}.text-light {color: #f8f9fa;}.text-dark {color: #343a40;}.art-ad-block{padding:10px 0;margin:10px 0;text-align:center;width:100%;height:auto }.article-bread-ad{padding:0 0 10px 0;margin:10px 0;text-align:center;border-top:1px solid #c1cfdd;border-bottom:1px solid #c1cfdd;width:100%;height:auto }@media (max-width:768px){.art-ad-block{padding:5px 0;margin:5px 0 }.article-bread-ad{padding:0 0 5px 0;margin:5px 0 }}.disInArtAdsA{display: none;}@media (min-width:768px){.disInArtAdsA{display:inline-block;width: 100%; height: 250px;}}.rsadsbox{text-align: right; min-height: 600px;}.rsAds{display: none;}@media (min-width:1200px){.rsAds{display: inline-block;width: 300px;height: 250px;} .cnn-art-page{padding-right: 10px;}}.rsAdsLarge{display: none;}@media (min-width:1200px){.rsAdsLarge{display: inline-block;width: 300px;height: 600px;}}.disInArtAdsNative{display: none;}@media (min-width:768px){.disInArtAdsNative{display:inline-block;width: 100%;height: auto;text-align: center;}}.mobAd{display: none;}@media (max-width:768px){.mobAd{display:inline-block;width: 100%;height: auto;}} .artAdBlock{margin: 10px auto; text-align: center; height: 90px; width 100%;} .inArtAds{display:inline-block;width:728px; height:90px;}  @media (max-width: 468px){.inArtAds{height:250px; width: 300px} .artAdBlock {height:250px;} } @media (max-width: 768px){.inArtAds{height:280px; height: 336px;} artAdBlock {height:280px;}}  .inArtA, .inArtABlock{display: none; height:0px; width:0px;} @media (min-width:768px){ .inArtA{display:inline-block;width: 728px;height: 90px;} .inArtABlock{display:inline-block; text-align:center; width: 100%;height:100px; margin: 0px auto; padding-top:5px; padding-bottom:5px;}} .inArtB{display:inline-block;width: 100%;height: 250px;} .inArtBBlock{text-align:center; width: 100%;height:260px; margin: 0px auto; padding-top:5px; padding-bottom:5px;}
+
+ 
+      </style></head>
+	<body>
+		<header class="fixed-top">
+			<div class="page-logo">
+				<div class="row">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9">
+						<div class="site-logo text-left">
+							<a href="https://www.computernetworkingnotes.com">
+								<span class="logo-icon"></span>
+							</a>
+						</div>
+					</div>
+					<div class="col-xl-3 d-none d-xl-block">
+						<div class="site-social text-right">
+							  <a href="https://www.facebook.com/ComputerNetworkingNotes/" rel="nofollow" target="_blank"><span class="facebook-icon"></span></a><a href="https://www.youtube.com/channel/UCkwLlt1h7g1rDw_uvgB3X6A/videos" rel="nofollow" target="_blank"><span class="twitter-icon"></span></a>
+						</div>
+					</div>
+				</div>
+			</div><!-- page-logo -->
+
+			<div class="page-menu">
+				<nav class="navbar navbar-expand-lg navbar-bgblue">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class=" menu navbar-nav mr-auto">
+<li class="nav-item item-101"><a class="nav-link" href="/"  >Home</a></li><li class="nav-item item-102"><a class="nav-link" href="/networking-tutorials/"  >Networking Tutorials</a></li><li class="nav-item item-103 current active"><a class="active nav-link" href="/ccna-study-guide/"  >CCNA Study Guide</a></li><li class="nav-item item-115"><a class="nav-link" href="/career-resources/"  >Career Resources</a></li><li class="nav-item item-174"><a class="nav-link" href="/linux-tutorials/"  >Linux Tutorials</a></li></ul>
+
+					</div>
+				</nav>
+			</div><!-- page-menu -->
+		</header>
+		<div class="clearfix"></div>	
+		<div class="page-body">
+			<div class="container-fluid">
+				<div class="row no-gutters">
+						<div class="col fullpage">
+							<main id="content" role="main">
+								
+<div class="container-fluid">
+    <div class="row no-gutters">
+                   
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                           <div class="item-page">
+                   <h1>How Access Lists work on Cisco routers</h1>
+                   <div itemprop="articleBody">
+                      <div class="cnn-art-page">
+<p>This tutorial explains how Cisco access lists work through examples. Learn how Cisco routers process access control lists.</p>
+<div class="inArtABlock">
+<!-- cnnArtA -->
+  <ins class="adsbygoogle inArtA"
+       data-ad-client="ca-pub-1237473867467966"
+       data-ad-slot="3731009647"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+<p>When routers receive IP packets on their interfaces, they check the destination address of each packet and forward that packet from the interface that is directly connected to the destination address or the path leading to the destination address. If none of the router's interfaces are connected to the destination address, the router discards the packet.</p>
+<p>An access list is a set of additional commands or instructions that you can instruct a router to perform before forwarding IP packets. In the access list, each command or instruction is written on a separate line. Each line of the access list is treated as a separate entry.</p>
+<p>An access list can contain many entries. Each entry must include a criterion and an action. A criterion defines the condition that triggers the action. An entry may include multiple criteria or actions.</p>
+<div class="inArtBBlock">
+<!-- ArtB -->
+  <ins class="adsbygoogle inArtB"
+       data-ad-client="ca-pub-1237473867467966"
+       data-ad-slot="5999824613"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+<p>Let's take an example to understand how access lists work.</p><p> The following image shows a sample school network.</p>
+<p><img class="lazyload" data-src="https://www.computernetworkingnotes.org/images/cisco/ccna-study-guide/csg95-01-access-control-list-example-lab.png" alt="ACL example network"/></p>
+<p>In this network, four LAN segments are connected through a router. These segments are Students, Teachers, Staff, and Administrators. These segments respectively belong to students, teachers, office staff, and management team.</p>
+<p>The following table lists the IP configurations of all segments.</p>
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+<tr><td>LAN  </td><td>	Network Address</td><td>	Default gateway</td><td>	Gateway interface</td></tr>
+<tr><td>Students</td><td>	10.0.0.0/8</td><td>	10.0.0.1</td><td>	Router'F0/0</td></tr>
+<tr><td>Teachers</td><td> 	20.0.0.0/8</td><td>	20.0.0.1</td><td>	Router'F0/1</td></tr>
+<tr><td>Staff</td><td>	30.0.0.0/8</td><td>	30.0.0.1</td><td>	Router'F1/0</td></tr>
+<tr><td>Administrators</td><td>	40.0.0.0/8</td><td>	40.0.0.1 </td><td>	Router'F1/1</td></tr>
+</table></div>
+<p>As far as connectivity is concerned, this network is fine. All LAN segments can access each other without any issues. The main issue of this network is security. This network has no security policy. Anyone can access any resource of the network. A student can access the teacher's computer. A teacher can access the principal's computer. This free flow of access makes this network useless. This network will be useful only if it allows only authorized users to access permitted resources.</p>
+<p>To block unauthorized access, Cisco routers have a built-in feature. This feature is known as <b>access-lists</b>. An access list allows the administrator to define what is allowed and what is blocked.</p>
+
+<p>Once the criteria for allowed packets are defined, the router will only allow packets that meet the defined criteria. Access lists are used to define criteria for allowed packets. Access lists use lines to separate entries. Each line in the access list represents an entry. Each entry contains two things a condition and an action. When processing the entry, the router matches the condition, if the condition is matched, the router executes the action. A condition may include a single criterion or multiple criteria.</p>
+<p>When creating an access list entry, you should keep three important factors in mind. These factors are location, direction, and order. We have already discussed these factors in the previous part of this tutorial. In this part, we will take an example to understand how an access list works and how these factors can affect an access list.</p>
+<div class="art-part-block">
+<p>This tutorial is the third part of the article <b>'Cisco Access Lists Explained with Examples.'</b>. Other parts of this article are the following.</p><p>
+<a href="https://www.computernetworkingnotes.com/ccna-study-guide/definition-purposes-benefits-and-functions-of-acl.html" target="_blank">Definition, purposes, benefits, and functions of ACL</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/basic-concepts-and-fundamentals-of-acls.html" target="_blank">Basic concepts and fundamentals of ACLs</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/types-of-access-control-lists-explained.html" target="_blank">Types of access control lists explained</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/wildcard-masks-in-acls-explained.html" target="_blank">Wildcard masks in ACLs Explained</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/rules-and-configuration-guidelines-for-cisco-acls.html" target="_blank">Rules and configuration guidelines for Cisco ACLs</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/access-control-list-explained-with-examples.html" target="_blank">Access Control List Explained with Examples</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/the-ip-access-list-command-options-and-arguments.html" target="_blank">The ip access-list command options and arguments</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/standard-acl-configuration-commands-explained.html" target="_blank">Standard ACL Configuration Commands Explained</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/configure-standard-access-control-list-step-by-step-guide.html" target="_blank">Configure Standard Access Control List Step by Step Guide</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/how-to-secure-vty-access-to-the-router.html" target="_blank">How to secure VTY access to the Router</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/extended-acl-configuration-commands-explained.html" target="_blank">Extended ACL Configuration Commands Explained</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/configure-extended-access-control-list-step-by-step-guide.html" target="_blank">Configure Extended Access Control List Step by Step Guide</a>
+<br /><a href="https://www.computernetworkingnotes.com/ccna-study-guide/how-to-block-icmp-ping-on-cisco-routers.html" target="_blank">How to block ICMP Ping on Cisco Routers</a></p>
+</div>
+
+<h3>Location</h3>
+<p>In our example network, all LAN segments can access all LAN segments. To block students from accessing resources available outside the Students segment, the administrator created an access list and applied it to the F0/0 interface of the router. The ACL has the following entry.</p>
+<p><em>If a packet has the source address from the network address 10.0.0.0/8, then discard the packet.</em></p>
+<p>The following image shows how this ACL is applied.</p>
+<p><img class="lazyload" data-src="https://www.computernetworkingnotes.org/images/cisco/ccna-study-guide/csg95-02-how-acl-work-example-first.png" alt=" ACL correct location"/></p>
+<p>Since all packets generated from the Students segment have source addresses from the 10.0.0.0/8 network, they will be blocked as soon as they enter the F0/0 interface. After this ACL, users from the Students segment will not be able to access outside resources.</p>
+<p>To understand how the location affects the ACL, let's suppose the administrator applied the above ACL to the F0/1 interface.</p>
+<p>The following image shows this change.</p>
+<p><img class="lazyload" data-src="https://www.computernetworkingnotes.org/images/cisco/ccna-study-guide/csg95-03-acl-location-mis-configuration.png" alt="ACL incorrect location"/></p>
+<p>Now, this ACL is useless. This ACL instructs the router to block a packet if it arrives from the 10.0.0.0/8 network. A packet from the 10.0.0.0/8 will never enter from the F0/1 interface. The F0/1 interface is the default gateway of the Teachers segment. Since the network address of the Teachers segment is 20.0.0.0/8, all packets entering F0/1 will have a source address from the network 20.0.0.0/8.</p>
+<p>This example shows how the correct location of the ACL is important.  An ACL must be implemented on the interface that interacts with targeted traffic.</p>
+<h3>Direction</h3>
+<p>Now suppose, instead of using the source address in the ACL entry, the administrator mistakenly used the destination address. The modified ACL is given below.</p>
+<p><em>If the destination address of a packet is from the network 10.0.0.0/8, discard the packet.</em></p>
+<p>The administrator applied this ACL to the F0/0 interface of the router.</p>
+<p><b>Will this ACL work?</b></p>
+<p>The following image shows the new ACL.</p>
+<p><img class="lazyload" data-src="https://www.computernetworkingnotes.org/images/cisco/ccna-study-guide/csg95-04-acl-direction-mis-configuration.png" alt="ACL wrong direction"/></p>
+<p>This ACL will not work. This ACL instructs the router to block the packets that are going to the network 10.0.0.0/8, not to the packets that are coming from the network 10.0.0.0/8. If you apply this ACL to the F0/0 interface, the Students segment will be able to access all three segments but they will not be able to access the Students segment.</p>
+<h3>Order</h3>
+<p>As mentioned earlier, for each packet, the router checks ACL entries from top to bottom until a match is found. Once a match is found, it does not check the remaining entries for that packet. Let's understand this factor through the example.</p>
+<p>The administrator wants to allow a user from the Teachers segment to access the server available in the Administrators segment. The IP address of the allowed user is 20.0.0.3/8.  Apart from the allowed user, all remaining users must not be able to access the Administrators segment. For this, the administrator created the following ACL and applied it to the F0/1 interface of the router.</p>
+<div class="code"><pre>
+Drop the packet if its source address belongs to the network 20.0.0.0/8
+Allow the packet if its source address is 20.0.0.3/8
+</pre></div>
+<p>The following image shows this ACL.</p>
+<p><img class="lazyload" data-src="https://www.computernetworkingnotes.org/images/cisco/ccna-study-guide/csg95-05-acl-order-mis-configuration.png" alt="ACL wrong orders"/></p>
+<p><b>Will this ACL work?</b></p>
+<p><b>No</b>, this ACL will block all outgoing traffic from the Teachers segment. When a packet originated from the host 20.0.0.3/8 reaches the router, the router checks the entries of the applied ACL until a match is found.</p>
+<p>The first line of the ACL says "<em>drop the packet if its source address belongs to the network 20.0.0.3/8</em>". Since the IP address 20.0.0.3/8 belongs to the network 20.0.0.0/8, the statement becomes true. The router executes the action that is associated with this statement. Since the action of this statement is the drop, the router drops the packet.</p>
+<p>Even the second line of the ACL allows the host 20.0.0.3/8, but it will never be read and executed by the router.</p>
+<p>The correct order to allow the host 20.0.0.3/8 will be the following.</p>
+<div class="code"><pre>
+Allow the packet if its source address is 20.0.0.3/8
+Drop the packet if its source address belongs to the network 20.0.0.0/8
+</pre></div>
+<p>The following image shows the above ACL.</p>
+<p><img class="lazyload" data-src="https://www.computernetworkingnotes.org/images/cisco/ccna-study-guide/csg95-06-acl-correct-order.png" alt="ACL correct direction and order"/></p>
+<p>Now, this ACL will allow all packets that are originated from the host 20.0.0.3/8 but it will block all packets that are originated from other hosts of the network 20.0.0.0/8.</p>
+<p>That's all for this tutorial. In this tutorial, we discussed how ACLs work. In the next tutorial, we will discuss the types of ACLs.</p>
+</div>                    </div>
+                   
+                      <div class="article-info">
+                         <p>
+                             <span class="bd-user"></span> By <a href="https://www.computernetworkingnotes.com/site/about.html" target="_blank">ComputerNetworkingNotes</a>
+                                                         <span class="bd-page-refresh"></span> Updated on 2021-12-07 05:02:38 IST
+                         </p>
+                     </div>
+                                             <div class="article-navigation" style="border-top: 1px solid #c1cfdd;">
+                         <div class="article-breadcrumb">
+                            <p>
+                               <span class="bd-house"></span>
+                               <a href="https://www.computernetworkingnotes.com"> ComputerNetworkingNotes</a>
+                               <span class="bd-angle-right"></span>
+                               <a href="https://www.computernetworkingnotes.com/ccna-study-guide/"> CCNA Study Guide</a>
+                               <span class="bd-angle-right"></span>
+                               How Access Lists work on Cisco routers                               <span class="bd-angle-down"></span>
+                            </p>
+                         </div>
+                         <div class="article-pagination">
+                            
+
+	<div class="float-left">
+		<a title="How to block ICMP Ping on Cisco Routers" href="/ccna-study-guide/how-to-block-icmp-ping-on-cisco-routers.html">
+			 <span class="bd-hand-left"></span> How to block ICMP Ping on Cisco Routers		</a>
+	</div>
+	<div class="float-right">
+		<a title="Malware, Spyware, Virus, Worm, and Trojan horse" href="/ccna-study-guide/malware-spyware-virus-worm-and-trojan-horse.html">
+			  Malware, Spyware, Virus, Worm, and Trojan horse <span class="bd-hand-right"></span>
+		</a>
+	</div>
+
+
+                         </div>
+                         <div class="clearfix"></div>
+                      </div>
+                                      </div>
+                            </div>
+                            <div class="col-xl-3 d-none d-xl-block">
+                  
+<div class="rsadsbox">
+
+  <!-- cnnArtC -->
+  <ins class="adsbygoogle rsAds"
+       data-ad-client="ca-pub-1237473867467966"
+       data-ad-slot="4850394476"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  <br/>
+  <!-- cnnArtD-->
+  <ins class="adsbygoogle rsAds"
+       data-ad-client="ca-pub-1237473867467966"
+       data-ad-slot="3514897856"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+
+
+</div>  
+                    <div class="right-siderbar-sticky">
+                        <h3><a href="https://www.computernetworkingnotes.com/ccna-study-guide/">CCNA Study Guide</a></h3>
+                        <ul class="ul-arrow">
+                                                            <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/static-routing-configuration-guide-with-examples.html">Static Routing Configuration Guide with Examples</a></li>
+                                                              <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/ip-route-command-explained-with-examples.html">IP Route command Explained with Examples</a></li>
+                                                              <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/types-of-static-routes-explained.html">Types of Static Routes Explained</a></li>
+                                                              <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/static-routes-and-static-routing-explained.html">Static Routes and Static Routing Explained</a></li>
+                                                              <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/configure-dhcp-server-for-multiple-vlans-on-the-switch.html">Configure DHCP Server for multiple VLANs on the Switch</a></li>
+                                                              <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/connected-routes-and-local-routes-explained.html">Connected Routes and Local Routes Explained</a></li>
+                                                              <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/types-of-routing-and-types-of-routes-explained.html">Types of Routing and Types of Routes Explained</a></li>
+                                                              <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/basic-of-ip-routing-explained-with-example.html">Basic of IP Routing Explained with Example</a></li>
+                                                              <li><a href="https://www.computernetworkingnotes.com/ccna-study-guide/routed-routable-and-routing-protocols.html">Routed, Routable, and Routing Protocols</a></li>
+                                                      </ul>
+                    </div>
+                </div>   
+                    </div>
+</div>
+
+								<div id="system-message-container">
+	</div>
+
+							</main>
+						</div><!-- fullpage -->
+				</div><!-- row no-gutters -->
+			</div><!-- container-fluid -->    
+		</div><!-- page-body -->
+		<div class="clearfix"></div>
+
+		<div class="page-contact-us">
+						<p>We do not accept any kind of Guest Post. Except Guest post submission,
+			for any other query (such as adverting opportunity, product advertisement, feedback,
+			suggestion, error reporting and technical issue)  or simply just say to hello
+			mail us <span class="email-icon"></span> ComputerNetworkingNotes@gmail.com</p>
+		</div><!-- page-contact-us -->	
+
+		<div class="clearfix"></div>
+
+		<footer>
+			<div class="site-copyright">
+						<p>Computer Networking Notes and Study Guides &copy; 2022. All Rights Reserved. </p>
+			</div>
+			<div class="bootom-menu">
+				<ul class="bt-menu-ul">
+<li class="nav-item item-218"><a class="nav-link" href="/site/about.html"  >About</a></li><li class="nav-item item-139"><a class="nav-link" href="/site/privacy-policy.html"  >Privacy Policy</a></li><li class="nav-item item-138"><a class="nav-link" href="/site/terms-and-conditions.html"  >Terms and Conditions</a></li></ul>
+
+			</div>	
+			<div class="site-debug-message">
+				
+			</div>
+			<div class="clearfix"></div>
+		</footer>    
+		<div class="clearfix"></div>
+		<!-- bootom Js Section -->
+			<!-- Template Script-->
+			<script async src="https://www.computernetworkingnotes.org/assets/js/cnn.js" type="text/javascript"></script>
+			
+            <!-- Google Analytics Start-->
+			<script>
+			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+			  ga('create', 'UA-31286072-1', 'auto');
+              ga('set', 'anonymizeIp', true);
+			  ga('send', 'pageview');
+			</script>
+			<!-- Google Analytics ends-->
+					<!-- bootom Js Section close -->
+	</body>  
+</html>

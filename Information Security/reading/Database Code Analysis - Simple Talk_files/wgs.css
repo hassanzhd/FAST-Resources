@@ -1,0 +1,49 @@
+/*turn off table borders and other table settings*/
+#content .wgs_wrapper table, #widget .wgs_wrapper table, .wgs_wrapper table {
+	border: none;
+	margin: auto;
+	width: 100%;
+	border-collapse: initial;
+}
+
+#content .wgs_wrapper tr td, #widget .wgs_wrapper tr td, .wgs_wrapper tr td {
+	border: none;
+	padding: 0;
+}
+
+.wgs_wrapper body, .wgs_wrapper input, .wgs_wrapper textarea {
+	line-height: initial;
+}
+
+/*switch off word wrap (because some elements are wrong without it)*/
+.wgs_wrapper html, .wgs_wrapper body, .wgs_wrapper div, .wgs_wrapper span, .wgs_wrapper applet, .wgs_wrapper object, .wgs_wrapper iframe, .wgs_wrapper h1, .wgs_wrapper h2, .wgs_wrapper h3, .wgs_wrapper h4, .wgs_wrapper h5, .wgs_wrapper h6, .wgs_wrapper p, .wgs_wrapper blockquote, .wgs_wrapper pre, .wgs_wrapper a, .wgs_wrapper abbr, .wgs_wrapper acronym, .wgs_wrapper address, .wgs_wrapper big, .wgs_wrapper cite, .wgs_wrapper code, .wgs_wrapper del, .wgs_wrapper dfn, .wgs_wrapper em, .wgs_wrapper font, .wgs_wrapper ins, .wgs_wrapper kbd, .wgs_wrapper q, .wgs_wrapper s, .wgs_wrapper samp, .wgs_wrapper small, .wgs_wrapper strike, .wgs_wrapper strong, .wgs_wrapper sub, .wgs_wrapper sup, .wgs_wrapper tt, .wgs_wrapper var, .wgs_wrapper dl, .wgs_wrapper dt, .wgs_wrapper dd, .wgs_wrapper ol, .wgs_wrapper ul, .wgs_wrapper li, .wgs_wrapper fieldset, .wgs_wrapper form, .wgs_wrapper label, .wgs_wrapper legend, .wgs_wrapper table, .wgs_wrapper caption, .wgs_wrapper tbody, .wgs_wrapper tfoot, .wgs_wrapper thead, .wgs_wrapper tr, .wgs_wrapper th, .wgs_wrapper td {
+	word-wrap: normal;
+}
+
+/*space below the searh frame*/
+#wgs_wrapper_id {
+	margin-bottom: 10px;
+}
+
+/*turn off shadow of search field*/
+.gsc-input {
+	margin-left: 3px !important;
+    box-shadow: inherit !important;
+}
+
+/*minimize space between search filed and search button*/
+.gsc-search-box-tools .gsc-search-box .gsc-input {
+padding-right: 0;
+}
+
+/*reduce search button width (from 27px to 10px)*/
+.gsc-search-button input.gsc-search-button-v2, input.gsc-search-button-v2 {
+padding: 6px 10px;
+}
+
+/*switch off background and border of search box in support overlay mode*/
+.gsc-control-cse { 
+	background-color: transparent !important;
+	border: none !important;
+	padding: 0px !important;
+}

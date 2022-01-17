@@ -1,0 +1,281 @@
+/**
+ * Minimalist Theme, v4.
+ *
+ */
+
+/* Selector for entire element. */
+.gsc-control-cse {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+
+.gsc-control-cse .gsc-table-result {
+  font-family: Arial, sans-serif;
+  width: auto;
+}
+
+.gsc-resultsHeader {
+  border: block;
+}
+
+/* Search input */
+.gsc-input {
+  font-size: 16px;
+}
+
+/* Hide clear input X added by MSIE. */
+.gsc-input::-ms-clear {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+.gsc-input-box {
+  border: 1px solid #bbb;
+  background: #fff;
+}
+
+.gsc-search-box .gsc-input>input:focus,
+.gsc-input-box-focus {
+  border: 1px solid #bbb;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .3);
+  outline: none;
+}
+
+/* Search button */
+.gsc-search-button-v2 {
+  font-size: 0;
+  padding: 6px 27px;
+  width: auto;
+  vertical-align: middle;
+
+  border: 1px solid #000;
+  border-radius: 2px;
+  margin-top: 2px;
+
+  border-color: #000;
+  background-color: #333;
+  background-image: linear-gradient(top, #333, #333);
+}
+
+.gsc-search-button-v2:hover {
+  border-color: #000;
+  background-color: #333;
+  background-image: linear-gradient(top, #333, #333);
+}
+
+.gsc-search-button-v2 svg {
+  fill: #fff;
+}
+
+/* Firefox button fix */
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+/* Inactive tab */
+.gsc-tabHeader.gsc-tabhInactive {
+  color: #444;
+}
+
+/* Active tab */
+.gsc-tabHeader.gsc-tabhActive {
+  border-bottom: 2px solid #333;
+  color: #333;
+}
+
+.gsc-refinementHeader {
+  text-decoration: none;
+  color: #444;
+  font-weight: bold;
+  line-height: 27px;
+  margin-right: 0;
+}
+
+.gsc-refinementHeader.gsc-refinementhActive {
+  border-bottom: 2px solid #333;
+  color: #333;
+}
+
+/* Set link colors. */
+.gs-result .gs-title *,
+.gsc-cursor-page,
+.gs-spelling a {
+  color: #444;
+}
+
+.gs-webResult.gs-result .gs-title:active,
+.gs-webResult.gs-result .gs-title:active b,
+.gs-imageResult .gs-title:active,
+.gs-imageResult .gs-title:active b {
+  color: #777;
+}
+
+/* Snippet text color */
+.gs-webResult .gs-snippet,
+.gs-fileFormatType {
+  color: #333;
+}
+
+/*Promotion Settings*/
+/* The entire promo */
+.gsc-webResult.gsc-result.gsc-promotion {
+  background-color: #e6e6e6;
+  border-color: #ccc;
+}
+
+/* Promotion links */
+.gs-promotion .gs-title:link,
+.gs-promotion .gs-title:link *,
+.gs-promotion .gs-snippet a:link {
+  color: #00c;
+}
+
+.gs-promotion .gs-title:visited,
+.gs-promotion .gs-title:visited *,
+.gs-promotion .gs-snippet a:visited {
+  color: #00c;
+}
+
+.gs-promotion .gs-title:hover,
+.gs-promotion .gs-title:hover *,
+.gs-promotion .gs-snippet a:hover {
+  color: #444;
+}
+
+.gs-promotion .gs-title:active,
+.gs-promotion .gs-title:active *,
+.gs-promotion .gs-snippet a:active {
+  color: #0c0;
+}
+
+/* Promotion snippet */
+.gs-promotion .gs-snippet,
+.gs-promotion .gs-title .gs-promotion-title-right,
+.gs-promotion .gs-title .gs-promotion-title-right * {
+  color: #333;
+}
+
+/* Promotion url */
+.gs-promotion .gs-visibleUrl,
+.gs-webResult .gs-visibleUrl {
+  color: #000;
+}
+
+/* Style for auto-completion table
+ * .gsc-completion-selected: styling for a suggested query which the user has moused-over
+ * .gsc-completion-container: styling for the table which contains the completions
+ */
+.gsc-completion-selected {
+  background: #eee;
+}
+
+.gsc-completion-container {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  background: white;
+  border: 1px solid #bbb;
+  /* The top, left, and width are set in JavaScript. */
+}
+
+.gsc-completion-title {
+  color: #00c;
+}
+
+.gsc-completion-snippet {
+  color: #333;
+}
+
+.gsc-rating-bar {
+  display: inline-block;
+  width: 54px;
+  height: 10px;
+  background: transparent url(/cse/images/cse_snippets_stars.png) -52px -52px no-repeat;
+  margin: 3px 0 0 0;
+}
+
+.gsc-rating-bar span {
+  display: inline-block;
+  height: 10px;
+  background: transparent url(/cse/images/cse_snippets_stars.png) 0 -52px no-repeat;
+}
+
+.gsc-option-menu-item-highlighted {
+  background-color: #eee;
+}
+
+.gsc-results {
+  background-color: #fff;
+  width: auto;
+}
+
+.gsc-results .gsc-cursor-box {
+  margin: 10px;
+}
+
+.gsc-results .gsc-cursor-box .gsc-cursor-page {
+  text-decoration: none;
+  color: #333;
+}
+
+.gsc-results .gsc-cursor-box .gsc-cursor-page:hover {
+  text-decoration: underline;
+}
+
+.gsc-results .gsc-cursor-box .gsc-cursor-current-page {
+  color: #222;
+}
+
+.gsc-context-box .gsc-facet-label {
+  width: 65px;
+  padding-left: 2px;
+  text-decoration: underline;
+  color: #333;
+  cursor: pointer;
+}
+
+.gsc-context-box .gsc-chart {
+  width: 32em;
+  padding: 3px;
+  border-left: 1px solid #777;
+  border-right: 1px solid #777;
+}
+
+.gsc-context-box .gsc-top {
+  border-top: 1px solid #777;
+}
+
+.gsc-context-box .gsc-bottom {
+  border-bottom: 1px solid #777;
+}
+
+.gsc-context-box .gsc-chart div {
+  background: #777;
+  height: 9px;
+}
+
+.gsc-context-box .gsc-facet-result {
+  color: #333;
+  width: 30px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.gs-webResult .gs-title .gs-title.gsc-usr-group-heading {
+  color: #333;
+  cursor: pointer;
+}
+
+.gs-webResult .gs-title .gs-title.gsc-usr-group-heading b {
+  color: #333;
+}
+
+.gcsc-find-more-on-google {
+  color: #444;
+}
+
+.gcsc-find-more-on-google-magnifier {
+  fill: #444;
+}
