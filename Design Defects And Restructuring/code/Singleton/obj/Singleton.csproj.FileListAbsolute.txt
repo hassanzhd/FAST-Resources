@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Singleton\bin\Debug\Singleton.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Singleton\bin\Debug\Singleton.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Singleton\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Singleton\obj\Debug\Singleton.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Singleton\obj\Debug\Singleton.pdb

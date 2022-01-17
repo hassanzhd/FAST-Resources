@@ -1,0 +1,691 @@
+<HTML><HEAD>	<TITLE>State</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF
+onLoad="setFocus();">
+
+<A NAME="top"></A>
+<A NAME="State"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Allow an object to alter its behavior when its internal state changes.
+The object will appear to change its class.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Objects for States</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>Consider a class TCPConnection that represents a network connection.
+A TCPConnection object can be in one of several different states:
+Established, Listening, Closed.  When a TCPConnection object receives
+requests from other objects, it responds differently depending on its
+current state.  For example, the effect of an Open request depends on
+whether the connection is in its Closed state or its Established
+state.  The State pattern describes how TCPConnection can exhibit
+different behavior in each state.</P>
+
+<A NAME="tcpstate"></A>
+<P>The key idea in this pattern is to introduce an abstract class called
+TCPState to represent the states of the network connection.  The
+TCPState class declares an interface common to all classes that
+represent different operational states.  Subclasses of TCPState
+implement state-specific behavior. For example, the classes
+TCPEstablished and TCPClosed implement behavior particular to the
+Established and Closed states of TCPConnection.</P>
+
+<A NAME="tcpconnect-305c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/state-eg.gif"></P>
+
+<A NAME="auto1003"></A>
+<P>The class TCPConnection maintains a state object (an instance of a
+subclass of TCPState) that represents the current state of the TCP
+connection.  The class TCPConnection delegates all state-specific
+requests to this state object.  TCPConnection uses its TCPState
+subclass instance to perform operations particular to the state of the
+connection.</P>
+
+<A NAME="auto1004"></A>
+<P>Whenever the connection changes state, the TCPConnection object
+changes the state object it uses.  When the connection goes from
+established to closed, for example, TCPConnection will replace its
+TCPEstablished instance with a TCPClosed instance.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1005"></A>
+<P>Use the State pattern in either of the following cases:</P>
+
+<UL>
+
+<A NAME="auto1006"></A>
+<LI>An object's behavior depends on its state, and it must change its
+behavior at run-time depending on that state.</LI>
+<A NAME="auto1007"></A>
+<P></P>
+<A NAME="auto1008"></A>
+<LI>Operations have large, multipart conditional statements that depend on
+the object's state.  This state is usually represented by one or more
+enumerated constants.  Often, several operations will contain this
+same conditional structure.  The State pattern puts each branch of the
+conditional in a separate class.  This lets you treat the object's
+state as an object in its own right that can vary independently from
+other objects.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/state.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1009"></A>
+<P></P>
+
+<A NAME="auto1010"></A>
+<LI><B>Context</B> (TCPConnection)</LI>
+
+<A NAME="auto1011"></A>
+<P></P>
+
+<UL>
+
+<A NAME="auto1012"></A>
+<LI>defines the interface of interest to clients.
+
+    <A NAME="auto1013"></A>
+<P><!-- extra space --></P>
+
+<A NAME="auto1014"></A>
+<LI>maintains an instance of a ConcreteState subclass that defines the
+current state.
+
+</UL>
+
+<A NAME="auto1015"></A>
+<P></P>
+
+<A NAME="auto1016"></A>
+<LI><B>State</B> (TCPState)</LI>
+
+<A NAME="auto1017"></A>
+<P></P>
+
+<UL>
+
+<A NAME="auto1018"></A>
+<LI>defines an interface for encapsulating the behavior associated with a
+particular state of the Context.</LI>
+
+</UL>
+
+<A NAME="auto1019"></A>
+<P></P>
+
+<A NAME="auto1020"></A>
+<LI><B>ConcreteState subclasses</B> (TCPEstablished, TCPListen, TCPClosed)</LI>
+
+<A NAME="auto1021"></A>
+<P></P>
+
+<UL>
+
+<A NAME="auto1022"></A>
+<LI>each subclass implements a behavior associated with a state of
+the Context.</LI>
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1023"></A>
+<LI>Context delegates state-specific requests to the current ConcreteState
+object.</LI>
+<A NAME="auto1024"></A>
+<P></P>
+<A NAME="auto1025"></A>
+<LI>A context may pass itself as an argument to the State object
+handling the request.  This lets the State object access
+the context if necessary.</LI>
+<A NAME="auto1026"></A>
+<P></P>
+<A NAME="auto1027"></A>
+<LI>Context is the primary interface for clients. Clients can configure a
+context with State objects. Once a context is configured, its clients don't 
+have to deal with the State objects directly. </LI>
+<A NAME="auto1028"></A>
+<P></P>
+<A NAME="auto1029"></A>
+<LI>Either Context or the ConcreteState subclasses can decide which state
+succeeds another and under what circumstances.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1030"></A>
+<P>The State pattern has the following consequences:</P>
+
+<OL>
+
+<A NAME="auto1031"></A>
+<LI><EM>It localizes state-specific behavior and partitions
+behavior for different states.</EM>
+The State pattern puts all behavior associated with a particular state
+into one object.  Because all state-specific code lives in a State
+subclass, new states and transitions can be added easily by defining
+new subclasses.
+
+<A NAME="auto1032"></A>
+<P>An alternative is to use data values to define internal states and
+have Context operations check the data explicitly.  But then we'd
+have look-alike conditional or case statements scattered throughout
+Context's implementation.  Adding a new state could require
+changing several operations, which complicates maintenance.</P>
+
+<A NAME="auto1033"></A>
+<P>The State pattern avoids this problem but might introduce another,
+because the pattern distributes behavior for different states across
+several State subclasses. This increases the number of classes and is
+less compact than a single class.  But such distribution is actually
+good if there are many states, which would otherwise necessitate large
+conditional statements.</P>
+
+<A NAME="auto1034"></A>
+<P>Like long procedures, large conditional statements are undesirable.
+They're monolithic and tend to make the code less explicit, which
+in turn makes them difficult to modify and extend.  The State pattern
+offers a better way to structure state-specific code.  The logic that
+determines the state transitions doesn't reside in monolithic
+<CODE>if</CODE> or <CODE>switch</CODE> statements but instead is partitioned
+between the State subclasses.  Encapsulating each state transition and
+action in a class elevates the idea of an execution state to full
+object status.  That imposes structure on the code and makes its
+intent clearer.</P>
+
+</LI>
+
+<A NAME="auto1035"></A>
+<P></P>
+
+<A NAME="state-avoid-inconsistent"></A>
+<A NAME="state-atomic"></A>
+<LI><EM>It makes state transitions explicit.</EM>
+When an object defines its current state solely in terms of internal
+data values, its state transitions have no explicit representation;
+they only show up as assignments to some variables.  Introducing
+separate objects for different states makes the transitions more
+explicit.  Also, State objects can protect the Context from
+inconsistent internal states, because state transitions are atomic
+from the Context's perspective&#151;they happen by rebinding <EM>one</EM>
+variable (the Context's State object variable), not
+several [<A HREF="bibfs.htm#dechampeaux_oosd" TARGET="_mainDisplayFrame">dCLF93</A>].</LI>
+
+<A NAME="auto1036"></A>
+<P></P>
+
+<A NAME="flywt-w-state"></A>
+<A NAME="state-sharing"></A>
+<LI><EM>State objects can be shared.</EM>
+If State objects have no instance variables&#151;that is, the state they
+represent is encoded entirely in their type&#151;then contexts can share
+a State object. When states are shared in this way, they are
+essentially flyweights (see <A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195</A>)) with no
+intrinsic state, only behavior.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1037"></A>
+<P>The State pattern raises a variety of implementation issues:</P>
+
+<OL>
+
+<A NAME="auto1038"></A>
+<LI><EM>Who defines the state transitions?</EM>
+The State pattern does not specify which participant defines the
+criteria for state transitions.  If the criteria are fixed, then they
+can be implemented entirely in the Context.  It is generally more
+flexible and appropriate, however, to let the State subclasses
+themselves specify their successor state and when to make the
+transition.  This requires adding an interface to the Context that
+lets State objects set the Context's current state explicitly.
+
+<A NAME="auto1039"></A>
+<P>Decentralizing the transition logic in this way makes it easy to
+modify or extend the logic by defining new State subclasses.  A
+disadvantage of decentralization is that one State subclass will have
+knowledge of at least one other, which introduces implementation
+dependencies between subclasses.</P>
+
+</LI>
+
+<A NAME="auto1040"></A>
+<P></P>
+
+<A NAME="state-tablebased"></A>
+<LI><EM>A table-based alternative.</EM>
+In <EM>C++ Programming Style</EM> [<A HREF="bibfs.htm#cargill_c++style" TARGET="_mainDisplayFrame">Car92</A>], Cargill
+describes another way to impose structure on state-driven code: He
+uses tables to map inputs to state transitions.  For each state, a
+table maps every possible input to a succeeding state.  In effect,
+this approach converts conditional code (and virtual functions, in the
+case of the State pattern) into a table look-up.
+
+<A NAME="auto1041"></A>
+<P>The main advantage of tables is their regularity: You can change the
+transition criteria by modifying data instead of changing program
+code.  There are some disadvantages, however:</P>
+
+<A NAME="auto1042"></A>
+<P></P>
+
+<UL>
+
+<A NAME="auto1043"></A>
+<LI>A table look-up is often less efficient than a (virtual)
+function call.
+
+<A NAME="auto1044"></A>
+<P></P>
+
+<A NAME="auto1045"></A>
+<LI>Putting transition logic into a uniform, tabular format makes the
+transition criteria less explicit and therefore harder to understand.
+
+<A NAME="auto1046"></A>
+<P></P>
+
+<A NAME="auto1047"></A>
+<LI>It's usually difficult to add actions to accompany the state
+transitions.  The table-driven approach captures the states and their
+transitions, but it must be augmented to perform arbitrary computation
+on each transition.
+
+</UL>
+
+<A NAME="auto1048"></A>
+<P></P>
+
+<A NAME="auto1049"></A>
+<P>The key difference between table-driven state machines and the State
+pattern can be summed up like this: The State pattern models
+state-specific behavior, whereas the table-driven approach focuses on
+defining state transitions.</P>
+
+</LI>
+
+<A NAME="auto1050"></A>
+<P></P>
+
+<A NAME="auto1051"></A>
+<LI><EM>Creating and destroying State objects.</EM>
+A common implementation trade-off worth considering is whether
+(1) to create State objects only when they are needed and destroy them
+thereafter versus (2) creating them ahead of time and never
+destroying them.
+
+<A NAME="auto1052"></A>
+<P>The first choice is preferable when the states that will be entered
+aren't known at run-time, <EM>and</EM> contexts change state
+infrequently.  This approach avoids creating objects that won't be
+used, which is important if the State objects store a lot of
+information.  The second approach is better when state changes occur
+rapidly, in which case you want to avoid destroying states, because
+they may be needed again shortly.  Instantiation costs are paid once
+up-front, and there are no destruction costs at all.  This approach
+might be inconvenient, though, because the Context must keep
+references to all states that might be entered.</P>
+
+</LI>
+
+<A NAME="auto1053"></A>
+<P></P>
+
+<A NAME="dynamicinherit"></A>
+<A NAME="self"></A>
+<LI><EM>Using dynamic inheritance.</EM>
+Changing the behavior for a particular request could be accomplished
+by changing the object's class at run-time, but this is not possible
+in most object-oriented programming languages.  Exceptions include
+Self [<A HREF="bibfs.htm#ungar_self" TARGET="_mainDisplayFrame">US87</A>] and other delegation-based languages that
+provide such a mechanism and hence support the State pattern directly.
+Objects in Self can delegate operations to other objects to achieve a
+form of dynamic inheritance.  Changing the delegation target at
+run-time effectively changes the inheritance structure.  This
+mechanism lets objects change their behavior and amounts to changing
+their class.</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1054"></A>
+<P>The following example gives the C++ code for the TCP connection
+example described in the Motivation section.  This example is a
+simplified version of the TCP protocol; it doesn't describe the
+complete protocol or all the states of TCP
+connections.<A NAME="fn8"></A><SUP><A HREF="#footnote8">8</A></SUP></P>
+
+<A NAME="auto1055"></A>
+<P>First, we define the class <CODE>TCPConnection</CODE>, which provides an
+interface for transmitting data and handles requests to change state.</P>
+
+<A NAME="auto1056"></A>
+<PRE>
+    class TCPOctetStream;
+    class TCPState;
+    
+    class TCPConnection {
+    public:
+        TCPConnection();
+    
+        void ActiveOpen();
+        void PassiveOpen();
+        void Close();
+    
+        void Send();
+        void Acknowledge();
+        void Synchronize();
+    
+        void ProcessOctet(TCPOctetStream*);
+    private:
+        friend class TCPState;
+        void ChangeState(TCPState*);
+    private:
+        TCPState* _state;
+    };
+</PRE>
+
+<A NAME="tcpstate2"></A>
+<P><CODE>TCPConnection</CODE> keeps an instance of the <CODE>TCPState</CODE>
+class in the <CODE>_state</CODE> member variable.  The class
+<CODE>TCPState</CODE> duplicates the state-changing interface of
+<CODE>TCPConnection</CODE>. Each <CODE>TCPState</CODE> operation takes a
+<CODE>TCPConnection</CODE> instance as a parameter, letting
+<CODE>TCPState</CODE> access data from <CODE>TCPConnection</CODE> and
+change the connection's state.</P>
+
+<A NAME="auto1057"></A>
+<PRE>
+    class TCPState {
+    public:
+        virtual void Transmit(TCPConnection*, TCPOctetStream*);
+        virtual void ActiveOpen(TCPConnection*);
+        virtual void PassiveOpen(TCPConnection*);
+        virtual void Close(TCPConnection*);
+        virtual void Synchronize(TCPConnection*);
+        virtual void Acknowledge(TCPConnection*);
+        virtual void Send(TCPConnection*);
+    protected:
+        void ChangeState(TCPConnection*, TCPState*);
+    };
+</PRE>
+
+<A NAME="auto1058"></A>
+<P><CODE>TCPConnection</CODE> delegates all state-specific requests to its
+<CODE>TCPState</CODE> instance <CODE>_state</CODE>.
+<CODE>TCPConnection</CODE> also provides an operation for changing this
+variable to a new <CODE>TCPState</CODE>.  The constructor for
+<CODE>TCPConnection</CODE> initializes the object to the
+<CODE>TCPClosed</CODE> state (defined later).</P>
+
+<A NAME="auto1059"></A>
+<PRE>
+    TCPConnection::TCPConnection () {
+        _state = TCPClosed::Instance();
+    }
+    
+    void TCPConnection::ChangeState (TCPState* s) {
+        _state = s;
+    }
+    
+    void TCPConnection::ActiveOpen () {
+        _state->ActiveOpen(this);
+    }
+    
+    void TCPConnection::PassiveOpen () {
+        _state->PassiveOpen(this);
+    }
+    
+    void TCPConnection::Close () {
+        _state->Close(this);
+    }
+    
+    void TCPConnection::Acknowledge () {
+        _state->Acknowledge(this);
+    }
+    
+    void TCPConnection::Synchronize () {
+        _state->Synchronize(this);
+    }
+</PRE>
+
+<A NAME="auto1060"></A>
+<P><CODE>TCPState</CODE> implements default behavior for all requests
+delegated to it.  It can also change the state of a
+<CODE>TCPConnection</CODE> with the <CODE>ChangeState</CODE> operation.
+<CODE>TCPState</CODE> is declared a friend of <CODE>TCPConnection</CODE> to
+give it privileged access to this operation.</P>
+
+<A NAME="auto1061"></A>
+<PRE>
+    void TCPState::Transmit (TCPConnection*, TCPOctetStream*) { }
+    void TCPState::ActiveOpen (TCPConnection*) { }
+    void TCPState::PassiveOpen (TCPConnection*) { }
+    void TCPState::Close (TCPConnection*) { }
+    void TCPState::Synchronize (TCPConnection*) { }
+    
+    void TCPState::ChangeState (TCPConnection* t, TCPState* s) {
+        t->ChangeState(s);
+    }
+</PRE>
+
+<A NAME="auto1062"></A>
+<P>Subclasses of <CODE>TCPState</CODE> implement state-specific behavior. A
+TCP connection can be in many states: Established, Listening, Closed,
+etc., and there's a subclass of <CODE>TCPState</CODE> for each state.
+We'll discuss three subclasses in detail: <CODE>TCPEstablished</CODE>,
+<CODE>TCPListen</CODE>, and <CODE>TCPClosed</CODE>.</P>
+
+<A NAME="auto1063"></A>
+<PRE>
+    class TCPEstablished : public TCPState {
+    public:
+        static TCPState* Instance();
+    
+        virtual void Transmit(TCPConnection*, TCPOctetStream*);
+        virtual void Close(TCPConnection*);
+    };
+    
+    class TCPListen : public TCPState {
+    public:
+        static TCPState* Instance();
+    
+        virtual void Send(TCPConnection*);
+        // ...
+    };
+    
+    class TCPClosed : public TCPState {
+    public:
+        static TCPState* Instance();
+    
+        virtual void ActiveOpen(TCPConnection*);
+        virtual void PassiveOpen(TCPConnection*);
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1065"></A>
+<P><CODE>TCPState</CODE> subclasses maintain no local state, so
+they can be shared, and only one instance of each is required.  The
+unique instance of each <CODE>TCPState</CODE> subclass is obtained by the
+static <CODE>Instance</CODE>
+operation.<A NAME="fn9"></A><SUP><A HREF="#footnote9">9</A></SUP></P>
+
+<A NAME="auto1066"></A>
+<P>Each <CODE>TCPState</CODE> subclass implements state-specific behavior
+for valid requests in the state:</P>
+
+<A NAME="auto1067"></A>
+<PRE>
+    void TCPClosed::ActiveOpen (TCPConnection* t) {
+        // send SYN, receive SYN, ACK, etc.
+    
+        ChangeState(t, TCPEstablished::Instance());
+    }
+    
+    void TCPClosed::PassiveOpen (TCPConnection* t) {
+        ChangeState(t, TCPListen::Instance());
+    }
+    
+    void TCPEstablished::Close (TCPConnection* t) {
+        // send FIN, receive ACK of FIN
+    
+        ChangeState(t, TCPListen::Instance());
+    }
+    
+    void TCPEstablished::Transmit (
+        TCPConnection* t, TCPOctetStream* o
+    ) {
+        t->ProcessOctet(o);
+    }
+    
+    void TCPListen::Send (TCPConnection* t) {
+        // send SYN, receive SYN, ACK, etc.
+    
+        ChangeState(t, TCPEstablished::Instance());
+    }
+</PRE>
+
+<A NAME="auto1068"></A>
+<P>After performing state-specific work, these operations call the
+<CODE>ChangeState</CODE> operation to change the state of
+the <CODE>TCPConnection</CODE>.  <CODE>TCPConnection</CODE> itself doesn't
+know a thing about the TCP connection protocol; it's the
+<CODE>TCPState</CODE> subclasses that define each state transition
+and action in TCP.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1069"></A>
+<P>Johnson and Zweig [<A HREF="bibfs.htm#johnson-zweig_delegation" TARGET="_mainDisplayFrame">JZ91</A>] characterize the
+State pattern and its application to TCP connection protocols.</P>
+
+<A NAME="auto1070"></A>
+<P>Most popular interactive drawing programs provide "tools" for
+performing operations by direct manipulation.  For example, a
+line-drawing tool lets a user click and drag to create a new line.  A
+selection tool lets the user select shapes.  There's usually a palette
+of such tools to choose from.  The user thinks of this activity as
+picking up a tool and wielding it, but in reality the editor's
+behavior changes with the current tool: When a drawing tool is active
+we create shapes; when the selection tool is active we select shapes;
+and so forth.  We can use the State pattern to change the editor's
+behavior depending on the current tool.</P>
+
+<A NAME="tool-class"></A>
+<P>We can define an abstract Tool class from which to define subclasses
+that implement tool-specific behavior.  The drawing editor maintains a
+current Tool object and delegates requests to it.  It replaces this
+object when the user chooses a new tool, causing the behavior of the
+drawing editor to change accordingly.  </P>
+
+<A NAME="unidraw-use-state"></A>
+<P>This technique is used in both the HotDraw [<A HREF="bibfs.htm#hotdraw" TARGET="_mainDisplayFrame">Joh92</A>] and 
+Unidraw [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>] drawing editor frameworks. It allows 
+clients to define new kinds of tools easily. In HotDraw, the 
+DrawingController class forwards the requests to the current Tool object. 
+In Unidraw, the corresponding classes are Viewer and Tool. The following 
+class diagram sketches the Tool and DrawingController interfaces:</P>
+
+<A NAME="tool-313c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/state012.gif"></P>
+
+<A NAME="envelope-letter"></A>
+<P>Coplien's Envelope-Letter idiom [<A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>] is related to
+State.  Envelope-Letter is a technique for changing an object's class at
+run-time. The State pattern is more specific, focusing on how to deal
+with an object whose behavior depends on its state.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1072"></A>
+<P>The <A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195)</A>
+pattern explains when and how State objects can be shared.</P>
+
+<A NAME="auto1073"></A>
+<P>State objects are often
+<A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singletons (127)</A>.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5ifs.htm"
+        TARGET="_mainDisplayFrame">Strategy</A><BR>
+<A HREF="pat5gfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5gfs.htm"
+        TARGET="_mainDisplayFrame">Observer</A>
+</P>
+
+<HR>
+
+<A NAME="footnote8"></A>
+<SUP>8</SUP>This example is based on the TCP connection protocol
+described by Lynch and
+Rose [<A HREF="bibfs.htm#lynch-rose_internet" TARGET="_mainDisplayFrame">LR93</A>].
+</P>
+
+<A NAME="footnote9"></A>
+<SUP>9</SUP>This makes each <CODE>TCPState</CODE> subclass a Singleton (see
+<A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A>).
+</P>
+ 
+</BODY>
+
+</HTML>

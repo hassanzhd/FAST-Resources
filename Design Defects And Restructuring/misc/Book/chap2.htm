@@ -1,0 +1,2541 @@
+<HTML>
+
+<HEAD><TITLE>A Case Study: Designing a Document Editor</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" onLoad="setFocus()";>
+
+<A NAME="top"></A>
+
+<A NAME="chapter_scenario"></A>
+<P>This chapter presents a case study in the design of a
+"What-You-See-Is-What-You-Get" (or "WYSIWYG") document editor called
+<STRONG>Lexi</STRONG>.<A NAME="fn1"></A><A HREF="#footnote1"><SUP>1</SUP></A> We'll
+see how design patterns capture solutions to design problems in
+Lexi and applications like it. By the end of this chapter you will
+have gained experience with eight patterns, learning them by
+example.</P>
+
+<A NAME="lexi-userint"></A>
+<P><A HREF="#editor_Lexi">Figure 2.1</A> depicts Lexi's user interface.  A
+WYSIWYG representation of the document occupies the large rectangular
+area in the center.  The document can mix text and graphics freely in
+a variety of formatting styles.  Surrounding the document are the
+usual pull-down menus and scroll bars, plus a collection of page icons
+for jumping to a particular page in the document.</P>
+
+<A NAME="editor_Lexi"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/doc.gif"><BR><BR>
+Figure 2.1:&nbsp;&nbsp;Lexi's user interface</P>
+
+<A NAME="sec2-1"></A>
+<H2><A HREF="#sec2-2"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Document Structure"></A>
+Design Problems</H2>
+
+<A NAME="auto1000"></A>
+<P>We will examine seven problems in Lexi's design:</P>
+
+<OL>
+
+<A NAME="auto1001"></A>
+<LI><EM>Document structure.</EM>
+The choice of internal representation for the document affects nearly
+every aspect of Lexi's design. All editing, formatting, displaying,
+and textual analysis will require traversing the representation. The
+way we organize this information will impact the design of the rest of
+the application.</LI>
+
+<A NAME="auto1002"></A>
+<P></P>
+
+<A NAME="auto1003"></A>
+<LI><EM>Formatting.</EM>
+How does Lexi actually arrange text and graphics into lines and
+columns?  What objects are responsible for carrying out different
+formatting policies?  How do these policies interact with the
+document's internal representation?</LI>
+
+<A NAME="auto1004"></A>
+<P></P>
+
+<A NAME="auto1005"></A>
+<LI><EM>Embellishing the user interface.</EM>
+Lexi's user interface includes scroll bars, borders, and drop shadows
+that embellish the WYSIWYG document interface. Such embellishments are
+likely to change as Lexi's user interface evolves.  Hence it's
+important to be able to add and remove embellishments easily without
+affecting the rest of the application.</LI>
+
+<A NAME="auto1006"></A>
+<P></P>
+
+<A NAME="lexi-looknfeel"></A>
+<A NAME="present-manage"></A>
+<LI><EM>Supporting multiple look-and-feel standards.</EM>
+Lexi should adapt easily to different look-and-feel standards
+such as Motif and Presentation Manager (PM) without major modification.</LI>
+
+<A NAME="auto1007"></A>
+<P></P>
+
+<A NAME="multiple-windows"></A>
+<LI><EM>Supporting multiple window systems.</EM>
+Different look-and-feel standards are usually implemented on different
+window systems. Lexi's design should be as independent of the window
+system as possible.</LI>
+
+<A NAME="auto1008"></A>
+<P></P>
+
+<A NAME="auto1009"></A>
+<LI><EM>User operations.</EM>
+Users control Lexi through various user interfaces, including
+buttons and pull-down menus.  The functionality behind these
+interfaces is scattered throughout the objects in the application.
+The challenge here is to provide a uniform mechanism both for
+accessing this scattered functionality and for undoing its effects.</LI>
+
+<A NAME="auto1010"></A>
+<P></P>
+
+<A NAME="auto1011"></A>
+<LI><EM>Spelling checking and hyphenation.</EM>
+How does Lexi support analytical operations such as checking for
+misspelled words and determining hyphenation points?  How can we
+minimize the number of classes we have to modify to add a new
+analytical operation?</LI>
+
+</OL>
+
+<A NAME="auto1012"></A>
+<P>We discuss these design problems in the sections that follow. Each
+problem has an associated set of goals plus constraints on how we
+achieve those goals.  We explain the goals and constraints in detail
+before proposing a specific solution. The problem and its solution
+will illustrate one or more design patterns. The discussion for each
+problem will culminate in a brief introduction to the relevant
+patterns.</P>
+
+<A NAME="sec2-2"></A>
+<H2><A HREF="#sec2-3"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Formatting"></A>
+Document Structure</H2>
+
+<A NAME="editor_sec_document_structure"></A>
+<P>A document is ultimately just an arrangement of basic graphical
+elements such as characters, lines, polygons, and other shapes. These
+elements capture the total information content of the document. Yet an
+author often views these elements not in graphical terms but in terms
+of the document's physical structure&#151;lines, columns, figures,
+tables, and other substructures.<A NAME="fn2"></A><A HREF="#footnote2"><SUP>2</SUP></A>
+In turn, these substructures have substructures of their
+own, and so on.</P>
+
+<A NAME="auto1013"></A>
+<P>Lexi's user interface should let users manipulate these
+substructures directly. For example, a user should be able to treat a
+diagram as a unit rather than as a collection of individual graphical
+primitives.  The user should be able to refer to a table as a whole,
+not as an unstructured mass of text and graphics. That helps make the
+interface simple and intuitive. To give Lexi's implementation
+similar qualities, we'll choose an internal representation that
+matches the document's physical structure.</P>
+
+<A NAME="auto1014"></A>
+<P>In particular, the internal representation should support the
+following:</P>
+
+<UL>
+
+<A NAME="auto1015"></A>
+<LI>Maintaining the document's physical structure, that is, the
+arrangement of text and graphics into lines, columns, tables, etc.</LI>
+
+<A NAME="auto1016"></A>
+<P></P>
+
+<A NAME="auto1017"></A>
+<LI>Generating and presenting the document visually.</LI>
+
+<A NAME="auto1018"></A>
+<P></P>
+
+<A NAME="auto1019"></A>
+<LI>Mapping positions on the display to elements in the internal
+representation. This lets Lexi determine what the user is
+referring to when he points to something in the visual representation.</LI>
+
+</UL>
+
+<A NAME="auto1020"></A>
+<P>In addition to these goals are some constraints. First, we should
+treat text and graphics uniformly. The application's interface lets
+the user embed text within graphics freely and vice versa.  We should
+avoid treating graphics as a special case of text or text as a special
+case of graphics; otherwise we'll end up with redundant formatting and
+manipulation mechanisms.  One set of mechanisms should suffice for
+both text and graphics.</P>
+
+<A NAME="auto1021"></A>
+<P>Second, our implementation shouldn't have to distinguish between
+single elements and groups of elements in the internal representation.
+Lexi should be able to treat simple and complex elements
+uniformly, thereby allowing arbitrarily complex documents. The tenth
+element in line five of column two, for instance, could be a single
+character or an intricate diagram with many subelements. As long as we
+know this element can draw itself and specify its dimensions, its
+complexity has no bearing on how and where it should appear on the
+page.</P>
+
+<A NAME="auto1022"></A>
+<P>Opposing the second constraint, however, is the need to analyze the
+text for such things as spelling errors and potential hyphenation
+points. Often we don't care whether the element of a line is a simple
+or complex object. But sometimes an analysis depends on the objects
+being analyzed. It makes little sense, for example, to check the
+spelling of a polygon or to hyphenate it. The internal
+representation's design should take this and other potentially
+conflicting constraints into account.</P>
+
+<A NAME="recursivecomposition"></A>
+<H3>Recursive Composition</H3>
+
+<A NAME="auto1023"></A>
+<P>A common way to represent hierarchically structured information is
+through a technique called <STRONG>recursive composition</STRONG>, which
+entails building increasingly complex elements out of simpler ones.
+Recursive composition gives us a way to compose a document out of
+simple graphical elements. As a first step, we can tile a set of
+characters and graphics from left to right to form a line in the
+document. Then multiple lines can be arranged to form a column,
+multiple columns can form a page, and so on (see
+<A HREF="#editor_recursive_composition">Figure 2.2</A>).
+
+<A NAME="editor_recursive_composition"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/textcomp.gif"><BR><BR>
+Figure 2.2:&nbsp;&nbsp;Recursive composition of text and graphics</P>
+
+<A NAME="auto1024"></A>
+<P>We can represent this physical structure by devoting an object to each
+important element.  That includes not just the visible elements like
+the characters and graphics but the invisible, structural elements as
+well&#151;the lines and the column. The result is the object structure
+shown in <A HREF="#editor_object_structure">Figure 2.3</A>.</P>
+
+<A NAME="editor_object_structure"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/texts008.gif"><BR><BR>
+Figure 2.3:&nbsp;&nbsp;Object structure for recursive composition of
+text and graphics</P>
+
+<A NAME="auto1025"></A>
+<P>By using an object for each character and graphical element in the
+document, we promote flexibility at the finest levels of Lexi's
+design. We can treat text and graphics uniformly with respect to how
+they are drawn, formatted, and embedded within each other. We can
+extend Lexi to support new character sets without disturbing other
+functionality. Lexi's object structure mimics the document's
+physical structure.</P>
+
+<A NAME="auto1026"></A>
+<P>This approach has two important implications. The first is obvious:
+The objects need corresponding classes. The second implication, which
+may be less obvious, is that these classes must have compatible
+interfaces, because we want to treat the objects uniformly. The way to
+make interfaces compatible in a language like C++ is to relate the
+classes through inheritance.</P>
+
+<A NAME="section_glyphs"></A>
+<H3>Glyphs</H3>
+
+<A NAME="auto1027"></A>
+<P>We'll define a <STRONG>Glyph</STRONG> abstract class for all
+objects that can appear in a document structure.<A NAME="fn3"></A><A
+HREF="#footnote3"><SUP>3</SUP></A> Its subclasses define both
+primitive graphical elements (like characters and images) and
+structural elements (like rows and columns).  <A HREF="#editor_glyph_class_hierarchy">Figure 2.4</A> depicts a representative part
+of the Glyph class hierarchy, and <A HREF="#editor_basic_glyph_interface">Table 2.1</A> presents the basic glyph interface
+in more detail using C++ notation.<A NAME="fn4"></A><A HREF="#footnote4"><SUP>4</SUP></A></P>
+
+<A NAME="editor_glyph_class_hierarchy"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/glyph046.gif"><BR><BR>
+Figure 2.4:&nbsp;&nbsp;Partial Glyph class hierarchy</P>
+
+<A NAME="editor_basic_glyph_interface"></A>
+
+<CENTER>
+<TABLE
+	CELLPADDING	= 4
+	BORDER		= 1
+	CELLSPACING	= 0
+        BGCOLOR         = #99CCFF
+>
+
+<A NAME="auto1028"></A>
+<TR>
+<TH BGCOLOR=#6699CC ALIGN=CENTER>Responsibility</TH>
+<TH BGCOLOR=#6699CC ALIGN=CENTER>Operations</TH>
+</TR>
+
+<TR VALIGN=TOP>
+<TD ALIGN=CENTER>appearance</TD>
+<TD ALIGN=LEFT><CODE>virtual void Draw(Window*)</CODE><BR>
+<CODE>virtual void Bounds(Rect&amp;)</CODE></TD>
+</TR>
+ 
+<TR VALIGN=TOP>
+<TD ALIGN=CENTER>hit detection</TD>
+<TD ALIGN=LEFT><CODE>virtual bool Intersects(const Point&amp;)</CODE></TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD ALIGN=CENTER>structure</TD>
+<TD ALIGN=LEFT><CODE>virtual void Insert(Glyph*, int)</CODE><BR>
+<CODE>virtual void Remove(Glyph*)</CODE><BR>
+<CODE>virtual Glyph* Child(int)</CODE><BR>
+<CODE>virtual Glyph* Parent()</CODE></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<P ALIGN=CENTER>Table 2.1:&nbsp;&nbsp;Basic glyph interface</P>
+
+<A NAME="auto1029"></A>
+<P>Glyphs have three basic responsibilities.  They know (1) how to draw
+themselves, (2) what space they occupy, and (3) their children and
+parent.</P>
+
+<A NAME="window"></A>
+<P>Glyph subclasses redefine the <CODE>Draw</CODE> operation to render
+themselves onto a window. They are passed a reference to a <CODE>Window</CODE>
+object in the call to <CODE>Draw</CODE>. The <STRONG>Window</STRONG> class defines
+graphics operations for rendering text and basic shapes in a window on the
+screen.  A <STRONG>Rectangle</STRONG> subclass of Glyph might redefine
+<CODE>Draw</CODE> as follows:</P>
+
+<A NAME="auto1030"></A>
+<PRE>
+    void Rectangle::Draw (Window* w) {
+        w->DrawRect(_x0, _y0, _x1, _y1);
+    }
+</PRE>
+
+<A NAME="auto1031"></A>
+<P>where <CODE>_x0</CODE>, <CODE>_y0</CODE>, <CODE>_x1</CODE>, and <CODE>_y1</CODE>
+are data members of <CODE>Rectangle</CODE> that define two opposing corners of
+the rectangle.  <CODE>DrawRect</CODE> is the Window operation that makes
+the rectangle appear on the screen.
+
+<A NAME="auto1032"></A>
+<P>A parent glyph often needs to know how much space a child glyph occupies,
+for example, to arrange it and other glyphs in a line so that none overlaps
+(as shown in <A HREF="#editor_object_structure">Figure 2.3</A>). The
+<CODE>Bounds</CODE> operation returns the rectangular area that the glyph
+occupies. It returns the opposite corners of the smallest rectangle that
+contains the glyph. Glyph subclasses redefine this operation to return the
+rectangular area in which they draw.</P>
+
+<A NAME="auto1033"></A>
+<P>The <CODE>Intersects</CODE> operation returns whether a specified point
+intersects the glyph.  Whenever the user clicks somewhere in the
+document, Lexi calls this operation to determine which glyph or
+glyph structure is under the mouse.  The Rectangle class redefines
+this operation to compute the intersection of the rectangle and the
+given point.</P>
+
+<A NAME="auto1034"></A>
+<P>Because glyphs can have children, we need a common interface to
+add, remove, and access those children. For example, a Row's children
+are the glyphs it arranges into a row. The <CODE>Insert</CODE>
+operation inserts a glyph at a position specified by an integer
+index.<A NAME="fn5"></A><A HREF="#footnote5"><SUP>5</SUP></A> The <CODE>Remove</CODE>
+operation removes a specified glyph if it is indeed a child.</P>
+
+<A NAME="auto1035"></A>
+<P>The <CODE>Child</CODE> operation returns the child (if any) at the given
+index. Glyphs like Row that can have children should use <CODE>Child</CODE>
+internally instead of accessing the child data structure directly. That way
+you won't have to modify operations like <CODE>Draw</CODE> that iterate
+through the children when you change the data structure from, say, an array
+to a linked list. Similarly, <CODE>Parent</CODE> provides a standard interface
+to the glyph's parent, if any. Glyphs in Lexi store a reference to
+their parent, and their <CODE>Parent</CODE> operation simply returns this
+reference.</P>
+
+
+<H3>Composite Pattern</H3>
+
+<A NAME="auto1036"></A>
+<P>Recursive composition is good for more than just documents. We can use
+it to represent any potentially complex, hierarchical structure.  The
+<A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A> pattern captures the essence of
+recursive composition in object-oriented terms. Now would be a good
+time to turn to that pattern and study it, referring back to this
+scenario as needed.</P>
+
+<A NAME="sec2-3"></A>
+<H2><A HREF="#sec2-4"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Embellishing the User Interface"></A>
+Formatting</H2>
+
+<A NAME="editor_sec_formatting"></A>
+<P>We've settled on a way to <EM>represent</EM> the document's physical
+structure. Next, we need to figure out how to construct a <EM>particular</EM> physical structure, one that corresponds to a properly
+formatted document.  Representation and formatting are distinct: The
+ability to capture the document's physical structure doesn't tell us
+how to arrive at a particular structure. This responsibility rests
+mostly on Lexi. It must break text into lines, lines into columns,
+and so on, taking into account the user's higher-level desires. For
+example, the user might want to vary margin widths, indentation, and
+tabulation; single or double space; and probably many other formatting
+constraints.<A NAME="fn6"></A><A HREF="#footnote6"><SUP>6</SUP></A>
+Lexi's
+formatting algorithm must take all of these into account.</P>
+
+<A NAME="auto1037"></A>
+<P>By the way, we'll restrict "formatting" to mean breaking a collection of
+glyphs into lines. In fact, we'll use the terms "formatting" and
+"linebreaking" interchangeably. The techniques we'll discuss apply
+equally well to breaking lines into columns and to breaking columns into
+pages.</P>
+
+
+<H3>Encapsulating the Formatting Algorithm</H3>
+
+<A NAME="auto1038"></A>
+<P>The formatting process, with all its constraints and details, isn't easy to
+automate. There are many approaches to the problem, and people have come up
+with a variety of formatting algorithms with different strengths and
+weaknesses. Because Lexi is a WYSIWYG editor, an important trade-off to
+consider is the balance between formatting quality and formatting speed. We
+want generally good response from the editor without sacrificing how good
+the document looks. This trade-off is subject to many factors, not all of
+which can be ascertained at compile-time. For example, the user might
+tolerate slightly slower response in exchange for better formatting. That
+trade-off might make an entirely different formatting algorithm more
+appropriate than the current one. Another, more implementation-driven
+trade-off balances formatting speed and storage requirements: It may be
+possible to decrease formatting time by caching more information.</P>
+
+<A NAME="auto1039"></A>
+<P>Because formatting algorithms tend to be complex, it's also desirable
+to keep them well-contained or&#151;better yet&#151;completely independent
+of the document structure. Ideally we could add a new kind of Glyph
+subclass without regard to the formatting algorithm. Conversely,
+adding a new formatting algorithm shouldn't require modifying existing
+glyphs.</P>
+
+<A NAME="auto1040"></A>
+<P>These characteristics suggest we should design Lexi so that it's
+easy to change the formatting algorithm at least at compile-time, if
+not at run-time as well. We can isolate the algorithm and make it
+easily replaceable at the same time by encapsulating it in an object.
+More specifically, we'll define a separate class hierarchy for objects
+that encapsulate formatting algorithms. The root of the hierarchy will
+define an interface that supports a wide range of formatting
+algorithms, and each subclass will implement the interface to carry
+out a particular algorithm. Then we can introduce a Glyph subclass
+that will structure its children automatically using a given algorithm
+object.</P>
+
+<H3>Compositor and Composition</H3>
+
+<A NAME="auto1041"></A>
+<P>We'll define a <STRONG>Compositor</STRONG> class for objects
+that can encapsulate a formatting algorithm. The interface (<A HREF="#editor_basic_compositor_interface">Table 2.2</A>) lets
+the compositor know <EM>what</EM> glyphs to format and <EM>when</EM>
+to do the formatting.  The glyphs it formats are the children of
+a special Glyph subclass called <STRONG>Composition</STRONG>. A
+composition gets an instance of a Compositor subclass (specialized
+for a particular linebreaking algorithm) when it is created, and
+it tells the compositor to <CODE>Compose</CODE> its glyphs when
+necessary, for example, when the user changes a document.
+<A HREF="#editor_composition_and_compositor_class_relationships">Figure 2.5</A>
+depicts the relationships between the Composition and Compositor classes.</P>
+
+<A NAME="editor_basic_compositor_interface"></A>
+<CENTER>
+<TABLE
+        CELLPADDING     = 4
+        BORDER          = 1
+        CELLSPACING     = 0
+        BGCOLOR         = #99CCFF
+>
+
+<A NAME="auto1042"></A>
+<TR>
+<TH BGCOLOR=#6699CC ALIGN=CENTER>Responsibility</TH>
+<TH BGCOLOR=#6699CC ALIGN=CENTER>Operations</TH>
+</TR>
+
+<A NAME="auto1043"></A>
+<TR>
+<TD>what to format</TD>
+<TD><CODE>void SetComposition(Composition*)</CODE></TD>
+</TR>
+
+<A NAME="auto1044"></A>
+<TR>
+<TD>when to format</TD>
+<TD><CODE>virtual void Compose()</CODE></TD>
+</TR>
+
+</TABLE>
+
+</CENTER>
+
+<P ALIGN=CENTER>Table 2.2&nbsp;&nbsp;Basic compositor interface</P>
+
+<A NAME="42c"></A>
+<A NAME="editor_composition_and_compositor_class_relationships"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/compo071.gif"><BR><BR>
+Figure 2.5:&nbsp;&nbsp;Composition and Compositor class relationships</P>
+
+<A NAME="auto1045"></A>
+<P>An unformatted Composition object contains only the visible
+glyphs that make up the document's basic content. It doesn't contain
+glyphs that determine the document's physical structure, such as
+Row and Column.  The composition is in this state just after it's
+created and initialized with the glyphs it should format.  When
+the composition needs formatting, it calls its compositor's
+<CODE>Compose</CODE> operation. The compositor in turn iterates
+through the composition's children and inserts new Row and Column
+glyphs according to its linebreaking algorithm.<A NAME="fn7"></A><A
+HREF="#footnote7"><SUP>7</SUP></A> <A HREF="#editor_compositor_object_structure">Figure 2.6</A> shows the resulting object
+structure.  Glyphs that the compositor created and inserted into
+the object structure appear with gray backgrounds in the figure.</P>
+
+<A NAME="editor_compositor_object_structure"></A>
+<A NAME="simple-compositor-42c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/compo070.gif"><BR><BR>
+Figure 2.6:&nbsp;&nbsp;Object structure reflecting
+compositor-directed linebreaking</P>
+
+<A NAME="document-color"></A>
+<A NAME="simple-compositor"></A>
+<A NAME="tex"></A>
+<P>Each Compositor subclass can implement a different linebreaking algorithm.
+For example, a SimpleCompositor might do a quick pass without regard for
+such esoterica as the document's "color." Good color means having an even
+distribution of text and whitespace. A TeXCompositor would implement the
+full TeX algorithm [<A HREF="bibfs.htm#tex" TARGET="_mainDisplayFrame">Knu84</A>], which takes things like color into account
+in exchange for longer formatting times.</P>
+
+<A NAME="auto1046"></A>
+<P>The Compositor-Composition class split ensures a strong separation
+between code that supports the document's physical structure and the
+code for different formatting algorithms. We can add new Compositor
+subclasses without touching the glyph classes, and vice versa. In
+fact, we can change the linebreaking algorithm at run-time by adding a
+single <CODE>SetCompositor</CODE> operation to Composition's basic glyph
+interface.</P>
+
+<A NAME="strat-lexi"></A>
+<H3>Strategy Pattern</H3>
+
+<A NAME="auto1047"></A>
+<P>Encapsulating an algorithm in an object is the intent of the
+<A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A> pattern. The key participants in the
+pattern are Strategy objects (which encapsulate different algorithms)
+and the context in which they operate.  Compositors are strategies;
+they encapsulate different formatting algorithms. A composition is the
+context for a compositor strategy.</P>
+
+<A NAME="auto1048"></A>
+<P>The key to applying the Strategy pattern is designing interfaces for
+the strategy and its context that are general enough to support a
+range of algorithms. You shouldn't have to change the strategy or
+context interface to support a new algorithm. In our example, the
+basic Glyph interface's support for child access, insertion, and
+removal is general enough to let Compositor subclasses change the
+document's physical structure, regardless of the algorithm they use to
+do it. Likewise, the Compositor interface gives compositions whatever
+they need to initiate formatting.</P>
+
+<A NAME="sec2-4"></A>
+<H2><A HREF="#sec2-5"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Supporting Multiple Look-and-Feel Standards"></A>
+Embellishing the User Interface</H2>
+
+<A NAME="auto1049"></A>
+<P>We consider two embellishments in Lexi's user interface. The
+first adds a border around the text editing area to demarcate the page
+of text.  The second adds scroll bars that let the user view different
+parts of the page. To make it easy to add and remove these
+embellishments (especially at run-time), we shouldn't use inheritance
+to add them to the user interface. We achieve the most flexibility
+if other user interface objects don't even know the embellishments are
+there. That will let us add and remove the embellishments without
+changing other classes.</P>
+
+<A NAME="transparentencl"></A>
+<H3>Transparent Enclosure</H3>
+
+<A NAME="auto1050"></A>
+<P>From a programming point of view, embellishing the user interface involves
+extending existing code. Using inheritance to do such extension precludes
+rearranging embellishments at run-time, but an equally serious problem is
+the explosion of classes that can result from an inheritance-based
+approach.</P>
+
+<A NAME="compcomposite"></A>
+<P>We could add a border to Composition by subclassing it to yield a
+BorderedComposition class.  Or we could add a scrolling interface in
+the same way to yield a ScrollableComposition.  If we want both scroll
+bars and a border, we might produce a BorderedScrollableComposition,
+and so forth. In the extreme, we end up with a class for every
+possible combination of embellishments, a solution that quickly
+becomes unworkable as the variety of embellishments grows.</P>
+
+<A NAME="auto1051"></A>
+<P>Object composition offers a potentially more workable and flexible
+extension mechanism.  But what objects do we compose?  Since we know
+we're embellishing an existing glyph, we could make the embellishment
+itself an object (say, an instance of class <STRONG>Border</STRONG>). That
+gives us two candidates for composition, the glyph and the border. The
+next step is to decide who composes whom. We could have the border
+contain the glyph, which makes sense given that the border will
+surround the glyph on the screen. Or we could do the opposite&#151;put
+the border into the glyph&#151;but then we must make modifications to the
+corresponding Glyph subclass to make it aware of the border. Our first
+choice, composing the glyph in the border, keeps the border-drawing
+code entirely in the Border class, leaving other classes alone.</P>
+
+<A NAME="auto1052"></A>
+<P>What does the Border class look like? The fact that borders have an
+appearance suggests they should actually be glyphs; that is, Border
+should be a subclass of Glyph. But there's a more compelling reason
+for doing this: Clients shouldn't care whether glyphs have borders or
+not. They should treat glyphs uniformly. When clients tell a plain,
+unbordered glyph to draw itself, it should do so without
+embellishment. If that glyph is composed in a border, clients
+shouldn't have to treat the border containing the glyph any
+differently; they just tell it to draw itself as they told the plain
+glyph before. This implies that the Border interface matches the Glyph
+interface. We subclass Border from Glyph to guarantee this
+relationship.</P>
+
+<A NAME="auto1053"></A>
+<P>All this leads us to the concept of <STRONG>transparent enclosure</STRONG>,
+which combines the notions of (1) single-child (or
+single-<STRONG>component</STRONG>) composition and (2) compatible
+interfaces.  Clients generally can't tell whether they're dealing with
+the component or its <STRONG>enclosure</STRONG> (i.e., the child's parent),
+especially if the enclosure simply delegates all its operations to its
+component.  But the enclosure can also <EM>augment</EM> the component's
+behavior by doing work of its own before and/or after delegating an
+operation.  The enclosure can also effectively add state to the
+component.  We'll see how next.</P>
+
+<H3>Monoglyph</H3>
+
+<A NAME="auto1054"></A>
+<P>We can apply the concept of transparent enclosure to all glyphs that
+embellish other glyphs. To make this concept concrete, we'll define a
+subclass of Glyph called <STRONG>MonoGlyph</STRONG> to serve as an abstract
+class for "embellishment glyphs," like
+Border (see <A HREF="#editor_embellish-omt">Figure 2.7</A>).
+MonoGlyph stores a reference to a component and forwards all requests to
+it. That makes MonoGlyph totally transparent to clients by default.
+For example, MonoGlyph implements the <CODE>Draw</CODE> operation like this:</P>
+
+<A NAME="auto1055"></A>
+<PRE>
+    void MonoGlyph::Draw (Window* w) {
+        _component->Draw(w);
+    }
+</PRE>
+
+<A NAME="editor_embellish-omt"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/embel061.gif"><BR><BR>
+Figure 2.7:&nbsp;&nbsp;MonoGlyph class relationships</P>
+
+<A NAME="auto1056"></A>
+<P>MonoGlyph subclasses reimplement at least one of these forwarding
+operations. <CODE>Border::Draw</CODE>, for instance, first invokes the parent
+class operation <CODE>MonoGlyph::Draw</CODE> on the component to let the
+component do its part&#151;that is, draw everything but the border. Then
+<CODE>Border::Draw</CODE> draws the border by calling a private
+operation called <CODE>DrawBorder</CODE>, the details of which we'll
+omit:</P>
+
+<A NAME="auto1057"></A>
+<PRE>
+    void Border::Draw (Window* w) {
+        MonoGlyph::Draw(w);
+        DrawBorder(w);
+    }
+</PRE>
+
+<A NAME="auto1058"></A>
+<P>Notice how <CODE>Border::Draw</CODE> effectively <EM>extends</EM> the parent
+class operation to draw the border.  This is in contrast to merely
+<EM>replacing</EM> the parent class operation, which would omit the call to
+<CODE>MonoGlyph::Draw</CODE>.</P>
+
+<A NAME="scroller"></A>
+<P>Another MonoGlyph subclass appears in <A HREF="#editor_embellish-omt">Figure 2.7</A>.
+<STRONG>Scroller</STRONG> is a MonoGlyph that draws its component in different
+locations based on the positions of two scroll bars, which it adds as
+embellishments. When Scroller draws its component, it tells the
+graphics system to clip to its bounds. Clipping parts of the component
+that are scrolled out of view keeps them from appearing on the screen.</P>
+
+<A NAME="auto1059"></A>
+<P>Now we have all the pieces we need to add a border and a scrolling
+interface to Lexi's text editing area.  We compose the existing
+Composition instance in a Scroller instance to add the scrolling
+interface, and we compose that in a Border instance.  The resulting
+object structure appears in <A HREF="#editor_embellish">Figure 2.8</A>.</P>
+
+<A NAME="editor_embellish"></A>
+<A NAME="Fig-2.8"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/embel060.gif"><BR><BR>
+Figure 2.8:&nbsp;&nbsp;Embellished object structure</P>
+
+<A NAME="auto1060"></A>
+<P>Note that we can reverse the order of composition, putting the
+bordered composition into the Scroller instance.  In that case the
+border would be scrolled along with the text, which may or may not be
+desirable.  The point is, transparent enclosure makes it easy to
+experiment with different alternatives, and it keeps clients free of
+embellishment code.</P>
+
+<A NAME="auto1061"></A>
+<P>Note also how the border composes one glyph, not two or more. This is
+unlike compositions we've defined so far, in which parent objects were
+allowed to have arbitrarily many children. Here, putting a border
+around something implies that "something" is singular. We could
+assign a meaning to embellishing more than one object at a time, but
+then we'd have to mix many kinds of composition in with the notion of
+embellishment: row embellishment, column embellishment, and so forth.
+That won't help us, since we already have classes to do those kinds of
+compositions. So it's better to use existing classes for composition
+and add new classes to embellish the result. Keeping embellishment
+independent of other kinds of composition both simplifies the
+embellishment classes and reduces their number. It also keeps us from
+replicating existing composition functionality.</P>
+
+<A NAME="dec-patt"></A>
+<H3>Decorator Pattern</H3>
+
+<A NAME="auto1062"></A>
+<P>The <A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A> pattern captures class and object
+relationships that support embellishment by transparent enclosure.
+The term "embellishment" actually has broader meaning than what
+we've considered here.  In the Decorator pattern, embellishment refers
+to anything that adds responsibilities to an object.  We can think
+for example of embellishing an abstract syntax tree with semantic
+actions, a finite state automaton with new transitions, or a network
+of persistent objects with attribute tags.  Decorator generalizes the
+approach we've used in Lexi to make it more widely applicable.
+
+<A NAME="sec2-5"></A>
+<H2><A HREF="#sec2-6"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Supporting Multiple Window Systems"></A>
+Supporting Multiple Look-and-Feel Standards</H2>
+
+<A NAME="auto1063"></A>
+<P>Achieving portability across hardware and software platforms is a
+major problem in system design. Retargeting Lexi to a new
+platform shouldn't require a major overhaul, or it wouldn't be worth
+retargeting. We should make porting as easy as possible.</P>
+
+<A NAME="auto1064"></A>
+<P>One obstacle to portability is the diversity of look-and-feel standards,
+which are intended to enforce uniformity between applications. These
+standards define guidelines for how applications appear and react to the
+user. While existing standards aren't that different from each other,
+people certainly won't confuse one for the other&#151;Motif applications don't
+look and feel exactly like their counterparts on other platforms, and vice
+versa. An application that runs on more than one platform must conform to
+the user interface style guide on each platform.</P>
+
+<A NAME="auto1065"></A>
+<P>Our design goals are to make Lexi conform to multiple existing
+look-and-feel standards and to make it easy to add support for new
+standards as they (invariably) emerge. We also want our design to
+support the ultimate in flexibility: changing Lexi's look and feel
+at run-time.</P>
+
+
+<A NAME="widget"></A>
+<H3>Abstracting Object Creation</H3>
+
+<A NAME="auto1066"></A>
+<P>Everything we see and interact with in Lexi's user interface is a
+glyph composed in other, invisible glyphs like Row and Column. The
+invisible glyphs compose visible ones like Button and Character and lay
+them out properly. Style guides have much to say about the look and
+feel of so-called "widgets," another term for visible glyphs like
+buttons, scroll bars, and menus that act as controlling elements in a
+user interface.  Widgets might use simpler glyphs such as characters,
+circles, rectangles, and polygons to present data.</P>
+
+<A NAME="auto1067"></A>
+<P>We'll assume we have two sets of widget glyph classes with which to
+implement multiple look-and-feel standards:</P>
+
+<OL>
+
+<A NAME="auto1068"></A>
+<LI>A set of abstract Glyph subclasses for each category of widget
+glyph. For example, an abstract class ScrollBar will augment the basic
+glyph interface to add general scrolling operations; Button is an
+abstract class that adds button-oriented operations; and so on.</LI>
+
+<A NAME="auto1069"></A>
+<P></P>
+
+<A NAME="present-manage"></A>
+<LI>A set of concrete subclasses for each abstract subclass that
+implement different look-and-feel standards.  For example, ScrollBar
+might have MotifScrollBar and PMScrollBar subclasses that implement
+Motif and Presentation Manager-style scroll bars, respectively.</LI>
+
+</OL>
+
+<A NAME="auto1070"></A>
+<P>Lexi must distinguish between widget glyphs for different look-and-feel
+styles. For example, when Lexi needs to put a button in its interface,
+it must instantiate a Glyph subclass for the right style of button
+(MotifButton, PMButton, MacButton, etc.).</P>
+
+<A NAME="macintosh1"></A>
+<P>It's clear that Lexi's implementation can't do this directly, say,
+using a constructor call in C++.  That would hard-code the button of a
+particular style, making it impossible to select the style at
+run-time.  We'd also have to track down and change every such
+constructor call to port Lexi to another platform. And buttons are
+only one of a variety of widgets in Lexi's user interface.
+Littering our code with constructor calls to specific look-and-feel
+classes yields a maintenance nightmare&#151;miss just one, and you could
+end up with a Motif menu in the middle of your Mac application.</P>
+
+<A NAME="auto1071"></A>
+<P>Lexi needs a way to determine the look-and-feel standard that's being
+targeted in order to create the appropriate widgets. Not only must we
+avoid making explicit constructor calls; we must also be able to
+replace an entire widget set easily. We can achieve both by <EM>abstracting the process of object creation</EM>. An example will
+illustrate what we mean.</P>
+
+
+<H3>Factories and Product Classes</H3>
+
+<A NAME="auto1072"></A>
+<P>Normally we might create an instance of a Motif scroll bar glyph with the
+following C++ code:</P>
+
+<A NAME="auto1073"></A>
+<PRE>
+    ScrollBar* sb = new MotifScrollBar;
+</PRE>
+
+<A NAME="auto1074"></A>
+<P>This is the kind of code to avoid if you want to minimize
+Lexi's look-and-feel dependencies.  But suppose we
+initialize <CODE>sb</CODE> as follows:</P>
+
+<A NAME="auto1075"></A>
+<PRE>
+    ScrollBar* sb = guiFactory->CreateScrollBar();
+</PRE>
+
+<A NAME="auto1076"></A>
+<P>where <CODE>guiFactory</CODE> is an instance of a
+<STRONG>MotifFactory</STRONG> class. <CODE>CreateScrollBar</CODE>
+returns a new instance of the proper ScrollBar subclass for the
+look and feel desired, Motif in this case. As far as clients are
+concerned, the effect is the same as calling the MotifScrollBar
+constructor directly. But there's a crucial difference:  There's
+no longer anything in the code that mentions Motif by name. The
+<CODE>guiFactory</CODE> object abstracts the process of creating
+not just Motif scroll bars but scroll bars for <EM>any</EM>
+look-and-feel standard.  And <CODE>guiFactory</CODE> isn't limited
+to producing scroll bars. It can manufacture a full range of widget
+glyphs, including scroll bars, buttons, entry fields, menus, and
+so forth.</P>
+
+<A NAME="auto1077"></A>
+<P>All this is possible because MotifFactory is a subclass of
+<STRONG>GUIFactory</STRONG>, an abstract class that defines a
+general interface for creating widget glyphs. It includes operations
+like <CODE>CreateScrollBar</CODE> and <CODE>CreateButton</CODE>
+for instantiating different kinds of widget glyphs. Subclasses of
+GUIFactory implement these operations to return glyphs such as
+MotifScrollBar and PMButton that implement a particular look and
+feel. <A HREF="#editor_factory_hierarchy">Figure 2.9</A> shows
+the resulting class hierarchy for <CODE>guiFactory</CODE> objects.</P>
+
+<A NAME="editor_factory_hierarchy"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/facto056.gif"><BR><BR>
+Figure 2.9:&nbsp;&nbsp;GUIFactory class hierarchy</P>
+
+<A NAME="productobjects"></A>
+<P>We say that factories create <STRONG>product</STRONG> objects.
+Moreover, the products that a factory produces are related to one
+another; in this case, the products are all widgets for the same
+look and feel.  <A HREF="#editor_products">Figure 2.10</A>
+shows some of the product classes needed to make factories work
+for widget glyphs.</P>
+
+<A NAME="editor_products"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/produ020.gif"><BR><BR>
+Figure 2.10:&nbsp;&nbsp;Abstract product classes and concrete subclasses</P>
+
+<A NAME="auto1078"></A>
+<P>The last question we have to answer is, Where does the <CODE>GUIFactory</CODE>
+instance come from?   The answer is, Anywhere that's convenient. The
+variable <CODE>guiFactory</CODE> could be a global, a static member of a
+well-known class, or even a local variable if the entire user interface is
+created within one class or function. There's even a design pattern,
+<A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A>, for managing well-known, one-of-a-kind
+objects like this. The important thing, though, is to initialize
+<CODE>guiFactory</CODE> at a point in the program <EM>before</EM> it's ever used
+to create widgets but <EM>after</EM> it's clear which look and feel is
+desired.</P>
+
+<A NAME="auto1079"></A>
+<P>If the look and feel is known at compile-time, then <CODE>guiFactory</CODE>
+can be initialized with a simple assignment of a new factory instance
+at the beginning of the program:</P>
+
+<A NAME="auto1080"></A>
+<PRE>
+    GUIFactory* guiFactory = new MotifFactory;
+</PRE>
+
+<A NAME="auto1081"></A>
+<P>If the user can specify the look and feel with a string name at
+startup time, then the code to create the factory might be</P>
+
+<A NAME="auto1082"></A>
+<PRE>
+    GUIFactory* guiFactory;
+    const char* styleName = getenv("LOOK_AND_FEEL");
+        // user or environment supplies this at startup
+    
+    if (strcmp(styleName, "Motif") == 0) {
+        guiFactory = new MotifFactory;
+    
+    } else if (strcmp(styleName, "Presentation_Manager") == 0) {
+        guiFactory = new PMFactory;
+    
+    } else {
+        guiFactory = new DefaultGUIFactory;
+    }
+</PRE>
+
+<A NAME="auto1083"></A>
+<P>There are more sophisticated ways to select the factory at run-time.
+For example, you could maintain a registry that maps strings to
+factory objects.  That lets you register instances of new factory
+subclasses without modifying existing code, as the preceding approach 
+requires.  And you don't have to link all platform-specific factories
+into the application.  That's important, because it might not be
+possible to link a MotifFactory on a platform that doesn't support
+Motif.</P>
+
+<A NAME="auto1084"></A>
+<P>But the point is that once we've configured the application with the
+right factory object, its look and feel is set from then on.  If we
+change our minds, we can reinitialize <CODE>guiFactory</CODE> with a
+factory for a different look and feel and then reconstruct the
+interface.  Regardless of how and when we decide to initialize
+<CODE>guiFactory</CODE>, we know that once we do, the application can
+create the appropriate look and feel without modification.</P>
+
+<A NAME="absfact"></A>
+<H3>Abstract Factory Pattern</H3>
+
+<A NAME="auto1085"></A>
+<P>Factories and products are the key participants in the <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> pattern. This pattern captures how
+to create families of related product objects without instantiating
+classes directly.  It's most appropriate when the number and general
+kinds of product objects stay constant, and there are differences in
+specific product families. We choose between families by instantiating
+a particular concrete factory and using it consistently to create
+products thereafter. We can also swap entire families of products by
+replacing the concrete factory with an instance of a different one.
+The Abstract Factory pattern's emphasis on <EM>families</EM> of products
+distinguishes it from other creational patterns, which involve only one
+kind of product object.</P>
+
+<A NAME="sec2-6"></A>
+<H2><A HREF="#sec2-7"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: User Operations"></A>
+Supporting Multiple Window Systems</H2>
+
+<A NAME="auto1086"></A>
+<P>Look and feel is just one of many portability issues. Another is the
+windowing environment in which Lexi runs. A platform's window system
+creates the illusion of multiple overlapping windows on a bitmapped
+display. It manages screen space for windows and routes input to them from
+the keyboard and mouse. Several important and largely incompatible window
+systems exist today (e.g., Macintosh, Presentation Manager, Windows, X).
+We'd like Lexi to run on as many of them as possible for exactly the
+same reasons we support multiple look-and-feel standards.</P>
+
+<H3>Can We Use an Abstract Factory?</H3>
+
+<A NAME="auto1087"></A>
+<P>At first glance this may look like another opportunity to apply the
+Abstract Factory pattern. But the constraints for window system portability
+differ significantly from those for look-and-feel independence.
+
+<A NAME="auto1088"></A>
+<P>In applying the Abstract Factory pattern, we assumed we would define
+the concrete widget glyph classes for each look-and-feel standard.
+That meant we could derive each concrete product for a particular
+standard (e.g., MotifScrollBar and MacScrollBar) from an abstract
+product class (e.g., ScrollBar). But suppose we already have several
+class hierarchies from different vendors, one for each look-and-feel
+standard.  Of course, it's highly unlikely these hierarchies are
+compatible in any way.  Hence we won't have a common abstract product
+class for each kind of widget (ScrollBar, Button, Menu, etc.)&#151;and the
+Abstract Factory pattern won't work without those crucial classes.
+We have to make the different widget hierarchies adhere to a common
+set of abstract product interfaces.  Only then could we declare the
+<CODE>Create...</CODE> operations properly in our abstract factory's
+interface.</P>
+
+<A NAME="auto1089"></A>
+<P>We solved this problem for widgets by developing our own abstract and
+concrete product classes.  Now we're faced with a similar problem when
+we try to make Lexi work on existing window systems; namely,
+different window systems have incompatible programming interfaces.
+Things are a bit tougher this time, though, because we can't afford to
+implement our own nonstandard window system.</P>
+
+<A NAME="auto1090"></A>
+<P>But there's a saving grace. Like look-and-feel standards, window
+system interfaces aren't radically different from one another, because
+all window systems do generally the same thing.  We need a uniform set
+of windowing abstractions that lets us take different window system
+implementations and slide any one of them under a common interface.</P>
+
+<H3>Encapsulating Implementation Dependencies</H3>
+
+<A NAME="auto1091"></A>
+<P>In <A HREF="#editor_sec_document_structure">Section 2.2</A>
+we introduced a Window class for displaying a glyph or glyph
+structure on the display.  We didn't specify the window system that
+this object worked with, because the truth is that it doesn't come
+from any particular window system. The Window class encapsulates
+the things windows tend to do across window systems:</P>
+
+<UL>
+
+<A NAME="auto1092"></A>
+<LI>They provide operations for drawing basic geometric shapes.</LI>
+
+<A NAME="auto1093"></A>
+<P></P>
+
+<A NAME="auto1094"></A>
+<LI>They can iconify and de-iconify themselves.</LI>
+
+<A NAME="auto1095"></A>
+<P></P>
+
+<A NAME="auto1096"></A>
+<LI>They can resize themselves.</LI>
+
+<A NAME="auto1097"></A>
+<P></P>
+
+<A NAME="auto1098"></A>
+<LI>They can (re)draw their contents on demand, for example, when they
+are de-iconified or when an overlapped and obscured portion of their
+screen space is exposed.</LI>
+
+</UL>
+
+<A NAME="auto1099"></A>
+<P>The Window class must span the functionality of windows from different
+window systems. Let's consider two extreme philosophies:</P>
+
+<OL>
+
+<A NAME="auto1100"></A>
+<LI><EM>Intersection of functionality.</EM>
+The Window class interface provides only functionality that's common
+to <EM>all</EM> window systems.  The problem with this approach is that
+our Window interface winds up being only as powerful as the least
+capable window system. We can't take advantage of more advanced
+features even if most (but not all) window systems support them.</LI>
+
+<A NAME="auto1101"></A>
+<P></P>
+
+<A NAME="auto1102"></A>
+<LI><EM>Union of functionality.</EM>
+Create an interface that incorporates the capabilities of <EM>all</EM>
+existing systems. The trouble here is that the resulting interface may
+well be huge and incoherent.  Besides, we'll have to change it (and
+Lexi, which depends on it) anytime a vendor revises its window
+system interface.</LI>
+
+</OL>
+
+<A NAME="auto1103"></A>
+<P>Neither extreme is a viable solution, so our design will fall
+somewhere between the two.  The Window class will provide a convenient
+interface that supports the most popular windowing features. Because
+Lexi will deal with this class directly, the Window class must also
+support the things Lexi knows about, namely, glyphs.  That means
+Window's interface must include a basic set of graphics operations
+that lets glyphs draw themselves in the window.
+<A HREF="#editor_window_base_class_interface">Table 2.3</A>
+gives a sampling of the operations in the Window class interface.</P>
+
+<CENTER>
+<TABLE	
+	BORDER		= 1
+	CELLPADDING	= 4
+	CELLSPACING	= 0
+	BGCOLOR		= #99CCFF
+>
+
+<A NAME="editor_window_base_class_interface"></A>
+<TR>
+<TH BGCOLOR=#6699CC>Responsibility</TH>
+<TH BGCOLOR=#6699CC>Operations</TH>
+</TR>
+
+<A NAME="auto1104"></A>
+<TR>
+<TD VALIGN=TOP>window management</TD>
+<TD><CODE>virtual void Redraw()</CODE><BR>
+<CODE>virtual void Raise()</CODE><BR>
+<CODE>virtual void Lower()</CODE><BR>
+<CODE>virtual void Iconify()</CODE><BR>
+<CODE>virtual void Deiconify()</CODE><BR>
+<CODE>...</CODE></TD>
+</TR>
+
+<A NAME="auto1105"></A>
+<TR>
+<TD VALIGN=TOP>graphics</TD>
+<TD><CODE>virtual void DrawLine(...)</CODE><BR>
+<CODE>virtual void DrawRect(...)</CODE><BR>
+<CODE>virtual void DrawPolygon(...)</CODE><BR>
+<CODE>virtual void DrawText(...)</CODE><BR>
+<CODE>...</CODE></TD>
+</TR>
+
+</TABLE>
+</CENTER>
+
+<P ALIGN=CENTER>Table 2.3:&nbsp;&nbsp;Window class interface</P>
+
+<A NAME="appwin"></A>
+<P>Window is an abstract class. Concrete subclasses of Window support the
+different kinds of windows that users deal with. For example,
+application windows, icons, and warning dialogs are all windows, but
+they have somewhat different behaviors. So we can define subclasses
+like ApplicationWindow, IconWindow, and DialogWindow to capture these
+differences. The resulting class hierarchy gives applications like
+Lexi a uniform and intuitive windowing abstraction, one that doesn't
+depend on any particular vendor's window system:</P>
+
+<A NAME="54c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/windo001.gif"></P>
+
+<A NAME="auto1106"></A>
+<P>Now that we've defined a window interface for Lexi to work with,
+where does the real platform-specific window come in? If we're not
+implementing our own window system, then at some point our window
+abstraction must be implemented in terms of what the target window
+system provides. So where does that implementation live?</P>
+
+<A NAME="auto1107"></A>
+<P>One approach is to implement multiple versions of the Window class and
+its subclasses, one version for each windowing platform. We'd have to
+choose the version to use when we build Lexi for a given platform.
+But imagine the maintenance headaches we'd have keeping track of
+multiple classes, all named "Window" but each implemented on a
+different window system.  Alternatively, we could create
+implementation-specific subclasses of each class in the Window
+hierarchy&#151;and end up with another subclass explosion problem like the one
+we had trying to add embellishments.  Both of these alternatives have
+another drawback: Neither gives us the flexibility to change the
+window system we use after we've compiled the program. So we'll have
+to keep several different executables around as well.</P>
+
+<A NAME="encap-var-concept"></A>
+<P>Neither alternative is very appealing, but what else can we do? The
+same thing we did for formatting and embellishment, namely, <EM>encapsulate the concept that varies</EM>. What varies in this case is the
+window system implementation. If we encapsulate a window system's
+functionality in an object, then we can implement our Window class and
+subclasses in terms of that object's interface. Moreover, if that
+interface can serve all the window systems we're interested in, then
+we won't have to change Window or any of its subclasses to support
+different window systems. We can configure window objects to the
+window system we want simply by passing them the right window
+system-encapsulating object. We can even configure the window at
+run-time.</P>
+
+<A NAME="windowimp"></A>
+<A NAME="windowimp-subclass"></A>
+<H3>Window and WindowImp</H3>
+
+<A NAME="auto1108"></A>
+<P>We'll define a separate <STRONG>WindowImp</STRONG> class hierarchy in which to
+hide different window system implementations. WindowImp is an abstract
+class for objects that encapsulate window system-dependent code. To make
+Lexi work on a particular window system, we configure each window
+object with an instance of a WindowImp subclass for that system.  The
+following diagram shows the relationship between the Window and WindowImp
+hierarchies:</P>
+
+<A NAME="55c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/windo111.gif"></P>
+
+<A NAME="auto1109"></A>
+<P>By hiding the implementations in WindowImp classes, we avoid polluting
+the Window classes with window system dependencies, which keeps the
+Window class hierarchy comparatively small and stable. Meanwhile we
+can easily extend the implementation hierarchy to support new window
+systems.</P>
+
+<H3>WindowImp Subclasses</H3>
+
+<A NAME="auto1110"></A>
+<P>Subclasses of WindowImp convert requests into window system-specific
+operations. Consider the example we used in
+<A HREF="#sec2-2">Section 2.2</A>. We defined the
+<CODE>Rectangle::Draw</CODE> in terms of the <CODE>DrawRect</CODE> operation on
+the Window instance:</P>
+
+<A NAME="auto1111"></A>
+<PRE>
+    void Rectangle::Draw (Window* w) {
+        w->DrawRect(_x0, _y0, _x1, _y1);
+    }
+</PRE>
+
+<A NAME="auto1112"></A>
+<P>The default implementation of <CODE>DrawRect</CODE> uses the abstract
+operation for drawing rectangles declared by WindowImp:</P>
+
+<A NAME="auto1113"></A>
+<PRE>
+    void Window::DrawRect (
+        Coord x0, Coord y0, Coord x1, Coord y1
+    ) {
+        _imp->DeviceRect(x0, y0, x1, y1);
+    }
+</PRE>
+
+<A NAME="xwindows"></A>
+<P>where <CODE>_imp</CODE> is a member variable of Window that stores the
+WindowImp with which the Window is configured.  The window
+implementation is defined by the instance of the WindowImp subclass
+that <CODE>_imp</CODE> points to.  For an XWindowImp (that is, a
+WindowImp subclass for the X Window System), the
+<CODE>DeviceRect</CODE>'s implementation might look like
+
+<A NAME="auto1114"></A>
+<PRE>
+    void XWindowImp::DeviceRect (
+        Coord x0, Coord y0, Coord x1, Coord y1
+    ) {
+        int x = round(min(x0, x1));
+        int y = round(min(y0, y1));
+        int w = round(abs(x0 - x1));
+        int h = round(abs(y0 - y1));
+        XDrawRectangle(_dpy, _winid, _gc, x, y, w, h);
+    }
+</PRE>
+
+<A NAME="auto1115"></A>
+<P><CODE>DeviceRect</CODE> is defined like this because
+<CODE>XDrawRectangle</CODE> (the X interface for drawing a rectangle)
+defines a rectangle in terms of its lower left corner, its width,
+and its height.  <CODE>DeviceRect</CODE> must compute these values
+from those supplied.  First it ascertains the lower left corner
+(since (<CODE>x0</CODE>, <CODE>y0</CODE>) might be any one
+of the rectangle's four corners) and then calculates the width and
+height.</P>
+
+<A NAME="present-manage"></A>
+<P>PMWindowImp (a subclass of WindowImp for Presentation Manager) would
+define <CODE>DeviceRect</CODE> differently:</P>
+
+<A NAME="auto1116"></A>
+<PRE>
+    void PMWindowImp::DeviceRect (
+        Coord x0, Coord y0, Coord x1, Coord y1
+    ) {
+        Coord left = min(x0, x1);
+        Coord right = max(x0, x1);
+        Coord bottom = min(y0, y1);
+        Coord top = max(y0, y1);
+    
+        PPOINTL point[4];
+    
+        point[0].x = left;    point[0].y = top;
+        point[1].x = right;   point[1].y = top;
+        point[2].x = right;   point[2].y = bottom;
+        point[3].x = left;    point[3].y = bottom;
+    
+        if (
+            (GpiBeginPath(_hps, 1L) == false) ||
+            (GpiSetCurrentPosition(_hps, &amp;point[3]) == false) ||
+            (GpiPolyLine(_hps, 4L, point) == GPI_ERROR)  ||
+            (GpiEndPath(_hps) == false)
+        ) {
+            // report error
+    
+        } else {
+            GpiStrokePath(_hps, 1L, 0L);
+        }
+    }
+</PRE>
+
+<A NAME="path-multiseg-shape"></A>
+<A NAME="present-manage2"></A>
+<A NAME="xwind-differ"></A>
+<P>Why is this so different from the X version? Well, PM doesn't have an
+operation for drawing rectangles explicitly as X does. Instead, PM has a
+more general interface for specifying vertices of multisegment shapes
+(called a <STRONG>path</STRONG>) and for outlining or filling the area they
+enclose.</P>
+
+<A NAME="auto1117"></A>
+<P>PM's implementation of <CODE>DeviceRect</CODE> is obviously quite
+different from X's, but that doesn't matter.  WindowImp hides
+variations in window system interfaces behind a potentially large but
+stable interface.  That lets Window subclass writers focus on the window
+abstraction and not on window system details.  It also lets us add
+support for new window systems without disturbing the Window classes.</P>
+
+<A NAME="window-config-windowimp"></A>
+<H3>Configuring Windows with WindowImps</H3>
+
+<A NAME="auto1118"></A>
+<P>A key issue we haven't addressed is how a window gets configured with
+the proper WindowImp subclass in the first place.  Stated another way,
+when does <CODE>_imp</CODE> get initialized, and who knows what window
+system (and consequently which WindowImp subclass) is in use?  The
+window will need some kind of WindowImp before it can do anything
+interesting.</P>
+
+<A NAME="windowsystfact"></A>
+<P>There are several possibilities, but we'll focus on one that uses the
+<A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> pattern.  We can define
+an abstract factory class WindowSystemFactory that provides an
+interface for creating different kinds of window system-dependent
+implementation objects:</P>
+
+<A NAME="auto1119"></A>
+<PRE>
+    class WindowSystemFactory {
+    public:
+        virtual WindowImp* CreateWindowImp() = 0;
+        virtual ColorImp* CreateColorImp() = 0;
+        virtual FontImp* CreateFontImp() = 0;
+    
+        // a "Create..." operation for all window system resources
+    };
+</PRE>
+
+<A NAME="auto1120"></A>
+<P>Now we can define a concrete factory for each window system:</P>
+
+<A NAME="auto1121"></A>
+<PRE>
+    class PMWindowSystemFactory : public WindowSystemFactory {
+        virtual WindowImp* CreateWindowImp()
+            { return new PMWindowImp; }
+        // ...
+    };
+    
+    class XWindowSystemFactory : public WindowSystemFactory {
+        virtual WindowImp* CreateWindowImp()
+            { return new XWindowImp; }
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1122"></A>
+<P>The Window base class constructor can use the
+<CODE>WindowSystemFactory</CODE> interface to initialize the
+<CODE>_imp</CODE> member with the WindowImp that's right for the window
+system:</P>
+
+<A NAME="auto1123"></A>
+<PRE>
+    Window::Window () {
+        _imp = windowSystemFactory->CreateWindowImp();
+    }
+</PRE>
+
+<A NAME="auto1124"></A>
+<P>The <CODE>windowSystemFactory</CODE> variable is a well-known instance of
+a WindowSystemFactory subclass, akin to the well-known
+<CODE>guiFactory</CODE> variable defining the look and feel.  The
+<CODE>windowSystemFactory</CODE> variable can be initialized in the same
+way.</P>
+
+<H3>Bridge Pattern</H3>
+
+<A NAME="auto1125"></A>
+<P>The WindowImp class defines an interface to common window system
+facilities, but its design is driven by different constraints than
+Window's interface.  Application programmers won't deal with
+WindowImp's interface directly; they only deal with Window objects.
+So WindowImp's interface needn't match the application programmer's
+view of the world, as was our concern in the design of the Window
+class hierarchy and interface.  WindowImp's interface can more closely
+reflect what window systems actually provide, warts and all. It can be
+biased toward either an intersection or a union of functionality
+approach, whichever suits the target window systems best.</P>
+
+<A NAME="auto1126"></A>
+<P>The important thing to realize is that Window's interface caters to
+the applications programmer, while WindowImp caters to window systems.
+Separating windowing functionality into Window and WindowImp
+hierarchies lets us implement and specialize these interfaces
+independently. Objects from these hierarchies cooperate to let
+Lexi work without modification on multiple window systems.</P>
+
+<A NAME="auto1127"></A>
+<P>The relationship between Window and WindowImp is an example of the
+<A HREF="pat4bfs.htm" TARGET="_mainDisplayFrame">Bridge (151)</A> pattern. The intent behind Bridge is to allow
+separate class hierarchies to work together even as they evolve
+independently. Our design criteria led us to create two separate class
+hierarchies, one that supports the logical notion of windows, and
+another for capturing different implementations of windows. The Bridge
+pattern lets us maintain and enhance our logical windowing
+abstractions without touching window system-dependent code, and vice
+versa.</P>
+
+<A NAME="sec2-7"></A>
+<H2><A HREF="#sec2-8"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Spelling Checking and Hyphenation"></A>
+User Operations</H2>
+
+<A NAME="auto1128"></A>
+<P>Some of Lexi's functionality is available through the document's
+WYSIWYG representation.  You enter and delete text, move the insertion
+point, and select ranges of text by pointing, clicking, and typing
+directly in the document.  Other functionality is accessed indirectly
+through user operations in Lexi's pull-down menus, buttons, and
+keyboard accelerators.  The functionality includes operations for</P>
+
+<UL>
+
+<A NAME="auto1129"></A>
+<LI>creating a new document,
+
+<A NAME="auto1130"></A>
+<LI>opening, saving, and printing an existing document,
+
+<A NAME="auto1131"></A>
+<LI>cutting selected text out of the document and pasting it back in,
+
+<A NAME="auto1132"></A>
+<LI>changing the font and style of selected text,
+
+<A NAME="auto1133"></A>
+<LI>changing the formatting of text, such as its alignment and
+justification,
+
+<A NAME="auto1134"></A>
+<LI>quitting the application,
+
+<A NAME="auto1135"></A>
+<LI>and on and on.
+
+</UL>
+
+<A NAME="auto1136"></A>
+<P>Lexi provides different user interfaces for these operations.
+But we don't want to associate a particular user operation with a
+particular user interface, because we may want multiple user
+interfaces to the same operation (you can turn the page using either a
+page button or a menu operation, for example).  We may also want to
+change the interface in the future.</P>
+
+<A NAME="auto1137"></A>
+<P>Furthermore, these operations are implemented in many different
+classes.  We as implementors want to access their functionality
+without creating a lot of dependencies between implementation and user
+interface classes.  Otherwise we'll end up with a tightly coupled
+implementation, which will be harder to understand, extend, and
+maintain.</P>
+
+<A NAME="undo-redo"></A>
+<P>To further complicate matters, we want Lexi to support undo and
+redo<A NAME="fn8"></A><A HREF="#footnote8"><SUP>8</SUP></A>
+of
+most <EM>but not all</EM> its functionality.  Specifically, we want to be
+able to undo document-modifying operations like delete, with which a
+user can destroy lots of data inadvertently.  But we shouldn't try to
+undo an operation like saving a drawing or quitting the application.
+These operations should have no effect on the undo process.  We also
+don't want an arbitrary limit on the number of levels of undo and
+redo.</P>
+
+<A NAME="auto1138"></A>
+<P>It's clear that support for user operations permeates the application.
+The challenge is to come up with a simple and extensible mechanism
+that satisfies all of these needs.</P>
+
+<A NAME="encap-request"></A>
+<H3>Encapsulating a Request</H3>
+
+<A NAME="auto1139"></A>
+<P>From our perspective as designers, a pull-down menu is just another
+kind of glyph that contains other glyphs.  What distinguishes
+pull-down menus from other glyphs that have children is that most
+glyphs in menus do some work in response to an up-click.</P>
+
+<A NAME="auto1140"></A>
+<P>Let's assume that these work-performing glyphs are instances of a
+Glyph subclass called <STRONG>MenuItem</STRONG> and that they do their work in
+response to a request from a client.<A NAME="fn9"></A><A HREF="#footnote9"><SUP>9</SUP></A>
+Carrying out the
+request might involve an operation on one object, or many operations
+on many objects, or something in between.</P>
+
+<A NAME="auto1141"></A>
+<P>We could define a subclass of MenuItem for every user operation and
+then hard-code each subclass to carry out the request.  But that's not
+really right; we don't need a subclass of MenuItem for each request
+any more than we need a subclass for each text string in a pull-down
+menu.  Moreover, this approach couples the request to a particular
+user interface, making it hard to fulfill the request through a
+different user interface.</P>
+
+<A NAME="auto1142"></A>
+<P>To illustrate, suppose you could advance to the last page in the
+document both through a MenuItem in a pull-down menu <EM>and</EM> by
+pressing a page icon at the bottom of Lexi's interface (which might
+be more convenient for short documents).  If we associate the request
+with a MenuItem through inheritance, then we must do the same for the
+page icon and any other kind of widget that might issue such a
+request.  That can give rise to a number of classes approaching the
+product of the number of widget types and the number of requests.</P>
+
+<A NAME="auto1143"></A>
+<P>What's missing is a mechanism that lets us parameterize menu items by
+the request they should fulfill.  That way we avoid a proliferation of
+subclasses and allow for greater flexibility at run-time.  We could
+parameterize MenuItem with a function to call, but that's not a complete
+solution for at least three reasons:</P>
+
+<OL>
+
+<A NAME="auto1144"></A>
+<LI>It doesn't address the undo/redo problem.</LI>
+
+<A NAME="auto1145"></A>
+<P></P>
+
+<A NAME="auto1146"></A>
+<LI>It's hard to associate state with a function.  For example, a
+function that changes the font needs to know <EM>which</EM> font.</LI>
+
+<A NAME="auto1147"></A>
+<P></P>
+
+<A NAME="auto1148"></A>
+<LI>Functions are hard to extend, and it's hard to reuse parts of them.</LI>
+
+</OL>
+
+<A NAME="auto1149"></A>
+<P>These reasons suggest that we should parameterize MenuItems with an
+<EM>object</EM>, not a function.  Then we can use inheritance to extend
+and reuse the request's implementation.  We also have a place to store
+state and implement undo/redo functionality.  Here we have another
+example of encapsulating the concept that varies, in this case a
+request.  We'll encapsulate each request in a <STRONG>command</STRONG>
+object.</P>
+
+<H3>Command Class and Subclasses</H3>
+
+<A NAME="auto1150"></A>
+<P>First we define a <STRONG>Command</STRONG> abstract class to
+provide an interface for issuing a request.  The basic interface
+consists of a single abstract operation called "Execute."  Subclasses
+of Command implement Execute in different ways to fulfill different
+requests.  Some subclasses may delegate part or all of the work to
+other objects.  Other subclasses may be in a position to fulfill
+the request entirely on their own (see
+<A HREF="#editor_partial_command_class_hierarchy">Figure 2.11</A>).
+To the requester, however, a Command object is a Command object&#151;they
+are treated uniformly.</P>
+
+<A NAME="editor_partial_command_class_hierarchy"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/comma076.gif"><BR><BR>
+Figure 2.11:&nbsp;&nbsp;Partial Command class hierarchy</P>
+
+<A NAME="auto1151"></A>
+<P>Now MenuItem can store a Command object that encapsulates a
+request (<A HREF="#editor_menuitem-command_relationship">Figure 2.12</A>).  We give each menu item object
+an instance of the Command subclass that's suitable for that menu
+item, just as we specify the text to appear in the menu item.  When
+a user chooses a particular menu item, the MenuItem simply calls
+Execute on its Command object to carry out the request.  Note that
+buttons and other widgets can use commands in the same way menu
+items do.</P>
+
+<A NAME="editor_menuitem-command_relationship"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/cmd-m087.gif"><BR><BR>
+Figure 2.12:&nbsp;&nbsp;MenuItem-Command relationship</P>
+
+<A NAME="undoability"></A>
+<H3>Undoability</H3>
+
+<A NAME="auto1152"></A>
+<P>Undo/redo is an important capability in interactive applications.  To
+undo and redo commands, we add an Unexecute operation to Command's
+interface.  Unexecute reverses the effects of a preceding Execute
+operation using whatever undo information Execute stored. In the case
+of a FontCommand, for example, the Execute operation would store the
+range of text affected by the font change along with the original
+font(s).  FontCommand's Unexecute operation would restore the range of
+text to its original font(s).</P>
+
+<A NAME="auto1153"></A>
+<P>Sometimes undoability must be determined at run-time.  A request to
+change the font of a selection does nothing if the text already
+appears in that font.  Suppose the user selects some text and then
+requests a spurious font change.  What should be the result of a
+subsequent undo request?  Should a meaningless change cause the undo
+request to do something equally meaningless?  Probably not. If the
+user repeats the spurious font change several times, he shouldn't have
+to perform exactly the same number of undo operations to get back to
+the last meaningful operation.  If the net effect of executing a
+command was nothing, then there's no need for a corresponding undo
+request.</P>
+
+<A NAME="auto1154"></A>
+<P>So to determine if a command is undoable, we add an abstract
+Reversible operation to the Command interface.  Reversible returns a
+Boolean value.  Subclasses can redefine this operation to return true
+or false based on run-time criteria.</P>
+
+<H3>Command History</H3>
+
+<A NAME="auto1155"></A>
+<P>The final step in supporting arbitrary-level undo and redo is to
+define a <STRONG>command history</STRONG>, or list of commands that have
+been executed (or unexecuted, if some commands have been undone).
+Conceptually, the command history looks like this:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/cmdhi086.gif"></P>
+
+<A NAME="auto1156"></A>
+<P>Each circle represents a Command object.  In this case the user has
+issued four commands.  The leftmost command was issued first, followed
+by the second-leftmost, and so on until the most recently issued
+command, which is rightmost.  The line marked "present" keeps track
+of the most recently executed (and unexecuted) command.</P>
+
+<A NAME="auto1157"></A>
+<P>To undo the last command, we simply call Unexecute on the most recent
+command:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/cmdhi083.gif"></P>
+
+<A NAME="auto1158"></A>
+<P>After unexecuting the command, we move the "present" line one
+command to the left.  If the user chooses undo again, the next-most
+recently issued command will be undone in the same way, and we're left
+in the state depicted here:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/cmdhi082.gif"></P>
+
+<A NAME="auto1159"></A>
+<P>You can see that by simply repeating this procedure we get multiple
+levels of undo.  The number of levels is limited only by the length of
+the command history.</P>
+
+<A NAME="auto1160"></A>
+<P>To redo a command that's just been undone, we do the same thing in
+reverse.  Commands to the right of the present line are commands that
+may be redone in the future.  To redo the last undone command, we call
+Execute on the command to the right of the present line:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/cmdhi085.gif"></P>
+
+<A NAME="auto1161"></A>
+<P>Then we advance the present line so that a subsequent redo will call
+redo on the following command in the future.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/cmdhi084.gif"></P>
+
+<A NAME="auto1162"></A>
+<P>Of course, if the subsequent operation is not another redo but an undo,
+then the command to the left of the present line will be undone.  Thus
+the user can effectively go back and forth in time as needed to
+recover from errors.</P>
+
+<H3>Command Pattern</H3>
+
+<A NAME="auto1163"></A>
+<P>Lexi's commands are an application of the
+<A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A> pattern, which describes how to
+encapsulate a request.  The Command pattern prescribes a uniform
+interface for issuing requests that lets you configure clients to
+handle different requests.  The interface shields clients from the
+request's implementation.  A command may delegate all, part, or none
+of the request's implementation to other objects.  This is perfect for
+applications like Lexi that must provide centralized access to
+functionality scattered throughout the application.  The pattern also
+discusses undo and redo mechanisms built on the basic Command
+interface.</P>
+
+<A NAME="sec2-8"></A>
+<H2><A HREF="#sec2-9"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Summary"></A>
+Spelling Checking and Hyphenation</H2>
+
+<A NAME="auto1164"></A>
+<P>The last design problem involves textual analysis, specifically checking
+for misspellings and introducing hyphenation points where needed for
+good formatting.</P>
+
+<A NAME="auto1165"></A>
+<P>The constraints here are similar to those we had for the formatting
+design problem in <A HREF="#sec2-3">Section 2.3</A>.
+As was the case for linebreaking strategies, there's more than one
+way to check spelling and compute hyphenation points.  So here too
+we want to support multiple algorithms.  A diverse set of algorithms
+can provide a choice of space/time/quality trade-offs.  We should
+make it easy to add new algorithms as well.</P>
+
+<A NAME="lexi-doctrav"></A>
+<P>We also want to avoid wiring this functionality into the document
+structure.  This goal is even more important here than it was in the
+formatting case, because spelling checking and hyphenation are just
+two of potentially many kinds of analyses we may want Lexi to
+support.  Inevitably we'll want to expand Lexi's analytical
+abilities over time.  We might add searching, word counting, a
+calculation facility for adding up tabular values, grammar checking,
+and so forth.  But we don't want to change the Glyph class and all its
+subclasses every time we introduce new functionality of this sort.</P>
+
+<A NAME="auto1166"></A>
+<P>There are actually two pieces to this puzzle: (1) accessing the
+information to be analyzed, which we have scattered over the glyphs
+in the document structure, and (2) doing the analysis.  We'll look at
+these two pieces separately.</P>
+
+<H3>Accessing Scattered Information</H3>
+
+<A NAME="auto1167"></A>
+<P>Many kinds of analysis require examining the text character by
+character.  The text we need to analyze is scattered throughout a
+hierarchical structure of glyph objects.  To examine text in such a
+structure, we need an access mechanism that has knowledge about the
+data structures in which objects are stored.  Some glyphs might store
+their children in linked lists, others might use arrays, and still
+others might use more esoteric data structures.  Our access mechanism
+must be able to handle all of these possibilities.</P>
+
+<A NAME="auto1168"></A>
+<P>An added complication is that different analyses access information in
+different ways.  <EM>Most</EM> analyses will traverse the text from
+beginning to end.  But some do the opposite&#151;a reverse search, for
+example, needs to progress through the text backward rather than
+forward.  Evaluating algebraic expressions could require an inorder
+traversal.</P>
+
+<A NAME="auto1169"></A>
+<P>So our access mechanism must accommodate differing data structures, and
+we must support different kinds of traversals, such as preorder,
+postorder, and inorder.</P>
+
+<H3>Encapsulating Access and Traversal</H3>
+
+<A NAME="auto1170"></A>
+<P>Right now our glyph interface uses an integer index to let clients
+refer to children.  Although that might be reasonable for glyph classes
+that store their children in an array, it may be inefficient for
+glyphs that use a linked list.  An important role of the glyph
+abstraction is to hide the data structure in which children are
+stored.  That way we can change the data structure a glyph class uses
+without affecting other classes.</P>
+
+<A NAME="auto1171"></A>
+<P>Therefore only the glyph can know the data structure it uses.  A
+corollary is that the glyph interface shouldn't be biased toward one
+data structure or another.  It shouldn't be better suited to arrays
+than to linked lists, for example, as it is now.</P>
+
+<A NAME="glyph-trav"></A>
+<P>We can solve this problem and support several different kinds of
+traversals at the same time.  We can put multiple access and traversal
+capabilities directly in the glyph classes and provide a way to choose
+among them, perhaps by supplying an enumerated constant as a
+parameter.  The classes pass this parameter around during a traversal
+to ensure they're all doing the same kind of traversal.  They have to
+pass around any information they've accumulated during traversal.</P>
+
+<A NAME="auto1172"></A>
+<P>We might add the following abstract operations to Glyph's interface to
+support this approach:</P>
+
+<A NAME="auto1173"></A>
+<PRE>
+    void First(Traversal kind)
+    void Next()
+    bool IsDone()
+    Glyph* GetCurrent()
+    void Insert(Glyph*)
+</PRE>
+
+<A NAME="auto1174"></A>
+<P>Operations <CODE>First</CODE>, <CODE>Next</CODE>, and <CODE>IsDone</CODE>
+control the traversal.  <CODE>First</CODE> initializes the traversal.  It
+takes the kind of traversal as a parameter of type
+<CODE>Traversal</CODE>, an enumerated constant with values
+such as <CODE>CHILDREN</CODE> (to traverse the glyph's immediate children
+only), <CODE>PREORDER</CODE> (to traverse the entire structure in
+preorder), <CODE>POSTORDER</CODE>, and <CODE>INORDER</CODE>.
+<CODE>Next</CODE> advances to the next glyph in the traversal, and
+<CODE>IsDone</CODE> reports whether the traversal is over or not.
+<CODE>GetCurrent</CODE> replaces the
+<CODE>Child</CODE> operation; it accesses the current glyph in the
+traversal.  <CODE>Insert</CODE> replaces the old operation; it inserts
+the given glyph at the current position.
+
+An analysis would use the following C++ code to do a preorder
+traversal of a glyph structure rooted at <CODE>g</CODE>:
+
+<A NAME="auto1175"></A>
+<PRE>
+    Glyph* g;
+    
+    for (g->First(PREORDER); !g->IsDone(); g->Next()) {
+        Glyph* current = g->GetCurrent();
+    
+        // do some analysis
+    }
+</PRE>
+
+<A NAME="auto1176"></A>
+<P>Notice that we've banished the integer index from the glyph interface.
+There's no longer anything that biases the interface toward one kind
+of collection or another.  We've also saved clients from having to
+implement common kinds of traversals themselves.</P>
+
+<A NAME="auto1177"></A>
+<P>But this approach still has problems.  For one thing, it can't support
+new traversals without either extending the set of enumerated values
+or adding new operations.  Say we wanted to have a variation on preorder
+traversal that automatically skips non-textual glyphs.  We'd have to
+change the <CODE>Traversal</CODE> enumeration to include something like
+<CODE>TEXTUAL_PREORDER</CODE>.</P>
+
+<A NAME="auto1178"></A>
+<P>We'd like to avoid changing existing declarations.
+Putting the traversal mechanism entirely in the Glyph class hierarchy
+makes it hard to modify or extend without changing lots of classes.
+It's also difficult to reuse the mechanism to traverse other kinds of
+object structures.  And we can't have more than one traversal in
+progress on a structure.</P>
+
+<A NAME="auto1179"></A>
+<P>Once again, a better solution is to encapsulate the concept that
+varies, in this case the access and traversal mechanisms.  We can
+introduce a class of objects called <STRONG>iterators</STRONG> whose sole
+purpose is to define different sets of these mechanisms.  We can use
+inheritance to let us access different data structures uniformly and
+support new kinds of traversals as well.  And we won't have to change
+glyph interfaces or disturb existing glyph implementations to do it.</P>
+
+<A NAME="editor_sec_iterator_class_and_subclasses"></A>
+<A NAME="sec2-8-3"></A>
+<H3>Iterator Class and Subclasses</H3>
+
+<A NAME="preorderiterator"></A>
+<P>We'll use an abstract class called <STRONG>Iterator</STRONG> to
+define a general interface for access and traversal.  Concrete
+subclasses like <STRONG>ArrayIterator</STRONG> and
+<STRONG>ListIterator</STRONG> implement the interface to provide
+access to arrays and lists, while <STRONG>PreorderIterator</STRONG>,
+<STRONG>PostorderIterator</STRONG>, and the like implement different
+traversals on specific structures.  Each Iterator subclass has a
+reference to the structure it traverses.  Subclass instances are
+initialized with this reference when they are created.
+<A HREF="#editor_iterator-omt">Figure 2.13</A> illustrates the
+Iterator class along with several subclasses.  Notice that we've
+added a CreateIterator abstract operation to the Glyph class
+interface to support iterators.</P>
+
+<A NAME="editor_iterator-omt"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/itera037.gif"><BR><BR>
+Figure 2.13:&nbsp;&nbsp;Iterator class and subclasses</P>
+
+<A NAME="auto1180"></A>
+<P>The Iterator interface provides operations First, Next, and IsDone for
+controlling the traversal.  The ListIterator class implements First to
+point to the first element in the list, and Next advances the iterator
+to the next item in the list.  IsDone returns whether or not the list
+pointer points beyond the last element in the list.  CurrentItem
+dereferences the iterator to return the glyph it points to.  An
+<CODE>ArrayIterator</CODE> class would do similar things but on an
+array of glyphs.</P>
+
+<A NAME="auto1181"></A>
+<P>Now we can access the children of a glyph structure without knowing
+its representation:</P>
+
+<A NAME="auto1182"></A>
+<PRE>
+    Glyph* g;
+    Iterator&lt;Glyph*>* i = g->CreateIterator();
+    
+    for (i->First(); !i->IsDone(); i->Next()) {
+        Glyph* child = i->CurrentItem();
+    
+        // do something with current child
+    }
+</PRE>
+
+<A NAME="auto1183"></A>
+<P>CreateIterator returns a NullIterator instance by default.  A
+NullIterator is a degenerate iterator for glyphs that have no
+children, that is, leaf glyphs.  NullIterator's IsDone operation
+always returns true.</P>
+
+<A NAME="auto1184"></A>
+<P>A glyph subclass that has children will override CreateIterator to
+return an instance of a different Iterator subclass.  <EM>Which</EM>
+subclass depends on the structure that stores the children.  If the
+Row subclass of Glyph stores its children in a list
+<CODE>_children</CODE>, then its CreateIterator operation would look
+like this:</P>
+
+<A NAME="auto1185"></A>
+<PRE>
+    Iterator&lt;Glyph*>* Row::CreateIterator () {
+        return new ListIterator&lt;Glyph*>(_children);
+    }
+</PRE>
+
+<A NAME="auto1186"></A>
+<P>Iterators for preorder and inorder traversals implement their
+traversals in terms of glyph-specific iterators.  The iterators for
+these traversals are supplied the root glyph in the structure they
+traverse.  They call CreateIterator on the glyphs in the structure and
+use a stack to keep track of the resulting iterators.</P>
+
+<A NAME="pre-iter-mem-func"></A>
+<P>For example, class <CODE>PreorderIterator</CODE> gets the iterator from
+the root glyph, initializes it to point to its first element, and then
+pushes it onto the stack:</P>
+
+<A NAME="auto1187"></A>
+<PRE>
+    void PreorderIterator::First () {
+        Iterator&lt;Glyph*>* i = _root->CreateIterator();
+    
+        if (i) {
+            i->First();
+            _iterators.RemoveAll();
+            _iterators.Push(i);
+        }
+    }
+</PRE>
+
+<A NAME="auto1188"></A>
+<P><CODE>CurrentItem</CODE> would simply call <CODE>CurrentItem</CODE> on the
+iterator at the top of the stack:</P>
+
+<A NAME="auto1189"></A>
+<PRE>
+    Glyph* PreorderIterator::CurrentItem () const {
+        return
+            _iterators.Size() &gt; 0 ?
+            _iterators.Top()->CurrentItem() : 0;
+    }
+</PRE>
+
+<A NAME="auto1190"></A>
+<P>The <CODE>Next</CODE> operation gets the top iterator on the stack and
+asks its current item to create an iterator, in an effort to descend
+the glyph structure as far as possible (this is a preorder
+traversal, after all).  <CODE>Next</CODE> sets the new iterator to the
+first item in the traversal and pushes it on the stack.  Then
+<CODE>Next</CODE> tests the latest iterator; if its <CODE>IsDone</CODE>
+operation returns true, then we've finished traversing the current
+subtree (or leaf) in the traversal.  In that case, <CODE>Next</CODE> pops
+the top iterator off the stack and repeats this process until it finds
+the next incomplete traversal, if there is one; if not, then we have
+finished traversing the structure.</P>
+
+<A NAME="auto1191"></A>
+<PRE>
+    void PreorderIterator::Next () {
+        Iterator&lt;Glyph*>* i =
+            _iterators.Top()->CurrentItem()->CreateIterator();
+        
+        i->First();
+        _iterators.Push(i);
+
+        while (
+            _iterators.Size() > 0 &amp;&amp; _iterators.Top()->IsDone()
+        ) {
+            delete _iterators.Pop();
+            _iterators.Top()->Next();
+        }
+    }
+</PRE>
+
+<A NAME="auto1192"></A>
+<P>Notice how the Iterator class hierarchy lets us add new kinds of
+traversals without modifying glyph classes&#151;we simply subclass
+<CODE>Iterator</CODE> and add a new traversal as we have with
+<CODE>PreorderIterator</CODE>.  Glyph subclasses use the same
+interface to give clients access to their children without revealing
+the underlying data structure they use to store them.  Because
+iterators store their own copy of the state of a traversal, we can
+carry on multiple traversals simultaneously, even on the same
+structure.  And though our traversals have been over glyph structures
+in this example, there's no reason we can't parameterize a class like
+<CODE>PreorderIterator</CODE> by the type of object in the structure.
+We'd use templates to do that in C++.  Then we can reuse the machinery
+in <CODE>PreorderIterator</CODE> to traverse other structures.</P>
+
+<H3>Iterator Pattern</H3>
+
+<A NAME="auto1193"></A>
+<P>The <A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A> pattern captures these techniques
+for supporting access and traversal over object structures.  It's
+applicable not only to composite structures but to collections as
+well.  It abstracts the traversal algorithm and shields clients from
+the internal structure of the objects they traverse.  The Iterator
+pattern illustrates once more how encapsulating the concept that
+varies helps us gain flexibility and reusability.  Even so, the
+problem of iteration has surprising depth, and the Iterator pattern
+covers many more nuances and trade-offs than we've considered here.</P>
+
+<H3>Traversal versus Traversal Actions</H3>
+
+<A NAME="auto1194"></A>
+<P>Now that we have a way of traversing the glyph structure, we need to
+check the spelling and do the hyphenation.  Both analyses involve
+accumulating information during the traversal.</P>
+
+<A NAME="auto1195"></A>
+<P>First we have to decide where to put the responsibility for analysis.
+We could put it in the Iterator classes, thereby making analysis an
+integral part of traversal.  But we get more flexibility and potential
+for reuse if we distinguish between the traversal and the actions
+performed during traversal.  That's because different analyses often
+require the same kind of traversal.  Hence we can reuse the same set
+of iterators for different analyses.  For example, preorder traversal
+is common to many analyses, including spelling checking, hyphenation,
+forward search, and word count.</P>
+
+<A NAME="auto1196"></A>
+<P>So analysis and traversal should be separate.  Where else can we put
+the responsibility for analysis?  We know there are many kinds of
+analyses we might want to do.  Each analysis will do different things
+at different points in the traversal.  Some glyphs are more
+significant than others depending on the kind of analysis.  If we're
+checking spelling or hyphenating, we want to consider character glyphs
+and not graphical ones like lines and bitmapped images.  If we're
+making color separations, we'd want to consider visible glyphs and not
+invisible ones.  Inevitably, different analyses will analyze different
+glyphs.</P>
+
+<A NAME="auto1197"></A>
+<P>Therefore a given analysis must be able to distinguish different kinds of
+glyphs.  An obvious approach is to put the analytical capability into the
+glyph classes themselves.  For each analysis we can add one or more
+abstract operations to the Glyph class and have subclasses implement
+them in accordance with the role they play in the analysis.</P>
+
+<A NAME="auto1198"></A>
+<P>But the trouble with that approach is that we'll have to change every
+glyph class whenever we add a new kind of analysis.  We can ease this
+problem in some cases: If only a few classes participate in the
+analysis, or if most classes do the analysis the same way, then we can supply
+a default implementation for the abstract operation in the Glyph
+class.  The default operation would cover the common case.  Thus we'd
+limit changes to just the Glyph class and those subclasses that deviate
+from the norm.</P>
+
+<A NAME="auto1199"></A>
+<P>Yet even if a default implementation reduces the number of changes, an
+insidious problem remains: Glyph's interface expands with every new
+analytical capability.  Over time the analytical operations will start
+to obscure the basic Glyph interface.  It becomes hard to see that a
+glyph's main purpose is to define and structure objects that have
+appearance and shape&#151;that interface gets lost in the noise.</P>
+
+<A NAME="section_encapsulating_the_analysis"></A>
+<H3>Encapsulating the Analysis</H3>
+
+<A NAME="auto1200"></A>
+<P>From all indications, we need to encapsulate the analysis in a
+separate object, much like we've done many times before.  We could put
+the machinery for a given analysis into its own class.  We could use
+an instance of this class in conjunction with an appropriate iterator.
+The iterator would "carry" the instance to each glyph in the
+structure.  The analysis object could then perform a piece of the
+analysis at each point in the traversal.  The analyzer accumulates
+information of interest (characters in this case) as the traversal
+proceeds:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/visit002.gif"></P>
+
+<A NAME="spellcheck"></A>
+<P>The fundamental question with this approach is how the analysis object
+distinguishes different kinds of glyphs without resorting to type
+tests or downcasts.  We don't want a <CODE>SpellingChecker</CODE> class
+to include (pseudo)code like</P>
+
+<A NAME="auto1201"></A>
+<PRE>
+    void SpellingChecker::Check (Glyph* glyph) {
+        Character* c;
+        Row* r;
+        Image* i;
+    
+        if (c = dynamic_cast&lt;Character*>(glyph)) {
+            // analyze the character
+    
+        } else if (r = dynamic_cast&lt;Row*>(glyph)) {
+            // prepare to analyze r's children
+    
+        } else if (i = dynamic_cast&lt;Image*>(glyph)) {
+            // do nothing
+        }
+    }
+</PRE>
+
+<A NAME="auto1202"></A>
+<P>This code is pretty ugly.  It relies on fairly esoteric capabilities
+like type-safe casts.  It's hard to extend as well.  We'll have to
+remember to change the body of this function whenever we change the
+Glyph class hierarchy.  In fact, this is the kind of code that
+object-oriented languages were intended to eliminate.</P>
+
+<A NAME="auto1203"></A>
+<P>We want to avoid such a brute-force approach, but how?  Let's consider
+what happens when we add the following abstract operation to the Glyph
+class:</P>
+
+<A NAME="auto1204"></A>
+<PRE>
+    void CheckMe(SpellingChecker&amp;)
+</PRE>
+
+<A NAME="auto1205"></A>
+<P>We define <CODE>CheckMe</CODE> in every Glyph subclass as follows:</P>
+
+<A NAME="auto1206"></A>
+<PRE>
+    void GlyphSubclass::CheckMe (SpellingChecker&amp; checker) {
+        checker.CheckGlyphSubclass(this);
+    }
+</PRE>
+
+<A NAME="auto1207"></A>
+<P>where <CODE>GlyphSubclass</CODE> would be replaced by the name of the
+glyph subclass.  Note that when <CODE>CheckMe</CODE> is called, the
+specific Glyph subclass is known&#151;after all, we're in one of its
+operations.  In turn, the
+<CODE>SpellingChecker</CODE> class interface includes an operation like
+<CODE>CheckGlyphSubclass</CODE> for every Glyph
+subclass<A NAME="fn10"></A><A HREF="#footnote10"><SUP>10</SUP></A>:</P>
+
+<A NAME="auto1208"></A>
+<PRE>
+    class SpellingChecker {
+    public:
+        SpellingChecker();
+    
+        virtual void CheckCharacter(Character*);
+        virtual void CheckRow(Row*);
+        virtual void CheckImage(Image*);
+    
+        // ... and so forth
+    
+        List&lt;char*>&amp; GetMisspellings();
+    
+    protected:
+        virtual bool IsMisspelled(const char*);
+    
+    private:
+        char _currentWord[MAX_WORD_SIZE];
+        List&lt;char*> _misspellings;
+    };
+</PRE>
+
+<A NAME="auto1209"></A>
+<P><CODE>SpellingChecker</CODE>'s checking operation for
+<CODE>Character</CODE> glyphs might look something like this:</P>
+
+<A NAME="auto1210"></A>
+<PRE>
+    void SpellingChecker::CheckCharacter (Character* c) {
+        const char ch = c->GetCharCode();
+    
+        if (isalpha(ch)) {
+            // append alphabetic character to _currentWord
+    
+        } else {
+            // we hit a nonalphabetic character
+    
+            if (IsMisspelled(_currentWord)) {
+                // add _currentWord to _misspellings
+                _misspellings.Append(strdup(_currentWord));
+            }
+    
+            _currentWord[0] = '\0';
+                // reset _currentWord to check next word
+        }
+    }
+</PRE>
+
+<A NAME="auto1211"></A>
+<P>Notice we've defined a special <CODE>GetCharCode</CODE> operation on
+just the <CODE>Character</CODE> class.  The spelling checker can deal with
+subclass-specific operations without resorting to type tests or
+casts&#151;it lets us treat objects specially.</P>
+
+<A NAME="auto1212"></A>
+<P><CODE>CheckCharacter</CODE> accumulates alphabetic characters
+into the <CODE>_currentWord</CODE> buffer.  When it encounters a
+nonalphabetic character, such as an underscore, it uses the
+<CODE>IsMisspelled</CODE> operation to check the spelling of the
+word in <CODE>_currentWord</CODE>.<A NAME="fn11"></A><A
+HREF="#footnote11"><SUP>11</SUP></A>
+If the word is
+misspelled, then <CODE>CheckCharacter</CODE> adds the word to the
+list of misspelled words.  Then it must clear out the
+<CODE>_currentWord</CODE> buffer to ready it for the next word.
+When the traversal is over, you can retrieve the list of misspelled
+words with the <CODE>GetMisspellings</CODE> operation.</P>
+
+<A NAME="auto1213"></A>
+<P>Now we can traverse the glyph structure, calling
+<CODE>CheckMe</CODE> on each glyph with the  spelling checker as an argument.
+This effectively identifies each glyph to the SpellingChecker and
+prompts the checker to do the next increment in the spelling check.</P>
+
+<A NAME="auto1214"></A>
+<PRE>
+    SpellingChecker spellingChecker;
+    Composition* c;
+    
+    // ...
+    
+    Glyph* g;
+    PreorderIterator i(c);
+    
+    for (i.First(); !i.IsDone(); i.Next()) {
+        g = i.CurrentItem();
+        g->CheckMe(spellingChecker);
+    }
+</PRE>
+
+<A NAME="auto1215"></A>
+<P>The following interaction diagram illustrates how
+<CODE>Character</CODE> glyphs and the <CODE>SpellingChecker</CODE> object
+work together:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/spell013.gif"></P>
+
+<A NAME="auto1216"></A>
+<P>This approach works for finding spelling errors, but how does it help
+us support multiple kinds of analysis?  It looks like we have to add
+an operation like <CODE>CheckMe(SpellingChecker&amp;)</CODE> to Glyph and
+its subclasses whenever we add a new kind of analysis.  That's true if
+we insist on an <EM>independent</EM> class for every analysis.  But
+there's no reason why we can't give <EM>all</EM> analysis classes the
+same interface.  Doing so lets us use them polymorphically.  That
+means we can replace analysis-specific operations like
+<CODE>CheckMe(SpellingChecker&amp;)</CODE> with an analysis-independent
+operation that takes a more general parameter.</P>
+
+<A NAME="visitor-class"></A>
+<A NAME="def-visitor"></A>
+<H3>Visitor Class and Subclasses</H3>
+
+<A NAME="auto1217"></A>
+<P>We'll use the term <STRONG>visitor</STRONG> to refer generally to classes
+of objects that "visit" other objects during a traversal and do
+something appropriate.<A NAME="fn12"></A><A HREF="#footnote12"><SUP>12</SUP></A>
+In this case we can define a
+<CODE>Visitor</CODE> class that defines an abstract interface for
+visiting glyphs in a structure.</P>
+
+<A NAME="auto1218"></A>
+<PRE>
+    class Visitor {
+    public:
+        virtual void VisitCharacter(Character*) { }
+        virtual void VisitRow(Row*) { }
+        virtual void VisitImage(Image*) { }
+    
+        // ... and so forth
+    };
+</PRE>
+
+<A NAME="spellcheck-visitor"></A>
+<A NAME="visitor"></A>
+<P>Concrete subclasses of <CODE>Visitor</CODE> perform different analyses.
+For example, we could have a <CODE>SpellingCheckingVisitor</CODE>
+subclass for checking spelling, and a <CODE>HyphenationVisitor</CODE>
+subclass for hyphenation.  <CODE>SpellingCheckingVisitor</CODE> would
+be implemented exactly as we implemented <CODE>SpellingChecker</CODE>
+above, except the operation names would reflect the more general
+<CODE>Visitor</CODE> interface.  For example,
+<CODE>CheckCharacter</CODE> would be called <CODE>VisitCharacter</CODE>.</P>
+
+<A NAME="auto1219"></A>
+<P>Since <CODE>CheckMe</CODE> isn't appropriate for visitors that don't
+check anything, we'll give it a more general name:</P>
+<CODE>Accept</CODE>.  Its argument must also change to take a
+<CODE>Visitor&amp;</CODE>, reflecting the fact that it can accept any visitor.
+Now adding a new analysis requires just defining a new subclass of
+<CODE>Visitor</CODE>&#151;we don't have to touch any of the glyph classes.
+We support all future analyses by adding this one operation
+to <CODE>Glyph</CODE> and its subclasses.</P>
+
+<A NAME="discretionaryglyph"></A>
+<P>We've already seen how spelling checking works.  We use a similar
+approach in <CODE>HyphenationVisitor</CODE> to accumulate text.  But
+once <CODE>HyphenationVisitor</CODE>'s <CODE>VisitCharacter</CODE> operation
+has assembled an entire word, it works a little differently.  Instead
+of checking the word for misspelling, it applies a hyphenation
+algorithm to determine the potential hyphenation points in the word,
+if any.  Then at each hyphenation point, it inserts a
+<STRONG>discretionary</STRONG> glyph into the composition.  Discretionary
+glyphs are instances of <CODE>Discretionary</CODE>, a subclass of
+<CODE>Glyph</CODE>.</P>
+
+<A NAME="auto1220"></A>
+<P>A discretionary glyph has one of two possible appearances depending on
+whether or not it is the last character on a line.  If it's the last
+character, then the discretionary looks like a hyphen; if it's not at
+the end of a line, then the discretionary has no appearance
+whatsoever.  The discretionary checks its parent (a Row object) to see
+if it is the last child.  The discretionary makes this check whenever
+it's called on to draw itself or calculate its boundaries.  The
+formatting strategy treats discretionaries the same as whitespace,
+making them candidates for ending a line.  The following diagram shows how
+an embedded discretionary can appear.</P>
+
+<A NAME="aluminum"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/discr062.gif"></P>
+
+<A NAME="visitor-patt"></A>
+<H3>Visitor Pattern</H3>
+
+<A NAME="auto1221"></A>
+<P>What we've described here is an application of the
+<A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A> pattern.  The Visitor class and its
+subclasses described earlier are the key participants in the pattern.
+The Visitor pattern captures the technique we've used to allow an
+open-ended number of analyses of glyph structures without having to
+change the glyph classes themselves.  Another nice feature of visitors
+is that they can be applied not just to composites like our glyph
+structures but to <EM>any</EM> object structure.  That includes sets,
+lists, even directed-acyclic graphs.  Furthermore, the classes that a
+visitor can visit needn't be related to each other through a common
+parent class.  That means visitors can work across class hierarchies.</P>
+
+<A NAME="auto1222"></A>
+<P>An important question to ask yourself before applying the Visitor
+pattern is, Which class hierarchies change most often?  The pattern is
+most suitable when you want to be able to do a variety of different
+things to objects that have a stable class structure.  Adding a new
+kind of visitor requires no change to that class structure, which is
+especially important when the class structure is large.  But whenever you
+add a subclass to the structure, you'll also have to update all your
+visitor interfaces to include a <CODE>Visit...</CODE> operation for that
+subclass.  In our example that means adding a new
+<CODE>Glyph</CODE> subclass called <CODE>Foo</CODE> will require changing
+<CODE>Visitor</CODE> and all its subclasses to include a
+<CODE>VisitFoo</CODE> operation.  But given our design constraints, we're
+much more likely to add a new kind of analysis to Lexi than a new
+kind of Glyph.  So the Visitor pattern is well-suited to our needs.</P>
+
+<A NAME="sec2-9"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: navigation"></A>
+Summary</H2>
+
+<A NAME="auto1223"></A>
+<P>We've applied eight different patterns to Lexi's design:</P>
+
+<OL>
+
+<A NAME="auto1224"></A>
+<LI><A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>
+to represent the document's physical structure,</LI>
+
+<A NAME="auto1225"></A>
+<P></P>
+
+<A NAME="auto1226"></A>
+<LI><A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A> to allow different
+formatting algorithms,</LI>
+
+<A NAME="auto1227"></A>
+<P></P>
+
+<A NAME="auto1228"></A>
+<LI><A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A> for embellishing
+the user interface,</LI>
+
+<A NAME="auto1229"></A>
+<P></P>
+
+<A NAME="auto1230"></A>
+<LI><A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> for
+supporting multiple look-and-feel standards,</LI>
+
+<A NAME="auto1231"></A>
+<P></P>
+
+<A NAME="auto1232"></A>
+<LI><A HREF="pat4bfs.htm" TARGET="_mainDisplayFrame">Bridge (151)</A> to allow multiple
+windowing platforms,</LI>
+
+<A NAME="auto1233"></A>
+<P></P>
+
+<A NAME="auto1234"></A>
+<LI><A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A> for undoable user
+operations,</LI>
+
+<A NAME="auto1235"></A>
+<P></P>
+
+<A NAME="auto1236"></A>
+<LI><A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A> for accessing and
+traversing object structures, and</LI>
+
+<A NAME="auto1237"></A>
+<P></P>
+
+<A NAME="auto1238"></A>
+<LI><A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A> for allowing an
+open-ended number of analytical capabilities without complicating
+the document structure's implementation.</LI>
+
+</OL>
+
+<A NAME="auto1239"></A>
+<P>None of these design issues is limited to document editing
+applications like Lexi.  Indeed, most nontrivial applications will
+have occasion to use many of these patterns, though perhaps to do
+different things.  A financial analysis application might use
+Composite to define investment portfolios made up of subportfolios and
+accounts of different sorts.  A compiler might use the Strategy
+pattern to allow different register allocation schemes for different
+target machines.  Applications with a graphical user interface will
+probably apply at least Decorator and Command just as we have here.</P>
+
+<A NAME="auto1240"></A>
+<P>While we've covered several major problems in Lexi's design, there
+are lots of others we haven't discussed.  Then again, this book
+describes more than just the eight patterns we've used here.  So as
+you study the remaining patterns, think about how you might use each
+one in Lexi.  Or better yet, think about using them in your own
+designs!</P>
+
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="patcafs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="patcafs.htm"
+	TARGET="_mainDisplayFrame">Pattern Catalog</A><BR>
+<A HREF="chap1fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap1fs.htm"
+	TARGET="_mainDisplayFrame">Introduction</A>
+</P>
+
+<HR>
+
+<A NAME="footnote1"></A>
+<P><SUP>1</SUP>Lexi's design is based on Doc, a text editing
+application developed by
+Calder [<A HREF="bibfs.htm#calder_doc" TARGET="_mainDisplayFrame">CL92</A>].</p>
+<A NAME="footnote2"></A>
+<P><SUP>2</SUP>Authors often view the document in terms of its
+<EM>logical</EM> structure as well, that is, in terms of sentences,
+paragraphs, sections, subsections, and chapters.  To keep this
+example simple, our internal representation won't store information
+about the logical structure explicitly. But the design solution we
+describe works equally well for representing such information.</p>
+<A NAME="footnote3"></A>
+<P><SUP>3</SUP>Calder was the first to use the term "glyph" in this
+context [<A HREF="bibfs.htm#interviews_glyphs" TARGET="_mainDisplayFrame">CL90</A>].
+Most contemporary document editors don't use an object for every
+character, presumably for efficiency reasons.  Calder demonstrated
+that this approach is feasible in his thesis [<A HREF="bibfs.htm#calder_thesis" TARGET="_mainDisplayFrame">Cal93</A>].  Our glyphs are less
+sophisticated than his in that we have restricted ours to strict
+hierarchies for simplicity.  Calder's glyphs can be shared to reduce
+storage costs, thereby forming directed-acyclic graph structures.
+We can apply the <A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195)</A>
+pattern to get the same effect, but we'll leave that as an exercise
+for the reader.</p>
+<A NAME="footnote4"></A>
+<P><SUP>4</SUP>The interface we describe
+here is purposely minimal to keep the discussion simple.  A complete
+interface would include operations for managing graphical attributes
+such as color, font, and coordinate transformations, plus operations
+for more sophisticated child management.</p>
+<A NAME="footnote5"></A>
+<P><SUP>5</SUP>An integer index is probably not the best way to specify
+a glyph's children, depending on the data structure the glyph uses.
+If it stores its children in a linked list, then a pointer into the
+list would be more efficient. We'll see a better solution to the
+indexing problem in <A HREF="#sec2-8-3">Section 2.8</A>, when we discuss document analysis.</p>
+<P><SUP>6</SUP><A NAME="footnote6"></A>The user will have even more to say about the
+document's <EM>logical</EM> structure&#151;the sentences, paragraphs,
+sections, chapters, and so forth. The <EM>physical</EM> structure is less
+interesting by comparison. Most people don't care where the linebreaks
+in a paragraph occur as long as the paragraph is formatted properly.
+The same is true for formatting columns and pages. Thus users end up
+specifying only high-level constraints on the physical structure,
+leaving Lexi to do the hard work of satisfying them.</p>
+<A NAME="footnote7"></A>
+<P><SUP>7</SUP>The compositor must get the character codes of
+Character glyphs in order to compute the linebreaks.  In <A HREF="#section_encapsulating_the_analysis">Section 2.8</A> we'll see how
+to get this information polymorphically without adding a
+character-specific operation to the Glyph interface.</p>
+<A NAME="footnote8"></A>
+<P><SUP>8</SUP>That is, redoing an operation that was just undone.</p>
+<A NAME="footnote9"></A>
+<P><SUP>9</SUP>Conceptually, the client is Lexi's user, but in
+reality it's another object (such as an event dispatcher) that
+manages inputs from the user.</P>
+<A NAME="footnote10"></A>
+<P><SUP>10</SUP>
+We could use function overloading to give each of these member
+functions the same name, since their parameters already differentiate
+them.  We've given them different names here to emphasize their
+differences, especially when they're called.</P>
+<A NAME="footnote11"></A>
+<P><SUP>11</SUP><CODE>IsMisspelled</CODE> implements the spelling
+algorithm, which we won't detail here because we've made it
+independent of Lexi's design.  We can support different algorithms
+by subclassing <CODE>SpellingChecker</CODE>; alternatively, we can
+apply the <A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A>
+pattern (as we did for formatting in <A HREF="#editor_sec_formatting">Section 2.3</A>) to support
+different spelling checking algorithms.</p>
+
+<A NAME="footnote12"></A>
+<P><SUP>12</SUP>"Visit" is just a slightly more
+general term for "analyze." It foreshadows the terminology we use in
+the design pattern we're leading to.</p>
+
+</BODY>
+
+</HTML>
+

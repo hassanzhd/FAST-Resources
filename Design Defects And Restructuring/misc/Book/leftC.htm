@@ -1,0 +1,53 @@
+<HTML>
+<SCRIPT LANGUAGE="JavaScript">
+/*
+ * Storing this varible on the navigator object makes it truely global on NN4,
+ * but is no help on NN3, so we need the page global variable in NN3 which is
+ * the best we can do.  
+ */
+
+var search_win = navigator._searchWin;
+
+function loadApplet() {
+    if(navigator.appName == "Netscape") {
+	if(search_win == null || search_win.closed) {
+	    search_win = window.open("appletn.htm", "_appletWindow", "width=390,height=300,resizable=0,status=0,menubar=0,scrollbar=0");
+	    navigator._searchWin = search_win;
+	} 
+	search_win.opener = top;
+	search_win.focus();
+    } else if(top.loadApplet != null) {
+	top.loadApplet();
+    }
+}
+</SCRIPT>
+
+<BODY BGCOLOR="#336699" LEFTMARGIN="1" TOPMARGIN="1">
+
+<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+
+
+<tr>
+<td colspan="2" align="center"><A HREF="javascript:loadApplet()" TARGET="LEFT"><IMG SRC="gifsb/search.gif" BORDER="0"></A></td>
+</tr>
+
+<tr>
+<td><img src="gifsb/clear.gif" width="1" height="20"></td>
+<td><img src="gifsb/clear.gif" width="5" height="1"></td>
+</tr>
+
+<tr>
+<td align="right"><img src="gifsb/leftC.gif" border="0" ismap usemap="#left"></td>
+
+</TABLE>
+
+<map name="left">
+<area shape="rect" coords="0,1,81,14" href="chapC-0.htm#secC-1" target="TEXT">
+<area shape="rect" coords="1,20,80,32" href="chapC-0.htm#secC-2" target="TEXT">
+<area shape="rect" coords="-9,40,78,53" href="chapC-0.htm#secC-3" target="TEXT">
+<area shape="rect" coords="-4,60,79,74" href="chapC-0.htm#secC-4" target="TEXT">
+<area shape="rect" coords="-2,82,79,96" href="chapC-0.htm#secC-5" target="TEXT">
+</map> </BODY>
+
+</HTML>
+

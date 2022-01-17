@@ -1,0 +1,535 @@
+<HTML><HEAD>	<TITLE>Conclusion</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" onLoad="setFocus();">
+
+<A NAME="top"></A>
+<P>It's possible to argue that this book hasn't accomplished much.  After
+all, it doesn't present any algorithms or programming techniques that
+haven't been used before.  It doesn't give a rigorous method for
+designing systems, nor does it develop a new theory of design&#151;it
+just documents existing designs.  You could conclude that it
+makes a reasonable tutorial, perhaps, but it certainly can't offer
+much to an experienced object-oriented designer.</P>
+
+<A NAME="benefits"></A>
+<P>We hope you think differently.  Cataloging design patterns is
+important.  It gives us standard names and definitions for the
+techniques we use.  If we don't study design patterns in software, we
+won't be able to improve them, and it'll be harder to come up with new
+ones.</P>
+
+<A NAME="auto1000"></A>
+<P>This book is only a start.  It contains some of the most common design
+patterns that expert object-oriented designers use, and yet people
+hear and learn about them solely by word of mouth or by studying
+existing systems.  Early drafts of the book prompted other people to
+write down the design patterns they use, and it should prompt even
+more in its current form.  We hope this will mark the start of a
+movement to document the expertise of software practitioners.</P>
+
+<A NAME="auto1001"></A>
+<P>This chapter discusses the impact we think design patterns will
+have, how they are related to other work in design, and how you can
+get involved in finding and cataloging patterns.</P>
+
+<A NAME="sec6-1"></A>
+<H2><A HREF="#sec6-2"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: A Brief History"></A>
+What to Expect from Design Patterns</H2>
+
+<A NAME="auto1002"></A>
+<P>Here are several ways in which the design patterns in this book can
+affect the way you design object-oriented software, based on our
+day-to-day experience with them.</P>
+
+<A NAME="common-vocab"></A>
+<H3>A Common Design Vocabulary</H3>
+
+<A NAME="auto1003"></A>
+<P>Studies of expert programmers for conventional languages have
+shown that knowledge and experience isn't organized simply around
+syntax but in larger conceptual structures such as algorithms, data
+structures and idioms [<A HREF="bibfs.htm#adelson-soloway_domain" TARGET="_mainDisplayFrame">AS85</A>, <A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>, <A HREF="bibfs.htm#curtis_cognitive" TARGET="_mainDisplayFrame">Cur89</A>, <A HREF="bibfs.htm#spopher-soloway_mistakes" TARGET="_mainDisplayFrame">SS86</A>], and plans for fulfilling a particular
+goal [<A HREF="bibfs.htm#soloway-erlich_empirical" TARGET="_mainDisplayFrame">SE84</A>].
+Designers probably don't think about the notation they're using
+for recording the design as much as they try to match the current
+design situation against plans, algorithms, data structures, and
+idioms they have learned in the past.</P>
+
+<A NAME="despatt-doc"></A>
+<P>Computer scientists name and catalog algorithms and data structures,
+but we don't often name other kinds of patterns.  Design patterns
+provide a common vocabulary for designers to use to communicate, document,
+and explore design alternatives.  Design patterns make a system seem
+less complex by letting you talk about it at a higher level of
+abstraction than that of a design notation or programming language.
+Design patterns raise the level at which you design and discuss design
+with your colleagues.</P>
+
+<A NAME="auto1004"></A>
+<P>Once you've absorbed the design patterns in this book, your design
+vocabulary will almost certainly change. You will speak directly in
+terms of the names of the design patterns.  You'll find yourself
+saying things like, "Let's use an Observer here," or, "Let's make a
+Strategy out of these classes."</P>
+
+<A NAME="design-docpatt"></A>
+<H3>A Documentation and Learning Aid</H3>
+
+<A NAME="auto1005"></A>
+<P>Knowing the design patterns in this book makes it easier to understand
+existing systems.  Most large object-oriented systems use these design
+patterns.  People learning object-oriented programming often complain
+that the systems they're working with use inheritance in convoluted
+ways and that it's difficult to follow the flow of control.  In large
+part this is because they do not understand the design patterns in the
+system.  Learning these design patterns will help you understand
+existing object-oriented systems.</P>
+
+<A NAME="auto1006"></A>
+<P>These design patterns can also make you a better designer.  They
+provide solutions to common problems.  If you work with
+object-oriented systems long enough, you'll probably learn these
+design patterns on your own.  But reading the book will help you learn
+them much faster.  Learning these patterns will help a novice act more
+like an expert.</P>
+
+<A NAME="auto1007"></A>
+<P>Moreover, describing a system in terms of the design patterns that it
+uses will make it a lot easier to understand.  Otherwise, people will
+have to reverse-engineer the design to unearth the patterns it uses.
+Having a common vocabulary means you don't have to describe the whole
+design pattern; you can just name it and expect your reader to know
+it.  A reader who doesn't know the patterns will have to look them up
+at first, but that's still easier than reverse-engineering.</P>
+
+<A NAME="auto1008"></A>
+<P>We use these patterns in our own designs, and we've found them
+invaluable.  Yet we use the patterns in arguably naive ways.  We use
+them to pick names for classes, to think about and teach good design,
+and to describe designs in terms of the sequence of design patterns we
+applied [<A HREF="bibfs.htm#beck-johnson_ecoop94" TARGET="_mainDisplayFrame">BJ94</A>].  It's easy to imagine more
+sophisticated ways of using patterns, such as pattern-based CASE tools
+or hypertext documents.  But patterns are a big help even without
+sophisticated tools.</P>
+
+
+<A NAME="design-obj-mod"></A>
+<A NAME="design-adjunct"></A>
+<H3>An Adjunct to Existing Methods</H3>
+
+<A NAME="auto1009"></A>
+<P>Object-oriented design methods are supposed to promote good design, to
+teach new designers how to design well, and to standardize the way
+designs are developed.  A design method typically defines a set of
+notations (usually graphical) for modeling various aspects of a design,
+along with a set of rules that govern how and when to use each
+notation.  Design methods usually describe problems that occur in a
+design, how to resolve them, and how to evaluate design.  But they
+haven't been able to capture the experience of expert designers.</P>
+
+<A NAME="auto1010"></A>
+<P>We believe our design patterns are an important piece that's been
+missing from object-oriented design methods.  The design patterns show
+how to use primitive techniques such as objects, inheritance, and
+polymorphism.  They show how to parameterize a system with an
+algorithm, a behavior, a state, or the kind of objects it's supposed
+to create.  Design patterns provide a way to describe more of the
+"why" of a design and not just record the results of your decisions.
+The Applicability, Consequences, and Implementation sections of the
+design patterns help guide you in the decisions you have to make.</P>
+
+<A NAME="objectmodel"></A>
+<P>Design patterns are especially useful in turning an analysis model
+into an implementation model.  Despite many claims that promise a
+smooth transition from object-oriented analysis to design, in practice
+the transition is anything but smooth. A flexible and reusable design
+will contain objects that aren't in the analysis model.  The
+programming language and class libraries you use affect the design.
+Analysis models often must be redesigned to make them reusable.  Many
+of the design patterns in the catalog address these issues, which is
+why we call them <EM>design</EM> patterns.</P>
+
+<A NAME="auto1011"></A>
+<P>A full-fledged design method requires more kinds of patterns than just
+design patterns.  There can also be analysis patterns, user interface
+design patterns, or performance-tuning patterns.  But the design
+patterns are an essential part, one that's been missing until now.</P>
+
+<A NAME="despatt-refactor"></A>
+<A NAME="refactor"></A>
+<H3>A Target for Refactoring</H3>
+
+<A NAME="auto1012"></A>
+<P>One of the problems in developing reusable software is that it
+often has to be reorganized or <STRONG>refactored</STRONG> [<A HREF="bibfs.htm#opdyke-johnson_refactoring" TARGET="_mainDisplayFrame">OJ90</A>].  Design
+patterns help you determine how to reorganize a design, and they
+can reduce the amount of refactoring you need to do later.</P>
+
+<A NAME="exp-phase1"></A>
+<A NAME="foote"></A>
+<A NAME="proto-phase"></A>
+<P>The lifecycle of object-oriented software has several phases.
+Brian Foote identifies these phases as the <STRONG>prototyping</STRONG>,
+<STRONG>expansionary</STRONG>, and <STRONG>consolidating</STRONG>
+phases [<A HREF="bibfs.htm#Foote-Fractal" TARGET="_mainDisplayFrame">Foo92</A>].</P>
+
+<A NAME="auto1013"></A>
+<P>The prototyping phase is a flurry of activity as the software is
+brought to life through rapid prototyping and incremental changes,
+until it meets an initial set of requirements and reaches adolescence.
+At this point, the software usually consists of class hierarchies that
+closely reflect entities in the initial problem domain.  The main kind
+of reuse is white-box reuse by inheritance.</P>
+
+<A NAME="exp-phase2"></A>
+<P>Once the software has reached adolescence and is put into service, its
+evolution is governed by two conflicting needs: (1) the software must
+satisfy more requirements, and (2) the software must be more reusable.
+New requirements usually add new classes and operations and perhaps
+whole class hierarchies. The software goes through an expansionary
+phase to meet new requirements.  This can't continue for long,
+however.  Eventually the software will become too inflexible and
+arthritic for further change.  The class hierarchies will no longer
+match any problem domain.  Instead they'll reflect many problem
+domains, and classes will define many unrelated operations and
+instance variables.</P>
+
+<A NAME="blackbox-reuse"></A>
+<A NAME="whitebox-reuse"></A>
+<P>To continue to evolve, the software must be reorganized in a process
+known as <EM>refactoring</EM>.  This is the phase in which frameworks
+often emerge.  Refactoring involves tearing apart classes into special-
+and general-purpose components, moving operations up or down the class
+hierarchy, and rationalizing the interfaces of classes.  This
+consolidation phase produces many new kinds of objects, often by
+decomposing existing objects and using object composition instead of
+inheritance.  Hence black-box reuse replaces white-box reuse.  The
+continual need to satisfy more requirements along with the need for
+more reuse propels object-oriented software through repeated phases of
+expansion and consolidation&#151;expansion as new requirements are
+satisfied, and consolidation as the software becomes more general.</P>
+
+<A NAME="lifecycle-gif"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/lifec036.gif"></P>
+
+<A NAME="auto1014"></A>
+<P>This cycle is unavoidable.  But good designers are aware of the
+changes that can prompt refactorings.  Good designers also know class
+and object structures that can help avoid refactorings&#151;their designs
+are robust in the face of requirement changes.  A thorough
+requirements analysis will highlight those requirements that are
+likely to change during the life of the software, and a good design
+will be robust to them.</P>
+
+<A NAME="auto1015"></A>
+<P>Our design patterns capture many of the structures that result from
+refactoring.  Using these patterns early in the life of a design
+prevents later refactorings.  But even if you don't see how to apply a
+pattern until after you've built your system, the pattern can
+still show you how to change it.  Design patterns thus provide targets
+for your refactorings.</P>
+
+<A NAME="sec6-2"></A>
+<H2><A HREF="#sec6-3"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: The Pattern 
+Community"></A> A Brief History</H2>
+
+<A NAME="auto1016"></A>
+<P>The catalog began as a part of Erich's Ph.D.
+thesis [<A HREF="bibfs.htm#gamma_thesis" TARGET="_mainDisplayFrame">Gam91</A>, <A HREF="bibfs.htm#gamma_thesis-book" TARGET="_mainDisp
+layFrame">Gam92</A>].  Roughly half of the
+current patterns were in his thesis.  By OOPSLA '91 it was officially
+an independent catalog, and Richard had joined Erich to work on it.
+John started working on it soon thereafter.  By OOPSLA '92, Ralph had
+joined the group.  We worked hard to make the catalog fit for
+publication at ECOOP '93, but soon we realized that a 90-page paper
+was not going to be accepted.  So we summarized the catalog and
+submitted the summary, which was accepted.  We decided to turn the
+catalog into a book shortly thereafter.</P>
+
+<A NAME="auto1017"></A>
+<P>Our names for the patterns have changed a little along the way.
+"Wrapper" became "Decorator," "Glue" became "Facade,"
+"Solitaire" became "Singleton," and "Walker" became "Visitor."
+A couple of patterns got dropped because they didn't seem important
+enough. But otherwise the set of patterns in the catalog has changed
+little since the end of 1992.  The patterns themselves, however, have
+evolved tremendously.</P>
+
+<A NAME="despatt-finding"></A>
+<P>In fact, noticing that something is a pattern is the easy part.
+All four of us are actively working on building object-oriented
+systems, and we've found that it's easy to spot patterns when you
+look at enough systems.  But <EM>finding</EM> patterns is much
+easier than <EM>describing</EM> them.</P>
+
+<A NAME="auto1018"></A>
+<P>If you build systems and then reflect on what you build, you will see
+patterns in what you do.  But it's hard to describe patterns so that
+people who don't know them will understand them and realize why they
+are important.  Experts immediately recognized the value of the
+catalog in its early stages.  But the only ones who could understand
+the patterns were those who had already used them.</P>
+
+<A NAME="auto1019"></A>
+<P>Since one of the main purposes of the book was to teach
+object-oriented design to new designers, we knew we had to improve the
+catalog.  We expanded the average size of a pattern from less than 2
+to more than 10 pages by including a detailed motivating example and sample
+code.  We also started examining the trade-offs and the various ways
+of implementing the pattern.  This made the patterns easier to learn.</P>
+
+<A NAME="auto1020"></A>
+<P>Another important change over the past year has been a greater emphasis on
+the problem that a pattern solves.  It's easiest to see a pattern as a
+solution, as a technique that can be adapted and reused.  It's harder
+to see when it is <EM>appropriate</EM>&#151;to characterize the problems it
+solves and the context in which it's the best solution.  In general,
+it's easier to see <EM>what</EM> someone is doing than to know <EM>why</EM>,
+and the "why" for a pattern is the problem it solves.  Knowing
+the purpose of a pattern is important too, because it helps us choose
+patterns to apply.  It also helps us understand the design of existing
+systems.  A pattern author must determine and characterize the problem
+that the pattern solves, even if you have to do it after you've
+discovered its solution.</P>
+
+<A NAME="sec6-3"></A>
+<H2><A HREF="#sec6-4"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: An Invitation"></A>
+The Pattern Community</H2>
+
+<A NAME="auto1021"></A>
+<P>We aren't the only ones interested in writing books that catalog the
+patterns experts use.  We are a part of a larger community interested
+in patterns in general and software-related patterns in particular.
+Christopher Alexander is the architect who first studied patterns in
+buildings and communities and developed a "pattern language" for
+generating them.  His work has inspired us time and again.  So it's
+fitting and worthwhile to compare our work to his.  Then we'll look at
+others' work in software-related patterns.</P>
+
+<A NAME="alexander"></A>
+
+<H3>Alexander's Pattern Languages</H3>
+
+<A NAME="auto1022"></A>
+<P>There are many ways in which our work is like Alexander's.  Both are
+based on observing existing systems and looking for patterns in them.
+Both have templates for describing patterns (although our templates are
+quite different).  Both rely on natural language and lots of examples
+to describe patterns rather than formal languages, and both give
+rationales for each pattern.</P>
+
+<A NAME="auto1023"></A>
+<P>But there are just as many ways in which our works are different:</P>
+
+<OL>
+
+<A NAME="auto1024"></A>
+<LI>People have been making buildings for thousands of years, and there
+are many classic examples to draw upon.  We have been making software
+systems for a relatively short time, and few are considered classics.</LI>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<A NAME="auto1026"></A>
+<LI>Alexander gives an order in which his patterns should be used; we have
+not.</LI>
+
+<A NAME="auto1027"></A>
+<P></P>
+
+<A NAME="auto1028"></A>
+<LI>Alexander's patterns emphasize the problems they address, whereas
+design patterns describe the solutions in more detail.</LI>
+
+<A NAME="auto1029"></A>
+<P></P>
+
+<A NAME="auto1030"></A>
+<LI>Alexander claims his patterns will generate complete buildings.  We do
+not claim that our patterns will generate complete programs.</LI>
+
+</OL>
+
+<A NAME="design-poetry"></A>
+<P>When Alexander claims you can design a house simply by applying his
+patterns one after another, he has goals similar to those of
+object-oriented design methodologists who give step-by-step rules for
+design.  Alexander doesn't deny the need for creativity; some of his
+patterns require understanding the living habits of the people who
+will use the building, and his belief in the "poetry" of design
+implies a level of expertise beyond the pattern language
+itself.<A NAME="fn1"></A><A HREF="#footnote1"><SUP>1</SUP></A>
+But his description of how patterns
+generate designs implies that a pattern language can make the design
+process deterministic and repeatable.</P>
+
+<A NAME="auto1031"></A>
+<P>The Alexandrian point of view has helped us focus on design
+trade-offs&#151;the different "forces" that help shape a design.  His
+influence made us work harder to understand the applicability and
+consequences of our patterns.  It also kept us from worrying about
+defining a formal representation of patterns.  Although such a
+representation might make automating patterns possible, at this stage
+it's more important to explore the space of design patterns than to
+formalize it.</P>
+
+<A NAME="auto1032"></A>
+<P>From Alexander's point of view, the patterns in this book do not form
+a pattern language.  Given the variety of software systems that people
+build, it's hard to see how we could provide a "complete" set of
+patterns, one that offers step-by-step instructions for designing an
+application.  We can do that for certain classes of applications, such
+as report-writing or making a forms-entry system.  But our catalog is
+just a collection of related patterns; we can't pretend it's a pattern
+language.</P>
+
+<A NAME="auto1033"></A>
+<P>In fact, we think it's unlikely that there will <EM>ever</EM> be a
+complete pattern language for software.  But it's certainly possible
+to make one that is <EM>more</EM> complete.  Additions would have to
+include frameworks and how to use them [<A HREF="bibfs.htm#hotdraw" TARGET="_mainDisplayFrame">Joh92</A>], patterns for
+user interface design [<A HREF="bibfs.htm#beck-johnson_ecoop94" TARGET="_mainDisplayFrame">BJ94</A>], analysis
+patterns [<A HREF="bibfs.htm#coad_patterns" TARGET="_mainDisplayFrame">Coa92</A>], and all the other aspects of developing
+software.  Design patterns are just a part of a larger pattern
+language for software.</P>
+
+<A NAME="patt-lang-of-prog"></A>
+<H3>Patterns in Software</H3>
+
+<A NAME="anderson"></A>
+<P>Our first collective experience in the study of software architecture
+was at an OOPSLA '91 workshop led by Bruce Anderson.  The
+workshop was dedicated to developing a handbook for software
+architects.  (Judging from this book, we suspect "architecture
+encyclopedia" will be a more appropriate name than "architecture
+handbook.")  That first workshop has led to a series of meetings, the
+most recent of which being the first conference on Pattern Languages
+of Programs held in August 1994.  This has created a community of
+people interested in documenting software expertise.</P>
+
+<A NAME="knuth"></A>
+<P>Of course, others have had this goal as well.  Donald Knuth's <EM>The
+Art of Computer Programming</EM> [<A HREF="bibfs.htm#knuth_art" TARGET="_mainDisplayFrame">Knu73</A>] was one of the first
+attempts to catalog software knowledge, though he focused on
+describing algorithms.  Even so, the task proved too great to
+finish.  The <EM>Graphics Gems</EM>
+series [<A HREF="bibfs.htm#graphicsGems1" TARGET="_mainDisplayFrame">Gla90</A>, <A HREF="bibfs.htm#graphicsGems2" TARGET="_mainDisplay
+Frame">Arv91</A>, <A HREF="bibfs.htm#graphicsGems3" TARGET="_mainDisplayFrame">Kir92</A>] is another
+catalog of design knowledge, though it too tends to focus on
+algorithms.  The Domain Specific Software Architecture program
+sponsored by the U.S. Department of Defense [<A HREF="bibfs.htm#dod_dssap" TARGET="_mainDisplayFrame">GM92</A>]
+concentrates on gathering architectural information.  The
+knowledge-based software engineering community tries to represent
+software-related knowledge in general.  There are many other groups
+with goals at least a little like ours.</P>
+
+<A NAME="auto1034"></A>
+<P>James Coplien's <EM>Advanced C++: Programming Styles and
+Idioms</EM> [<A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>] has influenced us, too.  The patterns in
+his book tend to be more C++-specific than our design patterns, and
+his book contains lots of lower-level patterns as well.  But there is
+some overlap, as we point out in our patterns.  Jim has been active in
+the pattern community.  He's currently working on patterns that
+describe people's roles in software development organizations.</P>
+
+<A NAME="kentbeck"></A>
+<P>There are a lot of other places in which to find descriptions
+of patterns.  Kent Beck was one of the first people in the software
+community to advocate Christopher Alexander's work.  In 1993 he
+started writing a column in <EM>The Smalltalk Report</EM> on
+Smalltalk patterns.  Peter Coad has also been collecting patterns
+for some time.  His paper on patterns seems to us to contain mostly
+analysis patterns [<A HREF="bibfs.htm#coad_patterns" TARGET="_mainDisplayFrame">Coa92</A>];
+we haven't seen his latest patterns, though we know he is still
+working on them.  We've heard of several books on patterns that
+are in the works, but we haven't seen any of them, either.  All we
+can do is let you know they're coming.  One of these books will be
+from the Pattern Languages of Programs conference.</P>
+
+<A NAME="sec6-4"></A>
+<H2><A HREF="#sec6-5"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: A Parting Thought"></A>
+An Invitation</H2>
+
+<A NAME="auto1035"></A>
+<P>What can you do if you are interested in patterns?  First, use them
+and look for other patterns that fit the way you design.  
+A lot of books and articles about patterns will be coming out
+in the next few years,
+so there will be plenty of sources for new patterns.  Develop your
+vocabulary of patterns, and use it.  Use it when you talk with other
+people about your designs.  Use it when you think and write about them.</P>
+
+<A NAME="auto1036"></A>
+<P>Second, be a critical consumer.  The design pattern catalog is the
+result of hard work, not just ours but that of dozens of reviewers who
+gave us feedback.  If you spot a problem or believe more
+explanation is needed, contact us.  The same goes for any other catalog of
+patterns:  Give the authors feedback!  One of the great things about
+patterns is that they move design decisions out of the realm of vague
+intuition.  They let authors be explicit about the trade-offs they
+make.  This makes it easier to see what is wrong with their patterns
+and to argue with them.  Take advantage of that.</P>
+
+<A NAME="auto1037"></A>
+<P>Third, look for patterns you use, and write them down.  Make them a
+part of your documentation.  Show them to other people.  You don't
+have to be in a research lab to find patterns.  In fact, finding
+relevant patterns is nearly impossible if you don't have practical
+experience.  Feel free to write your own catalog of patterns...but
+make sure someone else helps you beat them into shape!</P>
+
+
+<A NAME="design-density"></A>
+<A NAME="sec6-5"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: navigation"></A>
+A Parting Thought</H2>
+
+<A NAME="auto1038"></A>
+<P>The best designs will use many design patterns that dovetail and
+intertwine to produce a greater whole. As Christopher Alexander says:</P>
+
+<BLOCKQUOTE>
+
+It is possible to make buildings by stringing together patterns, in a
+rather loose way. A building made like this, is an assembly of
+patterns. It is not dense. It is not profound. But it is also possible
+to put patterns together in such a way that many patterns overlap in
+the same physical space: the building is very dense; it has many
+meanings captured in a small space; and through this density, it
+becomes profound.
+
+</BLOCKQUOTE>
+
+<P ALIGN=RIGHT><CITE>A Pattern Language</CITE> [<A HREF="bibfs.htm#Alexander_pl" TARGET="_mainDisplayFrame">AIX+77</A>, page <EM>xli</EM>]</P>
+
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="chapAfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chapAfs.htm"
+	TARGET="_mainDisplayFrame">Glossary</A><BR>
+<A HREF="disc5fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="disc5fs.htm"
+	TARGET="_mainDisplayFrame">Discussion of Behavioral Patterns</A>
+</P>
+
+<HR>
+
+<A NAME="footnote1"></A>
+<P><SUP>1</SUP>See "The poetry of the
+language" [<A HREF="bibfs.htm#Alexander_pl" TARGET="_mainDisplayFrame">AIS+77</A>].</P>
+
+</BODY>
+
+</HTML>
+

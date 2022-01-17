@@ -1,0 +1,333 @@
+<HTML>
+
+<HEAD><TITLE>Creational Patterns</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR	= #FFFFFF
+      TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+
+<A NAME="creation_top1"></A>
+
+<P>Creational design patterns abstract the instantiation process.
+They help make a system independent of how its objects are created,
+composed, and represented. A class creational pattern uses inheritance
+to vary the class that's instantiated, whereas an object creational
+pattern will delegate instantiation to another object.
+
+<A NAME="creation_top2"></A>
+
+<P>Creational patterns become important as systems evolve to depend more
+on object composition than class inheritance. As that happens,
+emphasis shifts away from hard-coding a fixed set of behaviors toward
+defining a smaller set of fundamental behaviors that can be composed
+into any number of more complex ones. Thus creating objects with
+particular behaviors requires more than simply instantiating a class.
+
+<A NAME="creation_top2"></A>
+
+<P>There are two recurring themes in these patterns. First, they all
+encapsulate knowledge about which concrete classes the system uses.
+Second, they hide how instances of these classes are created and put
+together. All the system at large knows about the objects is their
+interfaces as defined by abstract classes. Consequently, the
+creational patterns give you a lot of flexibility in <EM>what</EM> gets
+created, <EM>who</EM> creates it, <EM>how</EM> it gets created, and <EM>when</EM>. They let you configure a system with "product" objects that
+vary widely in structure and functionality.  Configuration can be
+static (that is, specified at compile-time) or dynamic (at
+run-time).
+
+<A NAME="creation_top3"></A>
+
+<P>Sometimes creational patterns are competitors. For example,
+there are cases when either <A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A>
+or <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> could
+be used profitably. At other times they are complementary:
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A> can use one of the other
+patterns to implement which components get built.
+<A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A> can use
+<A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A> in its implementation.
+
+<A NAME="creation_top4"></A>
+
+<P>Because the creational patterns are closely related, we'll study all
+five of them together to highlight their similarities and differences.
+We'll also use a common example&#151;building a maze for a computer
+game&#151;to illustrate their implementations. The maze and the game will
+vary slightly from pattern to pattern. Sometimes the game will be
+simply to find your way out of a maze; in that case the player will
+probably only have a local view of the maze. Sometimes mazes contain
+problems to solve and dangers to overcome, and these games may provide
+a map of the part of the maze that has been explored.
+
+<A NAME="creation_top5"></A>
+
+<P>We'll ignore many details of what can be in a maze and whether a maze
+game has a single or multiple players. Instead, we'll just focus on
+how mazes get created. We define a maze as a set of rooms. A room
+knows its neighbors; possible neighbors are another room, a wall, or a
+door to another room.
+
+<A NAME="creation_top6"></A>
+
+<P>The classes <CODE>Room</CODE>, <CODE>Door</CODE>, and <CODE>Wall</CODE>
+define the components of the maze used in all our examples. We define
+only the parts of these classes that are important for creating a
+maze.  We'll ignore players, operations for displaying and wandering
+around in a maze, and other important functionality that isn't
+relevant to building the maze.
+
+<P>The following diagram shows the relationships between these classes:
+
+<A NAME="room-82c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/maze.gif"></P>
+
+<P>Each room has four sides. We use an enumeration <CODE>Direction</CODE> in
+C++ implementations to specify the north, south, east, and west sides of
+a room:</P>
+
+<PRE>
+    enum Direction {North, South, East, West};
+</PRE>
+
+<P>The Smalltalk implementations use corresponding symbols to represent
+these directions.</P>
+
+<A NAME="mapsite"></A>
+<P>The class <CODE>MapSite</CODE> is the common abstract class for all the
+components of a maze. To simplify the example, <CODE>MapSite</CODE> defines
+only one operation, <CODE>Enter</CODE>. Its meaning depends on what you're
+entering. If you enter a room, then your location changes. If you try to
+enter a door, then one of two things happen: If the door is open, you go
+into the next room. If the door is closed, then you hurt your nose.</P>
+
+<PRE>
+    class MapSite {
+    public:
+        virtual void Enter() = 0;
+    };
+</PRE>
+
+<A NAME="mapsite2"></A>
+
+<P><CODE>Enter</CODE> provides a simple basis for more sophisticated game
+operations. For example, if you are in a room and say "Go East," the
+game can simply determine which <CODE>MapSite</CODE> is immediately to the
+east and then call <CODE>Enter</CODE> on it. The subclass-specific
+<CODE>Enter</CODE> operation will figure out whether your location changed
+or your nose got hurt. In a real game, <CODE>Enter</CODE> could take the
+player object that's moving about as an argument.</P>
+
+<A NAME="def-room"></A>
+<P><CODE>Room</CODE> is the concrete subclass of <CODE>MapSite</CODE> that
+defines the key relationships between components in the maze. It
+maintains references to other <CODE>MapSite</CODE> objects and stores a
+room number. The number will identify rooms in the maze.</P>
+
+<PRE>
+    class Room : public MapSite {
+    public:
+        Room(int roomNo);
+    
+        MapSite* GetSide(Direction) const;
+        void SetSide(Direction, MapSite*);
+    
+        virtual void Enter();
+    
+    private:
+        MapSite* _sides[4];
+        int _roomNumber;
+    };
+</PRE>
+
+<A NAME="wall-code"></A>
+<A NAME="door-code"></A>
+<P>The following classes represent the wall or door that occurs on each
+side of a room.</P>
+
+<PRE>
+    class Wall : public MapSite {
+    public:
+        Wall();
+    
+        virtual void Enter();
+    };
+    
+    class Door : public MapSite {
+    public:
+        Door(Room* = 0, Room* = 0);
+    
+        virtual void Enter();
+        Room* OtherSideFrom(Room*);
+    
+    private:
+        Room* _room1;
+        Room* _room2;
+        bool _isOpen;
+    };
+</PRE>
+
+<A NAME="Door-def"></A>
+<A NAME="maze-def"></A>
+<P>We need to know about more than just the parts of a maze. We'll also
+define a <CODE>Maze</CODE> class to represent a collection of rooms.
+<CODE>Maze</CODE> can also find a particular room given a room number
+using its <CODE>RoomNo</CODE> operation.</P>
+
+<PRE>
+    class Maze {
+    public:
+        Maze();
+    
+        void AddRoom(Room*);
+        Room* RoomNo(int) const;
+    private:
+        // ...
+    };
+</PRE>
+
+<P><CODE>RoomNo</CODE> could do a look-up using a linear search, a hash table,
+or even a simple array. But we won't worry about such details here.
+Instead, we'll focus on how to specify the components of a maze object.</P>
+
+<A NAME="mazegame"></A>
+<P>Another class we define is <CODE>MazeGame</CODE>, which creates the maze.
+One straightforward way to create a maze is with a series of operations
+that add components to a maze and then interconnect them.  For
+example, the following member function will create a maze consisting
+of two rooms with a door between them:</P>
+
+<A NAME="CreateMaze-def"></A>
+<PRE>
+    Maze* MazeGame::CreateMaze () {
+        Maze* aMaze = new Maze;
+        Room* r1 = new Room(1);
+        Room* r2 = new Room(2);
+        Door* theDoor = new Door(r1, r2);
+    
+        aMaze->AddRoom(r1);
+        aMaze->AddRoom(r2);
+    
+        r1->SetSide(North, new Wall);
+        r1->SetSide(East, theDoor);
+        r1->SetSide(South, new Wall);
+        r1->SetSide(West, new Wall);
+    
+        r2->SetSide(North, new Wall);
+        r2->SetSide(East, new Wall);
+        r2->SetSide(South, new Wall);
+        r2->SetSide(West, theDoor);
+    
+        return aMaze;
+    }
+</PRE>
+
+<A NAME="CreateMaze-text1"></A>
+
+<P>This function is pretty complicated, considering that all it does is create
+a maze with two rooms. There are obvious ways to make it simpler. For
+example, the <CODE>Room</CODE> constructor could initialize the sides
+with walls ahead of time. But that just moves the code somewhere else.
+The real problem with this member function isn't its size but its <EM>inflexibility</EM>. It hard-codes the maze layout. Changing the layout
+means changing this member function, either by overriding it&#151;which
+means reimplementing the whole thing&#151;or by changing parts of
+it&#151;which is error-prone and doesn't promote reuse.</P>
+
+<A NAME="CreateMaze-text2"></A>
+
+<P>The creational patterns show how to make this design more <EM>flexible</EM>, not necessarily smaller. In particular, they will make it
+easy to change the classes that define the components of a maze.</P>
+
+<A NAME="CreateMaze-text2"></A>
+
+<P>Suppose you wanted to reuse an existing maze layout for a new game
+containing (of all things) enchanted mazes. The enchanted maze game has
+new kinds of components, like <CODE>DoorNeedingSpell</CODE>, a door that
+can be locked and opened subsequently only with a spell; and
+<CODE>EnchantedRoom</CODE>, a room that can have unconventional items in
+it, like magic keys or spells. How can you change <CODE>CreateMaze</CODE>
+easily so that it creates mazes with these new classes of objects?</P>
+
+<A NAME="CreateMaze-text3"></A>
+
+<P>In this case, the biggest barrier to change lies in hard-coding the
+classes that get instantiated. The creational patterns provide
+different ways to remove explicit references to concrete classes
+from code that needs to instantiate them:</P>
+
+<UL>
+
+<A NAME="CreateMaze-text4"></A>
+
+<LI>If <CODE>CreateMaze</CODE> calls virtual functions instead of constructor
+calls to create the rooms, walls, and doors it requires, then you can
+change the classes that get instantiated by making a subclass of
+<CODE>MazeGame</CODE> and redefining those virtual functions. This approach
+is an example of the
+<A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A> pattern.</LI>
+
+<P></P>
+
+<A NAME="CreateMaze-text5"></A>
+
+<LI>If <CODE>CreateMaze</CODE> is passed an object as a parameter to use to
+create rooms, walls, and doors, then you can change the classes of
+rooms, walls, and doors by passing a different parameter. This is an
+example of the <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> pattern.</LI>
+
+<P></P>
+
+<A NAME="CreateMaze-text6"></A>
+
+<LI>If <CODE>CreateMaze</CODE> is passed an object that can create a new maze
+in its entirety using operations for adding rooms, doors, and walls to
+the maze it builds, then you can use inheritance to change parts of
+the maze or the way the maze is built. This is an example of the
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A> pattern.</LI>
+
+<P></P>
+
+<A NAME="CreateMaze-text7"></A>
+
+<LI>If <CODE>CreateMaze</CODE> is parameterized by various prototypical room,
+door, and wall objects, which it then copies and adds to the maze,
+then you can change the maze's composition by replacing these
+prototypical objects with different ones. This is an example of the
+<A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A> pattern.</LI>
+
+</UL>
+
+<A NAME="CreateMaze-text8"></A>
+
+<P>The remaining creational pattern, <A HREF="pat3efs.htm"
+TARGET="_mainDisplayFrame">Singleton (127)</A>, can
+ensure there's only one maze per game and that all game objects have
+ready access to it&#151;without resorting to global variables or
+functions.  Singleton also makes it easy to extend or replace the maze
+without touching existing code.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat3afs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3afs.htm"
+	TARGET="_mainDisplayFrame">Abstract Factory</A><BR>
+<A HREF="patcafs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="patcafs.htm"
+	TARGET="_mainDisplayFrame">Pattern Catalog</A>
+</P>
+
+</BODY>
+
+</HTML>

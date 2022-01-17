@@ -1,0 +1,439 @@
+<HTML>
+
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HEAD><TITLE>Glossary</TITLE></HEAD>
+
+<BODY
+	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+
+<A NAME="chapter_glossary"></A>
+
+<TABLE WIDTH=100% CELLPADDING=0 CELLSPACING=0>
+
+<TR>
+<TD WIDTH=25><IMG SRC="gifsb/clear.gif" WIDTH=25 HEIGHT=1></TD>
+<TD></TD>
+</TR>
+
+<TR><TD><A NAME="A"></A></TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="abstractclass"></A><B>abstract class</B></TD></TR>
+<TR><TD></TD><TD>A class whose primary purpose is to define an
+interface.  An abstract class defers some or all of its implementation
+to subclasses.  An abstract class cannot be instantiated.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="abstractcoupling"></A><B>abstract coupling</B></TD></TR>
+<TR><TD></TD><TD>Given a class <I>A</I> that maintains a reference
+to an abstract class <I>B</I>,  class <I>A</I> is said to be
+<EM>abstractly coupled</EM> to <I>B</I>.  We call this abstract
+coupling because <I>A</I> refers to a <EM>type</EM> of object, not
+a concrete object.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="abstractoperation"></A><B>abstract operation</B></TD></TR>
+<TR><TD></TD><TD>An operation that declares a signature but doesn't
+implement it.  In C++, an abstract operation corresponds to a
+<B>pure virtual member function</B>.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="acquaintancerelationship"></A><B>acquaintance relationship</B></TD></TR>
+<TR><TD></TD><TD>A class that refers to another class has an
+<EM>acquaintance</EM> with that class.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="aggregateobject"></A><B>aggregate object</B></TD></TR>
+<TR><TD></TD><TD>An object that's composed of subobjects.  The
+subobjects are called the aggregate's <B>parts</B>, and the aggregate
+is responsible for them.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="aggregation"></A>
+<A NAME="aggregationrelationship"></A><B>aggregation relationship</B></TD></TR>
+<TR><TD></TD><TD>The relationship of an aggregate object to its
+parts.  A class defines this relationship for its instances (e.g.,
+aggregate objects).</TD></TR>
+
+<TR><TD>
+<A NAME="B">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="black-boxreuse"></A><B>black-box reuse</B></TD></TR>
+<TR><TD></TD><TD>A style of reuse based on object composition.
+Composed objects reveal no internal details to each other and are
+thus analogous to "black boxes."</TD></TR>
+
+<TR><TD>
+<A NAME="C">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="class"></A><B>class</B></TD></TR>
+<TR><TD></TD><TD>A class defines an object's interface and
+implementation. It specifies the object's internal representation
+and defines the operations the object can perform.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="classdiagram"></A><B>class diagram</B></TD></TR>
+<TR><TD></TD><TD>A diagram that depicts classes, their internal structure and
+operations, and the static relationships between them.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="classoperation"></A><B>class operation</B></TD></TR>
+<TR><TD></TD><TD>An operation targeted to a class and not to an
+individual object. In C++, class operations are are called <B>static
+member functions</B>.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="concreteclass"></A><B>concrete class</B></TD></TR>
+<TR><TD></TD><TD>A class having no abstract operations. It can be
+instantiated.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="constructor"></A><B>constructor</B></TD></TR>
+<TR><TD></TD><TD>In C++, an operation that is automatically invoked
+to initialize new instances.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="coupling"></A><B>coupling</B></TD></TR>
+<TR><TD></TD><TD>The degree to which software components depend on
+each other.</TD></TR>
+
+<TR><TD>
+<A NAME="D">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="delegation"></A><B>delegation</B></TD></TR>
+<TR><TD></TD><TD>An implementation mechanism in which an object forwards or <EM>delegates</EM> a request to another object.  The delegate carries out the
+request on behalf of the original object.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="designpattern"></A><B>design pattern</B></TD></TR>
+<TR><TD></TD><TD>A design pattern systematically names, motivates,
+and explains a general design that addresses a recurring design
+problem in object-oriented systems.  It describes the problem, the
+solution, when to apply the solution, and its consequences.  It
+also gives implementation hints and examples.  The solution is a
+general arrangement of objects and classes that solve the problem.
+The solution is customized and implemented to solve the problem in
+a particular context.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="destructor"></A><B>destructor</B></TD></TR>
+<TR><TD></TD><TD>In C++, an operation that is automatically invoked to finalize an
+object that is about to be deleted.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="dynamicbinding"></A><B>dynamic binding</B></TD></TR>
+<TR><TD></TD><TD>The run-time association of a request to an object
+and one of its operations. In C++, only virtual functions are
+dynamically bound.</TD></TR>
+
+<TR><TD>
+<A NAME="E">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="encapsulation"></A><B>encapsulation</B></TD></TR>
+<TR><TD></TD><TD>The result of hiding a representation and
+implementation in an object.  The representation is not visible
+and cannot be accessed directly from outside the object. Operations
+are the only way to access and modify an object's representation.</TD></TR>
+
+<TR><TD>
+<A NAME="F">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="framework"></A><B>framework</B></TD></TR>
+<TR><TD></TD><TD>A set of cooperating classes that makes up a
+reusable design for a specific class of software. A framework
+provides architectural guidance by partitioning the design into
+abstract classes and defining their responsibilities and collaborations.
+A developer customizes the framework to a particular application
+by subclassing and composing instances of framework classes.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="friendclass"></A><B>friend class</B></TD></TR>
+<TR><TD></TD><TD>In C++, a class that has the same access rights
+to the operations and data of a class as that class itself.</TD></TR>
+
+<TR><TD>
+<A NAME="I">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="inheritance"></A><B>inheritance</B></TD></TR>
+<TR><TD></TD><TD>A relationship that defines one entity in terms
+of another.  <B>Class inheritance</B> defines a new class in terms
+of one or more parent classes.  The new class inherits its interface
+and implementation from its parents.  The new class is called a
+<B>subclass</B> or (in C++) a <B>derived class</B>.  Class inheritance
+combines <B>interface inheritance</B> and <B>implementation
+inheritance</B>.  Interface inheritance defines a new interface in
+terms of one or more existing interfaces.  Implementation inheritance
+defines a new implementation in terms of one or more existing
+implementations.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+
+<TR><TD COLSPAN=2><A NAME="instance"></A>
+<A NAME="datamember"></A>
+<A NAME="instancevariable"></A><B>instance variable</B></TD></TR>
+<TR><TD></TD><TD>A piece of data that defines part of an object's
+representation.  C++ uses the term <B>data member</B>.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="interactiondiagram"></A><B>interaction diagram</B></TD></TR>
+<TR><TD></TD><TD>A diagram that shows the flow of requests between
+objects.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="interface"></A><B>interface</B></TD></TR>
+<TR><TD></TD><TD>The set of all signatures defined by an object's
+operations. The interface describes the set of requests to which
+an object can respond.</TD></TR>
+
+<TR><TD>
+<A NAME="M">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="metaclass"></A><B>metaclass</B></TD></TR>
+<TR><TD></TD><TD>Classes are objects in Smalltalk.  A metaclass is
+the class of a class object.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="mixinclass"></A><B>mixin class</B></TD></TR>
+<TR><TD></TD><TD>A class designed to be combined with other classes
+through inheritance.  Mixin classes are usually abstract.</TD></TR>
+
+<TR><TD>
+<A NAME="O">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="object"></A><B>object</B></TD></TR>
+<TR><TD></TD><TD>A run-time entity that packages both data and the
+procedures that operate on that data.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="objectcomposition"></A><B>object composition</B></TD></TR>
+<TR><TD></TD><TD>Assembling or <EM>composing</EM> objects to get
+more complex behavior.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="objectdiagram"></A><B>object diagram</B></TD></TR>
+<TR><TD></TD><TD>A diagram that depicts a particular object structure at run-time.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="objectreference"></A><B>object reference</B></TD></TR>
+<TR><TD></TD><TD>A value that identifies another object.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+
+<TR><TD COLSPAN=2><A NAME="memberfunction"></A><A NAME="operation"></A><B>operation</B></TD></TR>
+<TR><TD></TD><TD>An object's data can be manipulated only by its operations. An object
+performs an operation when it receives a request.  In C++, operations
+are called <B>member functions</B>. Smalltalk uses the term
+<B>method</B>.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="overriding"></A><B>overriding</B></TD></TR>
+<TR><TD></TD><TD>Redefining an operation (inherited from a parent class) in a subclass.</TD></TR>
+
+<TR><TD>
+<A NAME="P">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="parameterized_type"></A><B>parameterized type</B></TD></TR>
+<TR><TD></TD><TD>A type that leaves some constituent types unspecified. The
+unspecified types are supplied as parameters at the point of use. In
+C++, parameterized types are called <B>templates</B>.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="ancestorclass"></A>
+<A NAME="parentclass"></A>
+<A NAME="superclass"></A><B>parent class</B></TD></TR>
+<TR><TD></TD><TD>The class from which another class inherits. Synonyms are
+<B>superclass</B> (Smalltalk), <B>base class</B> (C++), and
+<B>ancestor class</B>.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="polymorphism"></A><B>polymorphism</B></TD></TR>
+<TR><TD></TD><TD>The ability to substitute objects of matching interface for one
+another at run-time.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="privateinheritance"></A><B>private inheritance</B></TD></TR>
+<TR><TD></TD><TD>In C++, a class inherited solely for its implementation.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="protocol"></A><B>protocol</B></TD></TR>
+<TR><TD></TD><TD>Extends the concept of an interface to include the allowable sequences
+of requests.</TD></TR>
+
+<TR><TD>
+<A NAME="R">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="receiver"></A><B>receiver</B></TD></TR>
+<TR><TD></TD><TD>The target object of a request.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="request"></A><B>request</B></TD></TR>
+<TR><TD></TD><TD>An object performs an operation when it receives a corresponding
+request from another object.  A common synonym for request is
+<B>message</B>.</TD></TR>
+
+<TR><TD>
+<A NAME="S">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="signature"></A><B>signature</B></TD></TR>
+<TR><TD></TD><TD>An operation's signature defines its name, parameters, and return value.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="subclass"></A><B>subclass</B></TD></TR>
+<TR><TD></TD><TD>A class that inherits from another class. In C++, a subclass
+is called a <B>derived class</B>.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="subsystem"></A><B>subsystem</B></TD></TR>
+<TR><TD></TD><TD>An independent group of classes that collaborate to fulfill a set of
+responsibilities.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="subtype"></A><B>subtype</B></TD></TR>
+<TR><TD></TD><TD>A type is a subtype of another if its interface contains the
+interface of the other type.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="supertype"></A><B>supertype</B></TD></TR>
+<TR><TD></TD><TD>The parent type from which a type inherits.</TD></TR>
+
+<TR><TD>
+<A NAME="T">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="toolkit"></A><B>toolkit</B></TD></TR>
+<TR><TD></TD><TD>A collection of classes that provides useful functionality but does not
+define the design of an application.</TD></TR>
+
+<TR><TD>&nbsp;</TD></TR>
+
+
+<TR><TD COLSPAN=2><A NAME="type"></A><B>type</B></TD></TR>
+<TR><TD></TD><TD>The name of a particular interface.</TD></TR>
+
+<TR><TD>
+<A NAME="W">&nbsp;</A>
+</TD></TR>
+
+
+<TR><TD COLSPAN=2>
+<A NAME="white-boxreuse"></A><B>white-box reuse</B></TD></TR>
+<TR><TD></TD><TD>A style of reuse based on class inheritance.  A
+subclass reuses the interface and implementation of its parent
+class, but it may have access to otherwise private aspects of its
+parent.</TD></TR>
+
+</TABLE>
+
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="chapBfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chapBfs.htm"
+	TARGET="_mainDisplayFrame">Guide to Notation</A><BR>
+<A HREF="chap6fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap6fs.htm"
+	TARGET="_mainDisplayFrame">Conclusion</A>
+</P>
+
+</BODY>
+
+</HTML>
+

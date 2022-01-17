@@ -1,0 +1,4 @@
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Memento\bin\Debug\Memento.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Memento\bin\Debug\Memento.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Memento\obj\Debug\Memento.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Memento\obj\Debug\Memento.pdb

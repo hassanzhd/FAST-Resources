@@ -1,0 +1,20 @@
+G:\Data\HP Data\Documents\Visual Studio 2005\Projects\DesignPatterns\obj\Debug\DesignPatterns.exe
+G:\Data\HP Data\Documents\Visual Studio 2005\Projects\DesignPatterns\obj\Debug\DesignPatterns.pdb
+K:\DP13\Source Code\DesignPatterns\obj\Debug\DesignPatterns.exe
+K:\DP13\Source Code\DesignPatterns\obj\Debug\DesignPatterns.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\DesignPatterns\obj\Debug\DesignPatterns.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\DesignPatterns\obj\Debug\DesignPatterns.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\DesignPatterns\bin\Debug\DesignPatterns.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\DesignPatterns\bin\Debug\DesignPatterns.pdb
+F:\Source Code\DesignPatterns\bin\Debug\DesignPatterns.exe
+F:\Source Code\DesignPatterns\bin\Debug\DesignPatterns.pdb
+F:\Source Code\DesignPatterns\obj\Debug\AbstractFactory.csprojResolveAssemblyReference.cache
+F:\Source Code\DesignPatterns\obj\Debug\AbstractFactory.csproj.CoreCompileInputs.cache
+F:\Source Code\DesignPatterns\obj\Debug\DesignPatterns.exe
+F:\Source Code\DesignPatterns\obj\Debug\DesignPatterns.pdb
+D:\Academics\STiCS 2017\Source Code\DesignPatterns\bin\Debug\DesignPatterns.exe
+D:\Academics\STiCS 2017\Source Code\DesignPatterns\bin\Debug\DesignPatterns.pdb
+D:\Academics\STiCS 2017\Source Code\DesignPatterns\obj\Debug\AbstractFactory.csprojResolveAssemblyReference.cache
+D:\Academics\STiCS 2017\Source Code\DesignPatterns\obj\Debug\AbstractFactory.csproj.CoreCompileInputs.cache
+D:\Academics\STiCS 2017\Source Code\DesignPatterns\obj\Debug\DesignPatterns.exe
+D:\Academics\STiCS 2017\Source Code\DesignPatterns\obj\Debug\DesignPatterns.pdb

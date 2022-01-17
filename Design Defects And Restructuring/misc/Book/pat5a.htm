@@ -1,0 +1,729 @@
+<HTML>
+
+<HEAD><TITLE>Chain of Responsibility</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY	BGCOLOR		= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Avoid coupling the sender of a request to its receiver by giving more
+than one object a chance to handle the request.  Chain the receiving
+objects and pass the request along the chain until an object
+handles it.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1001"></A>
+<P>Consider a context-sensitive help facility for a graphical user
+interface.  The user can obtain help information on any part of the
+interface just by clicking on it. The help that's provided depends on
+the part of the interface that's selected and its context; for
+example, a button widget in a dialog box might have different help
+information than a similar button in the main window.  If no specific
+help information exists for that part of the interface, then
+the help system should display a more general help message about the
+immediate context&#151;the dialog box as a whole, for example.</P>
+
+<A NAME="auto1002"></A>
+<P>Hence it's natural to organize help information according to its
+generality&#151;from the most specific to the most general.  Furthermore,
+it's clear that a help request is handled by one of several user
+interface objects; which one depends on the context and how specific
+the available help is.</P>
+
+<A NAME="auto1003"></A>
+<P>The problem here is that the object that ultimately <EM>provides</EM> the
+help isn't known explicitly to the object (e.g., the button) that <EM>initiates</EM> the help request. What we need is a way to decouple the
+button that initiates the help request from the objects that might
+provide help information. The Chain of Responsibility pattern defines
+how that happens.</P>
+
+<A NAME="auto1004"></A>
+<P>The idea of this pattern is to decouple senders and receivers by
+giving multiple objects a chance to handle a request.  The request
+gets passed along a chain of objects until one of them handles it.</P>
+
+<A NAME="223o"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/chain090.gif">
+
+<A NAME="def-implicitreceiver"></A>
+<P>The first object in the chain receives the request and either handles
+it or forwards it to the next candidate on the chain, which does
+likewise.  The object that made the request has no explicit knowledge
+of who will handle it&#151;we say the request has an <STRONG>implicit
+receiver</STRONG>.
+
+<A NAME="auto1005"></A>
+<P>Let's assume the user clicks for help on a button widget marked
+"Print."  The button is contained in an instance of PrintDialog,
+which knows the application object it belongs to (see preceding object diagram).
+The following interaction diagram illustrates how the help
+request gets forwarded along the chain:</P>
+
+<A NAME="224ci"></A>
+<A NAME="224i"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/chain091.gif">
+
+<A NAME="auto1006"></A>
+<P>In this case, neither aPrintButton nor aPrintDialog handles the
+request; it stops at anApplication, which can handle it or ignore it.
+The client that issued the request has no direct reference to the
+object that ultimately fulfills it.</P>
+
+<A NAME="def-successor"></A>
+<P>To forward the request along the chain, and to ensure receivers remain
+implicit, each object on the chain shares a common interface for
+handling requests and for accessing its <STRONG>successor</STRONG> on the
+chain.  For example, the help system might define a HelpHandler class
+with a corresponding HandleHelp operation. HelpHandler can be the
+parent class for candidate object classes, or it can be defined as a
+mixin class. Then classes that want to handle help requests can make
+HelpHandler a parent:</P>
+
+<A NAME="224c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/chain092.gif">
+
+<A NAME="auto1007"></A>
+<P>The Button, Dialog, and Application classes use HelpHandler operations
+to handle help requests.  HelpHandler's HandleHelp operation forwards
+the request to the successor by default.  Subclasses can override this
+operation to provide help under the right circumstances; otherwise
+they can use the default implementation to forward the request.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1008"></A>
+<P>Use Chain of Responsibility when</P>
+
+<UL>
+
+<A NAME="auto1009"></A>
+<LI>more than one object may handle a request, and the handler isn't known
+<EM>a priori</EM>.  The handler should be ascertained automatically.
+
+<A NAME="auto1010"></A>
+<P></P>
+
+<A NAME="auto1011"></A>
+<LI>you want to issue a request to one of several objects without
+specifying the receiver explicitly.
+
+<A NAME="auto1012"></A>
+<P></P>
+
+<A NAME="auto1013"></A>
+<LI>the set of objects that can handle a request should be specified
+dynamically.
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/chain094.gif">
+
+<A NAME="auto1014"></A>
+<P>A typical object structure might look like this:
+
+<P ALIGN=CENTER><IMG SRC="Pictures/chain089.gif">
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1015"></A>
+<LI><B>Handler</B> (HelpHandler)
+
+<A NAME="auto1016"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1017"></A>
+<LI>defines an interface for handling requests.
+
+    <A NAME="auto1018"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1019"></A>
+<LI>(optional) implements the successor link.
+
+</UL>
+
+<A NAME="auto1020"></A>
+<P></P>
+
+<A NAME="auto1021"></A>
+<LI><B>ConcreteHandler</B> (PrintButton, PrintDialog)
+
+<A NAME="auto1022"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1023"></A>
+<LI>handles requests it is responsible for.
+
+    <A NAME="auto1024"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1025"></A>
+<LI>can access its successor.
+
+    <A NAME="auto1026"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1027"></A>
+<LI>if the ConcreteHandler can handle the request, it does so;
+    otherwise it forwards the request to its successor.
+
+</UL>
+
+<A NAME="auto1028"></A>
+<P></P>
+
+<A NAME="auto1029"></A>
+<LI><B>Client</B>
+
+<A NAME="auto1030"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1031"></A>
+<LI>initiates the request to a ConcreteHandler object on the chain.
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1032"></A>
+<LI>When a client issues a request, the request propagates along the chain
+until a ConcreteHandler object takes responsibility for handling it.
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1033"></A>
+<P>Chain of Responsibility has the following benefits and liabilities:</P>
+
+<OL>
+
+<A NAME="auto1034"></A>
+<LI><EM>Reduced coupling.</EM>
+The pattern frees an object from knowing which other object handles a
+request.  An object only has to know that a request will be handled
+"appropriately." Both the receiver and the sender have no explicit
+knowledge of each other, and an object in the chain doesn't have to
+know about the chain's structure.
+
+<A NAME="auto1035"></A>
+<P>As a result, Chain of Responsibility can simplify object
+interconnections.  Instead of objects maintaining references to all
+candidate receivers, they keep a single reference to their successor.</P></LI>
+
+<A NAME="auto1036"></A>
+<P></P>
+
+<A NAME="auto1037"></A>
+<LI><EM>Added flexibility in assigning responsibilities to objects.</EM>
+Chain of Responsibility gives you added flexibility in distributing
+responsibilities among objects.  You can add or change
+responsibilities for handling a request by adding to or otherwise
+changing the chain at run-time.  You can combine this with subclassing
+to specialize handlers statically.</LI>
+
+<A NAME="auto1038"></A>
+<P></P>
+
+<A NAME="guarantee-receipt"></A>
+<LI><EM>Receipt isn't guaranteed.</EM>
+Since a request has no explicit receiver, there's no <EM>guarantee</EM>
+it'll be handled&#151;the request can fall off the end of the chain
+without ever being handled.  A request can also go unhandled when the
+chain is not configured properly.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1039"></A>
+<P>Here are implementation issues to consider in Chain of Responsibility:</P>
+
+<OL>
+
+<A NAME="auto1040"></A>
+<LI><EM>Implementing the successor chain.</EM>
+There are two possible ways to implement the successor chain:</LI>
+
+<A NAME="auto1041"></A>
+<P></P>
+
+<OL>
+
+<LI TYPE=a>Define new links (usually in the Handler, but ConcreteHandlers
+could define them instead).</LI>
+
+<A NAME="auto1042"></A>
+<P></P>
+
+<LI TYPE=a>Use existing links.</LI>
+
+</OL>
+
+<A NAME="auto1043"></A>
+<P>Our examples so far define new links, but often you can use existing
+object references to form the successor chain. For example, parent
+references in a part-whole hierarchy can define a part's successor.  A
+widget structure might already have such links.
+<A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A> discusses parent references in more
+detail.</P>
+
+<A NAME="auto1044"></A>
+<P>Using existing links works well when the links support the chain you
+need.  It saves you from defining links explicitly, and it saves
+space.  But if the structure doesn't reflect the chain of
+responsibility your application requires, then you'll have to define
+redundant links.</P></LI>
+
+<A NAME="auto1045"></A>
+<P></P>
+
+<A NAME="succ-connect"></A>
+<LI><EM>Connecting successors.</EM>
+If there are no preexisting references for defining a chain, then you'll
+have to introduce them yourself. In that case, the Handler not only
+defines the interface for the requests but usually maintains the
+successor as well.  That lets the handler provide a default
+implementation of HandleRequest that forwards the request to the
+successor (if any).  If a ConcreteHandler subclass isn't interested
+in the request, it doesn't have to override the forwarding operation,
+since its default implementation forwards unconditionally.
+
+<A NAME="auto1046"></A>
+<P>Here's a HelpHandler base class that maintains a successor link:</P>
+
+<A NAME="auto1047"></A>
+<PRE>
+    class HelpHandler {
+    public:
+        HelpHandler(HelpHandler* s) : _successor(s) { }
+        virtual void HandleHelp();
+    private:
+        HelpHandler* _successor;
+    };
+    
+    void HelpHandler::HandleHelp () {
+        if (_successor) {
+            _successor->HandleHelp();
+        }
+    }
+</PRE>
+
+<A NAME="auto1048"></A>
+<P></P>
+
+<A NAME="represent-request"></A>
+<LI><EM>Representing requests.</EM>
+Different options are available for representing requests.  In the
+simplest form, the request is a hard-coded operation invocation, as in
+the case of HandleHelp. This is convenient and safe, but you can
+forward only the fixed set of requests that the Handler class defines.</P>
+
+<A NAME="auto1049"></A>
+<P>An alternative is to use a single handler function that takes a
+request code (e.g., an integer constant or a string) as parameter.
+This supports an open-ended set of requests. The only requirement is
+that the sender and receiver agree on how the request should be
+encoded.</P>
+
+<A NAME="auto1050"></A>
+<P>This approach is more flexible, but it requires conditional statements
+for dispatching the request based on its code.  Moreover, there's no
+type-safe way to pass parameters, so they must be packed and unpacked
+manually.  Obviously this is less safe than invoking an operation
+directly.</P>
+
+<A NAME="auto1051"></A>
+<P>To address the parameter-passing problem, we can use separate request
+<EM>objects</EM> that bundle request parameters. A <CODE>Request</CODE>
+class can represent requests explicitly, and new kinds of requests can
+be defined by subclassing. Subclasses can define different parameters.
+Handlers must know the kind of request (that is, which
+<CODE>Request</CODE> subclass they're using) to access these parameters.</P>
+
+<A NAME="typecheck-runtime"></A>
+<P>To identify the request, <CODE>Request</CODE> can define an accessor
+function that returns an identifier for the class.  Alternatively, the
+receiver can use run-time type information if the implementation
+languages supports it.</P>
+
+<A NAME="auto1052"></A>
+<P>Here is a sketch of a dispatch function that uses request objects to
+identify requests.
+A <CODE>GetKind</CODE> operation defined in the base <CODE>Request</CODE>
+class identifies the kind of request:</P>
+
+<A NAME="auto1053"></A>
+<PRE>
+    void Handler::HandleRequest (Request* theRequest) {
+        switch (theRequest->GetKind()) {
+        case Help:
+            // cast argument to appropriate type
+            HandleHelp((HelpRequest*) theRequest);
+            break;
+    
+        case Print:
+            HandlePrint((PrintRequest*) theRequest);
+            // ...
+            break;
+    
+        default:
+            // ...
+            break;
+        }
+    }
+</PRE>
+
+<A NAME="extnd-hndlr"></A>
+<P>Subclasses can extend the dispatch by overriding
+<CODE>HandleRequest</CODE>.  The subclass handles only the
+requests in which it's interested; other requests are forwarded to the
+parent class.  In this way, subclasses effectively extend (rather than
+override) the <CODE>HandleRequest</CODE> operation.
+For example, here's how an <CODE>ExtendedHandler</CODE> subclass extends
+<CODE>Handler</CODE>'s version of <CODE>HandleRequest</CODE>:</P>
+
+<A NAME="auto1054"></A>
+<PRE>
+    class ExtendedHandler : public Handler {
+    public:
+        virtual void HandleRequest(Request* theRequest);
+        // ...
+    };
+    
+    void ExtendedHandler::HandleRequest (Request* theRequest) {
+        switch (theRequest->GetKind()) {
+        case Preview:
+            // handle the Preview request
+            break;
+    
+        default:
+            // let Handler handle other requests
+            Handler::HandleRequest(theRequest);
+        }
+    }
+</PRE>
+
+<A NAME="auto1055"></A>
+<P></P>
+
+<A NAME="doesnotunder"></A>
+<A NAME="forward-req"></A>
+<LI><EM>Automatic forwarding in Smalltalk.</EM>
+You can use the <CODE>doesNotUnderstand</CODE> mechanism in Smalltalk to
+forward requests.  Messages that have no corresponding methods are
+trapped in the implementation of <CODE>doesNotUnderstand</CODE>, which
+can be overridden to forward the message to an object's successor.
+Thus it isn't necessary to implement forwarding manually; the class
+handles only the request in which it's interested, and it relies on
+<CODE>doesNotUnderstand</CODE> to forward all others.</LI>
+
+</OL>
+
+<A NAME="samplecode"></A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1056"></A>
+<P>The following example illustrates how a chain of responsibility can
+handle requests for an on-line help system like the one described
+earlier.  The help request is an explicit operation.  We'll use existing
+parent references in the widget hierarchy to propagate requests
+between widgets in the chain, and we'll define a reference in the
+Handler class to propagate help requests between nonwidgets in the
+chain.</P>
+
+<A NAME="auto1057"></A>
+<P>The <CODE>HelpHandler</CODE> class defines the interface for handling
+help requests. It maintains a help topic (which is empty by default)
+and keeps a reference to its successor on the chain of help handlers.
+The key operation is <CODE>HandleHelp</CODE>, which subclasses
+override. <CODE>HasHelp</CODE> is a convenience operation for checking
+whether there is an associated help topic.</P>
+
+<A NAME="auto1058"></A>
+<PRE>
+    typedef int Topic;
+    const Topic NO_HELP_TOPIC = -1;
+    
+    class HelpHandler {
+    public:
+        HelpHandler(HelpHandler* = 0, Topic = NO_HELP_TOPIC);
+        virtual bool HasHelp();
+        virtual void SetHandler(HelpHandler*, Topic);
+        virtual void HandleHelp();
+    private:
+        HelpHandler* _successor;
+        Topic _topic;
+    };
+    
+    HelpHandler::HelpHandler (
+        HelpHandler* h, Topic t
+    ) : _successor(h), _topic(t) { }
+    
+    bool HelpHandler::HasHelp () {
+        return _topic != NO_HELP_TOPIC;
+    }
+    
+    void HelpHandler::HandleHelp () {
+        if (_successor != 0) {
+            _successor->HandleHelp();
+        }
+    }
+</PRE>
+
+<A NAME="widget-class"></A>
+<P>All widgets are subclasses of the <CODE>Widget</CODE> abstract class.
+<CODE>Widget</CODE> is a subclass of <CODE>HelpHandler</CODE>, since all
+user interface elements can have help associated with them.  (We could
+have used a mixin-based implementation just as well.)</P>
+
+<A NAME="auto1059"></A>
+<PRE>
+    class Widget : public HelpHandler {
+    protected:
+        Widget(Widget* parent, Topic t = NO_HELP_TOPIC);
+    private:
+        Widget* _parent;
+    };
+    
+    Widget::Widget (Widget* w, Topic t) : HelpHandler(w, t) {
+        _parent = w;
+    }
+</PRE>
+
+<A NAME="auto1060"></A>
+<P>In our example, a button is the first handler on the chain.  The
+<CODE>Button</CODE> class is a subclass of <CODE>Widget</CODE>.
+The <CODE>Button</CODE> constructor takes two parameters: a reference to
+its enclosing widget and the help topic.</P>
+
+<A NAME="auto1061"></A>
+<PRE>
+    class Button : public Widget {
+    public:
+        Button(Widget* d, Topic t = NO_HELP_TOPIC);
+    
+        virtual void HandleHelp();
+        // Widget operations that Button overrides...
+    };
+</PRE>
+
+<A NAME="auto1062"></A>
+<P><CODE>Button</CODE>'s version of <CODE>HandleHelp</CODE> first tests to see if
+there is a help topic for buttons. If the developer hasn't defined
+one, then the request gets forwarded to the successor using the
+<CODE>HandleHelp</CODE> operation in <CODE>HelpHandler</CODE>.  If there
+<EM>is</EM> a help topic, then the button displays it, and the search
+ends.</P>
+
+<A NAME="auto1063"></A>
+<PRE>
+    Button::Button (Widget* h, Topic t) : Widget(h, t) { }
+    
+    void Button::HandleHelp () {
+        if (HasHelp()) {
+            // offer help on the button
+        } else {
+            HelpHandler::HandleHelp();
+        }
+    }
+</PRE>
+
+<A NAME="auto1064"></A>
+<P><CODE>Dialog</CODE> implements a similar scheme, except that its
+successor is not a widget but <EM>any</EM> help handler. In our
+application this successor will be an instance of <CODE>Application</CODE>.</P>
+
+<A NAME="auto1065"></A>
+<PRE>
+    class Dialog : public Widget {
+    public:
+        Dialog(HelpHandler* h, Topic t = NO_HELP_TOPIC);
+        virtual void HandleHelp();
+    
+        // Widget operations that Dialog overrides...
+        // ...
+    };
+    
+    Dialog::Dialog (HelpHandler* h,  Topic t) : Widget(0) {
+        SetHandler(h, t);
+    }
+    
+    void Dialog::HandleHelp () {
+        if (HasHelp()) {
+            // offer help on the dialog
+        } else {
+            HelpHandler::HandleHelp();
+        }
+    }
+</PRE>
+
+<A NAME="app2"></A>
+<P>At the end of the chain is an instance of <CODE>Application</CODE>.  The
+application is not a widget, so <CODE>Application</CODE> is subclassed
+directly from <CODE>HelpHandler</CODE>.
+When a help request propagates to this level, the
+application can supply information on the application in general, or
+it can offer a list of different help topics:</P>
+
+<A NAME="auto1067"></A>
+<PRE>
+    class Application : public HelpHandler {
+    public:
+        Application(Topic t) : HelpHandler(0, t) { }
+    
+        virtual void HandleHelp();
+        // application-specific operations...
+    };
+    
+    void Application::HandleHelp () {
+        // show a list of help topics
+    }
+</PRE>
+
+<A NAME="dialog-231"></A>
+<P>The following code creates and connects these objects.  Here the
+dialog concerns printing, and so the objects have printing-related
+topics assigned.</P>
+
+<A NAME="auto1068"></A>
+<PRE>
+    const Topic PRINT_TOPIC = 1;
+    const Topic PAPER_ORIENTATION_TOPIC = 2;
+    const Topic APPLICATION_TOPIC = 3;
+    
+    Application* application = new Application(APPLICATION_TOPIC);
+    Dialog* dialog = new Dialog(application, PRINT_TOPIC);
+    Button* button = new Button(dialog, PAPER_ORIENTATION_TOPIC);
+</PRE>
+
+<A NAME="auto1069"></A>
+<P>We can invoke the help request by calling <CODE>HandleHelp</CODE> on any
+object on the chain.  To start the search at the button object, just
+call <CODE>HandleHelp</CODE> on it:</P>
+
+<A NAME="auto1070"></A>
+<PRE>
+    button->HandleHelp();
+</PRE>
+
+<A NAME="auto1071"></A>
+<P>In this case, the button will handle the request immediately.  Note
+that any <CODE>HelpHandler</CODE> class could be made the successor of
+<CODE>Dialog</CODE>. Moreover, its successor could be changed
+dynamically.  So no matter where a dialog is used, you'll get the
+proper context-dependent help information for it.</P>
+
+<A NAME="knownuses"></A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="responder"></A>
+<P>Several class libraries use the Chain of Responsibility pattern to
+handle user events.  They use different names for the Handler class,
+but the idea is the same: When the user clicks the mouse or presses a
+key, an event gets generated and passed along the chain.
+MacApp [<A HREF="bibfs.htm#macapp" TARGET="_mainDisplayFrame">App89</A>] and ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayF
+rame">WGM88</A>] call it "EventHandler,"
+Symantec's TCL library [<A HREF="bibfs.htm#think" TARGET="_mainDisplayFrame">Sym93b</A>] calls it "Bureaucrat," and
+NeXT's AppKit [<A HREF="bibfs.htm#NeXT_AppKit" TARGET="_mainDisplayFrame">Add94</A>] uses the name "Responder."</P>
+
+<A NAME="unidraw-use-cor"></A>
+<A NAME="unidraw-use-comm"></A>
+<P>The Unidraw framework for graphical editors defines Command objects
+that encapsulate requests to Component and ComponentView
+objects [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>].  Commands are requests in the sense
+that a component or component view may interpret a command to perform
+an operation.  This corresponds to the "requests as objects"
+approach described in Implementation.  Components and component views
+may be structured hierarchically.  A component or a component view may
+forward command interpretation to its parent, which may in turn
+forward it to its parent, and so on, thereby forming a chain of
+responsibility.</P>
+
+<A NAME="auto1072"></A>
+<P>ET++ uses Chain of Responsibility to handle graphical update.  A
+graphical object calls the InvalidateRect operation whenever it must
+update a part of its appearance. A graphical object can't handle
+InvalidateRect by itself, because it doesn't know enough about its
+context.  For example, a graphical object can be enclosed in objects
+like Scrollers or Zoomers that transform its coordinate system.  That
+means the object might be scrolled or zoomed so that it's partially
+out of view.  Therefore the default implementation of InvalidateRect
+forwards the request to the enclosing container object.  The last
+object in the forwarding chain is a Window instance.  By the time
+Window receives the request, the invalidation rectangle is guaranteed
+to be transformed properly.  The Window handles InvalidateRect by
+notifying the window system interface and requesting an update.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1073"></A>
+<P>Chain of Responsibility is often applied in conjunction with <A
+HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>. There,
+a component's parent can act as its successor.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5bfs.htm"
+        TARGET="_mainDisplayFrame">Command</A><BR>
+<A HREF="chap5fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="chap5fs.htm"
+        TARGET="_mainDisplayFrame">Behavioral Patterns</A>
+</P>
+
+
+</BODY>
+
+</HTML>
+

@@ -1,0 +1,759 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML><HEAD>	<TITLE>Bridge</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Bridge"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Decouple an abstraction from its implementation so that the two
+can vary independently.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Handle/Body</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>When an abstraction can have one of several possible implementations,
+the usual way to accommodate them is to use inheritance. An abstract
+class defines the interface to the abstraction, and concrete
+subclasses implement it in different ways. But this approach isn't
+always flexible enough.  Inheritance binds an implementation to the
+abstraction permanently, which makes it difficult to modify, extend,
+and reuse abstractions and implementations independently.</P>
+
+<A NAME="pmwindow"></A>
+<A NAME="present-manage"></A>
+<A NAME="xwindowsys"></A>
+<A NAME="xiconwindow"></A>
+<A NAME="xwindow"></A>
+<P>Consider the implementation of a portable Window abstraction in a user
+interface toolkit. This abstraction should enable us to write
+applications that work on both the X Window System and IBM's
+Presentation Manager (PM), for example. Using inheritance, we could
+define an abstract class Window and subclasses XWindow and PMWindow
+that implement the Window interface for the different platforms. But
+this approach has two drawbacks:</P>
+
+<OL>
+
+<A NAME="pmiconwindow"></A>
+<LI>It's inconvenient to extend the Window abstraction to cover different
+kinds of windows or new platforms. Imagine an IconWindow subclass of
+Window that specializes the Window abstraction for icons.  To support
+IconWindows for both platforms, we have to implement <EM>two</EM> new
+classes, XIconWindow and PMIconWindow. Worse, we'll have to define two
+classes for <EM>every</EM> kind of window. Supporting a third platform
+requires yet another new Window subclass for every kind of window.
+
+<A NAME="pmiconwindow-151c"></A>
+<A NAME="pmwindow-151c"></A>
+<A NAME="151c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/bridg098.gif">
+
+</LI>
+<A NAME="auto1003"></A>
+<P></P>
+<A NAME="auto1004"></A>
+<LI>It makes client code platform-dependent. Whenever a client creates a
+window, it instantiates a concrete class that has a specific
+implementation. For example, creating an XWindow object binds the
+Window abstraction to the X Window implementation, which makes the
+client code dependent on the X Window implementation.  This, in turn,
+makes it harder to port the client code to other platforms.
+
+<A NAME="auto1005"></A>
+<P>Clients should be able to create a window without committing to a
+concrete implementation. Only the window implementation should depend
+on the platform on which the application runs. Therefore client code
+should instantiate windows without mentioning specific platforms.
+
+</LI>
+
+</OL>
+
+<A NAME="pmwindowimp"></A>
+<A NAME="window"></A>
+<A NAME="xwindowimp"></A>
+<P>The Bridge pattern addresses these problems by putting the Window
+abstraction and its implementation in separate class hierarchies.
+There is one class hierarchy for window interfaces (Window,
+IconWindow, TransientWindow) and a separate hierarchy for
+platform-specific window implementations, with WindowImp as its root.
+The XWindowImp subclass, for example, provides an implementation based
+on the X Window System.</P>
+
+<A NAME="pmwindowimp-152c"></A>
+<A NAME="152c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/bridg100.gif"></P>
+
+<A NAME="windowimp"></A>
+<P>All operations on Window subclasses are implemented in terms of abstract
+operations from the WindowImp interface. This decouples the window
+abstractions from the various platform-specific implementations. We
+refer to the relationship between Window and WindowImp as a
+<STRONG>bridge</STRONG>, because it bridges the abstraction and its
+implementation, letting them vary independently.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1006"></A>
+<P>Use the Bridge pattern when</P>
+
+<UL>
+
+<A NAME="auto1007"></A>
+<LI>you want to avoid a permanent binding between an abstraction and its
+implementation. This might be the case, for example, when the
+implementation must be selected or switched at run-time.</LI>
+<A NAME="auto1008"></A>
+<P></P>
+<A NAME="auto1009"></A>
+<LI>both the abstractions and their implementations should be extensible
+by subclassing. In this case, the Bridge pattern lets you combine the
+different abstractions and implementations and extend them
+independently.</LI>
+<A NAME="auto1010"></A>
+<P></P>
+<A NAME="auto1011"></A>
+<LI>changes in the implementation of an abstraction should have no impact
+on clients; that is, their code should not have to be recompiled.</LI>
+<A NAME="auto1012"></A>
+<P></P>
+<A NAME="auto1013"></A>
+<LI>(C++) you want to hide the implementation of an abstraction completely
+from clients. In C++ the representation of a class is visible in the
+class interface.</LI>
+<A NAME="auto1014"></A>
+<P></P>
+<A NAME="auto1015"></A>
+<LI>you have a proliferation of classes as shown earlier in the first Motivation
+diagram.  Such a class hierarchy indicates the need for splitting an
+object into two parts. Rumbaugh uses the term "nested
+generalizations" [<A HREF="bibfs.htm#rumbaugh_omt" TARGET="_mainDisplayFrame">RBP+91</A>] to refer to such class
+hierarchies.</LI>
+<A NAME="auto1016"></A>
+<P></P>
+<A NAME="auto1017"></A>
+<LI>you want to share an implementation among multiple objects (perhaps
+using reference counting), and this fact should be hidden from the
+client.  A simple example is Coplien's String
+class [<A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>], in which multiple objects can share the
+same string representation (StringRep).</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/bridge.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1018"></A>
+<LI><B>Abstraction</B> (Window)
+
+<A NAME="auto1019"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1020"></A>
+<LI>defines the abstraction's interface.</LI>
+
+    <A NAME="auto1021"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1022"></A>
+<LI>maintains a reference to an object of type Implementor.</LI>
+
+    </UL>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<A NAME="refinedabs-part-bridge"></A>
+<LI><B>RefinedAbstraction</B> (IconWindow)
+
+<A NAME="auto1024"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1025"></A>
+<LI>Extends the interface defined by Abstraction.</LI>
+
+    </UL>
+
+<A NAME="auto1026"></A>
+<P></P>
+
+<A NAME="auto1027"></A>
+<LI><B>Implementor</B> (WindowImp)
+
+<A NAME="auto1028"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1029"></A>
+<LI>defines the interface for implementation classes.  This
+	interface doesn't have to correspond exactly to Abstraction's
+	interface; in fact the two interfaces can be quite different.
+	Typically the Implementor interface provides only primitive
+	operations, and Abstraction defines higher-level
+	operations based on these primitives.
+
+    </UL>
+
+<A NAME="auto1030"></A>
+<P></P>
+
+<A NAME="auto1031"></A>
+<LI><B>ConcreteImplementor</B> (XWindowImp, PMWindowImp)
+
+<A NAME="auto1032"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1033"></A>
+<LI>implements the Implementor interface and defines its
+        concrete implementation.
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1034"></A>
+<LI>Abstraction forwards client requests to its Implementor object.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1035"></A>
+<P>The Bridge pattern has the following consequences:</P>
+
+<OL>
+
+<A NAME="decouple-iandi">
+<A NAME="auto1036"></A>
+<LI><EM>Decoupling interface and implementation.</EM>
+An implementation is not bound permanently to an interface. The
+implementation of an abstraction can be configured at run-time.
+It's even possible for an object to change its implementation
+at run-time.
+
+<A NAME="auto1037"></A>
+<P>Decoupling Abstraction and Implementor also eliminates compile-time
+dependencies on the implementation. Changing an implementation class
+doesn't require recompiling the Abstraction class and its
+clients. This property is essential when you must ensure binary
+compatibility between different versions of a class library.</P>
+
+<A NAME="auto1038"></A>
+<P>Furthermore, this decoupling encourages layering that can lead to a
+better-structured system. The high-level part of a system only has to
+know about Abstraction and Implementor.</P>
+
+</LI>
+<A NAME="auto1039"></A>
+<P></P>
+<A NAME="auto1040"></A>
+<LI><EM>Improved extensibility.</EM>
+You can extend the Abstraction and Implementor hierarchies independently.</LI>
+<A NAME="auto1041"></A>
+<P></P>
+<A NAME="auto1042"></A>
+<LI><EM>Hiding implementation details from clients.</EM>
+You can shield clients from implementation details, like the sharing
+of implementor objects and the accompanying reference count mechanism
+(if any).</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1043"></A>
+<P>Consider the following implementation issues when applying the Bridge
+pattern:</P>
+
+<OL>
+
+<A NAME="auto1044"></A>
+<LI><EM>Only one Implementor.</EM>
+In situations where there's only one implementation, creating an
+abstract Implementor class isn't necessary. This is a degenerate case
+of the Bridge pattern; there's a one-to-one relationship between
+Abstraction and Implementor. Nevertheless, this separation is still
+useful when a change in the implementation of a class must not affect
+its existing clients&#151;that is, they shouldn't have to be recompiled,
+just relinked.
+
+<A NAME="auto1045"></A>
+<P>Carolan [<A HREF="bibfs.htm#carolan_bullet-proof" TARGET="_mainDisplayFrame">Car89</A>] uses the term "Cheshire Cat" to
+describe this separation.  In C++, the class interface of the
+Implementor class can be defined in a private header file that isn't
+provided to clients.  This lets you hide an implementation of a class
+completely from its clients.</P>
+
+</LI>
+<A NAME="auto1046"></A>
+<P></P>
+<A NAME="auto1047"></A>
+<LI><EM>Creating the right Implementor object.</EM>
+How, when, and where do you decide which Implementor class to
+instantiate when there's more than one?
+
+<A NAME="auto1048"></A>
+<P>If Abstraction knows about all ConcreteImplementor classes, then it
+can instantiate one of them in its constructor; it can decide between
+them based on parameters passed to its constructor.  If, for example,
+a collection class supports multiple implementations, the decision can
+be based on the size of the collection. A linked list implementation
+can be used for small collections and a hash table for larger ones.</P>
+
+<A NAME="auto1049"></A>
+<P>Another approach is to choose a default implementation initially and
+change it later according to usage.  For example, if the collection
+grows bigger than a certain threshold, then it switches its
+implementation to one that's more appropriate for a large number of
+items.</P>
+
+<A NAME="auto1050"></A>
+<P>It's also possible to delegate the decision to another object
+altogether.  In the Window/WindowImp example, we can introduce a
+factory object (see <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A>)
+whose sole duty is to encapsulate platform-specifics.  The factory
+knows what kind of WindowImp object to create for the platform in use;
+a Window simply asks it for a WindowImp, and it returns the right
+kind.  A benefit of this approach is that Abstraction is not coupled
+directly to any of the Implementor classes.</P>
+
+</LI>
+<A NAME="auto1051"></A>
+<P></P>
+<A NAME="auto1052"></A>
+<LI><EM>Sharing implementors.</EM>
+Coplien illustrates how the Handle/Body idiom in C++ can be used to
+share implementations among several objects [<A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>]. The
+Body stores a reference count that the Handle class increments and
+decrements. The code for assigning handles with shared bodies has the
+following general form:
+
+<A NAME="auto1053"></A>
+<PRE>
+    Handle&amp; Handle::operator= (const Handle&amp; other)  {
+        other._body->Ref();
+        _body->Unref();
+    
+        if (_body->RefCount() == 0) {
+            delete _body;
+        }
+        _body = other._body;
+    
+        return *this;
+    }
+</PRE>
+
+</LI>
+<A NAME="auto1054"></A>
+<P></P>
+<A NAME="auto1055"></A>
+<LI><EM>Using multiple inheritance.</EM> You can use multiple
+inheritance in C++ to combine an interface with its implementation [<A HREF="bibfs.htm#martin" TARGET="_mainDisplayFrame">Mar91</A>]. For example, a class can inherit
+publicly from Abstraction and privately from a ConcreteImplementor.
+But because this approach relies on static inheritance, it binds
+an implementation permanently to its interface. Therefore you can't
+implement a true Bridge with multiple inheritance&#151;at least
+not in C++.</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1056"></A>
+<P>The following C++ code implements the Window/WindowImp example from the
+Motivation section. The <CODE>Window</CODE> class defines the window abstraction
+for client applications:</P>
+
+<A NAME="auto1057"></A>
+<PRE>
+    class Window {
+    public:
+        Window(View* contents);
+    
+        // requests handled by window
+        virtual void DrawContents();
+    
+        virtual void Open();
+        virtual void Close();
+        virtual void Iconify();
+        virtual void Deiconify();
+    
+        // requests forwarded to implementation
+        virtual void SetOrigin(const Point&amp; at);
+        virtual void SetExtent(const Point&amp; extent);
+        virtual void Raise();
+        virtual void Lower();
+    
+        virtual void DrawLine(const Point&amp;, const Point&amp;);
+        virtual void DrawRect(const Point&amp;, const Point&amp;);
+        virtual void DrawPolygon(const Point[], int n);
+        virtual void DrawText(const char*, const Point&amp;);
+    
+    protected:
+        WindowImp* GetWindowImp();
+        View* GetView();
+    
+    private:
+        WindowImp* _imp;
+        View* _contents; // the window's contents
+    };
+</PRE>
+
+<A NAME="windowimp2"></A>
+<A NAME="xwindowimp2"></A>
+<P><CODE>Window</CODE> maintains a reference to a <CODE>WindowImp</CODE>, the
+abstract class that declares an interface to the underlying windowing
+system.</P>
+
+<A NAME="auto1058"></A>
+<PRE>
+    class WindowImp {
+    public:
+        virtual void ImpTop() = 0;
+        virtual void ImpBottom() = 0;
+        virtual void ImpSetExtent(const Point&amp;) = 0;
+        virtual void ImpSetOrigin(const Point&amp;) = 0;
+    
+        virtual void DeviceRect(Coord, Coord, Coord, Coord) = 0;
+        virtual void DeviceText(const char*, Coord, Coord) = 0;
+        virtual void DeviceBitmap(const char*, Coord, Coord) = 0;
+        // lots more functions for drawing on windows...
+    protected:
+        WindowImp();
+    };
+</PRE>
+
+<A NAME="auto1059"></A>
+<P>Subclasses of <CODE>Window</CODE> define the different kinds of
+windows the application might use, such as application windows,
+icons, transient windows for dialogs, floating palettes of tools,
+and so on.</P>
+
+<A NAME="appwin"></A>
+<P>For example, <CODE>ApplicationWindow</CODE> will implement
+<CODE>DrawContents</CODE> to draw the  <CODE>View</CODE> instance
+it stores:</P>
+
+<A NAME="auto1060"></A>
+<PRE>
+    class ApplicationWindow : public Window {
+    public:
+        // ...
+        virtual void DrawContents();
+    };
+    
+    void ApplicationWindow::DrawContents () {
+        GetView()->DrawOn(this);
+    }
+</PRE>
+
+<A NAME="auto1062"></A>
+<P><CODE>IconWindow</CODE> stores the name of a
+bitmap for the icon it displays...</P>
+
+<A NAME="auto1063"></A>
+<PRE>
+    class IconWindow : public Window {
+    public:
+        // ...
+        virtual void DrawContents();
+    private:
+        const char* _bitmapName;
+    };
+</PRE>
+
+<A NAME="auto1064"></A>
+<P>...and it implements <CODE>DrawContents</CODE> to draw the bitmap
+on the window:</P>
+
+<A NAME="auto1065"></A>
+<PRE>
+    void IconWindow::DrawContents() {
+        WindowImp* imp = GetWindowImp();
+        if (imp != 0) {
+            imp->DeviceBitmap(_bitmapName, 0.0, 0.0);
+        }
+    }
+</PRE>
+
+<A NAME="auto1066"></A>
+<P>Many other variations of <CODE>Window</CODE> are possible.  A
+<CODE>TransientWindow</CODE> may need to communicate with the window that
+created it during the dialog; hence it keeps a reference to that
+window.  A <CODE>PaletteWindow</CODE> always floats above other windows.
+An <CODE>IconDockWindow</CODE> holds
+<CODE>IconWindow</CODE>s and arranges them neatly.</P>
+
+<A NAME="auto1067"></A>
+<P><CODE>Window</CODE> operations are defined in terms of the
+<CODE>WindowImp</CODE> interface.  For example,
+<CODE>DrawRect</CODE> extracts four coordinates from its two <CODE>Point</CODE>
+parameters before calling the
+<CODE>WindowImp</CODE> operation that draws the rectangle in the window:</P>
+
+<A NAME="auto1068"></A>
+<PRE>
+    void Window::DrawRect (const Point&amp; p1, const Point&amp; p2) {
+        WindowImp* imp = GetWindowImp();
+        imp->DeviceRect(p1.X(), p1.Y(), p2.X(), p2.Y());
+    }
+</PRE>
+
+<A NAME="xwindowsys2"></A>
+<P>Concrete subclasses of <CODE>WindowImp</CODE> support different window
+systems.  The <CODE>XWindowImp</CODE> subclass supports the X Window
+System:</P>
+
+<A NAME="auto1069"></A>
+<PRE>
+    class XWindowImp : public WindowImp {
+    public:
+        XWindowImp();
+    
+        virtual void DeviceRect(Coord, Coord, Coord, Coord);
+        // remainder of public interface...
+    private:
+        // lots of X window system-specific state, including:
+        Display* _dpy;
+        Drawable _winid;  // window id
+        GC _gc;           // window graphic context
+    };
+</PRE>
+
+<A NAME="pmwindowimp"></A>
+<A NAME="present-manage2"></A>
+<P>For Presentation Manager (PM), we define a <CODE>PMWindowImp</CODE>
+class:</P>
+
+<A NAME="auto1070"></A>
+<PRE>
+    class PMWindowImp : public WindowImp {
+    public:
+        PMWindowImp();
+        virtual void DeviceRect(Coord, Coord, Coord, Coord);
+    
+        // remainder of public interface...
+    private:
+        // lots of PM window system-specific state, including:
+        HPS _hps;
+    };
+</PRE>
+
+<A NAME="auto1071"></A>
+<P>These subclasses implement <CODE>WindowImp</CODE> operations in terms of
+window system primitives. For example,
+<CODE>DeviceRect</CODE> is implemented  for X as follows:</P>
+
+<A NAME="auto1072"></A>
+<PRE>
+    void XWindowImp::DeviceRect (
+        Coord x0, Coord y0, Coord x1, Coord y1
+    ) {
+        int x = round(min(x0, x1));
+        int y = round(min(y0, y1));
+        int w = round(abs(x0 - x1));
+        int h = round(abs(y0 - y1));
+        XDrawRectangle(_dpy, _winid, _gc, x, y, w, h);
+    }
+</PRE>
+
+<A NAME="auto1073"></A>
+<P>The PM implementation might look like this:</P>
+
+<A NAME="auto1074"></A>
+<PRE>
+    void PMWindowImp::DeviceRect (
+        Coord x0, Coord y0, Coord x1, Coord y1
+    ) {
+        Coord left = min(x0, x1);
+        Coord right = max(x0, x1);
+        Coord bottom = min(y0, y1);
+        Coord top = max(y0, y1);
+    
+        PPOINTL point[4];
+    
+        point[0].x = left;    point[0].y = top;
+        point[1].x = right;   point[1].y = top;
+        point[2].x = right;   point[2].y = bottom;
+        point[3].x = left;    point[3].y = bottom;
+    
+        if (
+            (GpiBeginPath(_hps, 1L) == false) ||
+            (GpiSetCurrentPosition(_hps, &amp;point[3]) == false) ||
+            (GpiPolyLine(_hps, 4L, point) == GPI_ERROR)  ||
+            (GpiEndPath(_hps) == false)
+        ) {
+            // report error
+    
+        } else {
+            GpiStrokePath(_hps, 1L, 0L);
+        }
+    }
+</PRE>
+
+<A NAME="auto1075"></A>
+<P>How does a window obtain an instance of the right
+<CODE>WindowImp</CODE> subclass?   We'll assume
+<CODE>Window</CODE> has that responsibility in this example.
+Its <CODE>GetWindowImp</CODE> operation gets the right instance from an
+abstract factory (see <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A>)
+that effectively encapsulates all window system specifics.</P>
+
+<A NAME="auto1076"></A>
+<PRE>
+    WindowImp* Window::GetWindowImp () {
+        if (_imp == 0) {
+            _imp = WindowSystemFactory::Instance()->MakeWindowImp();
+        }
+        return _imp;
+    }
+</PRE>
+
+<A NAME="auto1077"></A>
+<P><CODE>WindowSystemFactory::Instance()</CODE> returns an abstract factory
+that manufactures all window system-specific objects.  For simplicity,
+we've made it a <A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A> and have let the
+<CODE>Window</CODE> class access the factory directly.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1078"></A>
+<P>The Window example above comes from ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>]. In ET++, WindowImp is called
+"WindowPort" and has subclasses such as XWindowPort and SunWindowPort.
+The Window object creates its corresponding Implementor object by
+requesting it from an abstract factory called "WindowSystem."
+WindowSystem provides an interface for creating platform-specific
+objects such as fonts, cursors, bitmaps, and so forth.</P>
+
+<A NAME="et-use-bridge"></A>
+<P>The ET++ Window/WindowPort design extends the Bridge pattern in that
+the WindowPort also keeps a reference back to the Window. The
+WindowPort implementor class uses this reference to notify Window
+about WindowPort-specific events:  the arrival of input events,
+window resizes, etc.</P>
+
+<A NAME="stroustrup"></A>
+<P>Both Coplien [<A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>] and Stroustrup [<A HREF="bibfs.htm#c++"
+ TARGET="_mainDisplayFrame">Str91</A>] mention
+Handle classes and give some examples. Their examples emphasize memory
+management issues like sharing string representations and support for
+variable-sized objects. Our focus is more on supporting independent
+extension of both an abstraction and its implementation.</P>
+
+<A NAME="auto1079"></A>
+<P>libg++ [<A HREF="bibfs.htm#libg++" TARGET="_mainDisplayFrame">Lea88</A>] defines classes that implement common data
+structures, such as Set, LinkedSet, HashSet, LinkedList, and
+HashTable.  Set is an abstract class that defines a set abstraction,
+while LinkedList and HashTable are concrete implementors for a linked
+list and a hash table, respectively.  LinkedSet and HashSet are Set
+implementors that bridge between Set and their concrete counterparts
+LinkedList and HashTable.  This is an example of a degenerate bridge,
+because there's no abstract Implementor class.</P>
+
+<A NAME="libg-bridge"></A>
+<P>NeXT's AppKit [<A HREF="bibfs.htm#NeXT_AppKit" TARGET="_mainDisplayFrame">Add94</A>] uses the Bridge pattern in the
+implementation and display of graphical images. An image can be
+represented in several different ways. The optimal display of an image
+depends on the properties of a display device, specifically its color
+capabilities and its resolution. Without help from AppKit, developers
+would have to determine which implementation to use under various
+circumstances in every application.</P>
+
+<A NAME="auto1080"></A>
+<P>To relieve developers of this responsibility, AppKit provides an
+NXImage/NXImageRep bridge. NXImage defines the interface for handling
+images. The implementation of images is defined in a separate NXImageRep
+class hierarchy having subclasses such as NXEPSImageRep, NXCachedImageRep, and
+NXBitMapImageRep. NXImage maintains a reference to one or more NXImageRep
+objects. If there is more than one image implementation, then NXImage
+selects the most appropriate one for the current display device. NXImage is
+even capable of converting one implementation to another if necessary. The
+interesting aspect of this Bridge variant is that NXImage can store more
+than one NXImageRep implementation at a time.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1081"></A>
+<P>An <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A>
+can create and configure a particular Bridge.</P>
+
+<A NAME="auto1082"></A>
+<P>The <A HREF="pat4afs.htm" TARGET="_mainDisplayFrame">Adapter (139)</A>
+pattern is geared toward making unrelated classes work together.
+It is usually applied to systems after they're designed.  Bridge,
+on the other hand, is used up-front in a design to let abstractions
+and implementations vary independently.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4cfs.htm"
+	TARGET="_mainDisplayFrame">Composite</A><BR>
+<A HREF="pat4afs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4afs.htm"
+	TARGET="_mainDisplayFrame">Adapter</A>
+</P>
+
+</BODY>
+
+</HTML>
+
+

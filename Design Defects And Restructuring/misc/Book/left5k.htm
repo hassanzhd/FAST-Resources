@@ -1,0 +1,61 @@
+<HTML>
+<SCRIPT LANGUAGE="JavaScript">
+/*
+ * Storing this varible on the navigator object makes it truely global on NN4,
+ * but is no help on NN3, so we need the page global variable in NN3 which is
+ * the best we can do.  
+ */
+
+var search_win = navigator._searchWin;
+
+function loadApplet() {
+    if(navigator.appName == "Netscape") {
+	if(search_win == null || search_win.closed) {
+	    search_win = window.open("appletn.htm", "_appletWindow", "width=390,height=300,resizable=0,status=0,menubar=0,scrollbar=0");
+	    navigator._searchWin = search_win;
+	} 
+	search_win.opener = top;
+	search_win.focus();
+    } else if(top.loadApplet != null) {
+	top.loadApplet();
+    }
+}
+</SCRIPT>
+
+<BODY BGCOLOR="#336699" LEFTMARGIN="1" TOPMARGIN="1">
+
+<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+
+
+<tr>
+<td colspan="2" align="center"><A HREF="javascript:loadApplet()" TARGET="LEFT"><IMG SRC="gifsb/search.gif" BORDER="0"></A></td>
+</tr>
+
+<tr>
+<td><img src="gifsb/clear.gif" width="1" height="20"></td>
+<td><img src="gifsb/clear.gif" width="10" height="1"></td>
+</tr>
+
+<tr>
+<td align="right"><img src="gifsb/patleftb.gif" border="0" ismap usemap="#patleftb"></td>
+<td></td>
+</tr>
+
+<map name="patleftb">
+<area shape="rect" coords="0,0,79,12" href="pat5k.htm#intent" target="TEXT">
+<area shape="rect" coords="0,19,81,33" href="pat5k.htm#motivation" target="TEXT">
+<area shape="rect" coords="1,40,80,54" href="pat5k.htm#applicability" target="TEXT">
+<area shape="rect" coords="0,60,80,76" href="pat5k.htm#structure" target="TEXT">
+<area shape="rect" coords="-6,83,81,97" href="pat5k.htm#participants" target="TEXT">
+<area shape="rect" coords="-7,103,80,119" href="pat5k.htm#collaborations" target="TEXT">
+<area shape="rect" coords="-3,125,79,139" href="pat5k.htm#consequences" target="TEXT">
+<area shape="rect" coords="-7,145,80,163" href="pat5k.htm#implementation" target="TEXT">
+<area shape="rect" coords="-8,168,81,183" href="pat5k.htm#samplecode" target="TEXT">
+<area shape="rect" coords="-3,188,80,202" href="pat5k.htm#knownuses" target="TEXT">
+<area shape="rect" coords="-5,209,80,223" href="pat5k.htm#relatedpatterns" target="TEXT">
+<area shape="default" nohref>
+</map>
+</TABLE>
+
+</HTML>
+

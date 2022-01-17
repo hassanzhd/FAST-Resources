@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<TITLE>Design Patterns CD</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+/* This is needed because the windows in not part of a frame. */
+if(top._appletFrame != null && top._appletFrame._loaded) {
+    top._appletFrame.setFrame(top._mainDisplayFrame.location);
+}
+</SCRIPT>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT></HEAD>
+<BODY BGCOLOR=#FFFFFF TEXT=#000000 onLoad="setFocus()";>
+
+<H1>Frequently Asked Questions (and Their Answers)</H1>
+
+<DL>
+
+<A NAME="contents"></A>
+<DT><B>How do I display the contents page of the <i>Design
+Patterns CD</i>? </B></DT>
+
+<DD>Go back to the main screen and click on the word "Contents." This
+will bring up the contents page that will let you navigate through the
+rest of the book. </DD>
+
+<p></p>
+
+<A NAME="link"></A>
+<B><DT>How do I link my documents to the CD?</DT></B>
+
+<DD>Because the <i>Design Patterns CD</i> uses framesets
+to provide important navigational tools, any hyperlinks you make to
+point to the CD should invoke the appropriate frameset file, not just
+the chapter file itself.</DD>
+
+<P>The best method for obtaining the appropriate URL for use in your own Web page is to use one of the built-in navigational aids (such as the top banner or bottom pattern menu). However, rather than clicking the left mouse button, use the right button to display the menu of extended choices. Then select "Copy Link Location" in Netscape or "Copy Shortcut" in Internet Explorer. Put that link onto your cut buffer. You can now paste the URL into your own HTML document as an attribute to the anchor (<CODE>&lt;A&gt;</CODE>) tag. </P>
+
+<p></p>
+
+<A NAME="browsers"></A>
+<B><DT>Which browsers can I use with the <i>Design Patterns CD</i>?</DT>
+</B>
+
+<DD>The <i>Design Patterns CD</i> works best with <A
+href="http://home.netscape.com/download/index.html" > Netscape
+Navigator</A> on all platforms we have tested, including MS Windows,
+Unix, and Macintosh. The <i>Design Patterns CD</i> also works
+with <A href="http://www.microsoft.com/ie/default.asp" >Microsoft
+Internet Explorer</A> on the MS Windows platform.  Although it should
+be possible to use other browsers that support both Java and
+JavaScript, we have not tested the <i>Design Patterns CD</i> on
+those systems and do not provide technical support should problems
+occur. We strongly recommend that you use one of these browsers to
+view the <i>Design Patterns CD</i>. </DD>
+
+<p></p>
+
+<A NAME="resolution"></A>
+<B><DT>My computer resolution is 800x600. Is it okay if I use the
+version optimized for 640x480?</B> </DT> 
+
+<DD>Yes, the low-res and high-res versions of the CD contain exactly the
+same information. The only difference is that the formatting is done in the
+way that we believe will look best on high- and low-resolution
+systems. If you prefer the look of the low-res screens on your high-res
+system, you should not experience any problems. The reverse is not true, however. Using the 800x600 version on a 640x480 screen may cause you to lose information and is not recommended. </DD>
+
+<p></p>
+<A NAME="java"></A>
+<B><DT>Why do the applet contents disappear when I iconify and then de-iconify the search applet in Communicator 4.0/Win95?</B></DT>
+
+<DD>There is a bug in Netscape's Java Virtual Machine for Communicator 4.0 that causes many java applets to crash when they are iconified to the Windows 95 toolbar. Iconifying the search applet under Communicator 4.0 on Windows 95 will always result in a loss of search contents. If you encounter this behavior, simply close the applet and click on the Search button in the main frameset to restore it.</DD>
+
+<p></p>
+<A NAME="search"></A>
+<b><DT>Why doesn't an exhaustive search always return the same results as an indexed search?</b></DT>
+
+<DD>There are two things that can cause the index search and exhaustive search to return different results.</DD>
+<p>
+<DD>The first is that the exhaustive search is done over the raw HMTL so that if you the phrase "&lt;B&gt;describing&lt;/B&gt; design patterns" is found in the HTML source, the exhaustive search won't match it.  The indexer ignores the HTML tags so that it will match this phrase.</DD>
+<p>
+<DD>The second is that an indexed search matches any section that contains all of the words entered in any order and with any words in-between.  So for example this sentence in the conclusion matches on the indexed search: "Moreover, describing a system in terms of the design patterns..."  The exhaustive search is much more strict; the words must be in the correct order, separated only by whitespace.</DD>
+<p>
+<a name="new_info"></a>
+<b><dt>How can I obtain updates, patches and news about the <I>Design Patterns CD</i>?</b></DT>
+
+<DD>Addison Wesley Longman maintains a web page for the <i>Design Patterns CD</i> at <A HREF="http://www.awl.com/cseng/titles/0-201-63498-8/">http://www.awl.com/cseng/titles/0-201-63498-8/</a>. 
+Updates, ancillary materials and all other information will be made available from this site. </DD>
+</DL>
+</BODY>
+</HTML>

@@ -1,0 +1,733 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML>
+
+<HEAD><TITLE>Factory Method</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="FactoryMethod"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Define an interface for creating an object, but let subclasses decide
+which class to instantiate. Factory Method lets a class defer
+instantiation to subclasses.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Virtual Constructor</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>Frameworks use abstract classes to define and maintain relationships
+between objects.  A framework is often responsible for creating these
+objects as well.</P>
+
+<A NAME="app"></A>
+<P>Consider a framework for applications that can present multiple
+documents to the user. Two key abstractions in this framework are the
+classes Application and Document. Both classes are abstract, and
+clients have to subclass them to realize their application-specific
+implementations.  To create a drawing application, for example, we
+define the classes DrawingApplication and DrawingDocument. The
+Application class is responsible for managing Documents and will
+create them as required&#151;when the user selects Open or New from a
+menu, for example.</P>
+
+<A NAME="auto1003"></A>
+<P>Because the particular Document subclass to instantiate is
+application-specific, the Application class can't predict the
+subclass of Document to instantiate&#151;the Application class only
+knows <EM>when</EM> a new document should be created, not <EM>what
+kind</EM> of Document to create.  This creates a dilemma: The
+framework must instantiate classes, but it only knows about abstract
+classes, which it cannot instantiate.</P>
+
+<A NAME="auto1004"></A>
+<P>The Factory Method pattern offers a solution.  It encapsulates the
+knowledge of which Document subclass to create and moves this
+knowledge out of the framework.</P>
+
+<A NAME="107c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/fmeth049.gif"></P>
+
+<A NAME="auto1005"></A>
+<P>Application subclasses redefine an abstract CreateDocument operation
+on Application to return the appropriate Document subclass.  Once an
+Application subclass is instantiated, it can then instantiate
+application-specific Documents without knowing their class.  We call
+CreateDocument a <STRONG>factory method</STRONG> because it's responsible
+for "manufacturing" an object.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1006"></A>
+<P>Use the Factory Method pattern when</P>
+
+<UL>
+
+<A NAME="auto1007"></A>
+<LI>a class can't anticipate the class of objects it must create.</LI>
+<A NAME="auto1008"></A>
+<P></P>
+<A NAME="auto1009"></A>
+<LI>a class wants its subclasses to specify the objects it creates.</LI>
+<A NAME="auto1010"></A>
+<P></P>
+<A NAME="auto1011"></A>
+<LI>classes delegate responsibility to one of several helper subclasses,
+and you want to localize the knowledge of which helper subclass is the
+delegate.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/fmethod.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="prod-part-facmeth"></A>
+<LI><B>Product</B> (Document)
+
+<A NAME="auto1012"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1013"></A>
+<LI>defines the interface of objects the factory method creates.</LI>
+
+    </UL>
+
+<A NAME="auto1014"></A>
+<P></P>
+
+<A NAME="auto1015"></A>
+<LI><B>ConcreteProduct</B> (MyDocument)
+
+<A NAME="auto1016"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1017"></A>
+<LI>implements the Product interface.</LI>
+
+    </UL>
+
+<A NAME="auto1018"></A>
+<P></P>
+
+<A NAME="auto1019"></A>
+<LI><B>Creator</B> (Application)
+
+<A NAME="auto1020"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1021"></A>
+<LI>declares the factory method, which returns an object of type
+    Product.  Creator may also define a default
+    implementation of the factory method that returns a default
+    ConcreteProduct object.</LI>
+
+    <A NAME="auto1022"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1023"></A>
+<LI>may call the factory method to create a Product object.</LI>
+
+    </UL>
+
+<A NAME="auto1024"></A>
+<P></P>
+
+<A NAME="auto1025"></A>
+<LI><B>ConcreteCreator</B> (MyApplication)
+
+<A NAME="auto1026"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1027"></A>
+<LI>overrides the factory method to
+    return an instance of a ConcreteProduct.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1028"></A>
+<LI>Creator relies on its subclasses to define the factory method so
+that it returns an instance of the appropriate ConcreteProduct.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1029"></A>
+<P>Factory methods eliminate the need to bind application-specific
+classes into your code.  The code only deals with the Product
+interface; therefore it can work with any user-defined
+ConcreteProduct classes.</P>
+
+<A NAME="auto1030"></A>
+<P>A potential disadvantage of factory methods is that clients might have
+to subclass the Creator class just to create a particular
+ConcreteProduct object.  Subclassing is fine when the client has to
+subclass the Creator class anyway, but otherwise the client now must
+deal with another point of evolution.</P>
+
+<A NAME="auto1031"></A>
+<P>Here are two additional consequences of the Factory Method pattern:</P>
+
+<OL>
+
+<A NAME="auto1032"></A>
+<LI><EM>Provides hooks for subclasses.</EM>
+Creating objects inside a class with a factory method is always more
+flexible than creating an object directly.  Factory Method gives
+subclasses a hook for providing an extended version of an object.
+
+<A NAME="auto1033"></A>
+<P>In the Document example, the Document class could define a factory
+method called CreateFileDialog that creates a default file dialog
+object for opening an existing document.  A Document subclass can
+define an application-specific file dialog by overriding this factory
+method.  In this case the factory method is not abstract but provides
+a reasonable default implementation.</LI>
+<A NAME="auto1034"></A>
+<P></P>
+<A NAME="auto1035"></A>
+<LI><EM>Connects parallel class hierarchies.</EM>
+In the examples we've considered so far, the factory method is only
+called by Creators.  But this doesn't have to be the case;
+clients can find factory methods useful, especially in the case of
+parallel class hierarchies.
+
+<A NAME="auto1036"></A>
+<P>Parallel class hierarchies result when a class delegates some of its
+responsibilities to a separate class. Consider graphical figures that
+can be manipulated interactively; that is, they can be stretched,
+moved, or rotated using the mouse. Implementing such interactions
+isn't always easy. It often requires storing and updating information
+that records the state of the manipulation at a given time.  This
+state is needed only during manipulation; therefore it needn't be kept
+in the figure object.  Moreover, different figures behave differently
+when the user manipulates them.  For example, stretching a line figure
+might have the effect of moving an endpoint, whereas stretching a text
+figure may change its line spacing.</P>
+
+<A NAME="manip"></A>
+<P>With these constraints, it's better to use a separate Manipulator
+object that implements the interaction and keeps track of any
+manipulation-specific state that's needed.  Different figures will use
+different Manipulator subclasses to handle particular interactions.
+The resulting Manipulator class hierarchy parallels (at least
+partially) the Figure class hierarchy:</P>
+
+<A NAME="fmethod-eg2"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/fmeth048.gif"></P>
+
+<A NAME="auto1037"></A>
+<P>The Figure class provides a CreateManipulator factory method that lets
+clients create a Figure's corresponding Manipulator. Figure subclasses
+override this method to return an instance of the Manipulator subclass
+that's right for them.  Alternatively, the Figure class may implement
+CreateManipulator to return a default Manipulator instance, and Figure
+subclasses may simply inherit that default.  The Figure classes that
+do so need no corresponding Manipulator subclass&#151;hence the
+hierarchies are only partially parallel.</P>
+
+<A NAME="auto1038"></A>
+<P>Notice how the factory method defines the connection between the two
+class hierarchies. It localizes knowledge of which classes belong
+together.</P>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1039"></A>
+<P>Consider the following issues when applying the Factory Method pattern:</P>
+
+<OL>
+
+<A NAME="auto1040"></A>
+<LI><EM>Two major varieties.</EM>
+The two main variations of the Factory Method pattern are (1) the case
+when the Creator class is an abstract class and does not provide an
+implementation for the factory method it declares, and (2) the case
+when the Creator is a concrete class and provides a default
+implementation for the factory method.  It's also possible to have an
+abstract class that defines a default implementation, but this is less
+common.
+
+<A NAME="auto1041"></A>
+<P>The first case <EM>requires</EM> subclasses to define an implementation,
+because there's no reasonable default.  It gets around the dilemma of
+having to instantiate unforeseeable classes. In the second case, the
+concrete Creator uses the factory method primarily for flexibility.
+It's following a rule that says, "Create objects in a separate
+operation so that subclasses can override the way they're created."
+This rule ensures that designers of subclasses can change the class of
+objects their parent class instantiates if necessary.</LI>
+
+<A NAME="auto1042"></A>
+<P></P>
+
+<A NAME="fact-param-prod"></A>
+<LI><EM>Parameterized factory methods.</EM>
+Another variation on the pattern lets the factory method create <EM>multiple</EM> kinds of products.  The factory method takes a parameter
+that identifies the kind of object to create. All objects the factory
+method creates will share the Product interface.  In the Document
+example, Application might support different kinds of Documents.  You
+pass CreateDocument an extra parameter to specify the kind of document
+to create.
+
+<A NAME="unidraw-use-factmeth"></A>
+<P>The Unidraw graphical editing framework [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>] uses
+this approach for reconstructing objects saved on disk.  Unidraw
+defines a <CODE>Creator</CODE> class with a factory method
+<CODE>Create</CODE> that takes a class identifier as an argument.  The
+class identifier specifies the class to instantiate.  When Unidraw
+saves an object to disk, it writes out the class identifier first and
+then its instance variables.  When it reconstructs the object from
+disk, it reads the class identifier first.</P>
+
+<A NAME="auto1043"></A>
+<P>Once the class identifier is read, the framework calls
+<CODE>Create</CODE>, passing the identifier as the parameter.
+<CODE>Create</CODE> looks up the constructor for the corresponding class
+and uses it to instantiate the object.  Last, <CODE>Create</CODE> calls
+the object's <CODE>Read</CODE> operation, which reads the remaining
+information on the disk and initializes the object's instance
+variables.</P>
+
+<A NAME="auto1044"></A>
+<P>A parameterized factory method has the following general form, where
+<CODE>MyProduct</CODE> and <CODE>YourProduct</CODE> are subclasses of
+<CODE>Product</CODE>:
+
+<A NAME="auto1045"></A>
+<PRE>
+    class Creator {
+    public:
+        virtual Product* Create(ProductId);
+    };
+    
+    Product* Creator::Create (ProductId id) {
+        if (id == MINE)  return new MyProduct;
+        if (id == YOURS) return new YourProduct;
+        // repeat for remaining products...
+    
+        return 0;
+    }
+</PRE>
+
+<A NAME="auto1047"></A>
+<P>Overriding a parameterized factory method lets you easily and
+selectively extend or change the products that a Creator produces. You
+can introduce new identifiers for new kinds of products, or you can
+associate existing identifiers with different products.</P>
+
+<A NAME="auto1048"></A>
+<P>For example, a subclass <CODE>MyCreator</CODE> could swap MyProduct and
+YourProduct and support a new <CODE>TheirProduct</CODE> subclass:</P>
+
+<A NAME="auto1049"></A>
+<PRE>
+    Product* MyCreator::Create (ProductId id) {
+        if (id == YOURS)  return new MyProduct;
+        if (id == MINE)   return new YourProduct;
+            // N.B.: switched YOURS and MINE
+    
+        if (id == THEIRS) return new TheirProduct;
+    
+        return Creator::Create(id); // called if all others fail
+    }
+</PRE>
+
+<A NAME="auto1051"></A>
+<P>Notice that the last thing this operation does is call
+<CODE>Create</CODE> on the parent class.  That's because
+<CODE>MyCreator::Create</CODE> handles only <CODE>YOURS</CODE>,
+<CODE>MINE</CODE>, and <CODE>THEIRS</CODE> differently than the parent
+class.  It isn't interested in other classes.  Hence
+<CODE>MyCreator</CODE> <EM>extends</EM> the kinds of products created, and it
+defers responsibility for creating all but a few products to its
+parent.</LI>
+
+<A NAME="auto1052"></A>
+<P></P>
+
+<A NAME="fact-lang-var"></A>
+<LI><EM>Language-specific variants and issues.</EM>
+Different languages lend themselves to other interesting variations
+and caveats.
+
+<A NAME="auto1053"></A>
+<P>Smalltalk programs often use a method that returns the class of the
+object to be instantiated.  A Creator factory method can use this
+value to create a product, and a ConcreteCreator may store or even
+compute this value.  The result is an even later binding for the type
+of ConcreteProduct to be instantiated.</P>
+
+<A NAME="auto1054"></A>
+<P>A Smalltalk version of the Document example can define a
+<CODE>documentClass</CODE> method on <CODE>Application</CODE>.
+The <CODE>documentClass</CODE> method returns the proper
+<CODE>Document</CODE> class for instantiating documents.  The
+implementation of
+<CODE>documentClass</CODE> in <CODE>MyApplication</CODE> returns the
+<CODE>MyDocument</CODE> class.  Thus in class
+<CODE>Application</CODE> we have</P>
+
+<A NAME="auto1055"></A>
+<PRE>
+    clientMethod
+        document := self documentClass new.
+    
+    documentClass
+        self subclassResponsibility
+</PRE>
+
+<A NAME="auto1056"></A>
+<P>In class <CODE>MyApplication</CODE> we have</P>
+
+<A NAME="auto1057"></A>
+<PRE>
+    documentClass
+        ^ MyDocument
+</PRE>
+
+<A NAME="auto1058"></A>
+<P>which returns the class <CODE>MyDocument</CODE> to be instantiated to
+<CODE>Application</CODE>.</P>
+
+<A NAME="auto1059"></A>
+<P>An even more flexible approach akin to parameterized factory methods
+is to store the class to be created as a class variable of
+<CODE>Application</CODE>.  That way you don't have to subclass
+<CODE>Application</CODE> to vary the product.</P>
+
+<A NAME="auto1060"></A>
+<P>Factory methods in C++ are always virtual functions and are often pure
+virtual.  Just be careful not to call factory methods in the Creator's
+constructor&#151;the factory method in the ConcreteCreator won't be
+available yet.</P>
+
+<A NAME="lazy-init"></A>
+<P>You can avoid this by being careful to access products solely through
+accessor operations that create the product on demand.  Instead of
+creating the concrete product in the constructor, the constructor
+merely initializes it to 0.  The accessor returns the product.  But
+first it checks to make sure the product exists, and if it doesn't,
+the accessor creates it.  This technique is sometimes called
+<STRONG>lazy initialization</STRONG>.  The following code shows a typical
+implementation:</P>
+
+<A NAME="auto1061"></A>
+<PRE>
+    class Creator {
+    public:
+        Product* GetProduct();
+    protected:
+        virtual Product* CreateProduct();
+    private:
+        Product* _product;
+    };
+    
+    Product* Creator::GetProduct () {
+        if (_product == 0) {
+            _product = CreateProduct();
+        }
+        return _product;
+    }
+</PRE>
+
+<A NAME="auto1062"></A>
+<P></P>
+
+<A NAME="template-impl-factmeth"></A>
+<LI><EM>Using templates to avoid subclassing.</EM>
+As we've mentioned, another potential problem with factory methods is
+that they might force you to subclass just to create the appropriate
+Product objects.  Another way to get around this in C++ is to provide
+a template subclass of Creator that's parameterized by the Product
+class:
+
+<A NAME="auto1063"></A>
+<PRE>
+    class Creator {
+    public:
+        virtual Product* CreateProduct() = 0;
+    };
+    
+    template &lt;class TheProduct>
+    class StandardCreator: public Creator {
+    public:
+        virtual Product* CreateProduct();
+    };
+    
+    template &lt;class TheProduct>
+    Product* StandardCreator&lt;TheProduct>::CreateProduct () {
+        return new TheProduct;
+    }
+</PRE>
+
+<A NAME="auto1064"></A>
+<P>With this template, the client supplies just the product class&#151;no
+subclassing of Creator is required.
+
+<A NAME="auto1065"></A>
+<PRE>
+    class MyProduct : public Product {
+    public:
+        MyProduct();
+        // ...
+    };
+    
+    StandardCreator&lt;MyProduct> myCreator;
+</PRE>
+
+</LI>
+
+<A NAME="auto1066"></A>
+<P></P>
+
+<A NAME="macapp-facmeth"></A>
+<LI><EM>Naming conventions.</EM>
+It's good practice to use naming conventions that make it clear you're
+using factory methods.  For example, the MacApp Macintosh application
+framework [<A HREF="bibfs.htm#macapp" TARGET="_mainDisplayFrame">App89</A>] always declares the abstract operation that
+defines the factory method as <CODE>Class* DoMakeClass()</CODE>, where
+<CODE>Class</CODE> is the Product class.</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1067"></A>
+<P>The function <CODE>CreateMaze</CODE>
+(<A HREF="chap3fs.htm#CreateMaze-def" TARGET="_mainDisplayFrame">page 84</A>) builds and returns a
+maze. One problem with this function is that it hard-codes the
+classes of maze, rooms, doors, and walls.  We'll introduce factory
+methods to let subclasses choose these components.</P>
+
+<A NAME="auto1068"></A>
+<P>First we'll define factory methods in <CODE>MazeGame</CODE> for
+creating the maze, room, wall, and door objects:</P>
+
+<A NAME="auto1069"></A>
+<PRE>
+    class MazeGame {
+    public:
+        Maze* CreateMaze();
+    
+    // factory methods:
+    
+        virtual Maze* MakeMaze() const
+            { return new Maze; }
+        virtual Room* MakeRoom(int n) const
+            { return new Room(n); }
+        virtual Wall* MakeWall() const
+            { return new Wall; }
+        virtual Door* MakeDoor(Room* r1, Room* r2) const
+            { return new Door(r1, r2); }
+    };
+</PRE>
+
+<A NAME="auto1070"></A>
+<P>Each factory method returns a maze component of a given type.
+<CODE>MazeGame</CODE> provides default implementations that return the
+simplest kinds of maze, rooms, walls, and doors.</P>
+
+<A NAME="auto1071"></A>
+<P>Now we can rewrite <CODE>CreateMaze</CODE> to use these factory methods:</P>
+
+<A NAME="auto1072"></A>
+<PRE>
+    Maze* MazeGame::CreateMaze () {
+        Maze* aMaze = MakeMaze();
+    
+        Room* r1 = MakeRoom(1);
+        Room* r2 = MakeRoom(2);
+        Door* theDoor = MakeDoor(r1, r2);
+    
+        aMaze->AddRoom(r1);
+        aMaze->AddRoom(r2);
+    
+        r1->SetSide(North, MakeWall());
+        r1->SetSide(East, theDoor);
+        r1->SetSide(South, MakeWall());
+        r1->SetSide(West, MakeWall());
+    
+        r2->SetSide(North, MakeWall());
+        r2->SetSide(East, MakeWall());
+        r2->SetSide(South, MakeWall());
+        r2->SetSide(West, theDoor);
+    
+        return aMaze;
+    }
+</PRE>
+
+<A NAME="auto1073"></A>
+<P>Different games can subclass <CODE>MazeGame</CODE> to specialize parts of
+the maze. <CODE>MazeGame</CODE> subclasses can redefine some or all of
+the factory methods to specify variations in products.  For example, a
+<CODE>BombedMazeGame</CODE> can redefine the <CODE>Room</CODE> and
+<CODE>Wall</CODE> products to return the bombed varieties:</P>
+
+<A NAME="auto1074"></A>
+<PRE>
+    class BombedMazeGame : public MazeGame {
+    public:
+        BombedMazeGame();
+    
+        virtual Wall* MakeWall() const
+            { return new BombedWall; }
+    
+        virtual Room* MakeRoom(int n) const
+            { return new RoomWithABomb(n); }
+    };
+</PRE>
+
+<A NAME="auto1075"></A>
+<P>An <CODE>EnchantedMazeGame</CODE> variant might be defined like this:</P>
+
+<A NAME="auto1076"></A>
+<PRE>
+    class EnchantedMazeGame : public MazeGame {
+    public:
+        EnchantedMazeGame();
+    
+        virtual Room* MakeRoom(int n) const
+            { return new EnchantedRoom(n, CastSpell()); }
+    
+        virtual Door* MakeDoor(Room* r1, Room* r2) const
+            { return new DoorNeedingSpell(r1, r2); }
+    protected:
+        Spell* CastSpell() const;
+    };
+</PRE>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1077"></A>
+<P>Factory methods pervade toolkits and frameworks. The preceding
+document example is a typical use in MacApp and ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>].  The
+manipulator example is from Unidraw.</P>
+
+<A NAME="smalltalk-use-factmeth"></A>
+<P>Class View in the Smalltalk-80 Model/View/Controller framework has a method
+defaultController that creates a controller, and this might appear to
+be a factory method [<A HREF="bibfs.htm#parcplace_smalltalk" TARGET="_mainDisplayFrame">Par90</A>].  But subclasses of
+View specify the class of their default controller by defining
+defaultControllerClass, which returns the class from which
+defaultController creates instances.  So defaultControllerClass is the
+real factory method, that is, the method that subclasses should
+override.</P>
+
+<A NAME="auto1078"></A>
+<P>A more esoteric example in Smalltalk-80 is the factory method
+parserClass defined by Behavior (a superclass of all objects
+representing classes).  This enables a class to use a customized
+parser for its source code.  For example, a client can define a class
+SQLParser to analyze the source code of a class with embedded SQL
+statements.  The Behavior class implements parserClass to return the
+standard Smalltalk Parser class. A class that includes embedded SQL
+statements overrides this method (as a class method) and returns the
+SQLParser class.</P>
+
+<A NAME="orbix-use-factmeth"></A>
+<P>The Orbix ORB system from IONA Technologies [<A HREF="bibfs.htm#orbix-orb" TARGET="_mainDisplayFrame">ION94</A>] uses
+Factory Method to generate an appropriate type of proxy (see
+<A HREF="pat4gfs.htm" TARGET="_mainDisplayFrame">Proxy (207)</A>) when an object requests a reference to a
+remote object.  Factory Method makes it easy to replace the
+default proxy with one that uses client-side caching, for example.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1079"></A>
+<P><A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> is
+often implemented with factory methods.  The Motivation example in
+the Abstract Factory pattern illustrates Factory Method as well.</P>
+
+<A NAME="templ-call-factmeth"></A>
+<P>Factory methods are usually called within
+<A HREF="pat5jfs.htm" TARGET="_mainDisplayFrame">Template
+Methods (325)</A>.  In the document example above,
+NewDocument is a template method.</P>
+
+<A NAME="proto-vs-factmeth"></A>
+<P><A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototypes (117)</A>
+don't require subclassing Creator.  However, they often require an
+Initialize operation on the Product class.  Creator uses Initialize
+to initialize the object.  Factory Method doesn't require such an
+operation.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3dfs.htm"
+	TARGET="_mainDisplayFrame">Prototype</A><BR>
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3bfs.htm"
+	TARGET="_mainDisplayFrame">Builder</A>
+</P>
+
+</BODY>
+
+</HTML>
+
+<A NAME="auto1080"></A>
+<P>
+
+

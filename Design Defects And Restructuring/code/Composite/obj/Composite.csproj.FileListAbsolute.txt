@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Composite\bin\Debug\Composite.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Composite\bin\Debug\Composite.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Composite\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Composite\obj\Debug\Composite.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Composite\obj\Debug\Composite.pdb

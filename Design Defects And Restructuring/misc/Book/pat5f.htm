@@ -1,0 +1,644 @@
+<HTML>
+
+<HEAD><TITLE>Memento</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="Memento"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Without violating encapsulation, capture and externalize an object's
+internal state so that the object can be restored to this state later.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Token</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>Sometimes it's necessary to record the internal state of an object.
+This is required when implementing checkpoints and undo mechanisms
+that let users back out of tentative operations or recover from
+errors.  You must save state information somewhere so that you can
+restore objects to their previous states.  But objects normally
+encapsulate some or all of their state, making it inaccessible to
+other objects and impossible to save externally.  Exposing this state
+would violate encapsulation, which can compromise the application's
+reliability and extensibility.</P>
+
+<A NAME="auto1003"></A>
+<P>Consider for example a graphical editor that supports connectivity
+between objects. A user can connect two rectangles with a line, and
+the rectangles stay connected when the user moves either of them.  The
+editor ensures that the line stretches to maintain the connection.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/memen029.gif"></P>
+
+<A NAME="auto1004"></A>
+<P>A well-known way to maintain connectivity relationships between
+objects is with a constraint-solving system.  We can encapsulate this
+functionality in a <STRONG>ConstraintSolver</STRONG> object.
+ConstraintSolver records connections as they are made and generates
+mathematical equations that describe them.  It solves these equations
+whenever the user makes a connection or otherwise modifies the
+diagram.  ConstraintSolver uses the results of its calculations to
+rearrange the graphics so that they maintain the proper connections.</P>
+
+<A NAME="supp-undo"></A>
+<P>Supporting undo in this application isn't as easy as it may seem.  An
+obvious way to undo a move operation is to store the original distance
+moved and move the object back an equivalent distance.  However, this
+does not guarantee all objects will appear where they did before.
+Suppose there is some slack in the connection.  In that case, simply
+moving the rectangle back to its original location won't necessarily
+achieve the desired effect.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/memen028.gif"></P>
+
+<A NAME="auto1005"></A>
+<P>In general, the ConstraintSolver's public interface might be
+insufficient to allow precise reversal of its effects on other
+objects. The undo mechanism must work more closely with
+ConstraintSolver to reestablish previous state, but we should also
+avoid exposing the ConstraintSolver's internals to the undo mechanism.</P>
+
+<A NAME="orig-def"></A>
+<P>We can solve this problem with the Memento pattern. A
+<STRONG>memento</STRONG> is an object that stores a snapshot of the
+internal state of another object&#151;the memento's
+<STRONG>originator</STRONG>. The undo mechanism will request a memento
+from the originator when it needs to checkpoint the originator's
+state. The originator initializes the memento with information that
+characterizes its current state.  Only the originator can store and
+retrieve information from the memento&#151;the memento is "opaque" to
+other objects.</P>
+
+<A NAME="auto1006"></A>
+<P>In the graphical editor example just discussed, the ConstraintSolver can act
+as an originator.  The following sequence of events characterizes the
+undo process:</P>
+
+<OL>
+
+<A NAME="auto1007"></A>
+<LI>The editor requests a memento from the ConstraintSolver as a
+side-effect of the move operation.</LI>
+
+<A NAME="auto1008"></A>
+<P></P>
+
+<A NAME="solverstate"></A>
+<LI>The ConstraintSolver creates and returns a memento, an instance of a
+class SolverState in this case.  A SolverState memento contains data
+structures that describe the current state of the ConstraintSolver's
+internal equations and variables.</LI>
+
+<A NAME="auto1009"></A>
+<P></P>
+
+<A NAME="auto1010"></A>
+<LI>Later when the user undoes the move operation, the editor gives the
+SolverState back to the ConstraintSolver.</LI>
+
+<A NAME="auto1011"></A>
+<P></P>
+
+<A NAME="auto1012"></A>
+<LI>Based on the information in the SolverState, the ConstraintSolver
+changes its internal structures to return its equations and variables
+to their exact previous state.</LI>
+
+</OL>
+
+<A NAME="auto1013"></A>
+<P>This arrangement lets the ConstraintSolver entrust other objects with
+the information it needs to revert to a previous state without
+exposing its internal structure and representations.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1014"></A>
+<P>Use the Memento pattern when</P>
+
+<UL>
+
+<A NAME="auto1015"></A>
+<LI>a snapshot of (some portion of) an object's state must be saved so
+that it can be restored to that state later, <EM>and</EM></LI>
+<A NAME="auto1016"></A>
+<P></P>
+<A NAME="auto1017"></A>
+<LI>a direct interface to obtaining the state would expose
+implementation details and break the object's encapsulation.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<A NAME="orig-285c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/memento.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1018"></A>
+<LI><B>Memento</B> (SolverState)</LI>
+
+<A NAME="auto1019"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1020"></A>
+<LI>stores internal state of the Originator object.  The memento may
+    store as much or as little of the originator's internal state as
+    necessary at its originator's discretion.</LI>
+
+    <A NAME="auto1021"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1022"></A>
+<LI>protects against access by objects other than the
+    originator.  Mementos have effectively two interfaces. Caretaker
+    sees a <EM>narrow</EM> interface to the Memento&#151;it can only pass
+    the memento to other objects. Originator, in contrast, sees a
+    <EM>wide</EM> interface, one that lets it access all the data
+    necessary to restore itself to its previous state.  Ideally, only
+    the originator that produced the memento would be permitted to
+    access the memento's internal state.</LI>
+
+    </UL>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<A NAME="auto1024"></A>
+<LI><B>Originator</B> (ConstraintSolver)</LI>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1026"></A>
+<LI>creates a memento containing a snapshot of its current
+    internal state.</LI>
+
+    <A NAME="auto1027"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1028"></A>
+<LI>uses the memento to restore its internal state.</LI>
+
+    </UL>
+
+<A NAME="auto1029"></A>
+<P></P>
+
+<A NAME="auto1030"></A>
+<LI><B>Caretaker</B> (undo mechanism)
+
+<A NAME="auto1031"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1032"></A>
+<LI>is responsible for the memento's safekeeping.</LI>
+
+    <A NAME="auto1033"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1034"></A>
+<LI>never operates on or examines the contents of a memento.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1035"></A>
+<LI>A caretaker requests a memento from an originator, holds it for a
+time, and passes it back to the originator, as the following
+interaction diagram illustrates:
+
+<A NAME="orig-286i"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/memen027.gif"></P>
+
+<A NAME="auto1036"></A>
+<P>Sometimes the caretaker won't pass the memento back to the originator,
+because the originator might never need to revert to an earlier state.</P>
+
+</LI>
+
+<A NAME="auto1037"></A>
+<P></P>
+
+<A NAME="auto1038"></A>
+<LI>Mementos are passive. Only the originator that created a memento will
+assign or retrieve its state.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1039"></A>
+<P>The Memento pattern has several consequences:</P>
+
+<OL>
+
+<A NAME="presrvencap"></A>
+<LI><EM>Preserving encapsulation boundaries.</EM>
+Memento avoids exposing information that only an originator should
+manage but that must be stored nevertheless outside the originator.
+The pattern shields other objects from potentially complex Originator
+internals, thereby preserving encapsulation boundaries.</LI>
+<A NAME="auto1040"></A>
+<P></P>
+<A NAME="auto1041"></A>
+<LI><EM>It simplifies Originator.</EM>
+In other encapsulation-preserving designs, Originator keeps the
+versions of internal state that clients have requested.  That puts all
+the storage management burden on Originator.  Having clients
+manage the state they ask for simplifies Originator and keeps
+clients from having to notify originators when they're done.</LI>
+<A NAME="auto1042"></A>
+<P></P>
+<A NAME="auto1043"></A>
+<LI><EM>Using mementos might be expensive.</EM>
+Mementos might incur considerable overhead if Originator must copy
+large amounts of information to store in the memento or if clients
+create and return mementos to the originator often enough.  Unless
+encapsulating and restoring Originator state is cheap, the pattern
+might not be appropriate.  See the discussion of incrementality in the
+Implementation section.</LI>
+<A NAME="auto1044"></A>
+<P></P>
+<A NAME="auto1045"></A>
+<LI><EM>Defining narrow and wide interfaces.</EM>
+It may be difficult in some languages to ensure that only the
+originator can access the memento's state.</LI>
+<A NAME="auto1046"></A>
+<P></P>
+<A NAME="auto1047"></A>
+<LI><EM>Hidden costs in caring for mementos.</EM>
+A caretaker is responsible for deleting the mementos it cares for.
+However, the caretaker has no idea how much state is in the memento.
+Hence an otherwise lightweight caretaker might incur large storage
+costs when it stores mementos.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1048"></A>
+<P>Here are two issues to consider when implementing the Memento pattern:</P>
+
+<OL>
+
+<A NAME="auto1049"></A>
+<LI><EM>Language support.</EM>
+Mementos have two interfaces: a wide one for originators and a narrow
+one for other objects.  Ideally the implementation language will
+support two levels of static protection.  C++ lets you do this by
+making the Originator a friend of Memento and making Memento's wide
+interface private.  Only the narrow interface should be declared
+public.  For example:
+
+<A NAME="auto1050"></A>
+<PRE>
+    class State;
+    
+    class Originator {
+    public:
+        Memento* CreateMemento();
+        void SetMemento(const Memento*);
+        // ...
+    private:
+        State* _state;      // internal data structures
+        // ...
+    };
+    
+    class Memento {
+    public:
+        // narrow public interface
+        virtual ~Memento();
+    private:
+        // private members accessible only to Originator
+        friend class Originator;
+        Memento();
+    
+        void SetState(State*);
+        State* GetState();
+        // ...
+    private:
+        State* _state;
+        // ...
+    };
+</PRE>
+
+</LI>
+
+<A NAME="state-incr-changes"></A>
+<LI><EM>Storing incremental changes.</EM>
+When mementos get created and passed back to their originator in a
+predictable sequence, then Memento can save just the <EM>incremental
+change</EM> to the originator's internal state.
+
+<A NAME="undoable"></A>
+<P>For example, undoable commands in a history list can use mementos to
+ensure that commands are restored to their exact state when they're
+undone (see <A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A>).  The history list defines a
+specific order in which commands can be undone and redone.  That means
+mementos can store just the incremental change that a command makes
+rather than the full state of every object they affect.  In the
+Motivation example given earlier, the constraint solver can store only those
+internal structures that change to keep the line connecting the
+rectangles, as opposed to storing the absolute positions of these
+objects.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1051"></A>
+<P>The C++ code given here illustrates the ConstraintSolver example 
+discussed earlier.  We
+use MoveCommand objects (see <A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A>) to (un)do
+the translation of a graphical object from one position to another.
+The graphical editor calls the command's <CODE>Execute</CODE> operation
+to move a graphical object and <CODE>Unexecute</CODE> to undo the move.
+The command stores its target, the distance moved, and an instance of
+<CODE>ConstraintSolverMemento</CODE>, a memento containing state from the
+constraint solver.</P>
+
+<A NAME="auto1052"></A>
+<PRE>
+    class Graphic;
+        // base class for graphical objects in the graphical editor
+    
+    class MoveCommand {
+    public:
+        MoveCommand(Graphic* target, const Point&amp; delta);
+        void Execute();
+        void Unexecute();
+    private:
+        ConstraintSolverMemento* _state;
+        Point _delta;
+        Graphic* _target;
+    };
+</PRE>
+
+<A NAME="auto1053"></A>
+<P>The connection constraints are established by the class
+<CODE>ConstraintSolver</CODE>. Its key member function is
+<CODE>Solve</CODE>, which solves the constraints registered with
+the <CODE>AddConstraint</CODE> operation. To support undo,
+<CODE>ConstraintSolver</CODE>'s state can be externalized with
+<CODE>CreateMemento</CODE> into a <CODE>ConstraintSolverMemento</CODE>
+instance.  The constraint solver can be returned to a previous
+state by calling <CODE>SetMemento</CODE>.  <CODE>ConstraintSolver</CODE>
+is a <A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A>.</P>
+
+<A NAME="auto1054"></A>
+<PRE>
+    class ConstraintSolver {
+    public:
+        static ConstraintSolver* Instance();
+    
+        void Solve();
+        void AddConstraint(
+            Graphic* startConnection, Graphic* endConnection
+        );
+        void RemoveConstraint(
+            Graphic* startConnection, Graphic* endConnection
+        );
+    
+        ConstraintSolverMemento* CreateMemento();
+        void SetMemento(ConstraintSolverMemento*);
+    private:
+        // nontrivial state and operations for enforcing
+        // connectivity semantics
+    };
+    
+    class ConstraintSolverMemento {
+    public:
+        virtual ~ConstraintSolverMemento();
+    private:
+        friend class ConstraintSolver;
+        ConstraintSolverMemento();
+    
+        // private constraint solver state
+    };
+</PRE>
+
+<A NAME="auto1055"></A>
+<P><A NAME="auto1056"></A>
+<P>Given these interfaces, we can implement <CODE>MoveCommand</CODE> members
+<CODE>Execute</CODE> and <CODE>Unexecute</CODE> as follows:</P>
+
+<A NAME="auto1057"></A>
+<PRE>
+    void MoveCommand::Execute () {
+        ConstraintSolver* solver = ConstraintSolver::Instance();
+        _state = solver->CreateMemento(); // create a memento
+        _target->Move(_delta);
+        solver->Solve();
+    }
+    
+    void MoveCommand::Unexecute () {
+        ConstraintSolver* solver = ConstraintSolver::Instance();
+        _target->Move(-_delta);
+        solver->SetMemento(_state); // restore solver state
+        solver->Solve();
+    }
+</PRE>
+
+<A NAME="auto1058"></A>
+<P><CODE>Execute</CODE> acquires a <CODE>ConstraintSolverMemento</CODE> memento
+before it moves the graphic. <CODE>Unexecute</CODE> moves the graphic
+back, sets the constraint solver's state to the previous state, and
+finally tells the constraint solver to solve the constraints.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="unidraw-use-meme"></A>
+<P>The preceding sample code is based on Unidraw's support for connectivity
+through its CSolver class [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>].</P>
+
+<A NAME="auto1059"></A>
+<P>Collections in Dylan [<A HREF="bibfs.htm#Dylan" TARGET="_mainDisplayFrame">App92</A>] provide an iteration interface that
+reflects the Memento pattern. Dylan's collections have the notion of a
+"state" object, which is a memento that represents the state of the
+iteration. Each collection can represent the current state of the
+iteration in any way it chooses; the representation is completely
+hidden from clients. The Dylan iteration approach might be translated
+to C++ as follows:</P>
+
+<A NAME="auto1060"></A>
+<PRE>
+    template &lt;class Item>
+    class Collection {
+    public:
+        Collection();
+    
+        IterationState* CreateInitialState();
+        void Next(IterationState*);
+        bool IsDone(const IterationState*) const;
+        Item CurrentItem(const IterationState*) const;
+        IterationState* Copy(const IterationState*) const;
+    
+        void Append(const Item&amp;);
+        void Remove(const Item&amp;);
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1061"></A>
+<P><CODE>CreateInitialState</CODE> returns an initialized
+<CODE>IterationState</CODE> object for the collection. <CODE>Next</CODE> advances
+the state object to the next position in the iteration; it effectively
+increments the iteration index.  <CODE>IsDone</CODE> returns
+<CODE>true</CODE> if <CODE>Next</CODE> has advanced beyond the last element
+in the collection. <CODE>CurrentItem</CODE> dereferences the state
+object and returns the element in the collection to which it refers.
+<CODE>Copy</CODE> returns a copy of the given state object.  This is
+useful for marking a point in an iteration.</P>
+
+<A NAME="auto1062"></A>
+<P>Given a class <CODE>ItemType</CODE>, we can iterate over a collection of
+its instances as follows<A NAME="fn7"></A><SUP><A HREF="#footnote7">7</A></SUP>:</P>
+
+<A NAME="auto1063"></A>
+<PRE>
+    class ItemType {
+    public:
+        void Process();
+        // ...
+    };
+    
+    Collection&lt;ItemType*> aCollection;
+    IterationState* state;
+    
+    state = aCollection.CreateInitialState();
+    
+    while (!aCollection.IsDone(state)) {
+        aCollection.CurrentItem(state)->Process();
+        aCollection.Next(state);
+    }
+    delete state;
+</PRE>
+
+<A NAME="auto1064"></A>
+<P>The memento-based iteration interface has two interesting benefits:</P>
+
+<OL>
+
+<A NAME="auto1065"></A>
+<LI>More than one state can work on the same collection.  (The same
+is true of the <A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A> pattern.)</LI>
+<A NAME="auto1066"></A>
+<P></P>
+<A NAME="auto1067"></A>
+<LI>It doesn't require breaking a collection's encapsulation
+to support iteration.  The memento is only interpreted by the
+collection itself; no one else has access to it.  Other approaches to
+iteration require breaking encapsulation by making iterator classes
+friends of their collection classes (see
+<A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A>). The situation is reversed in the
+memento-based implementation: <CODE>Collection</CODE> is a friend of the
+<CODE>IteratorState</CODE>.</LI>
+
+</OL>
+
+<A NAME="qoca-use-memento"></A>
+<P>The QOCA constraint-solving toolkit stores incremental information in
+mementos [<A HREF="bibfs.htm#qoca" TARGET="_mainDisplayFrame">HHMV92</A>].  Clients can obtain a memento that characterizes
+the current solution to a system of constraints.  The memento contains
+only those constraint variables that have changed since the last
+solution.  Usually only a small subset of the solver's variables
+changes for each new solution.  This subset is enough to return the
+solver to the preceding solution; reverting to earlier solutions
+requires restoring mementos from the intervening solutions.  Hence you
+can't set mementos in any order; QOCA relies on a history mechanism to
+revert to earlier solutions.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1068"></A>
+<P><A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A>: Commands can use mementos to maintain
+state for undoable operations.</P>
+
+<A NAME="auto1069"></A>
+<P><A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A>: Mementos
+can be used for iteration as described earlier.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5gfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5gfs.htm"
+        TARGET="_mainDisplayFrame">Observer</A><BR>
+<A HREF="pat5efs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5efs.htm"
+        TARGET="_mainDisplayFrame">Mediator</A>
+</P>
+
+<HR>
+
+<A NAME="footnote7"></A>
+<SUP>7</SUP>Note that our example deletes the
+state object at the end of the iteration.  But <CODE>delete</CODE> won't
+get called if <CODE>ProcessItem</CODE> throws an exception, thus creating
+garbage.  This is a problem in C++ but not in Dylan, which has garbage
+collection.  We discuss a solution to this problem on
+<A HREF="pat5dfs.htm#clean-up_proxy_for_iterators" TARGET="_mainDisplayFrame">page 266</A>.
+</P>
+
+</BODY>
+
+</HTML>

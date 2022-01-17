@@ -1,0 +1,825 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML>
+
+<HEAD><TITLE>Proxy</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Proxy"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Provide a surrogate or placeholder for another object to control
+access to it.</P>
+
+<A NAME="alsoknownas"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Surrogate</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>One reason for controlling access to an object is to defer the full
+cost of its creation and initialization until we actually need to use
+it.  Consider a document editor that can embed graphical objects in a
+document. Some graphical objects, like large raster images, can be
+expensive to create.  But opening a document should be fast, so we
+should avoid creating all the expensive objects at once when the
+document is opened.  This isn't necessary anyway, because not all of
+these objects will be visible in the document at the same time.</P>
+
+<A NAME="auto1003"></A>
+<P>These constraints would suggest creating each expensive object <EM>on demand</EM>,
+which in this case occurs when an image becomes visible.  But what do
+we put in the document in place of the image?  And how can we hide the
+fact that the image is created on demand so that we don't complicate
+the editor's implementation?  This optimization shouldn't impact the
+rendering and formatting code, for example.</P>
+
+<A NAME="def-proxy"></A>
+<P>The solution is to use another object, an image <STRONG>proxy</STRONG>,
+that acts as a stand-in for the real image. The proxy acts just like
+the image and takes care of instantiating it when it's required.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/proxy016.gif"></P>
+
+<A NAME="auto1004"></A>
+<P>The image proxy creates the real image only when the document editor
+asks it to display itself by invoking its Draw operation.  The proxy
+forwards subsequent requests directly to the image.  It must therefore
+keep a reference to the image after creating it.</P>
+
+<A NAME="auto1005"></A>
+<P>Let's assume that images are stored in separate files. In this case we
+can use the file name as the reference to the real object. The proxy
+also stores its <STRONG>extent</STRONG>, that is, its width and height.
+The extent lets the proxy respond to requests for its size from the
+formatter without actually instantiating the image.</P>
+
+<A NAME="auto1006"></A>
+<P>The following class diagram illustrates this example in more detail.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/proxy-eg.gif"></P>
+
+<A NAME="auto1007"></A>
+<P>The document editor accesses embedded images through the interface
+defined by the abstract Graphic class. ImageProxy is a class for
+images that are created on demand.  ImageProxy maintains the file name
+as a reference to the image on disk.  The file name is passed as an
+argument to the ImageProxy constructor.</P>
+
+<A NAME="auto1008"></A>
+<P>ImageProxy also stores the bounding box of the image and a reference
+to the real Image instance.  This reference won't be valid until the
+proxy instantiates the real image.  The Draw operation makes sure the
+image is instantiated before forwarding it the request.  GetExtent
+forwards the request to the image only if it's instantiated; otherwise
+ImageProxy returns the extent it stores.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1009"></A>
+<P>Proxy is applicable whenever there is a need for a more versatile
+or sophisticated reference to an object than a simple pointer.  Here
+are several common situations in which the Proxy pattern is
+applicable:</P>
+
+<OL>
+
+<A NAME="idiom"></A>
+<A NAME="remoteproxy"></A>
+<LI>A <STRONG>remote proxy</STRONG> provides a local representative
+for an object in a different address space. NEXTSTEP [<A HREF="bibfs.htm#NeXT_AppKit" TARGET="_mainDisplayFrame">Add94</A>] uses the class NXProxy for
+this purpose.  Coplien [<A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>]
+calls this kind of proxy an "Ambassador."</LI>
+
+<A NAME="auto1010"></A>
+<P></P>
+
+<A NAME="virtualproxy"></A>
+<LI>A <STRONG>virtual proxy</STRONG>
+creates expensive objects on demand.  The ImageProxy described in the
+Motivation is an example of such a proxy.</LI>
+
+<A NAME="auto1011"></A>
+<P></P>
+
+<A NAME="protectionproxy"></A>
+<LI>A <STRONG>protection proxy</STRONG>
+controls access to the original object. Protection proxies are useful
+when objects should have different access rights.  For example,
+KernelProxies in the Choices operating system [<A HREF="bibfs.htm#choices_cacm" TARGET="_mainDisplayFrame">CIRM93</A>]
+provide protected access to operating system objects.</LI>
+
+<A NAME="auto1012"></A>
+<P></P>
+
+<A NAME="def-smartref"></A>
+<LI>A <STRONG>smart reference</STRONG>
+is a replacement for a bare pointer that performs additional actions
+when an object is accessed.  Typical uses include</LI>
+
+<P></P>
+
+<UL>
+
+<A NAME="def-smartpointer"></A>
+<LI>counting the number of references to the real object so that it can be
+freed automatically when there are no more references (also called
+<STRONG>smart pointers</STRONG> [<A HREF="bibfs.htm#SmartPointers_edelson" TARGET="_mainDisplayFrame">Ede92</A>]).</LI>
+
+<A NAME="auto1013"></A>
+<P></P>
+
+<A NAME="persistence"></A>
+<LI>loading a persistent object into memory when it's first referenced.</LI>
+<A NAME="auto1014"></A>
+<P></P>
+<A NAME="auto1015"></A>
+<LI>checking that the real object is locked before it's accessed to ensure
+that no other object can change it.</LI>
+
+</UL>
+
+</OL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/proxy017.gif"></P>
+
+<A NAME="auto1016"></A>
+<P>Here's a possible object diagram of a proxy structure at run-time:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/proxy015.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1017"></A>
+<LI><B>Proxy</B> (ImageProxy)</LI>
+
+<A NAME="auto1018"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1019"></A>
+<LI>maintains a reference that lets the proxy access the
+    real subject.  Proxy may refer to a Subject if the
+    RealSubject and Subject interfaces are the same.</LI>
+
+    <A NAME="auto1020"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1021"></A>
+<LI>provides an interface identical to Subject's so that a proxy can
+    by substituted for the real subject.</LI>
+
+    <A NAME="auto1022"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1023"></A>
+<LI>controls access to the real subject and may be responsible for
+    creating and deleting it.</LI>
+
+    <A NAME="auto1024"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1025"></A>
+<LI>other responsibilities depend on the kind of proxy:</LI>
+
+    <A NAME="auto1026"></A>
+<P><!-- extra space --></P>
+
+    <UL>
+
+        <A NAME="remoteproxy2"></A>
+<LI><EM>remote proxies</EM> are responsible for encoding a
+        request and its arguments and for sending the encoded request to
+        the real subject in a different address space.</LI>
+
+    <A NAME="auto1027"></A>
+<P><!-- extra space --></P>
+
+        <A NAME="virtualproxy2"></A>
+<LI><EM>virtual proxies</EM> may cache additional information
+        about the real subject so that they can postpone accessing it.
+        For example, the ImageProxy from the Motivation caches
+        the real image's extent.</LI>
+
+    <A NAME="auto1028"></A>
+<P><!-- extra space --></P>
+
+        <A NAME="protectionproxy2"></A>
+<LI><EM>protection proxies</EM> check that the caller has the
+        access permissions required to perform a request.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="auto1029"></A>
+<P></P>
+
+<A NAME="subj-part-proxy"></A>
+<LI><B>Subject</B> (Graphic)
+
+<A NAME="auto1030"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1031"></A>
+<LI>defines the common interface for RealSubject and
+    Proxy so that a Proxy can be used anywhere a
+    RealSubject is expected.</LI>
+
+</UL>
+
+<A NAME="auto1032"></A>
+<P></P>
+
+<A NAME="realsubj-part-proxy"></A>
+<LI><B>RealSubject</B> (Image)
+
+<A NAME="auto1033"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1034"></A>
+<LI>defines the real object that the proxy represents.</LI>
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1035"></A>
+<LI>Proxy forwards requests to RealSubject when appropriate,
+depending on the kind of proxy.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+
+<A NAME="auto1036"></A>
+<P>The Proxy pattern introduces a level of indirection when accessing an
+object.  The additional indirection has many uses, depending on the
+kind of proxy:</P>
+
+<OL>
+
+<A NAME="auto1037"></A>
+<LI>A remote proxy can hide the fact that an object resides in a
+different address space.</LI>
+<A NAME="auto1038"></A>
+<P></P>
+<A NAME="auto1039"></A>
+<LI>A virtual proxy can perform optimizations such as creating an
+object on demand.</LI>
+<A NAME="auto1040"></A>
+<P></P>
+<A NAME="auto1041"></A>
+<LI>Both protection proxies and smart references allow additional
+housekeeping tasks when an object is accessed.</LI>
+
+</OL>
+
+<A NAME="auto1042"></A>
+<P>There's another optimization that the Proxy pattern can hide from the
+client.  It's called <STRONG>copy-on-write</STRONG>, and it's related to
+creation on demand.  Copying a large and complicated object can be an
+expensive operation.  If the copy is never modified, then there's no
+need to incur this cost.  By using a proxy to postpone the copying
+process, we ensure that we pay the price of copying the object only if
+it's modified.</P>
+
+<A NAME="reference-counting"></A>
+<P>To make copy-on-write work, the subject must be reference counted.
+Copying the proxy will do nothing more than increment this reference
+count.  Only when the client requests an operation that modifies the
+subject does the proxy actually copy it.  In that case the proxy must
+also decrement the subject's reference count.  When the reference
+count goes to zero, the subject gets deleted.</P>
+
+<A NAME="auto1043"></A>
+<P>Copy-on-write can reduce the cost of copying heavyweight subjects
+significantly.</P>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1044"></A>
+<P>The Proxy pattern can exploit the following language features:</P>
+
+<OL>
+
+<A NAME="auto1045"></A>
+<LI><EM>Overloading the member access operator in C++.</EM>
+C++ supports overloading <CODE>operator-></CODE>, the member access
+operator.  Overloading this operator lets you perform additional work
+whenever an object is dereferenced. This can be helpful for
+implementing some kinds of proxy; the proxy behaves just like a
+pointer.
+
+<A NAME="auto1046"></A>
+<P>The following example illustrates how to use this technique to
+implement a virtual proxy called <CODE>ImagePtr</CODE>.</P>
+
+<A NAME="auto1047"></A>
+<PRE>
+    class Image;
+    extern Image* LoadAnImageFile(const char*);
+        // external function
+    
+    class ImagePtr {
+    public:
+        ImagePtr(const char* imageFile);
+        virtual ~ImagePtr();
+    
+        virtual Image* operator->();
+        virtual Image&amp; operator*();
+    private:
+        Image* LoadImage();
+    private:
+        Image* _image;
+        const char* _imageFile;
+    };
+    
+    ImagePtr::ImagePtr (const char* theImageFile) {
+        _imageFile = theImageFile;
+        _image = 0;
+    }
+    
+    Image* ImagePtr::LoadImage () {
+        if (_image == 0) {
+            _image = LoadAnImageFile(_imageFile);
+        }
+        return _image;
+    }
+</PRE>
+
+<A NAME="auto1048"></A>
+<P>The overloaded <CODE>-></CODE> and <CODE>*</CODE> operators use
+<CODE>LoadImage</CODE> to return <CODE>_image</CODE> to callers (loading it
+if necessary).</P>
+
+<A NAME="auto1049"></A>
+<PRE>
+    Image* ImagePtr::operator-> () {
+        return LoadImage();
+    }
+    
+    Image&amp; ImagePtr::operator* () {
+        return *LoadImage();
+    }
+</PRE>
+
+<A NAME="auto1050"></A>
+<P>This approach lets you call <CODE>Image</CODE> operations through
+<CODE>ImagePtr</CODE> objects without going to the trouble of making the
+operations part of the
+<CODE>ImagePtr</CODE> interface:</P>
+
+<A NAME="auto1051"></A>
+<PRE>
+    ImagePtr image = ImagePtr("anImageFileName");
+    image->Draw(Point(50, 100));  
+        // (image.operator->())->Draw(Point(50, 100))
+</PRE>
+
+<A NAME="auto1052"></A>
+<P>Notice how the <CODE>image</CODE> proxy acts like a pointer, but it's not
+declared to be a pointer to an <CODE>Image</CODE>.  That means you can't
+use it exactly like a real pointer to an
+<CODE>Image</CODE>.  Hence clients must treat <CODE>Image</CODE> and
+<CODE>ImagePtr</CODE> objects differently in this approach.</P>
+
+<A NAME="auto1053"></A>
+<P>Overloading the member access operator isn't a good solution for every
+kind of proxy.  Some proxies need to know precisely <EM>which</EM>
+operation is called, and overloading the member access operator
+doesn't work in those cases.</P>
+
+<A NAME="auto1054"></A>
+<P>Consider the virtual proxy example in the Motivation.  The image
+should be loaded at a specific time&#151;namely when the Draw operation
+is called&#151;and not whenever the image is referenced.  Overloading the
+access operator doesn't allow this distinction.  In that case we must
+manually implement each proxy operation that forwards the request to
+the subject.</P>
+
+<A NAME="auto1055"></A>
+<P>These operations are usually very similar to each other, as the Sample
+Code demonstrates.  Typically all operations verify that the request
+is legal, that the original object exists, etc., before forwarding the
+request to the subject.  It's tedious to write this code again and
+again.  So it's common to use a preprocessor to generate it
+automatically.</P>
+
+</LI>
+
+<A NAME="using-dnu"></A>
+<LI><EM>Using <CODE>doesNotUnderstand</CODE> in Smalltalk.</EM>
+Smalltalk provides a hook that you can use to
+support automatic forwarding of requests.  Smalltalk calls
+<CODE>doesNotUnderstand: aMessage</CODE> when a client sends a message to
+a receiver that has no corresponding method.  The Proxy class can
+redefine <CODE>doesNotUnderstand</CODE> so that the message is forwarded
+to its subject.
+
+<A NAME="auto1056"></A>
+<P>To ensure that a request is forwarded to the subject and not just
+absorbed by the proxy silently, you can define a Proxy class that
+doesn't understand <EM>any</EM> messages.  Smalltalk lets you do this by
+defining Proxy as a class with no
+superclass.<A NAME="fn6"></A><SUP><A HREF="#footnote6">6</A></SUP></P>
+
+<A NAME="auto1057"></A>
+<P>The main disadvantage of <CODE>doesNotUnderstand:</CODE> is that most
+Smalltalk systems have a few special messages that are handled
+directly by the virtual machine, and these do not cause the usual
+method look-up.  The only one that's usually implemented in Object (and
+so can affect proxies) is the identity operation <CODE>==</CODE>.</P>
+
+<A NAME="auto1058"></A>
+<P>If you're going to use <CODE>doesNotUnderstand:</CODE> to implement
+Proxy, then you must design around this problem.  You can't expect
+identity on proxies to mean identity on their real subjects.  An added
+disadvantage is that <CODE>doesNotUnderstand:</CODE> was developed for
+error handling, not for building proxies, and so it's generally not
+very fast.</P>
+
+</LI>
+<A NAME="auto1059"></A>
+<P></P>
+<A NAME="auto1060"></A>
+<LI><EM>Proxy doesn't always have to know the type of real subject.</EM>
+If a Proxy class can deal with its subject solely through an abstract
+interface, then there's no need to make a Proxy class for each
+RealSubject class; the proxy can deal with all RealSubject classes
+uniformly.  But if Proxies are going to instantiate RealSubjects (such
+as in a virtual proxy), then they have to know the concrete class.</LI>
+
+</OL>
+
+<A NAME="auto1061"></A>
+<P>Another implementation issue involves how to refer to the subject
+before it's instantiated.  Some proxies have to refer to their subject
+whether it's on disk or in memory.  That means they must use some form
+of address space-independent object identifiers.  We used a file name
+for this purpose in the Motivation.</P>
+
+<A NAME="samplecode"></A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1062"></A>
+<P>The following code implements two kinds of proxy: the virtual proxy
+described in the Motivation section, and a proxy implemented with
+<CODE>doesNotUnderstand:</CODE>.<A NAME="fn7"></A><SUP><A HREF="#footnote7">7</A></SUP></P>
+
+<OL>
+
+<A NAME="auto1063"></A>
+<LI><EM>A virtual proxy.</EM>
+The <CODE>Graphic</CODE> class defines the interface for graphical
+objects:
+
+<A NAME="auto1064"></A>
+<PRE>
+    class Graphic {
+    public:
+        virtual ~Graphic();
+    
+        virtual void Draw(const Point&amp; at) = 0;
+        virtual void HandleMouse(Event&amp; event) = 0;
+    
+        virtual const Point&amp; GetExtent() = 0;
+    
+        virtual void Load(istream&amp; from) = 0;
+        virtual void Save(ostream&amp; to) = 0;
+    protected:
+        Graphic();
+    };
+</PRE>
+
+<A NAME="auto1065"></A>
+<P>The <CODE>Image</CODE> class implements the <CODE>Graphic</CODE> interface
+to display image files. <CODE>Image</CODE> overrides
+<CODE>HandleMouse</CODE> to let users resize the image interactively.</P>
+
+<A NAME="auto1066"></A>
+<PRE>
+    class Image : public Graphic {
+    public:
+        Image(const char* file);  // loads image from a file
+        virtual ~Image();
+    
+        virtual void Draw(const Point&amp; at);
+        virtual void HandleMouse(Event&amp; event);
+    
+        virtual const Point&amp; GetExtent();
+    
+        virtual void Load(istream&amp; from);
+        virtual void Save(ostream&amp; to);
+    private:
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1067"></A>
+<P><CODE>ImageProxy</CODE> has the same interface as <CODE>Image</CODE>:</P>
+
+<A NAME="auto1068"></A>
+<PRE>
+    class ImageProxy : public Graphic {
+    public:
+        ImageProxy(const char* imageFile);
+        virtual ~ImageProxy();
+    
+        virtual void Draw(const Point&amp; at);
+        virtual void HandleMouse(Event&amp; event);
+    
+        virtual const Point&amp; GetExtent();
+    
+        virtual void Load(istream&amp; from);
+        virtual void Save(ostream&amp; to);
+    protected:
+        Image* GetImage();
+    private:
+        Image* _image;
+        Point _extent;
+        char* _fileName;
+    };
+</PRE>
+
+<A NAME="auto1069"></A>
+<P>The constructor saves a local copy of the name of the file that stores
+the image, and it initializes <CODE>_extent</CODE> and
+<CODE>_image</CODE>:</P>
+
+<A NAME="auto1070"></A>
+<PRE>
+    ImageProxy::ImageProxy (const char* fileName)  {
+        _fileName = strdup(fileName);
+        _extent = Point::Zero;  // don't know extent yet
+        _image = 0;
+    }
+    
+    Image* ImageProxy::GetImage() {
+        if (_image == 0) {
+            _image = new Image(_fileName);
+        }
+        return _image;
+    }
+</PRE>
+
+<A NAME="auto1071"></A>
+<P>The implementation of <CODE>GetExtent</CODE> returns the cached extent if
+possible; otherwise the image is loaded from the file. <CODE>Draw</CODE>
+loads the image, and <CODE>HandleMouse</CODE> forwards the event to the
+real image.</P>
+
+<A NAME="auto1072"></A>
+<PRE>
+    const Point&amp; ImageProxy::GetExtent () {
+        if (_extent == Point::Zero) {
+            _extent = GetImage()->GetExtent();
+        }
+        return _extent;
+    }
+    
+    void ImageProxy::Draw (const Point&amp; at) {
+        GetImage()->Draw(at);
+    }
+    
+    void ImageProxy::HandleMouse (Event&amp; event) {
+        GetImage()->HandleMouse(event);
+    }
+</PRE>
+
+<A NAME="auto1073"></A>
+<P>The <CODE>Save</CODE> operation saves the cached image extent and the
+image file name to a stream. <CODE>Load</CODE> retrieves this information
+and initializes the corresponding members.</P>
+
+<A NAME="auto1074"></A>
+<PRE>
+    void ImageProxy::Save (ostream&amp; to) {
+        to &lt;&lt; _extent &lt;&lt; _fileName;
+    }
+    
+    void ImageProxy::Load (istream&amp; from) {
+        from >> _extent >> _fileName;
+    }
+</PRE>
+
+<A NAME="auto1075"></A>
+<P>Finally, suppose we have a class <CODE>TextDocument</CODE> that can contain
+<CODE>Graphic</CODE> objects:</P>
+
+<A NAME="auto1076"></A>
+<PRE>
+    class TextDocument {
+    public:
+        TextDocument();
+    
+        void Insert(Graphic*);
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1077"></A>
+<P>We can insert an <CODE>ImageProxy</CODE> into a text document like this:</P>
+
+<A NAME="auto1078"></A>
+<PRE>
+    TextDocument* text = new TextDocument;
+    // ...
+    text->Insert(new ImageProxy("anImageFileName"));
+</PRE>
+
+</LI>
+
+<A NAME="proxyuse-dnu"></A>
+<LI><EM>Proxies that use <CODE>doesNotUnderstand</CODE>.</EM> You
+can make generic proxies in Smalltalk by defining classes whose
+superclass is nil<A NAME="fn8"></A><SUP><A HREF="#footnote8">8</A></SUP>
+and defining the <CODE>doesNotUnderstand:</CODE> method to handle
+messages.
+
+<A NAME="auto1079"></A>
+<P>The following method assumes the proxy has a <CODE>realSubject</CODE>
+method that returns its real subject.  In the case of ImageProxy, this
+method would check to see if the the Image had been created, create it
+if necessary, and finally return it.  It uses
+<CODE>perform:withArguments:</CODE> to perform the message being trapped
+on the real subject.</P>
+
+<A NAME="auto1080"></A>
+<PRE>
+    doesNotUnderstand: aMessage
+        ^ self realSubject
+            perform: aMessage selector
+            withArguments: aMessage arguments
+</PRE>
+
+
+<A NAME="auto1081"></A>
+<P>The argument to <CODE>doesNotUnderstand:</CODE> is an instance of
+<CODE>Message</CODE> that represents the message not understood by the
+proxy.  So the proxy responds to all messages by making sure that the
+real subject exists before forwarding the message to it.</P>
+
+<A NAME="auto1082"></A>
+<P>One of the advantages of <CODE>doesNotUnderstand:</CODE> is it can
+perform arbitrary processing.  For example, we could produce a
+protection proxy by specifying a set <CODE>legalMessages</CODE> of
+messages to accept and then giving the proxy the following method:</P>
+
+<A NAME="auto1083"></A>
+<PRE>
+    doesNotUnderstand: aMessage
+        ^ (legalMessages includes: aMessage selector)
+            ifTrue: [self realSubject
+                perform: aMessage selector
+                withArguments: aMessage arguments]
+            ifFalse: [self error: 'Illegal operator']
+</PRE>
+
+
+<A NAME="auto1084"></A>
+<P>This method checks to see that a message is legal before forwarding it
+to the real subject. If it isn't legal, then it will send
+<CODE>error:</CODE> to the proxy,
+which will result in an infinite loop of errors unless the proxy
+defines <CODE>error:</CODE>.  Consequently, the definition of
+<CODE>error:</CODE> should be copied from class Object along with
+any methods it uses.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="knownuses"></A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1085"></A>
+<P>The virtual proxy example in the Motivation section is from the ET++
+text building block classes.</P>
+
+<A NAME="auto1086"></A>
+<P>NEXTSTEP [<A HREF="bibfs.htm#NeXT_AppKit" TARGET="_mainDisplayFrame">Add94</A>] uses proxies (instances of class NXProxy)
+as local representatives for objects that may be distributed.  A
+server creates proxies for remote objects when clients request them.
+On receiving a message, the proxy encodes it along with its arguments
+and then forwards the encoded message to the remote subject.
+Similarly, the subject encodes any return results and sends them back
+to the NXProxy object.</P>
+
+<A NAME="auto1087"></A>
+<P>McCullough [<A HREF="bibfs.htm#mccullough_forwarding" TARGET="_mainDisplayFrame">McC87</A>] discusses using proxies in
+Smalltalk to access remote objects. Pascoe [<A HREF="bibfs.htm#pascoe_encapsulators" TARGET="_mainDisplayFrame">Pas86</A>]
+describes how to provide side-effects on method calls and access
+control with "Encapsulators."</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1088"></A>
+<P><A HREF="pat4afs.htm" TARGET="_mainDisplayFrame">Adapter (139)</A>: An
+adapter provides a different interface to the object it adapts. In
+contrast, a proxy provides the same interface as its subject.
+However, a proxy used for access protection might refuse to perform
+an operation that the subject will perform, so its interface may
+be effectively a subset of the subject's.</P>
+
+<A NAME="dec-prox"></A>
+<P><A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A>:
+Although decorators can have similar implementations as proxies,
+decorators have a different purpose. A decorator adds one or more
+responsibilities to an object, whereas a proxy controls access to
+an object.</P>
+
+<A NAME="auto1089"></A>
+<P>Proxies vary in the degree to which they are implemented like a
+decorator.  A protection proxy might be implemented exactly like a
+decorator.  On the other hand, a remote proxy will not contain a
+direct reference to its real subject but only an indirect reference,
+such as "host ID and local address on host."  A virtual proxy will
+start off with an indirect reference such as a file name but will
+eventually obtain and use a direct reference.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="disc4fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="disc4fs.htm"
+	TARGET="_mainDisplayFrame">Discussion of Structural Patterns</A><BR>
+<A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4ffs.htm"
+	TARGET="_mainDisplayFrame">Flyweight</A>
+</P>
+
+<HR>
+
+<A NAME="footnote6"></A>
+<P><SUP>6</SUP>The implementation of distributed objects in NEXTSTEP [<A HREF="bibfs.htm#NeXT_AppKit" TARGET="_mainDisplayFrame">Add94</A>]
+(specifically, the class NXProxy) uses this technique.  The
+implementation redefines <CODE>forward</CODE>, the equivalent hook
+in NEXTSTEP.
+</P>
+
+<A NAME="footnote7"></A>
+<P><SUP>7</SUP><A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A>
+describes another kind of proxy on
+<A HREF="pat5dfs.htm#clean-up_proxy_for_iterators" TARGET="_mainDisplayFrame">page 266</A>.
+</P>
+
+<A NAME="footnote8"></A>
+<P><SUP>8</SUP>Almost all classes ultimately have Object
+as their superclass.  Hence this is the same as saying "defining a
+class that doesn't have Object as its superclass."
+</P>
+
+</BODY>
+
+</HTML>
+

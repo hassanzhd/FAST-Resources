@@ -1,0 +1,67 @@
+<HTML>
+<SCRIPT LANGUAGE="JavaScript">
+/*
+ * Storing this varible on the navigator object makes it truely global on NN4,
+ * but is no help on NN3, so we need the page global variable in NN3 which is
+ * the best we can do.  
+ */
+
+var search_win = navigator._searchWin;
+
+function loadApplet() {
+    if(navigator.appName == "Netscape") {
+	if(search_win == null || search_win.closed) {
+	    search_win = window.open("appletn.htm", "_appletWindow", "width=390,height=300,resizable=0,status=0,menubar=0,scrollbar=0");
+	    navigator._searchWin = search_win;
+	} 
+	search_win.opener = top;
+	search_win.focus();
+    } else if(top.loadApplet != null) {
+	top.loadApplet();
+    }
+}
+</SCRIPT>
+
+<BODY BGCOLOR="#336699" LEFTMARGIN="1" TOPMARGIN="1">
+
+<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+
+
+<tr>
+<td colspan="2" align="center"><A HREF="javascript:loadApplet()" TARGET="LEFT"><IMG SRC="gifsb/search.gif" BORDER="0"></A></td>
+</tr>
+
+<tr>
+<td><img src="gifsb/clear.gif" width="1" height="20"></td>
+<td><img src="gifsb/clear.gif" width="5" height="1"></td>
+</tr>
+
+<tr>
+<td align="right"><img src="gifsb/left2.gif" border="0" ismap usemap="#left"></td>
+</tr>
+
+</TABLE>
+
+<map name="left">
+<area shape="rect" coords="3,-1,80,13" href="chap2.htm#sec2-1" 
+target="TEXT">
+<area shape="rect" coords="3,20,80,46" href="chap2.htm#sec2-2" 
+target="TEXT">
+<area shape="rect" coords="1,52,79,68" href="chap2.htm#sec2-3" 
+target="TEXT">
+<area shape="rect" coords="1,74,79,101" href="chap2.htm#sec2-4" 
+target="TEXT">
+<area shape="rect" coords="1,110,78,161" href="chap2.htm#sec2-5" 
+target="TEXT">
+<area shape="rect" coords="3,169,78,210" href="chap2.htm#sec2-6" 
+target="TEXT">
+<area shape="rect" coords="1,216,81,230" href="chap2.htm#sec2-7" 
+target="TEXT">
+<area shape="rect" coords="2,239,77,278" href="chap2.htm#sec2-8" 
+target="TEXT">
+<area shape="rect" coords="3,285,81,297" href="chap2.htm#sec2-9" 
+target="TEXT"><area shape="default" nohref> 
+</map> </BODY>
+
+</HTML>
+

@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\State\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\State\bin\Debug\State.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\State\bin\Debug\State.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\State\obj\Debug\State.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\State\obj\Debug\State.pdb

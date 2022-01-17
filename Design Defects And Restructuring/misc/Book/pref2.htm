@@ -1,0 +1,194 @@
+<HTML>
+<HEAD><TITLE>Preface to Book</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR=#FFFFFF TEXT=#000000 onLoad="setFocus()";>
+<A NAME="prefbook1"></A>
+<P>This book isn't an introduction to object-oriented technology or
+design.  Many books already do a good job of that.  This book assumes
+you are reasonably proficient in at least one object-oriented
+programming language, and you should have some experience in
+object-oriented design as well.  You definitely shouldn't have to rush
+to the nearest dictionary the moment we mention "types" and
+"polymorphism," or "interface" as opposed to "implementation"
+inheritance.
+<A NAME="prefbook2"></A>
+<P>On the other hand, this isn't an advanced technical treatise either.
+It's a book of <B>design patterns</B> that describes simple and elegant
+solutions to specific problems in object-oriented software design.
+Design patterns capture solutions that have developed and evolved over
+time.  Hence they aren't the designs people tend to generate
+initially.  They reflect untold redesign and recoding as developers
+have struggled for greater reuse and flexibility in their software.
+Design patterns capture these solutions in a succinct and
+easily applied form.
+<A NAME="prefbook3"></A>
+<P>The design patterns require neither unusual language features nor
+amazing programming tricks with which to astound your friends and
+managers. All can be implemented in standard object-oriented
+languages, though they might take a little more work than <EM>ad hoc</EM>
+solutions. But the extra effort invariably pays dividends in increased
+flexibility and reusability.
+<A NAME="prefbook4"></A>
+<P>Once you understand the design patterns and have had an "Aha!" (and
+not just a "Huh?") experience with them, you won't ever think about
+object-oriented design in the same way.  You'll have insights that can
+make your own designs more flexible, modular, reusable, and
+understandable&#151;which is why you're interested in object-oriented
+technology in the first place, right?
+<A NAME="prefbook5"></A>
+<P>A word of warning and encouragement: Don't worry if you don't
+understand this book completely on the first reading.  We didn't
+understand it all on the first writing!  Remember that this isn't a
+book to read once and put on a shelf.  We hope you'll find yourself
+referring to it again and again for design insights and for
+inspiration.
+<A NAME="prefbook6"></A>
+<P>This book has had a long gestation.  It has seen four countries, three
+of its authors' marriages, and the birth of two (unrelated) offspring.
+Many people have had a part in its development.  Special thanks are
+due
+Bruce Anderson, 
+Kent Beck, and 
+Andr&#233; Weinand
+for their inspiration and advice.  We also thank those who reviewed
+drafts of the manuscript:
+Roger Bielefeld,
+Grady Booch,
+Tom Cargill,
+Marshall Cline,
+Ralph Hyre,
+Brian Kernighan,
+Thomas Laliberty,
+Mark Lorenz,
+Arthur Riel,
+Doug Schmidt,
+Clovis Tondo,
+Steve Vinoski,
+and
+Rebecca Wirfs-Brock.
+
+We are also grateful to the team at Addison-Wesley for their help and
+patience:
+Kate Habib,
+Tiffany Moore,
+Lisa Raffaele,
+Pradeepa Siva,
+and
+John Wait.
+
+Special thanks to Carl Kessler, Danny Sabbah, and Mark Wegman at IBM
+Research for their unflagging support of this work.
+<A NAME="prefbook7"></A>
+<P>Last but certainly not least, we thank everyone on the Internet and
+points beyond who commented on versions of the patterns, offered
+encouraging words, and told us that what we were doing was worthwhile.
+These people include but are not limited to
+Jon Avotins,
+Steve Berczuk,
+Julian Berdych,
+Matthias Bohlen,
+John Brant,
+Allan Clarke,
+Paul Chisholm,
+Jens Coldewey,
+Dave Collins,
+Jim Coplien,
+Don Dwiggins,
+Gabriele Elia,
+Doug Felt,
+Brian Foote,
+Denis Fortin,
+Ward Harold,
+Hermann Hueni,
+Nayeem Islam,
+Bikramjit Kalra,
+Paul Keefer,
+Thomas Kofler,
+Doug Lea,
+Dan LaLiberte,
+James Long,
+Ann Louise Luu,
+Pundi Madhavan,
+Brian Marick,
+Robert Martin,
+Dave McComb,
+Carl McConnell,
+Christine Mingins,
+Hanspeter M&#246;ssenb&#246;ck,
+Eric Newton,
+Marianne Ozkan,
+Roxsan Payette,
+Larry Podmolik,
+George Radin,
+Sita Ramakrishnan,
+Russ Ramirez,
+Alexander Ran,
+Dirk Riehle,
+Bryan Rosenburg,
+Aamod Sane,
+Duri Schmidt,
+Robert Seidl,
+Xin Shu,
+and 
+Bill Walker.
+
+
+<a name="mail"></a>
+<P>We don't consider this collection of design patterns complete and
+static; it's more a recording of our current thoughts on design.  We
+welcome comments on it, whether criticisms of our examples, references
+and known uses we've missed, or design patterns we should have
+included.  You can write us care of Addison-Wesley, or send electronic
+mail to <A HREF="mailto:design-patterns@cs.uiuc.edu"><CODE>design-patterns@cs.uiuc.edu</CODE></A>.  You can also obtain
+softcopy for the code in the Sample Code sections by sending the
+message "send design pattern source" to 
+<A HREF="mailto:design-patterns-source@cs.uiuc.edu"><CODE>design-patterns-source@cs.uiuc.edu</CODE></A>.  And now there's a Web page 
+at <A HREF="http://st-www.cs.uiuc.edu/users/patterns/DPBook/DPBook.html" target="_top">
+<CODE>http://st-www.cs.uiuc.edu/users/patterns/DPBook/DPBook.html</CODE></A> 
+for late-breaking information and updates.</P>
+
+
+<A NAME="cities"></A>
+<TABLE WIDTH=100%>
+<TR><TD ALIGN=LEFT>
+<EM>Mountain View, California</EM></TD>
+<TD ALIGN=RIGHT>E.G.</TD></TR>
+<TR><TD ALIGN=LEFT>
+<EM>Montreal, Quebec</EM></TD>
+<TD ALIGN=RIGHT>R.H.</TD></TR>
+<TR><TD ALIGN=LEFT>
+<EM>Urbana, Illinois</EM></TD>
+<TD ALIGN=RIGHT>R.J.</TD></TR>
+<TR><TD ALIGN=LEFT>
+<EM>Hawthorne, New York</EM></TD>
+<TD ALIGN=RIGHT>J.V.</TD></TR>
+<TR><TD><BR></TD></TR>
+<TR><TD ALIGN=LEFT>
+<EM>August 1994</EM></TD></TR>
+</TABLE>
+
+
+<A NAME="last"></A>
+<P>
+<A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="forefs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A><A HREF="forefs.htm" 
+	TARGET="_mainDisplayFrame">Foreword</A><BR>
+<A HREF="preffs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A><A HREF="preffs.htm"
+	TARGET="_mainDisplayFrame">Preface to CD</A>
+</P>
+
+</BODY>
+
+</HTML>

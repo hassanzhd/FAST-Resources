@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Memento\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Memento\bin\Debug\Memento.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Memento\bin\Debug\Memento.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Memento\obj\Debug\Memento.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Memento\obj\Debug\Memento.pdb

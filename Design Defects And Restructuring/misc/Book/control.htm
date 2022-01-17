@@ -1,0 +1,26 @@
+<HTML>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+var anchorTarget = null
+
+function gotoAnchor()
+{
+	// if ( anchorTarget == null ) return
+	top.MAIN.TEXT.location.hash = anchorTarget
+	// status = top.MAIN.TEXT.location.hash
+	alert(top.MAIN.TEXT.location.hash)
+	status = top.MAIN.TEXT.title
+	anchorTarget = null
+}
+
+function load(frameset,anchor)
+{
+	top.MAIN.location = frameset
+	top.anchorTarget = anchor
+}
+
+</SCRIPT>
+
+</HTML>
+

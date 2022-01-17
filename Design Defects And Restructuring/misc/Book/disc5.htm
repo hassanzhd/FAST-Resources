@@ -1,0 +1,289 @@
+<HTML>
+
+<HEAD><TITLE>Discussion of Behavioral Patterns</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   TOPMARGIN       = 4
+        LEFTMARGIN      = 4
+	BGCOLOR         = #FFFFFF
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="disc5-1"></A>
+<a name="encap"></a>
+<H2><A HREF="#objects"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Objects as 
+Arguments"></A> Encapsulating Variation</H2>
+<A NAME="disc5-2"></A>
+<P>Encapsulating variation is a theme of many behavioral patterns.  When
+an aspect of a program changes frequently, these patterns define an
+object that encapsulates that aspect.  Then other parts of the program
+can collaborate with the object whenever they depend on that aspect.
+The patterns usually define an abstract class that describes the
+encapsulating object, and the pattern derives its name from that
+object.<A NAME="fn12"></A><A HREF="#footnote12"><SUP>12</SUP></A>
+For example,</P>
+
+<UL>
+<A NAME="disc5-3"></A>
+<LI>a Strategy object encapsulates an algorithm (<A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A>),</LI>
+
+<P></P>
+<A NAME="disc5-4"></A>
+<LI>a State object encapsulates a state-dependent behavior
+(<A HREF="pat5hfs.htm" TARGET="_mainDisplayFrame">State (305)</A>),</LI>
+
+<P></P>
+<A NAME="disc5-5"></A>
+<LI>a Mediator object encapsulates the protocol between
+objects (<A HREF="pat5efs.htm" TARGET="_mainDisplayFrame">Mediator (273)</A>), and</LI>
+
+<P></P>
+<A NAME="disc5-6"></A>
+<LI>an Iterator object encapsulates the way you access and traverse the
+components of an aggregate object (<A HREF="pat5dfs.htm"
+TARGET="_mainDisplayFrame">Iterator (257)</A>).</LI>
+
+</UL>
+<A NAME="disc5-7"></A>
+<P>These patterns describe aspects of a program that are likely to
+change. Most patterns have two kinds of objects: the new object(s)
+that encapsulate the aspect, and the existing object(s) that use the
+new ones. Usually the functionality of new objects would be an
+integral part of the existing objects were it not for the pattern. For
+example, code for a Strategy would probably be wired into the
+strategy's Context, and code for a State would be implemented directly
+in the state's Context.</P>
+<A NAME="disc5-8"></A>
+<P>But not all object behavioral patterns partition functionality like
+this.  For example, <A HREF="pat5afs.htm" TARGET="_mainDisplayFrame">Chain of Responsibility (223)</A> deals
+with an arbitrary number of objects (i.e., a chain), all of which may
+already exist in the system.  </P>
+<A NAME="disc5-9"></A>
+<P>Chain of Responsibility illustrates another difference in behavioral
+patterns: Not all define static communication relationships between
+classes.  Chain of Responsibility prescribes communication between an
+open-ended number of objects.  Other patterns involve objects that are
+passed around as arguments.</P>
+<A NAME="disc5-10"></A>
+<A NAME="objects"></A>
+<H2><A HREF="#media-vs-obsrv"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Should 
+Communication be Encapsulated or Distributed?"></A> Objects as Arguments</H2>
+<A NAME="disc5-11"></A>
+<P>Several patterns introduce an object that's <EM>always</EM> used
+as an argument.  One of these is
+<A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A>.
+A Visitor object is the
+argument to a polymorphic Accept operation on the objects it visits.
+The visitor is never considered a part of those objects, even though
+the conventional alternative to the pattern is to distribute Visitor
+code across the object structure classes.</P>
+<A NAME="disc5-12"></A>
+<A NAME="magictoken"></A>
+<P>Other patterns define objects that act as magic tokens to be passed
+around and invoked at a later time. Both
+<A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A>
+and
+<A HREF="pat5ffs.htm" TARGET="_mainDisplayFrame">Memento (283)</A>
+fall into this category. In Command,
+the token represents a request; in Memento, it represents the internal
+state of an object at a particular time.
+In both cases, the token can have a complex internal representation,
+but the client is never aware of it.  But even here there are
+differences.  Polymorphism is important in the Command pattern,
+because executing the Command object is a polymorphic operation.  In
+contrast, the Memento interface is so narrow that a memento can only
+be passed as a value.  So it's likely to present no polymorphic
+operations at all to its clients.</P>
+<A NAME="disc5-13"></A>
+<A NAME="media-vs-obsrv"></A>
+<H2><A HREF="#decouple-sandr"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Decoupling 
+Senders and Receivers"></A> Should Communication be Encapsulated or Distributed?</H2>
+<A NAME="disc5-14"></A>
+<P><A HREF="pat5efs.htm" TARGET="_mainDisplayFrame">Mediator (273)</A>
+and
+<A HREF="pat5gfs.htm" TARGET="_mainDisplayFrame">Observer (293)</A> are
+competing patterns. The difference between them is that Observer
+distributes communication by introducing Observer and Subject objects,
+whereas a Mediator object encapsulates the communication between other
+objects.</P>
+<A NAME="disc5-15"></A>
+<P>In the Observer pattern, there is no single object that encapsulates a
+constraint. Instead, the Observer and the Subject must cooperate to
+maintain the constraint. Communication patterns are determined by the
+way observers and subjects are interconnected: a single subject
+usually has many observers, and sometimes the observer of one subject
+is a subject of another observer.  The Mediator pattern centralizes
+rather than distributes.  It places the responsibility for maintaining
+a constraint squarely in the mediator.</P>
+<A NAME="disc5-16"></A>
+<P>We've found it easier to make reusable Observers and Subjects than to
+make reusable Mediators. The Observer pattern promotes partitioning
+and loose coupling between Observer and Subject, and that leads to
+finer-grained classes that are more apt to be reused. </P>
+<A NAME="disc5-17"></A>
+<P>On the other hand, it's easier to understand the flow of communication
+in Mediator than in Observer.  Observers and subjects are usually
+connected shortly after they're created, and it's hard to see how they
+are connected later in the program.  If you know the Observer pattern,
+then you understand that the way observers and subjects are connected
+is important, and you also know what connections to look for.
+However, the indirection that Observer introduces will still make a
+system harder to understand.</P>
+<A NAME="disc5-18"></A>
+<P>Observers in Smalltalk can be parameterized with messages to access
+the Subject state, and so they are even more reusable than they are in
+C++.  This makes Observer more attractive than Mediator in Smalltalk.
+Thus a Smalltalk programmer will often use Observer where a C++
+programmer would use Mediator.</P>
+<A NAME="disc5-19"></A>
+<A NAME="decouple-sandr"></A>
+<H2><A HREF="#summary"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Summary"></A>
+Decoupling Senders and Receivers</H2>
+<A NAME="disc5-20"></A>
+<P>When collaborating objects refer to each other directly, they become
+dependent on each other, and that can have an adverse impact on the
+layering and reusability of a system.  Command, Observer, Mediator,
+and Chain of Responsibility address how you can decouple senders and
+receivers, but with different trade-offs.</P>
+<A NAME="disc5-21"></A>
+<P>The Command pattern supports decoupling by using a Command object to
+define the binding between a sender and receiver:</P>
+<A NAME="disc5-22"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/cmddec.gif"></P>
+<A NAME="disc5-23"></A>
+<P>The Command object provides a simple interface for issuing the request
+(that is, the Execute operation).  Defining the sender-receiver
+connection in a separate object lets the sender work with different
+receivers.  It keeps the sender decoupled from the receivers, making
+senders easy to reuse.  Moreover, you can reuse the Command object to
+parameterize a receiver with different senders.  The Command pattern
+nominally requires a subclass for each sender-receiver connection,
+although the pattern describes implementation techniques that avoid
+subclassing.</P>
+<A NAME="disc5-24"></A>
+<A NAME="media-vs-obsrv2"></A>
+<P>The Observer pattern decouples senders (subjects) from receivers
+(observers) by defining an interface for signaling changes in
+subjects.  Observer defines a looser sender-receiver binding than
+Command, since a subject may have multiple observers, and their number
+can vary at run-time.</P>
+<A NAME="disc5-25"></A>
+<A NAME="subj-347i"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/obser024.gif"></P>
+<A NAME="disc5-26"></A>
+<P>The Subject and Observer interfaces in the Observer pattern are
+designed for communicating changes.  Therefore the Observer pattern is
+best for decoupling objects when there are data dependencies between
+them.</P>
+<A NAME="disc5-27"></A>
+<P>The Mediator pattern decouples objects by having them refer to each
+other indirectly through a Mediator object.</P>
+<A NAME="disc5-28"></A>
+<A NAME="media-348i"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/media035.gif"></P>
+<A NAME="disc5-29"></A>
+<P>A Mediator object routes requests between Colleague objects and
+centralizes their communication.  Consequently, colleagues can only
+talk to each other through the Mediator interface.  Because this
+interface is fixed, the Mediator might have to implement its own
+dispatching scheme for added flexibility. Requests can be encoded and
+arguments packed in such a way that colleagues can request an
+open-ended set of operations.</P>
+<A NAME="disc5-30"></A>
+<P>The Mediator pattern can reduce subclassing in a system, because it
+centralizes communication behavior in one class instead of
+distributing it among subclasses. However, <EM>ad hoc</EM> dispatching schemes
+often decrease type safety.</P>
+<A NAME="disc5-31"></A>
+<P>Finally, the Chain of Responsibility pattern decouples the sender from
+the receiver by passing the request along a chain of potential
+receivers:</P>
+<A NAME="disc5-32"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/chain093.gif"></P>
+<A NAME="disc5-33"></A>
+<A NAME="media-vs-cor"></A>
+<P>Since the interface between senders and receivers is fixed, Chain of
+Responsibility may also require a custom dispatching scheme.  Hence it
+has the same type-safety drawbacks as Mediator.  Chain of
+Responsibility is a good way to decouple the sender and the receiver
+if the chain is already part of the system's structure, and one of
+several objects may be in a position to handle the request.  Moreover,
+the pattern offers added flexibility in that the chain can be changed or
+extended easily.</P>
+<A NAME="disc5-34"></A>
+<A NAME="summary"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: navigation"></A>
+Summary</H2>
+<A NAME="disc5-35"></A>
+<P>With few exceptions, behavioral design patterns complement and
+reinforce each other.  A class in a chain of responsibility, for
+example, will probably include at least one application of
+<A HREF="pat5jfs.htm" TARGET="_mainDisplayFrame">Template Method (325)</A>.
+The template method can use
+primitive operations to determine whether the object should handle the
+request and to choose the object to forward to.  The chain can use the
+Command pattern to represent requests as objects.
+<A HREF="pat5cfs.htm" TARGET="_mainDisplayFrame">Interpreter (243)</A> can use the State pattern to
+define parsing contexts.  An iterator can traverse an aggregate, and a
+visitor can apply an operation to each element in the aggregate.</P>
+<A NAME="disc5-36"></A>
+<P>Behavioral patterns work well with other patterns, too. For example, a
+system that uses the <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A> pattern might use
+a visitor to perform operations on components of the
+composition.  It could use Chain of Responsibility to let components
+access global properties through their parent.  It could also use
+<A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A>
+to override these properties on parts
+of the composition.  It could use the Observer pattern to tie one
+object structure to another and the State pattern to let a component
+change its behavior as its state changes. The composition itself might
+be created using the approach in
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A>, and it
+might be treated as a
+<A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A> by some other
+part of the system.</P>
+<A NAME="disc5-37"></A>
+<P>Well-designed object-oriented systems are just like this&#151;they have
+multiple patterns embedded in them&#151;but not because their designers
+necessarily thought in these terms.  Composition at the <EM>pattern</EM>
+level rather than the class or object levels lets us achieve the same
+synergy with greater ease.</P>
+<A NAME="disc5-38"></A>
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="chap6fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap6fs.htm"
+	TARGET="_mainDisplayFrame">Conclusion</A><BR>
+<A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat5kfs.htm"
+	TARGET="_mainDisplayFrame">Visitor</A>
+</P>
+
+<HR>
+
+<A NAME="footnote12"></A>
+<P><SUP>12</SUP>This theme runs through other kinds of patterns, too.
+<A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">AbstractFactory (87)</A>,
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A>, and
+<A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A>
+all encapsulate knowledge about how
+objects are created.
+<A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A>
+encapsulates responsibility that can be added to an object.
+<A HREF="pat4bfs.htm" TARGET="_mainDisplayFrame">Bridge (151)</A>
+separates an abstraction
+from its implementation, letting them vary independently.
+</P>
+
+</BODY>
+
+</HTML>

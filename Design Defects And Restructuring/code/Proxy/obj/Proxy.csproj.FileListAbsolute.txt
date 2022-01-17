@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Proxy\bin\Debug\Proxy.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Proxy\bin\Debug\Proxy.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Proxy\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Proxy\obj\Debug\Proxy.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Proxy\obj\Debug\Proxy.pdb

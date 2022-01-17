@@ -1,0 +1,706 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML><HEAD>	<TITLE>Prototype</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Prototype"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Specify the kinds of objects to create using a prototypical
+instance, and create new objects by copying this prototype.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1001"></A>
+<P>You could build an editor for music scores by customizing a general
+framework for graphical editors and adding new objects that represent
+notes, rests, and staves.  The editor framework may have a palette of
+tools for adding these music objects to the score.  The palette would
+also include tools for selecting, moving, and otherwise manipulating
+music objects.  Users will click on the quarter-note tool and use it
+to add quarter notes to the score.  Or they can use the move tool to
+move a note up or down on the staff, thereby changing its pitch.</P>
+
+<A NAME="tool-class"></A>
+<P>Let's assume the framework provides an abstract Graphic class for
+graphical components, like notes and staves.  Moreover, it'll provide
+an abstract Tool class for defining tools like those in the palette.
+The framework also predefines a GraphicTool subclass for tools that
+create instances of graphical objects and add them to the document.</P>
+
+<A NAME="auto1002"></A>
+<P>But GraphicTool presents a problem to the framework designer.  The
+classes for notes and staves are specific to our application, but the
+GraphicTool class belongs to the framework.  GraphicTool doesn't know
+how to create instances of our music classes to add to the score.  We
+could subclass GraphicTool for each kind of music object, but that
+would produce lots of subclasses that differ only in the kind of music
+object they instantiate.  We know object composition is a flexible
+alternative to subclassing.  The question is, how can the framework
+use it to parameterize instances of GraphicTool by the <EM>class</EM> of
+Graphic they're supposed to create?</P>
+
+<A NAME="def-proto"></A>
+<P>The solution lies in making GraphicTool create a new Graphic by
+copying or "cloning" an instance of a Graphic subclass.  We call
+this instance a <B>prototype</B>.  GraphicTool is parameterized by the
+prototype it should clone and add to the document.  If all Graphic
+subclasses support a Clone operation, then the GraphicTool can clone
+any kind of Graphic.</P>
+
+<A NAME="auto1003"></A>
+<P>So in our music editor, each tool for creating a music object is an
+instance of GraphicTool that's initialized with a different prototype.
+Each GraphicTool instance will produce a music object by cloning its
+prototype and adding the clone to the score.</P>
+
+<A NAME="tool-118c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/proto019.gif"></P>
+
+<A NAME="auto1004"></A>
+<P>We can use the Prototype pattern to reduce the number of classes even
+further.  We have separate classes for whole notes and half notes, but
+that's probably unnecessary.  Instead they could be instances of the
+same class initialized with different bitmaps and durations.  A tool
+for creating whole notes becomes just a GraphicTool whose prototype is
+a MusicalNote initialized to be a whole note.  This can reduce the
+number of classes in the system dramatically.  It also makes it easier
+to add a new kind of note to the music editor.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1005"></A>
+<P>Use the Prototype pattern when a system should be independent of how
+its products are created, composed, and represented; <EM>and</EM></P>
+
+<UL>
+
+<A NAME="auto1006"></A>
+<LI>when the classes to instantiate are specified at run-time, for
+example, by dynamic loading; <EM>or</EM></LI>
+<A NAME="auto1007"></A>
+<P></P>
+<A NAME="auto1008"></A>
+<LI>to avoid building a class hierarchy of factories that
+parallels the class hierarchy of products; <EM>or</EM></LI>
+<A NAME="auto1009"></A>
+<P></P>
+<A NAME="auto1010"></A>
+<LI>when instances of a class can have one of only a few different
+combinations of state.  It may be more convenient to install a
+corresponding number of prototypes and clone them rather than
+instantiating the class manually, each time with the appropriate state.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/proto018.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1011"></A>
+<LI><B>Prototype</B> (Graphic)
+
+<A NAME="auto1012"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1013"></A>
+<LI>declares an interface for cloning itself.
+
+    </UL>
+
+<A NAME="auto1014"></A>
+<P></P>
+
+<A NAME="auto1015"></A>
+<LI><B>ConcretePrototype</B> (Staff, WholeNote, HalfNote)
+
+<A NAME="auto1016"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1017"></A>
+<LI>implements an operation for cloning itself.
+
+    </UL>
+
+<A NAME="auto1018"></A>
+<P></P>
+
+<A NAME="auto1019"></A>
+<LI><B>Client</B> (GraphicTool)
+
+<A NAME="auto1020"></A>
+<P></P>
+
+    <UL>
+
+     <A NAME="auto1021"></A>
+<LI>creates a new object by asking a prototype to clone itself.
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1022"></A>
+<LI>A client asks a prototype to clone itself.
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementaion"></A> Consequences</H2> 
+
+<A NAME="auto1023"></A>
+<P>Prototype has many of the same consequences that <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> and <A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A>
+have: It hides the concrete product classes from the client, thereby
+reducing the number of names clients know about.  Moreover, these
+patterns let a client work with application-specific classes without
+modification.</P>
+
+<A NAME="auto1024"></A>
+<P>Additional benefits of the Prototype pattern are listed below.</P>
+
+<OL>
+
+<A NAME="prodobj-change-runtime"></A>
+<LI><EM>Adding and removing products at run-time.</EM>
+Prototypes let you incorporate a new concrete product class into a
+system simply by registering a prototypical instance with the client.
+That's a bit more flexible than other creational patterns, because a
+client can install and remove prototypes at run-time.</LI>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<A NAME="auto1026"></A>
+<LI><EM>Specifying new objects by varying values.</EM>
+Highly dynamic systems let you define new behavior through object
+composition&#151;by specifying values for an object's variables, for
+example&#151;and not by defining new classes.  You effectively define new
+kinds of objects by instantiating existing classes and registering the
+instances as prototypes of client objects.  A client can exhibit new
+behavior by delegating responsibility to the prototype.
+
+<A NAME="auto1027"></A>
+<P>This kind of design lets users define new "classes" without
+programming.  In fact, cloning a prototype is similar to instantiating
+a class.  The Prototype pattern can greatly reduce the number of
+classes a system needs.  In our music editor, one GraphicTool class
+can create a limitless variety of music objects.</P>
+
+</LI>
+
+<A NAME="auto1028"></A>
+<P></P>
+
+<A NAME="auto1029"></A>
+<LI><EM>Specifying new objects by varying structure.</EM>
+Many applications build objects from parts and subparts.  Editors for
+circuit design, for example, build circuits out of
+subcircuits.<A NAME="fn1"></A><A HREF="#footnote1"><SUP>1</SUP></A>
+For convenience, such applications often let you
+instantiate complex, user-defined structures, say, to use a specific
+subcircuit again and again.
+
+<A NAME="auto1030"></A>
+<P>The Prototype pattern supports this as well.  We simply add this
+subcircuit as a prototype to the palette of available circuit
+elements.  As long as the composite circuit object implements Clone as
+a deep copy, circuits with different structures can be prototypes.
+
+</LI>
+
+<A NAME="auto1031"></A>
+<P></P>
+
+<A NAME="proto-vs-factmeth"></A>
+<LI><EM>Reduced subclassing.</EM>
+<A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A> often produces a hierarchy of
+Creator classes that parallels the product class hierarchy.  The
+Prototype pattern lets you clone a prototype instead of asking a
+factory method to make a new object.  Hence you don't need a Creator
+class hierarchy at all.  This benefit applies primarily to languages
+like C++ that don't treat classes as first-class objects.  Languages
+that do, like Smalltalk and Objective C, derive less benefit, since
+you can always use a class object as a creator.  Class objects already
+act like prototypes in these languages.</LI>
+
+<A NAME="auto1032"></A>
+<P></P>
+
+<A NAME="auto1033"></A>
+<LI><EM>Configuring an application with classes dynamically.</EM>
+Some run-time environments let you load classes into an application
+dynamically.  The Prototype pattern is the key to exploiting such
+facilities in a language like C++.
+
+<A NAME="et-use-proto"></A>
+<P>An application that wants to create instances of a dynamically loaded
+class won't be able to reference its constructor statically.  Instead,
+the run-time environment creates an instance of each class
+automatically when it's loaded, and it registers the instance with a
+prototype manager (see the Implementation section).  Then the
+application can ask the prototype manager for instances of
+newly loaded classes, classes that weren't linked with the program
+originally.  The ET++ application framework [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>] has a run-time
+system that uses this scheme.
+
+</LI>
+
+</OL>
+
+<A NAME="auto1034"></A>
+<P>The main liability of the Prototype pattern is that each subclass of
+Prototype must implement the <CODE>Clone</CODE> operation, which may be
+difficult.  For example, adding <CODE>Clone</CODE> is difficult when the
+classes under consideration already exist.  Implementing <CODE>Clone</CODE> can be
+difficult when their internals include objects that don't support
+copying or have circular references.</P>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="self"></A>
+<P>Prototype is particularly useful with static languages like C++, where
+classes are not objects, and little or no type information is
+available at run-time.  It's less important in languages like
+Smalltalk or Objective C that provide what amounts to a prototype
+(i.e., a class object) for creating instances of each class.  This
+pattern is built into prototype-based languages like
+Self [<A HREF="bibfs.htm#ungar_self" TARGET="_mainDisplayFrame">US87</A>], in which all object creation happens by
+cloning a prototype.</P>
+
+<A NAME="auto1035"></A>
+<P>Consider the following issues when implementing prototypes:</P>
+
+<OL>
+
+<A NAME="proto-manager"></A>
+<LI><EM>Using a prototype manager.</EM>
+When the number of prototypes in a system isn't fixed (that is, they
+can be created and destroyed dynamically), keep a registry of
+available prototypes.  Clients won't manage prototypes themselves but
+will store and retrieve them from the registry.  A client will ask the
+registry for a prototype before cloning it.  We call this registry a
+<STRONG>prototype manager</STRONG>.
+
+<A NAME="auto1036"></A>
+<P>A prototype manager is an associative store that returns the prototype
+matching a given key.  It has operations for registering a prototype
+under a key and for unregistering it.  Clients can change or even
+browse through the registry at run-time.  This lets clients extend and
+take inventory on the system without writing code.
+
+</LI>
+<A NAME="auto1037"></A>
+<P></P>
+<A NAME="auto1038"></A>
+<LI><EM>Implementing the Clone operation.</EM>
+The hardest part of the Prototype pattern is implementing the Clone
+operation correctly.  It's particularly tricky when object structures
+contain circular references.
+
+<A NAME="auto1039"></A>
+<P>Most languages provide some support for cloning objects.  For example,
+Smalltalk provides an implementation of <CODE>copy</CODE> that's
+inherited by all subclasses of Object.  C++ provides a copy
+constructor.  But these facilities don't solve the "shallow copy
+versus deep copy" problem [<A HREF="bibfs.htm#st_lang" TARGET="_mainDisplayFrame">GR83</A>].  That is, does cloning an
+object in turn clone its instance variables, or do the clone and
+original just share the variables?
+
+<A NAME="auto1040"></A>
+<P>A shallow copy is simple and often sufficient, and that's what
+Smalltalk provides by default.  The default copy constructor in C++
+does a member-wise copy, which means pointers will be shared between
+the copy and the original.  But cloning prototypes with complex
+structures usually requires a deep copy, because the clone and the
+original must be independent.  Therefore you must ensure that the
+clone's components are clones of the prototype's components.  Cloning
+forces you to decide what if anything will be shared.
+
+<A NAME="auto1041"></A>
+<P>If objects in the system provide Save and Load operations, then you
+can use them to provide a default implementation of Clone simply by
+saving the object and loading it back immediately.  The Save operation
+saves the object into a memory buffer, and Load creates a duplicate by
+reconstructing the object from the buffer.
+
+</LI>
+<A NAME="auto1042"></A>
+<P></P>
+<A NAME="auto1043"></A>
+<LI><EM>Initializing clones.</EM>
+While some clients are perfectly happy with the clone as is, others
+will want to initialize some or all of its internal state to values of
+their choosing.  You generally can't pass these values in the Clone
+operation, because their number will vary between classes of
+prototypes.  Some prototypes might need multiple initialization
+parameters; others won't need any.  Passing parameters in the Clone
+operation precludes a uniform cloning interface.
+
+<A NAME="auto1044"></A>
+<P>It might be the case that your prototype classes already define
+operations for (re)setting key pieces of state.  If so, clients may
+use these operations immediately after cloning.  If not, then you may
+have to introduce an <CODE>Initialize</CODE> operation (see the Sample
+Code section) that takes initialization parameters as arguments and
+sets the clone's internal state accordingly.  Beware of deep-copying
+Clone operations&#151;the copies may have to be deleted (either
+explicitly or within <CODE>Initialize</CODE>) before you reinitialize
+them.
+
+</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1045"></A>
+<P>We'll define a <CODE>MazePrototypeFactory</CODE> subclass of the
+<CODE>MazeFactory</CODE> class (<A HREF="pat3afs.htm#MazeFactory-def" TARGET="_mainDisplayFrame">page 92</A>).
+<CODE>MazePrototypeFactory</CODE> will be initialized with prototypes of the
+objects it will create so that we don't have to subclass it just to
+change the classes of walls or rooms it creates.</P>
+
+<A NAME="auto1046"></A>
+<P><CODE>MazePrototypeFactory</CODE> augments the <CODE>MazeFactory</CODE>
+interface with a constructor that takes the prototypes as arguments:</P>
+
+<A NAME="auto1047"></A>
+<PRE>
+    class MazePrototypeFactory : public MazeFactory {
+    public:
+        MazePrototypeFactory(Maze*, Wall*, Room*, Door*);
+    
+        virtual Maze* MakeMaze() const;
+        virtual Room* MakeRoom(int) const;
+        virtual Wall* MakeWall() const;
+        virtual Door* MakeDoor(Room*, Room*) const;
+    
+    private:
+        Maze* _prototypeMaze;
+        Room* _prototypeRoom;
+        Wall* _prototypeWall;
+        Door* _prototypeDoor;
+    };
+</PRE>
+
+<A NAME="auto1048"></A>
+<P>The new constructor simply initializes its prototypes:</P>
+
+<A NAME="auto1049"></A>
+<PRE>
+    MazePrototypeFactory::MazePrototypeFactory (
+        Maze* m, Wall* w, Room* r, Door* d
+    ) {
+       _prototypeMaze = m;
+       _prototypeWall = w;
+       _prototypeRoom = r;
+       _prototypeDoor = d;
+    }
+</PRE>
+
+<A NAME="auto1050"></A>
+<P>The member functions for creating walls, rooms, and doors are similar:
+Each clones a prototype and then initializes it.  Here are the
+definitions of <CODE>MakeWall</CODE> and <CODE>MakeDoor</CODE>:</P>
+
+<A NAME="auto1051"></A>
+<PRE>
+    Wall* MazePrototypeFactory::MakeWall () const {
+        return _prototypeWall->Clone();
+    }
+    
+    Door* MazePrototypeFactory::MakeDoor (Room* r1, Room *r2) const {
+        Door* door = _prototypeDoor->Clone();
+        door->Initialize(r1, r2);
+        return door;
+    }
+</PRE>
+
+<A NAME="auto1052"></A>
+<P>We can use <CODE>MazePrototypeFactory</CODE> to create a prototypical or
+default maze just by initializing it with prototypes of basic maze
+components:</P.
+
+<A NAME="auto1053"></A>
+<PRE>
+    MazeGame game;
+    MazePrototypeFactory simpleMazeFactory(
+        new Maze, new Wall, new Room, new Door
+    );
+    
+    Maze* maze = game.CreateMaze(simpleMazeFactory);
+</PRE>
+
+<A NAME="auto1054"></A>
+<P>To change the type of maze, we initialize
+<CODE>MazePrototypeFactory</CODE> with a different set of prototypes.
+The following call creates a maze with a <CODE>BombedDoor</CODE> and a
+<CODE>RoomWithABomb</CODE>:</P>
+
+<A NAME="auto1055"></A>
+<PRE>
+    MazePrototypeFactory bombedMazeFactory(
+        new Maze, new BombedWall,
+        new RoomWithABomb, new Door
+    );
+</PRE>
+
+<A NAME="door-proto"></A>
+<P>An object that can be used as a prototype, such as an instance of
+<CODE>Wall</CODE>, must support the <CODE>Clone</CODE> operation.  It must
+also have a copy constructor for cloning.  It may also need a separate
+operation for reinitializing internal state.  We'll add the
+<CODE>Initialize</CODE> operation to <CODE>Door</CODE> to let clients
+initialize the clone's rooms.</P>
+
+<A NAME="auto1056"></A>
+<P>Compare the following definition of <CODE>Door</CODE> to the one on
+<A HREF="chap3fs.htm#def-room" TARGET="_mainDisplayFrame">page 83</A>:
+
+<A NAME="auto1057"></A>
+<PRE>
+    class Door : public MapSite {
+    public:
+        Door();
+        Door(const Door&amp;);
+    
+        virtual void Initialize(Room*, Room*);
+        virtual Door* Clone() const;
+    
+        virtual void Enter();
+        Room* OtherSideFrom(Room*);
+    private:
+        Room* _room1;
+        Room* _room2;
+    };
+    
+    Door::Door (const Door&amp; other) {
+        _room1 = other._room1;
+        _room2 = other._room2;
+    }
+    
+    void Door::Initialize (Room* r1, Room* r2) {
+        _room1 = r1;
+        _room2 = r2;
+    }
+    
+    Door* Door::Clone () const {
+        return new Door(*this);
+    }
+</PRE>
+
+<A NAME="auto1058"></A>
+<P>The  <CODE>BombedWall</CODE> subclass must override <CODE>Clone</CODE> and
+implement a corresponding copy constructor.</P>
+
+<A NAME="auto1059"></A>
+<PRE>
+    class BombedWall : public Wall {
+    public:
+        BombedWall();
+        BombedWall(const BombedWall&amp;);
+    
+        virtual Wall* Clone() const;
+        bool HasBomb();
+    private:
+        bool _bomb;
+    };
+    
+    BombedWall::BombedWall (const BombedWall&amp; other) : Wall(other) {
+        _bomb = other._bomb;
+    }
+    
+    Wall* BombedWall::Clone () const {
+        return new BombedWall(*this);
+    }
+</PRE>
+
+<A NAME="auto1060"></A>
+<P>Although <CODE>BombedWall::Clone</CODE> returns a <CODE>Wall*</CODE>, its
+implementation returns a pointer to a new instance of a subclass, that
+is, a <CODE>BombedWall*</CODE>.  We define <CODE>Clone</CODE> like this in
+the base class to ensure that clients that clone the prototype don't
+have to know about their concrete subclasses.  Clients should never
+need to downcast the return value of <CODE>Clone</CODE> to the desired
+type.</P>
+
+<A NAME="auto1061"></A>
+<P>In Smalltalk, you can reuse the standard <CODE>copy</CODE> method
+inherited from <CODE>Object</CODE> to clone any <CODE>MapSite</CODE>.  You
+can use <CODE>MazeFactory</CODE> to produce the prototypes you'll need;
+for example, you can create a room by supplying the name
+<CODE>#room</CODE>.  The <CODE>MazeFactory</CODE> has a dictionary
+that maps names to prototypes.  Its <CODE>make:</CODE> method looks like
+this:</P>
+
+<A NAME="auto1062"></A>
+<PRE>
+    make: partName
+        ^ (partCatalog at: partName) copy
+</PRE>
+
+<A NAME="auto1063"></A>
+<P>Given appropriate methods for initializing the <CODE>MazeFactory</CODE>
+with prototypes, you could create a simple maze with the following code:</P>
+
+<A NAME="auto1064"></A>
+<PRE>
+    CreateMaze
+        on: (MazeFactory new
+            with: Door new named: #door;
+            with: Wall new named: #wall;
+            with: Room new named: #room;
+            yourself)
+</PRE>
+
+<A NAME="auto1065"></A>
+<P>where the definition of the <CODE>on:</CODE> class method for
+<CODE>CreateMaze</CODE> would be</P>
+
+<A NAME="auto1066"></A>
+<PRE>
+    on: aFactory
+        | room1 room2 |
+        room1 := (aFactory make: #room) location: 1@1.
+        room2 := (aFactory make: #room) location: 2@1.
+        door := (aFactory make: #door) from: room1 to: room2.
+    
+        room1
+            atSide: #north put: (aFactory make: #wall);
+            atSide: #east put: door;
+            atSide: #south put: (aFactory make: #wall);
+            atSide: #west put: (aFactory make: #wall).
+        room2
+            atSide: #north put: (aFactory make: #wall);
+            atSide: #east put: (aFactory make: #wall);
+            atSide: #south put: (aFactory make: #wall);
+            atSide: #west put: door.
+        ^ Maze new
+            addRoom: room1;
+            addRoom: room2;
+            yourself
+</PRE>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="sutherland"></A>
+<P>Perhaps the first example of the Prototype pattern was in Ivan
+Sutherland's Sketchpad system [<A HREF="bibfs.htm#sketchpad" TARGET="_mainDisplayFrame">Sut63</A>].  The first widely known
+application of the pattern in an object-oriented language was in
+ThingLab, where users could form a composite object and then promote
+it to a prototype by installing it in a library of reusable
+objects [<A HREF="bibfs.htm#Borning-ThingLab_toplas81" TARGET="_mainDisplayFrame">Bor81</A>].
+Goldberg and Robson mention prototypes as a pattern [<A HREF="bibfs.htm#st_lang" TARGET="_mainDisplayFrame">GR83</A>], but Coplien [<A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>] gives a much more complete
+description.  He describes idioms related to the Prototype pattern
+for C++ and gives many examples and variations.</P>
+
+<A NAME="et-use-adapter"></A>
+<A NAME="etgdb"></A>
+<A NAME="gdb"></A>
+<A NAME="gnugdb"></A>
+<P>Etgdb is a debugger front-end based on ET++ that provides a
+point-and-click interface to different line-oriented debuggers.
+Each debugger has a corresponding DebuggerAdaptor subclass.  For
+example, GdbAdaptor adapts etgdb to the command syntax of GNU gdb,
+while SunDbxAdaptor adapts etgdb to Sun's dbx debugger.  Etgdb does
+not have a set of DebuggerAdaptor classes hard-coded into it.
+Instead, it reads the name of the adaptor to use from an environment
+variable, looks for a prototype with the specified name in a global
+table, and then clones the prototype.  New debuggers can be added
+to etgdb by linking it with the DebuggerAdaptor that works for that
+debugger.</P>
+
+<A NAME="auto1067"></A>
+<P>The "interaction technique library" in Mode Composer stores
+prototypes of objects that support various interaction techniques [<A HREF="bibfs.htm#mode" TARGET="_mainDisplayFrame">Sha90</A>].  Any interaction technique created
+by the Mode Composer can be used as a prototype by placing it in
+this library.  The Prototype pattern lets Mode Composer support an
+unlimited set of interaction techniques.</P>
+
+<A NAME="unidraw-use-proto"></A>
+<P>The music editor example discussed earlier is based on the
+Unidraw drawing framework [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>].</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1068"></A>
+<P>Prototype and <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract
+Factory (87)</A> are competing patterns in some ways, as we
+discuss at the end of this chapter.  They can also be used together,
+however.  An Abstract Factory might store a set of prototypes from
+which to clone and return product objects.</P>
+
+<A NAME="auto1069"></A>
+<P>Designs that make heavy use of the <A HREF="pat4cfs.htm"
+TARGET="_mainDisplayFrame">Composite (163)</A> and <A HREF="pat4dfs.htm"
+TARGET="_mainDisplayFrame">Decorator (175)</A> patterns often can benefit
+from Prototype as well.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat3efs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3efs.htm"
+	TARGET="_mainDisplayFrame">Singleton</A><BR>
+<A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3cfs.htm"
+	TARGET="_mainDisplayFrame">Factory Method</A>
+</P>
+
+<HR>
+
+<A NAME="footnote1"></A>
+<P><SUP>1</SUP>Such applications reflect the <A HREF="pat4cfs.htm"
+TARGET="_mainDisplayFrame">Composite (163)</A> and <A HREF="pat4dfs.htm"
+TARGET="_mainDisplayFrame">Decorator (175)</A>
+patterns.
+</P>
+
+</BODY>
+
+</HTML>
+

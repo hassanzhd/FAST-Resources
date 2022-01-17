@@ -1,0 +1,742 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML><HEAD>	<TITLE>Flyweight</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Flyweight"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Use sharing to support large numbers of fine-grained objects efficiently.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1001"></A>
+<P>Some applications could benefit from using objects throughout their
+design, but a naive implementation would be prohibitively expensive.</P>
+
+<A NAME="auto1002"></A>
+<P>For example, most document editor implementations have text formatting
+and editing facilities that are modularized to some extent.
+Object-oriented document editors typically use objects to represent
+embedded elements like tables and figures.  However, they usually stop
+short of using an object for each character in the document, even
+though doing so would promote flexibility at the finest levels in the
+application. Characters and embedded elements could then be treated
+uniformly with respect to how they are drawn and formatted. The
+application could be extended to support new character sets without
+disturbing other functionality. The application's object structure
+could mimic the document's physical structure.  The following diagram 
+shows how a document editor can use objects to represent characters.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/flywe055.gif"></P>
+
+<A NAME="auto1003"></A>
+<P>The drawback of such a design is its cost. Even moderate-sized
+documents may require hundreds of thousands of character objects,
+which will consume lots of memory and may incur unacceptable run-time
+overhead.  The Flyweight pattern describes how to share objects to
+allow their use at fine granularities without prohibitive cost.</P>
+
+<A NAME="def-flywt"></A>
+<A NAME="def-extrinsicstate"></A>
+<A NAME="def-intrinsicstate"></A>
+<P>A <STRONG>flyweight</STRONG> is a shared object that can be used in
+multiple contexts simultaneously. The flyweight acts as an independent
+object in each context&#151;it's indistinguishable from an instance of
+the object that's not shared. Flyweights cannot make assumptions about
+the context in which they operate. The key concept here is the
+distinction between <STRONG>intrinsic</STRONG> and <STRONG>extrinsic</STRONG>
+state.  Intrinsic state is stored in the flyweight; it consists of
+information that's independent of the flyweight's context, thereby
+making it sharable.  Extrinsic state depends on and varies with the
+flyweight's context and therefore can't be shared. Client objects are
+responsible for passing extrinsic state to the flyweight when it needs
+it.</P>
+
+<A NAME="auto1004"></A>
+<P>Flyweights model concepts or entities that are normally too plentiful
+to represent with objects. For example, a document editor can create a
+flyweight for each letter of the alphabet. Each flyweight stores a
+character code, but its coordinate position in the document and its
+typographic style can be determined from the text layout algorithms
+and formatting commands in effect wherever the character appears. The
+character code is intrinsic state, while the other information is
+extrinsic.</P>
+
+<A NAME="auto1005"></A>
+<P>Logically there is an object for every occurrence of a given character in
+the document:</P>
+
+<A NAME="flywt-eg-logic"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/flywe054.gif"></P>
+
+<A NAME="auto1006"></A>
+<P>Physically, however, there is one shared flyweight object per
+character, and it appears in different contexts in the document
+structure. Each occurrence of a particular character object refers to
+the same instance in the shared pool of flyweight objects:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/flywe052.gif"></P>
+
+<A NAME="auto1007"></A>
+<P>The class structure for these objects is shown next.  Glyph is the
+abstract class for graphical objects, some of which may be flyweights.
+Operations that may depend on extrinsic state have it passed to them
+as a parameter.  For example, Draw and Intersects must know which
+context the glyph is in before they can do their job.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/flywe053.gif"></P>
+
+<A NAME="auto1008"></A>
+<P>A flyweight representing the letter "a" only stores the
+corresponding character code; it doesn't need to store its location or
+font. Clients supply the context-dependent information that the
+flyweight needs to draw itself. For example, a Row glyph knows where
+its children should draw themselves so that they are tiled
+horizontally.  Thus it can pass each child its location in the draw
+request.</P>
+
+<A NAME="auto1009"></A>
+<P>Because the number of different character objects is far less than the
+number of characters in the document, the total number of objects is
+substantially less than what a naive implementation would use.  A
+document in which all characters appear in the same font and color
+will allocate on the order of 100 character objects (roughly the size
+of the ASCII character set) regardless of the document's length.  And
+since most documents use no more than 10 different font-color
+combinations, this number won't grow appreciably in practice.  An
+object abstraction thus becomes practical for individual characters.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1010"></A>
+<P>The Flyweight pattern's effectiveness depends heavily on how and where
+it's used. Apply the Flyweight pattern when <EM>all</EM> of the following
+are true:</P>
+
+<UL>
+
+<A NAME="auto1011"></A>
+<LI>An application uses a large number of objects.</LI>
+<A NAME="auto1012"></A>
+<P></P>
+<A NAME="auto1013"></A>
+<LI>Storage costs are high because of the sheer quantity of objects.</LI>
+<A NAME="auto1014"></A>
+<P></P>
+<A NAME="auto1015"></A>
+<LI>Most object state can be made extrinsic.</LI>
+<A NAME="auto1016"></A>
+<P></P>
+<A NAME="auto1017"></A>
+<LI>Many groups of objects may be replaced by relatively few shared
+objects once extrinsic state is removed.</LI>
+<A NAME="auto1018"></A>
+<P></P>
+<A NAME="auto1019"></A>
+<LI>The application doesn't depend on object identity. Since flyweight
+objects may be shared, identity tests will return true for conceptually
+distinct objects.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/flywe050.gif"></P>
+
+<A NAME="auto1020"></A>
+<P>The following object diagram shows how flyweights are shared:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/flywe051.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1021"></A>
+<LI><B>Flyweight</B>
+
+<A NAME="auto1022"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1023"></A>
+<LI>declares an interface through which flyweights can
+    receive and act on extrinsic state.</LI>
+
+</UL>
+
+<A NAME="auto1024"></A>
+<P></P>
+
+<A NAME="auto1025"></A>
+<LI><B>ConcreteFlyweight</B> (Character)</LI>
+
+<A NAME="auto1026"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1027"></A>
+<LI>implements the Flyweight interface and adds storage for
+    intrinsic state, if any.  A ConcreteFlyweight object must be sharable. Any
+    state it stores must be intrinsic; that is, it must be
+    independent of the ConcreteFlyweight object's context.</LI>
+
+</UL>
+
+<A NAME="auto1028"></A>
+<P></P>
+
+<A NAME="unsharconcflywt"></A>
+<LI><B>UnsharedConcreteFlyweight</B> (Row, Column)</LI>
+
+<A NAME="auto1029"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1030"></A>
+<LI>not all Flyweight subclasses need to be shared.  The
+    Flyweight interface <EM>enables</EM> sharing; it doesn't enforce it.
+    It's common for UnsharedConcreteFlyweight objects to have
+    ConcreteFlyweight objects as children at
+    some level in the flyweight object structure
+    (as the Row and Column classes have).</LI>
+
+</UL>
+
+<A NAME="auto1031"></A>
+<P></P>
+
+<A NAME="flywtfact-part"></A>
+<LI><B>FlyweightFactory</B></LI>
+
+<A NAME="auto1032"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1033"></A>
+<LI>creates and manages flyweight objects.</LI>
+
+    <A NAME="auto1034"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1035"></A>
+<LI>ensures that flyweights are shared properly.
+    When a client requests a flyweight, the FlyweightFactory object supplies
+    an existing instance or creates one, if none exists.
+
+</UL>
+
+<A NAME="auto1036"></A>
+<P></P>
+
+<A NAME="auto1037"></A>
+<LI><B>Client</B></LI>
+
+<A NAME="auto1038"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1039"></A>
+<LI>maintains a reference to flyweight(s).</LI>
+
+    <A NAME="auto1040"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1041"></A>
+<LI>computes or stores the extrinsic state of flyweight(s).</LI>
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1042"></A>
+<LI>State that a flyweight needs to function must be characterized as
+either intrinsic or extrinsic. Intrinsic state is stored in the
+ConcreteFlyweight object; extrinsic state is stored or computed by
+Client objects. Clients pass this state to the flyweight when
+they invoke its operations.</LI>
+<A NAME="auto1043"></A>
+<P></P>
+<A NAME="auto1044"></A>
+<LI>Clients should not instantiate ConcreteFlyweights directly. Clients
+must obtain ConcreteFlyweight objects exclusively from the
+FlyweightFactory object to ensure they are shared properly.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1045"></A>
+<P>Flyweights may introduce run-time costs associated with transferring,
+finding, and/or computing extrinsic state, especially if it was
+formerly stored as intrinsic state. However, such costs are offset by
+space savings, which increase as more flyweights are shared.</P>
+
+<A NAME="auto1046"></A>
+<P>Storage savings are a function of several factors:</P>
+
+<UL>
+
+<A NAME="auto1047"></A>
+<LI>the reduction in the total number of instances that comes from
+sharing</LI>
+<A NAME="auto1048"></A>
+<P></P>
+<A NAME="auto1049"></A>
+<LI>the amount of intrinsic state per object</LI>
+<A NAME="auto1050"></A>
+<P></P>
+<A NAME="auto1051"></A>
+<LI>whether extrinsic state is computed or stored.</LI>
+
+</UL>
+
+
+<A NAME="auto1052"></A>
+<P>The more flyweights are shared, the greater the storage savings.  The
+savings increase with the amount of shared state.  The greatest
+savings occur when the objects use substantial quantities of both
+intrinsic and extrinsic state, and the extrinsic state can be computed
+rather than stored.  Then you save on storage in two ways: Sharing
+reduces the cost of intrinsic state, and you trade extrinsic state for
+computation time.</P>
+
+<A NAME="flywt-w-compst"></A>
+<P>The Flyweight pattern is often combined with the
+<A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A> pattern to represent a hierarchical
+structure as a graph with shared leaf nodes.  A consequence of sharing
+is that flyweight leaf nodes cannot store a pointer to their parent.
+Rather, the parent pointer is passed to the flyweight as part of its
+extrinsic state.  This has a major impact on how the objects in the
+hierarchy communicate with each other.</P>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1053"></A>
+<P>Consider the following issues when implementing the Flyweight pattern:</P>
+
+<OL>
+
+<A NAME="auto1054"></A>
+<LI><EM>Removing extrinsic state.</EM>
+The pattern's applicability is determined largely by how easy it is to
+identify extrinsic state and remove it from shared objects.  Removing
+extrinsic state won't help reduce storage costs if there are as many
+different kinds of extrinsic state as there are objects before
+sharing. Ideally, extrinsic state can be computed from a separate
+object structure, one with far smaller storage requirements.
+
+<A NAME="auto1055"></A>
+<P>In our document editor, for example, we can store a map of typographic
+information in a separate structure rather than store the font and
+type style with each character object. The map keeps track of runs of
+characters with the same typographic attributes. When a character
+draws itself, it receives its typographic attributes as a side-effect
+of the draw traversal. Because documents normally use just a few
+different fonts and styles, storing this information externally to
+each character object is far more efficient than storing it
+internally.</P>
+
+</LI>
+
+<A NAME="flywt-mng-shar"></A>
+<LI><EM>Managing shared objects.</EM>
+Because objects are shared, clients shouldn't instantiate them
+directly.  FlyweightFactory lets clients locate a particular
+flyweight.  FlyweightFactory objects often use an associative store to
+let clients look up flyweights of interest. For example, the
+flyweight factory in the document editor example can keep a table of
+flyweights indexed by character codes. The manager returns the proper
+flyweight given its code, creating the flyweight if it does not
+already exist.
+
+<A NAME="auto1056"></A>
+<P>Sharability also implies some form of reference counting or garbage
+collection to reclaim a flyweight's storage when it's no longer
+needed.  However, neither is necessary if the number of flyweights is
+fixed and small (e.g., flyweights for the ASCII character set).  In
+that case, the flyweights are worth keeping around permanently.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1057"></A>
+<P>Returning to our document formatter example, we can define a
+<CODE>Glyph</CODE> base class for flyweight graphical objects.
+Logically, glyphs are Composites (see <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>) that have graphical attributes and can
+draw themselves.  Here we focus on just the font attribute, but
+the same approach can be used for any other graphical attributes
+a glyph might have.</P>
+
+<A NAME="auto1058"></A>
+<PRE>
+    class Glyph {
+    public:
+        virtual ~Glyph();
+    
+        virtual void Draw(Window*, GlyphContext&amp;);
+    
+        virtual void SetFont(Font*, GlyphContext&amp;);
+        virtual Font* GetFont(GlyphContext&amp;);
+    
+        virtual void First(GlyphContext&amp;);
+        virtual void Next(GlyphContext&amp;);
+        virtual bool IsDone(GlyphContext&amp;);
+        virtual Glyph* Current(GlyphContext&amp;);
+    
+        virtual void Insert(Glyph*, GlyphContext&amp;);
+        virtual void Remove(GlyphContext&amp;);
+    protected:
+        Glyph();
+    };
+</PRE>
+
+<A NAME="auto1059"></A>
+<P>The <CODE>Character</CODE> subclass just stores a character code:
+
+<A NAME="auto1060"></A>
+<PRE>
+    class Character : public Glyph {
+    public:
+        Character(char);
+    
+        virtual void Draw(Window*, GlyphContext&amp;);
+    private:
+        char _charcode;
+    };
+</PRE>
+
+<A NAME="auto1061"></A>
+<P>To keep from allocating space for a font attribute in every glyph,
+we'll store the attribute extrinsically in a <CODE>GlyphContext</CODE>
+object.  <CODE>GlyphContext</CODE> acts as a repository of extrinsic
+state. It maintains a compact mapping between a glyph and its font
+(and any other graphical attributes it might have) in different
+contexts.  Any operation that needs to know the glyph's font in a
+given context will have a <CODE>GlyphContext</CODE> instance passed to it
+as a parameter.  The operation can then query the
+<CODE>GlyphContext</CODE> for the font in that context.  The context
+depends on the glyph's location in the glyph structure.  Therefore
+<CODE>Glyph</CODE>'s child iteration and manipulation operations must
+update the <CODE>GlyphContext</CODE> whenever they're used.</P>
+
+<A NAME="auto1062"></A>
+<PRE>
+    class GlyphContext {
+    public:
+        GlyphContext();
+        virtual ~GlyphContext();
+    
+        virtual void Next(int step = 1);
+        virtual void Insert(int quantity = 1);
+    
+        virtual Font* GetFont();
+        virtual void SetFont(Font*, int span = 1);
+    private:
+        int _index;
+        BTree* _fonts;
+    };
+</PRE>
+
+
+<A NAME="auto1063"></A>
+<P><CODE>GlyphContext</CODE> must be kept informed of the current position
+in the glyph structure during traversal.  <CODE>GlyphContext::Next</CODE>
+increments <CODE>_index</CODE> as the traversal proceeds.
+<CODE>Glyph</CODE> subclasses that have children (e.g., <CODE>Row</CODE> and
+<CODE>Column</CODE>) must implement <CODE>Next</CODE> so that it calls
+<CODE>GlyphContext::Next</CODE> at each point in the traversal.</P>
+
+<A NAME="btree"></A>
+<P><CODE>GlyphContext::GetFont</CODE> uses the index as a key into a
+<CODE>BTree</CODE> structure that stores the glyph-to-font mapping.
+Each node in the tree is labeled with the length of the string for which
+it gives font information.  Leaves in the tree point to a font, while
+interior nodes break the string into substrings, one for each child.</P>
+
+<A NAME="auto1064"></A>
+<P>Consider the following excerpt from a glyph composition:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/btree097.gif"></P>
+
+<A NAME="auto1065"></A>
+<P>The <CODE>BTree</CODE> structure for font information might look like</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/btree-1.gif"></P>
+
+<A NAME="auto1066"></A>
+<P>Interior nodes define ranges of glyph indices. <CODE>BTree</CODE> is
+updated in response to font changes and whenever glyphs are added to
+or removed from the glyph structure.  For example, assuming we're at
+index 102 in the traversal, the following code sets the font of each
+character in the word "expect" to that of the surrounding text (that
+is, <CODE>times12</CODE>, an instance of <CODE>Font</CODE> for 12-point
+Times Roman):</P>
+
+<A NAME="auto1067"></A>
+<PRE>
+    GlyphContext gc;
+    Font* times12 = new Font("Times-Roman-12");
+    Font* timesItalic12 = new Font("Times-Italic-12");
+    // ...
+    
+    gc.SetFont(times12, 6);
+</PRE>
+
+<A NAME="auto1068"></A>
+<P>The new <CODE>BTree</CODE> structure (with changes shown in black) looks
+like</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/btree-2.gif"></P>
+
+<A NAME="auto1069"></A>
+<P>Suppose we add the word "don't&nbsp;" (including a trailing space) in
+12-point Times Italic before "expect."  The following code informs the
+<CODE>gc</CODE> of this event, assuming it is still at index 102:</P>
+
+<A NAME="auto1070"></A>
+<PRE>
+    gc.Insert(6);
+    gc.SetFont(timesItalic12, 6);
+</PRE>
+
+<A NAME="auto1071"></A>
+<P>The <CODE>BTree</CODE> structure becomes</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/btree-3.gif"></P>
+
+<A NAME="auto1072"></A>
+<P>When the <CODE>GlyphContext</CODE> is queried for the font of
+the current glyph, it descends the <CODE>BTree</CODE>, adding up
+indices as it goes until it finds the font for the current index.
+Because the frequency of font changes is relatively low, the tree
+stays small relative to the size of the glyph structure.  This
+keeps storage costs down without an inordinate increase in look-up
+time.<A NAME="fn3"></A><A HREF="#footnote3"><SUP>3</SUP></A></P>
+
+<A NAME="flywt-fact"></A>
+<P>The last object we need is a FlyweightFactory that creates glyphs and
+ensures they're shared properly.  Class <CODE>GlyphFactory</CODE>
+instantiates <CODE>Character</CODE> and other kinds of glyphs.  We only
+share <CODE>Character</CODE> objects; composite glyphs are far less
+plentiful, and their important state (i.e., their children) is
+intrinsic anyway.</P>
+
+<A NAME="auto1073"></A>
+<PRE>
+    const int NCHARCODES = 128;
+    
+    class GlyphFactory {
+    public:
+        GlyphFactory();
+        virtual ~GlyphFactory();
+    
+        virtual Character* CreateCharacter(char);
+        virtual Row* CreateRow();
+        virtual Column* CreateColumn();
+        // ...
+    private:
+        Character* _character[NCHARCODES];
+    };
+</PRE>
+
+<A NAME="auto1074"></A>
+<P>The <CODE>_character</CODE> array contains pointers to
+<CODE>Character</CODE> glyphs indexed by character code.  The array is
+initialized to zero in the constructor.</P>
+
+<A NAME="auto1075"></A>
+<PRE>
+    GlyphFactory::GlyphFactory () {
+        for (int i = 0; i < NCHARCODES; ++i) {
+             _character[i] = 0;
+        }
+    }
+</PRE>
+
+<A NAME="auto1076"></A>
+<P><CODE>CreateCharacter</CODE> looks up a character in the character
+glyph in the array, and it returns the corresponding glyph if it
+exists.  If it doesn't, then <CODE>CreateCharacter</CODE> creates
+the glyph, puts it in the array, and returns it:</P>
+
+<A NAME="auto1077"></A>
+<PRE>
+    Character* GlyphFactory::CreateCharacter (char c) {
+        if (!_character[c]) {
+            _character[c] = new Character(c);
+        }
+    
+        return _character[c];
+    }
+</PRE>
+
+<A NAME="auto1078"></A>
+<P>The other operations simply instantiate a new object each time they're
+called, since noncharacter glyphs won't be shared:</P>
+
+<A NAME="auto1079"></A>
+<PRE>
+    Row* GlyphFactory::CreateRow () {
+        return new Row;
+    }
+    
+    Column* GlyphFactory::CreateColumn () {
+        return new Column;
+    }
+</PRE>
+
+<A NAME="auto1080"></A>
+<P>We could omit these operations and let clients instantiate unshared
+glyphs directly.  However, if we decide to make these glyphs sharable
+later, we'll have to change client code that creates them.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+
+<A NAME="auto1081"></A>
+<P>The concept of flyweight objects was first described and explored as a
+design technique in InterViews 3.0 [<A HREF="bibfs.htm#interviews_glyphs" TARGET="_mainDisplayFrame">CL90</A>]. Its
+developers built a powerful document editor called Doc as a proof of
+concept [<A HREF="bibfs.htm#calder_doc" TARGET="_mainDisplayFrame">CL92</A>]. Doc uses glyph objects to represent each
+character in the document.  The editor builds one Glyph instance for
+each character in a particular style (which defines its graphical
+attributes); hence a character's intrinsic state consists of the
+character code and its style information (an index into a style
+table).<A NAME="fn4"></A><A HREF="#footnote4"><SUP>4</SUP></A>
+That means only position is extrinsic, making Doc fast.  Documents are
+represented by a class Document, which also acts as the
+FlyweightFactory.  Measurements on Doc have shown that sharing
+flyweight characters is quite effective.  In a typical case, a
+document containing 180,000 characters required allocation of only 480
+character objects.</P>
+
+<A NAME="et-use-flywt"></A>
+<P>ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>] uses flyweights to support look-and-feel
+independence.<A NAME="fn5"></A><A HREF="#footnote5"><SUP>5</SUP></A>
+The look-and-feel standard affects the
+layout of user interface elements (e.g., scroll bars, buttons,
+menus&#151;known collectively as "widgets") and their decorations
+(e.g., shadows, beveling).  A widget delegates all its layout and
+drawing behavior to a separate Layout object.  Changing the Layout
+object changes the look and feel, even at run-time.</P>
+
+<A NAME="auto1082"></A>
+<P>For each widget class there is a corresponding Layout class (e.g.,
+ScrollbarLayout, MenubarLayout, etc.). An obvious problem with this
+approach is that using separate layout objects doubles the number of
+user interface objects: For each user interface object there is an
+additional Layout object.  To avoid this overhead, Layout objects are
+implemented as flyweights.  They make good flyweights because they
+deal mostly with defining behavior, and it's easy to pass them what
+little extrinsic state they need to lay out or draw an object.</P>
+
+<A NAME="auto1083"></A>
+<P>The Layout objects are created and managed by Look objects. The Look
+class is an <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> that
+retrieves a specific Layout object with operations like
+GetButtonLayout, GetMenuBarLayout, and so forth. For each
+look-and-feel standard there is a corresponding Look subclass (e.g.,
+MotifLook, OpenLook) that supplies the appropriate Layout objects.</P>
+
+<A NAME="auto1084"></A>
+<P>By the way, Layout objects are essentially strategies (see
+<A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A>). They are an example of a strategy
+object implemented as a flyweight.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1085"></A>
+<P>The Flyweight pattern is often combined with the <A HREF="pat4cfs.htm"
+TARGET="_mainDisplayFrame">Composite (163)</A> pattern to implement a
+logically hierarchical structure in terms of a directed-acyclic
+graph with shared leaf nodes.</P>
+
+<A NAME="auto1086"></A>
+<P>It's often best to implement
+<A HREF="pat5hfs.htm" TARGET="_mainDisplayFrame">State (305)</A> and
+<A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A>
+objects as flyweights.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat4gfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4gfs.htm"
+	TARGET="_mainDisplayFrame">Proxy</A><BR>
+<A HREF="pat4efs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4efs.htm"
+	TARGET="_mainDisplayFrame">Facade</A>
+</P>
+
+<HR>
+
+<A NAME="footnote3"></A>
+<P><SUP>3</SUP>Look-up time in
+this scheme is proportional to the font change frequency.  Worst-case
+performance occurs when a font change occurs on every character, but
+that's unusual in practice.
+</P>
+
+<A NAME="footnote4"></A>
+<P><SUP>4</SUP>
+In the Sample Code given earlier, style information is made
+extrinsic, leaving the character code as the only intrinsic state.
+</P>
+
+<A NAME="footnote5"></A>
+<P><SUP>5</SUP>See <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract
+Factory (87)</A> for another approach to look-and-feel
+independence.
+</P>
+
+</BODY>
+
+</HTML>
+

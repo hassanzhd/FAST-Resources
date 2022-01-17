@@ -1,0 +1,151 @@
+<HTML><HEAD>	<TITLE>Discussion fo Structural Patterns</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   TOPMARGIN       = 4
+        LEFTMARGIN      = 4
+        BGCOLOR         = #FFFFFF
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="disc4-1"></A>
+
+<P>You may have noticed similarities between the structural patterns,
+especially in their participants and collaborations. This is so
+probably because structural patterns rely on the same small set of
+language mechanisms for structuring code and objects: single and
+multiple inheritance for class-based patterns, and object composition
+for object patterns. But the similarities belie the different intents
+among these patterns. In this section we compare and contrast groups
+of structural patterns to give you a feel for their relative merits.</P>
+<A NAME="disc4-2"></A>
+<A NAME="versus"></A>
+<H2><A HREF="#compvsdec"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Composite 
+versus Decorator versus Proxy"></A> Adapter versus Bridge</H2>
+<A NAME="disc4-3"></A>
+<P>The
+<A HREF="pat4afs.htm" TARGET="_mainDisplayFrame">Adapter (139)</A> and
+<A HREF="pat4bfs.htm" TARGET="_mainDisplayFrame">Bridge (151)</A> patterns
+have some common attributes.  Both promote flexibility by providing a
+level of indirection to another object.  Both involve forwarding
+requests to this object from an interface other than its own.</P>
+<A NAME="disc4-4"></A>
+<P>The key difference between these patterns lies in their intents.
+Adapter focuses on resolving incompatibilities between two existing
+interfaces. It doesn't focus on how those interfaces are implemented,
+nor does it consider how they might evolve independently.  It's a way
+of making two independently designed classes work together without
+reimplementing one or the other. Bridge, on the other hand, bridges an
+abstraction and its (potentially numerous) implementations.  It
+provides a stable interface to clients even as it lets you vary the
+classes that implement it. It also accommodates new implementations as
+the system evolves.</P>
+<A NAME="disc4-5"></A>
+<P>As a result of these differences, Adapter and Bridge are often used at
+different points in the software lifecycle. An adapter often becomes
+necessary when you discover that two incompatible classes
+should work together, generally to avoid replicating code. The
+coupling is unforeseen. In contrast, the user of a bridge understands
+up-front that an abstraction must have several implementations, and
+both may evolve independently. The Adapter pattern makes things work
+<EM>after</EM> they're designed; Bridge makes them work <EM>before</EM> they
+are. That doesn't mean Adapter is somehow inferior to Bridge; each
+pattern merely addresses a different problem.</P>
+<A NAME="disc4-6"></A>
+<P>You might think of a facade (see
+<A HREF="pat4efs.htm" TARGET="_mainDisplayFrame">Facade (185)</A>) as an
+adapter to a set of other objects. But that interpretation overlooks
+the fact that a facade defines a <EM>new</EM> interface, whereas an adapter
+reuses an old interface. Remember that an adapter makes two <EM>existing</EM> interfaces work together as opposed to defining an entirely
+new one.</P>
+<A NAME="disc4-6"></A>
+<A NAME="compvsdec"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: navigation"></A>
+Composite versus Decorator versus Proxy</H2>
+<A NAME="disc4-7"></A>
+<P><A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A> and
+<A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A>
+have similar structure diagrams, reflecting the fact that both rely on
+recursive composition to organize an open-ended number of objects.
+This commonality might tempt you to think of a decorator object as a
+degenerate composite, but that misses the point of the Decorator
+pattern. The similarity ends at recursive composition, again because
+of differing intents.</P>
+<A NAME="disc4-8"></A>
+<P>Decorator is designed to let you add responsibilities to objects
+without subclassing.  It avoids the explosion of subclasses that can
+arise from trying to cover every combination of responsibilities
+statically.  Composite has a different intent.  It focuses on
+structuring classes so that many related objects can be treated
+uniformly, and multiple objects can be treated as one.  Its focus is
+not on embellishment but on representation.</P>
+<A NAME="disc4-9"></A>
+<P>These intents are distinct but complementary.  Consequently, the
+Composite and Decorator patterns are often used in concert. Both lead
+to the kind of design in which you can build applications just by
+plugging objects together without defining any new classes. There will
+be an abstract class with some subclasses that are composites, some
+that are decorators, and some that implement the fundamental building
+blocks of the system. In this case, both composites and decorators
+will have a common interface.  From the point of view of the Decorator
+pattern, a composite is a ConcreteComponent. From the point of view of
+the Composite pattern, a decorator is a Leaf. Of course, they don't
+<EM>have</EM> to be used together and, as we have seen, their intents
+are quite different.</P>
+<A NAME="disc4-10"></A>
+<A NAME="proxy-vs-decor"></A>
+<P>Another pattern with a structure similar to Decorator's is
+<A HREF="pat4gfs.htm" TARGET="_mainDisplayFrame">Proxy (207)</A>.
+Both patterns describe how to provide a level of indirection to an
+object, and the implementations of both the proxy and decorator
+object keep a reference to another object to which they forward
+requests. Once again, however, they are intended for different
+purposes.</P>
+<A NAME="disc4-11"></A>
+<P>Like Decorator, the Proxy pattern composes an object and provides an
+identical interface to clients. Unlike Decorator, the Proxy pattern is
+not concerned with attaching or detaching properties dynamically, and
+it's not designed for recursive composition. Its intent is to provide
+a stand-in for a subject when it's inconvenient or undesirable to
+access the subject directly because, for example, it lives on a remote
+machine, has restricted access, or is persistent.</P>
+<A NAME="disc4-12"></A>
+<P>In the Proxy pattern, the subject defines the key functionality, and
+the proxy provides (or refuses) access to it. In Decorator, the
+component provides only part of the functionality, and one or more
+decorators furnish the rest. Decorator addresses the situation where
+an object's total functionality can't be determined at compile time,
+at least not conveniently. That open-endedness makes recursive
+composition an essential part of Decorator. That isn't the case in
+Proxy, because Proxy focuses on one relationship&#151;between the proxy
+and its subject&#151;and that relationship can be expressed statically.</P>
+<A NAME="disc4-13"></A>
+<P>These differences are significant because they capture solutions to
+specific recurring problems in object-oriented design. But that
+doesn't mean these patterns can't be combined. You might envision a
+proxy-decorator that adds functionality to a proxy, or a
+decorator-proxy that embellishes a remote object.  Although such hybrids
+<EM>might</EM> be useful (we don't have real examples handy), they are
+divisible into patterns that <EM>are</EM> useful.</P>
+<A NAME="disc4-14"></A>
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="chap5fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap5fs.htm"
+	TARGET="_mainDisplayFrame">Behavioral Patterns</A><BR>
+<A HREF="pat4gfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4gfs.htm"
+	TARGET="_mainDisplayFrame">Proxy</A><BR>
+</P>
+
+</BODY>
+
+</HTML>

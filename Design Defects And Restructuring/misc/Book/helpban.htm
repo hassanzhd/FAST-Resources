@@ -1,0 +1,44 @@
+<HTML>
+
+<BODY	BGCOLOR		= #FFFFFF
+	BACKGROUND	= "gifsb/rightfi2.gif"
+	LEFTMARGIN	= 1
+	TOPMARGIN	= 1
+>
+
+<P><IMG	SRC	= "Banners/helpban.gif"
+	BORDER	= 0
+	ISMAP
+	USEMAP	= "#nav_map"
+></P>
+
+</BODY>
+
+<SCRIPT>
+function build() {
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+		newwin = window.open("patmap.htm", "_secondFrame", "scrollbars=yes,resizable=yes,width=580");
+	} else {
+		newwin = window.open("", "_secondFrame","scrollbars=yes,resizable=yes,width=580");
+		newwin.focus();
+		newwin.location = "patmap.htm";
+	}
+}
+</SCRIPT>
+<map name="nav_map">
+<area shape="rect" coords="233,0,271,19" href="chap1fs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="273,0,340,20" href="chap2fs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="343,0,432,19" href="patcafs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="434,0,499,19" href="chap6fs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="0,44,55,59" href="contfs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="57,44,135,59" href="guidefs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="137,44,191,59" href="chapAfs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="193,44,246,59" href="chapBfs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="248,44,311,59" href="chapCfs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="313,44,384,59" href="bibfs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="386,44,424,59" href="indexfs.htm" target="_mainDisplayFrame">
+<area shape="rect" coords="427,44,498,59" href=javascript:build()>
+<area shape="default" nohref>
+</map>
+
+</HTML>

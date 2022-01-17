@@ -1,0 +1,4 @@
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Interpreter\bin\Debug\Interpreter.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Interpreter\bin\Debug\Interpreter.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Interpreter\obj\Debug\Interpreter.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Interpreter\obj\Debug\Interpreter.pdb

@@ -1,0 +1,16 @@
+<HTML>
+<HEAD>
+	<TITLE>Introduction</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+if(navigator.appName == "Netscape") {
+    self.name = "_mainDisplayFrame";
+    self._mainDisplayFrame = self;
+}if(top._appletFrame != null && top._appletFrame._loaded) {
+    top._appletFrame.setFrame(top._mainDisplayFrame.location);
+}
+</SCRIPT>
+</HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+document.write('	<FRAMESET		FRAMEBORDER	= NO		BORDER		= 0		MARGINWIDTH	= 1		MARGINHEIGHT	= 1		FRAMESPACING	= NO		COLS		= "105,*"	>		<FRAME	SRC		= "left1.htm"			MARGINWIDTH	= 1			MARGINHEIGHT	= 1			SCROLLING	= NO			NAME = "LEFT"		>		<FRAMESET			FRAMEBORDER	= NO			BORDER		= 0			MARGINWIDTH	= 1			MARGINHEIGHT	= 1			FRAMESPACING	= NO			ROWS		= "65,*,48"		>						<FRAME				SRC		= "banner1.htm"				MARGINWIDTH	= 1				MARGINHEIGHT	= 1				SCROLLING	= NO			>			<FRAME	SRC		= "chap1.htm' + top._mainDisplayFrame.location.hash + '"				NAME		= "TEXT"			>			<FRAME	SRC		= "bot1.htm"				MARGINWIDTH	= 1				MARGINHEIGHT	= 1				NAME		= "BOTTOM"				SCROLLING	= NO			>		</FRAMESET>		</FRAMESET></FRAMESET>');
+</SCRIPT>
+</HTML>

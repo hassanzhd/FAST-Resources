@@ -1,0 +1,98 @@
+<HTML><HEAD>	<TITLE>Behavioral Patterns</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR   = #FFFFFF onLoad="setFocus()";>
+
+<A NAME="top"></A>
+
+<!-- <H1>Behavioral Patterns</H1> -->
+
+<P>Behavioral patterns are concerned with algorithms and the
+assignment of responsibilities between objects.  Behavioral patterns
+describe not just patterns of objects or classes but also the patterns
+of communication between them.  These patterns characterize complex
+control flow that's difficult to follow at run-time.  They shift your
+focus away from flow of control to let you concentrate just on the way
+objects are interconnected.
+
+<A NAME="class-v-object-scope"></A>
+<P>Behavioral class patterns use inheritance to distribute behavior
+between classes.  This chapter includes two such patterns.
+<A HREF="pat5jfs.htm" TARGET="_mainDisplayFrame">Template Method (325)</A> is the simpler and more common of
+the two.  A template method is an abstract definition of an algorithm.
+It defines the algorithm step by step.  Each step invokes either an
+abstract operation or a primitive operation.  A subclass fleshes out
+the algorithm by defining the abstract operations.  The other
+behavioral class pattern is
+<A HREF="pat5cfs.htm" TARGET="_mainDisplayFrame">Interpreter (243)</A>, which
+represents a grammar as a class hierarchy and implements an
+interpreter as an operation on instances of these classes.
+
+<A NAME="behavional_1"></A>
+
+<P>Behavioral object patterns use object composition rather than
+inheritance.  Some describe how a group of peer objects cooperate to
+perform a task that no single object can carry out by itself.  An
+important issue here is how peer objects know about each other.  Peers
+could maintain explicit references to each other, but that would
+increase their coupling.  In the extreme, every object would know
+about every other.  The <A HREF="pat5efs.htm" TARGET="_mainDisplayFrame">Mediator (273)</A> pattern avoids
+this by introducing a mediator object between peers.  The mediator
+provides the indirection needed for loose coupling.
+
+<A NAME="behavional_2"></A>
+
+<P><A HREF="pat5afs.htm" TARGET="_mainDisplayFrame">Chain of Responsibility (223)</A> provides even looser
+coupling.  It lets you send requests to an object implicitly through a
+chain of candidate objects.  Any candidate may fulfill the request
+depending on run-time conditions.  The number of candidates is
+open-ended, and you can select which candidates participate in the
+chain at run-time.
+
+<A NAME="behavional_3"></A>
+
+<P>The <A HREF="pat5gfs.htm" TARGET="_mainDisplayFrame">Observer (293)</A> pattern defines and maintains a
+dependency between objects. The classic example of Observer is in
+Smalltalk Model/View/Controller, where all views of the model are notified whenever the
+model's state changes.
+
+<A NAME="behavional_4"></A>
+
+<P>Other behavioral object patterns are concerned with encapsulating
+behavior in an object and delegating requests to it.  The
+<A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A> pattern encapsulates an algorithm in an
+object.  Strategy makes it easy to specify and change the algorithm an
+object uses.  The <A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A> pattern encapsulates a
+request in an object so that it can be passed as a parameter, stored
+on a history list, or manipulated in other ways.  The
+<A HREF="pat5hfs.htm" TARGET="_mainDisplayFrame">State (305)</A> pattern encapsulates the states of an object
+so that the object can change its behavior when its state object
+changes.  <A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A> encapsulates behavior that would
+otherwise be distributed across classes, and
+<A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A> abstracts the way you access and
+traverse objects in an aggregate.
+
+<A NAME="behavional_5"></A>
+
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5afs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat5afs.htm"
+	TARGET="_mainDisplayFrame">Chain of Responsibility</A><BR>
+<A HREF="disc4fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="disc4fs.htm"
+	TARGET="_mainDisplayFrame">Discussion of Structural Patterns</A>
+</P>
+
+</BODY>
+
+</HTML>

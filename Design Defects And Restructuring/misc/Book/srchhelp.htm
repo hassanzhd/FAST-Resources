@@ -1,0 +1,168 @@
+<HTML>
+<HEAD>
+<TITLE>CD-ROM Book Search Help</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+/* This is needed because the windows in not part of a frame. */
+if(top._appletFrame != null && top._appletFrame._loaded) {
+    top._appletFrame.setFrame(top._mainDisplayFrame.location);
+}
+</SCRIPT>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT></HEAD>
+
+<BODY bgcolor="#ffffff" onLoad="setFocus()";>
+
+
+<h2>CD-ROM Book Search Help</h2>
+
+Copyright &#169 1998 Addison Wesley Longman.<p>
+
+<ul>
+<li> <a href="#Search Modes"> Preindexed and Exhaustive Searches </a>
+<li> <a href="#Search Terms"> Search Terms </a>
+    <ul>
+    <li> <a href="#Word Search"> Word Search </a>
+    <li> <a href="#Regular Expressions"> Regular Expressions </a>
+    </ul>
+<li> <a href="#Search Results"> Search Results </a>
+</ul>
+
+<a name="Search Modes"> <h2> Preindexed and Exhaustive Searches </h2> </a>
+
+You can search for a term either by using a pregenerated index of
+words in the book or by dynamically searching all the HTML files.
+The first type of search is a <b>preindexed</b> search and the second
+is an <b>exhaustive</b> search.  Either search mode can be selected from
+the checkboxes on the search window.<p>
+
+A preindexed search will generally take a few seconds at most because it
+searches a much smaller number of words. A preindexed search will disregard articles, prepositions and other very common words as these are not indexed.
+
+The length of an exhaustive search will vary depending on the speed of your computer, your hard drive, and the Web browser you're using. If a preindexed search does not find what you're looking for, you should try an exhaustive search.<p>
+
+An exhaustive search will return only one instance of a page containing a match, although the page may contain more matches. To search for further matches on the page, use your browser's Find command. Additionally, in order to maximize the searches efficiency over raw HTML, an exhaustive search will not return matches to queries delimited by punctuation (e.g. "even though"). To search for a quote, or other punctuated term, simply search for the words.<p>
+
+<a name="Search Terms"> <h2> Search Terms </h2> </a>
+
+You can search for two different kinds of expressions,
+which can be selected from the checkboxes on the search window:<p>
+
+<ul>
+	<li> Words
+	<li> Regular Expressions
+</ul>
+
+All searches are case insensitive.  A word search looks only for exact
+matches of a word or list of words.  A regular expression search tries
+to match a regular expression to a word.  
+
+<a name="Word Search"> <h2> Word Search </h2> </a>
+
+A word search looks only for exact matches of a word.  If multiple
+words are entered, the search engine will find only files that contain
+<STRONG>all</STRONG> of these words.  Think of entering
+multiple word phrases as searching for that phrase.  A word search is the
+same for both indexed and exhaustive searches.  The only difference is
+that for an indexed search the order of the words is not important,
+but for an exhaustive search the words must be in the correct order.
+
+<p>Example:<br>
+
+Searching the phrase "yes bananas no have" will match a document that
+contains "yes we have no bananas" if you are doing an indexed search,
+but not an exhaustive search.
+
+</p>
+
+<a name="Regular Expressions"><h2> Regular Expressions </h2> </a>
+
+A regular expression search tries to match a regular expression
+to a word.  There are many different regular expression syntaxes, but
+today Larry Wall's Perl 4 regular expression syntax is the most
+common on the Internet, and therefore is the syntax supported.  Perl 4
+regular expressions are close cousins to egrep extended regular expressions,
+with a few differences.
+<p>
+
+The following Perl 4 regular expression features are supported:<p>
+ <ul>
+ <li> Alternatives separated by |
+ <li> Quantified atoms
+ <dl compact>
+      <dt> {n,m} <dd> Match at least n but not more than m times.
+	<dt> {n,}  <dd> Match at least n times.
+      <dt> {n}   <dd> Match exactly n times.  
+      <dt> *     <dd> Match 0 or more times.
+      <dt> +     <dd> Match 1 or more times.
+      <dt> ?     <dd> Match 0 or 1 times.
+ </dl>
+ <li> Atoms
+ <ul>
+     <li> regular expression within parentheses
+    <li> a . matches everything except \n
+     <li> a ^ is a null token matching the beginning of a string or line
+          (i.e., the position right after a newline or right before
+           the beginning of a string)
+     <li> a $ is a null token matching the end of a string or line
+          (i.e., the position right before a newline or right after
+           the end of a string)
+     <li> Character classes (e.g., [abcd]) and ranges (e.g., [a-z])
+     <ul>
+         <li> Special backslashed characters work within a character
+              class (except for backreferences and boundaries) 
+         <li> \b is backspace inside a character class
+     </ul>
+     <li> Special backslashed characters
+     <table border =0 no border cellspacing =5 cellpadding=0 width =100%>
+         <tr><td> \b </td><td> null token matching a word boundary (\w on one side
+                      and \W on the other)</td>
+         <tr><td> \B </td><td> null token matching a boundary that isn't a
+                      word boundary</td>
+         <tr><td> \n </td><td> newline</td>
+         <tr><td> \r </td><td> carriage return</td>
+         <tr><td> \t </td><td> tab</td>
+         <tr><td> \f </td><td> formfeed</td>
+         <tr><td> \d </td><td> digit [0-9]</td>
+         <tr><td> \D </td><td> non-digit [^0-9]</td>
+         <tr><td> \w </td><td> word character [0-9a-z_A-Z]</td>
+         <tr><td> \W </td><td> a non-word character [^0-9a-z_A-Z]</td>
+         <tr><td> \s </td><td> a whitespace character [ \t\n\r\f]</td>
+         <tr><td> \S </td><td> a non-whitespace character [^ \t\n\r\f]</td>
+         <tr><td> \xnn </td><td> hexadecimal representation of character</td>
+         <tr><td> \cD </td><td> matches the corresponding control character</td>
+         <tr><td> \nn or \nnn </td><td> octal representation of character</td>
+         <tr><td> \0 </td><td> matches null character</td>
+         <tr><td colspan = 2> Any other backslashed character matches itself</td>
+		 </table>	
+ </ul></ul><p>
+
+<a name="Search Results"> <h2> Search Results </h2> </a>
+
+After you enter your search query and press enter or click the <b>Search</b>
+button, a list of results appears.  The results are displayed as section
+headings by default.  A section is either the title of the HTML page or
+the title of the page, followed by the section title of the part of
+the page satisfying the search query.
+<p>
+
+You can choose to display your results as sections, URLs, or both from
+the choice menu at the bottom left.  Looking at the URLs is useful when
+you want to know exactly what file a result is in.<p>
+
+Note that an exhaustive search will return only one instance of a page containing a match, although there may be more than one. To find additional matches on the page, use your browser's Find command.<p>
+
+Clicking the <b>Show</b> button or double clicking on a list entry will
+display the parts of the HTML pages containing your results in your Web
+ browser.  If the files are not installed properly, you will get
+an error message.
+
+
+</BODY>
+</HTML>

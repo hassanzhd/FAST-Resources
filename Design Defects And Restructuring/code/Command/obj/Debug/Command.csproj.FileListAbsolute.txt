@@ -1,0 +1,4 @@
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Command\bin\Debug\Command.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Command\bin\Debug\Command.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Command\obj\Debug\Command.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Command\obj\Debug\Command.pdb

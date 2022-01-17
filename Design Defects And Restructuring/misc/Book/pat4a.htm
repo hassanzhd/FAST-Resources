@@ -1,0 +1,803 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML>
+
+<HEAD><TITLE>Adapter</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Adapter"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Convert the interface of a class into another interface clients
+expect.  Adapter lets classes work together that couldn't otherwise
+because of incompatible interfaces.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Wrapper</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>Sometimes a toolkit class that's designed for reuse isn't reusable
+only because its interface doesn't match the domain-specific interface
+an application requires.</P>
+
+<A NAME="auto1003"></A>
+<P>Consider for example a drawing editor that lets users draw and arrange
+graphical elements (lines, polygons, text, etc.) into pictures and
+diagrams.  The drawing editor's key abstraction is the graphical
+object, which has an editable shape and can draw itself.  The
+interface for graphical objects is defined by an abstract class called
+Shape.  The editor defines a subclass of Shape for each kind of
+graphical object: a LineShape class for lines, a PolygonShape class
+for polygons, and so forth.</P>
+
+<A NAME="textshape"></A>
+<A NAME="textview"></A>
+<P>Classes for elementary geometric shapes like LineShape and
+PolygonShape are rather easy to implement, because their drawing and
+editing capabilities are inherently limited.  But a TextShape subclass
+that can display and edit text is considerably more difficult to
+implement, since even basic text editing involves complicated screen
+update and buffer management.  Meanwhile, an off-the-shelf user
+interface toolkit might already provide a sophisticated TextView class
+for displaying and editing text.  Ideally we'd like to reuse TextView
+to implement TextShape, but the toolkit wasn't designed with Shape
+classes in mind.  So we can't use TextView and Shape objects
+interchangeably.</P>
+
+<A NAME="auto1004"></A>
+<P>How can existing and unrelated classes like TextView work in an
+application that expects classes with a different and incompatible
+interface?  We could change the TextView class so that it conforms to
+the Shape interface, but that isn't an option unless we have the
+toolkit's source code.  Even if we did, it wouldn't make sense to
+change TextView; the toolkit shouldn't have to adopt domain-specific
+interfaces just to make one application work.</P>
+
+<A NAME="adapterdef"></A>
+<P>Instead, we could define TextShape so that it <EM>adapts</EM> the
+TextView interface to Shape's.  We can do this in one of two ways: (1)
+by inheriting Shape's interface and TextView's implementation or (2)
+by composing a TextView instance within a TextShape and implementing
+TextShape in terms of TextView's interface.  These two approaches
+correspond to the class and object versions of the Adapter pattern.
+We call TextShape an <STRONG>adapter</STRONG>.</P>
+
+<A NAME="shape-140c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/adapt105.gif"></P>
+
+<A NAME="auto1005"></A>
+<P>This diagram illustrates the object adapter case. It shows how
+BoundingBox requests, declared in class Shape, are converted to
+GetExtent requests defined in TextView.  Since TextShape adapts
+TextView to the Shape interface, the drawing editor can reuse the
+otherwise incompatible TextView class.</P>
+
+<A NAME="auto1006"></A>
+<P>Often the adapter is responsible for functionality the adapted class
+doesn't provide.  The diagram shows how an adapter can fulfill
+such responsibilities.  The user should be able to "drag" every
+Shape object to a new location interactively, but TextView isn't
+designed to do that.  TextShape can add this missing functionality by
+implementing Shape's CreateManipulator operation, which returns an
+instance of the appropriate Manipulator subclass.</P>
+
+<A NAME="auto1007"></A>
+<P>Manipulator is an abstract class for objects that know how to animate
+a Shape in response to user input, like dragging the shape to a new
+location.  There are subclasses of Manipulator for different shapes;
+TextManipulator, for example, is the corresponding subclass for
+TextShape.  By returning a TextManipulator instance, TextShape adds
+the functionality that TextView lacks but Shape requires.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1008"></A>
+<P>Use the Adapter pattern when</P>
+
+<UL>
+
+<A NAME="auto1009"></A>
+<LI>you want to use an existing class, and its interface does not
+match the one you need.</P>
+
+<A NAME="auto1010"></A>
+<LI>you want to create a reusable class that cooperates with unrelated or
+unforeseen classes, that is, classes that don't necessarily have
+compatible interfaces.</P>
+
+<A NAME="auto1011"></A>
+<LI><EM>(object adapter only)</EM>
+you need to use several existing subclasses, but it's impractical to
+adapt their interface by subclassing every one.  An object adapter can
+adapt the interface of its parent class.</P>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Participants"></A> Structure</H2> 
+
+<A NAME="141c"></A>
+<P>A class adapter uses multiple inheritance to adapt one interface
+to another:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/adapt106.gif"></P>
+
+<A NAME="141o"></A>
+<P>An object adapter relies on object composition:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/adapt104.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1012"></A>
+<LI><B>Target</B> (Shape)
+
+<A NAME="auto1013"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1014"></A>
+<LI>defines the domain-specific interface that Client uses.</LI>
+
+</UL>
+
+<A NAME="auto1015"></A>
+<P></P>
+
+<A NAME="auto1016"></A>
+<LI><B>Client</B> (DrawingEditor)
+
+<A NAME="auto1017"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1018"></A>
+<LI>collaborates with objects conforming to the Target interface.</LI>
+
+</UL>
+
+<A NAME="auto1019"></A>
+<P></P>
+
+<A NAME="auto1020"></A>
+<LI><B>Adaptee</B> (TextView)
+
+<A NAME="auto1021"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1022"></A>
+<LI>defines an existing interface that needs adapting.</LI>
+
+</UL>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<A NAME="auto1024"></A>
+<LI><B>Adapter</B> (TextShape)
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1026"></A>
+<LI>adapts the interface of Adaptee to the Target interface.</LI>
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1027"></A>
+<LI>Clients call operations on an Adapter instance.  In turn, the adapter
+calls Adaptee operations that carry out the request.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1028"></A>
+<P>Class and object adapters have different trade-offs.  A class adapter</P>
+
+<UL>
+
+<A NAME="auto1029"></A>
+<LI>adapts Adaptee to Target by committing to a concrete Adapter class.
+As a consequence, a class adapter won't work when we want to adapt a
+class <EM>and</EM> all its subclasses.</LI>
+
+<A NAME="auto1030"></A>
+<P></P>
+
+<A NAME="auto1031"></A>
+<LI>lets Adapter override some of Adaptee's behavior, since
+Adapter is a subclass of Adaptee.</LI>
+
+<A NAME="auto1032"></A>
+<P></P>
+
+<A NAME="auto1033"></A>
+<LI>introduces only one object, and no additional pointer indirection is
+needed to get to the adaptee.</LI>
+
+</UL>
+
+<A NAME="auto1034"></A>
+<P>An object adapter</P>
+
+<UL>
+
+<A NAME="auto1035"></A>
+<LI>lets a single Adapter work with many Adaptees&#151;that is, the Adaptee
+itself and all of its subclasses (if any).  The Adapter can also add
+functionality to all Adaptees at once.</LI>
+
+<A NAME="auto1036"></A>
+<P></P>
+
+<A NAME="auto1037"></A>
+<LI>makes it harder to override Adaptee behavior.  It will require
+subclassing Adaptee and making Adapter refer to the subclass
+rather than the Adaptee itself.</LI>
+
+</UL>
+
+<A NAME="auto1038"></A>
+<P>Here are other issues to consider when using the Adapter pattern:</P>
+
+<OL>
+
+<A NAME="pluggable"></A>
+<LI><EM>How much adapting does Adapter do?</EM>
+Adapters vary in the amount of work they do to adapt Adaptee to
+the Target interface.  There is a spectrum of possible work, from
+simple interface conversion&#151;for example, changing the names of
+operations&#151;to supporting an entirely different set of operations.
+The amount of work Adapter does depends on how similar the Target
+interface is to Adaptee's.</LI>
+
+<A NAME="auto1039"></A>
+<P></P>
+
+<A NAME="deleg-plug"></A>
+<LI><EM>Pluggable adapters.</EM>
+A class is more reusable when you minimize the assumptions other
+classes must make to use it.  By building interface adaptation into a
+class, you eliminate the assumption that other classes see the same
+interface.  Put another way, interface adaptation lets us incorporate
+our class into existing systems that might expect different interfaces
+to the class.
+ObjectWorks\Smalltalk [<A HREF="bibfs.htm#parcplace_smalltalk" TARGET="_mainDisplayFrame">Par90</A>] uses the term
+<STRONG>pluggable adapter</STRONG> to describe classes with built-in
+interface adaptation.
+
+<A NAME="treedisplay"></A>
+<P>Consider a TreeDisplay widget that can display tree structures
+graphically.  If this were a special-purpose widget for use in just one
+application, then we might require the objects that it displays to
+have a specific interface; that is, all must descend from a Tree
+abstract class.  But if we wanted to make TreeDisplay more reusable
+(say we wanted to make it part of a toolkit of useful widgets), then
+that requirement would be unreasonable.  Applications will define
+their own classes for tree structures.  They shouldn't be forced to
+use our Tree abstract class.  Different tree structures will have
+different interfaces.</P>
+
+<A NAME="auto1040"></A>
+<P>In a directory hierarchy, for example, children might be accessed with
+a GetSubdirectories operation, whereas in an inheritance hierarchy,
+the corresponding operation might be called GetSubclasses.  A reusable
+TreeDisplay widget must be able to display both kinds of hierarchies
+even if they use different interfaces.  In other words, the
+TreeDisplay should have interface adaptation built into it.</P>
+
+<A NAME="auto1041"></A>
+<P>We'll look at different ways to build interface adaptation into classes
+in the Implementation section.</P>
+
+</LI>
+
+<A NAME="auto1042"></A>
+<P></P>
+
+<A NAME="twoway"></A>
+<LI><EM>Using two-way adapters to provide transparency.</EM>
+A potential problem with adapters is that they aren't transparent to
+all clients.  An adapted object no longer conforms to the Adaptee
+interface, so it can't be used as is wherever an Adaptee object can.
+<STRONG>Two-way adapters</STRONG> can provide such transparency.
+Specifically, they're useful when two different clients need to view
+an object differently.
+
+<A NAME="qoca-use-adapt"></A>
+<A NAME="unidraw-use-adapt"></A>
+<P>Consider the two-way adapter that integrates Unidraw, a graphical
+editor framework [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>], and QOCA, a
+constraint-solving toolkit [<A HREF="bibfs.htm#qoca" TARGET="_mainDisplayFrame">HHMV92</A>].  Both systems have classes
+that represent variables explicitly: Unidraw has StateVariable, and
+QOCA has ConstraintVariable.  To make Unidraw work with QOCA,
+ConstraintVariable must be adapted to StateVariable; to let QOCA
+propagate solutions to Unidraw, StateVariable must be adapted to
+ConstraintVariable.</P>
+
+<A NAME="143c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/adapt107.gif"></P>
+
+<A NAME="auto1043"></A>
+<P>The solution involves a two-way class adapter ConstraintStateVariable,
+a subclass of both StateVariable and ConstraintVariable, that adapts
+the two interfaces to each other.  Multiple inheritance is a viable
+solution in this case because the interfaces of the adapted classes
+are substantially different. The two-way class adapter conforms to
+both of the adapted classes and can work in either system.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1044"></A>
+<P>Although the implementation of Adapter is usually straightforward,
+here are some issues to keep in mind:</P>
+
+<OL>
+
+<A NAME="auto1045"></A>
+<LI><EM>Implementing class adapters in C++.</EM>
+In a C++ implementation of a class adapter, Adapter
+would inherit publicly from Target and privately from Adaptee.
+Thus Adapter would be a subtype of Target but not of Adaptee.</LI>
+
+<A NAME="auto1046"></A>
+<P></P>
+
+<A NAME="plugap-imp"></A>
+<LI><EM>Pluggable adapters.</EM>
+Let's look at three ways to implement pluggable adapters for the
+TreeDisplay widget described earlier, which can lay out and display a
+hierarchical structure automatically.
+
+<A NAME="auto1047"></A>
+<P>The first step, which is common to all three of the implementations
+discussed here, is to find a "narrow" interface for Adaptee, that
+is, the smallest subset of operations that lets us do the adaptation.
+A narrow interface consisting of only a couple of operations is easier
+to adapt than an interface with dozens of operations.  For
+TreeDisplay, the adaptee is any hierarchical structure.  A minimalist
+interface might include two operations, one that defines how to
+present a node in the hierarchical structure graphically, and another
+that retrieves the node's children.</P>
+
+<A NAME="auto1048"></A>
+<P>The narrow interface leads to three implementation approaches:</P>
+
+<OL>
+
+<A NAME="absops"></A>
+<LI TYPE=a><EM>Using abstract operations.</EM>
+Define corresponding abstract operations for the narrow Adaptee
+interface in the TreeDisplay class.  Subclasses must implement the
+abstract operations and adapt the hierarchically structured object.
+For example, a DirectoryTreeDisplay subclass will implement these
+operations by accessing the directory structure.
+
+<A NAME="adapter-param1"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/adapt103.gif"></P>
+
+<A NAME="auto1049"></A>
+<P>DirectoryTreeDisplay specializes the narrow interface so that it can
+display directory structures made up of FileSystemEntity objects.</P>
+
+</LI>
+
+<A NAME="auto1050"></A>
+<P></P>
+
+<A NAME="use-dele"></A>
+<LI TYPE=a><EM>Using delegate objects.</EM>
+In this approach, TreeDisplay forwards requests for accessing the hierarchical
+structure to a <STRONG>delegate</STRONG> object.  TreeDisplay can use a
+different adaptation strategy by substituting a different delegate.
+
+<A NAME="direc-browse"></A>
+<P>For example, suppose there exists a DirectoryBrowser that uses a
+TreeDisplay.  DirectoryBrowser might make a good delegate for
+adapting TreeDisplay to the hierarchical directory structure.  In
+dynamically typed languages like Smalltalk or Objective C, this
+approach only requires an interface for registering the delegate with
+the adapter.  Then TreeDisplay simply forwards the requests to the
+delegate.  NEXTSTEP [<A HREF="bibfs.htm#NeXT_AppKit" TARGET="_mainDisplayFrame">Add94</A>] uses this approach heavily to
+reduce subclassing.</P>
+
+<A NAME="treeaccdeleg"></A>
+<P>Statically typed languages like C++ require an explicit interface
+definition for the delegate.  We can specify such an interface by
+putting the narrow interface that TreeDisplay requires into an
+abstract TreeAccessorDelegate class.  Then we can mix this interface
+into the delegate of our choice&#151;DirectoryBrowser in this
+case&#151;using inheritance.  We use single inheritance if the
+DirectoryBrowser has no existing parent class, multiple inheritance if
+it does.  Mixing classes together like this is easier than introducing
+a new TreeDisplay subclass and implementing its operations
+individually.</P>
+
+<A NAME="adapter-param2"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/adapt102.gif"></P>
+
+</LI>
+
+<A NAME="auto1051"></A>
+<P></P>
+
+<A NAME="parameterized"></A>
+<LI TYPE=a><EM>Parameterized adapters.</EM>
+The usual way to support pluggable adapters in Smalltalk is to
+parameterize an adapter with one or more blocks.  The block construct
+supports adaptation without subclassing.  A block can adapt a request,
+and the adapter can store a block for each individual request.  In our
+example, this means TreeDisplay stores one block for converting a node
+into a GraphicNode and another block for accessing a node's children.
+
+<A NAME="auto1052"></A>
+<P>For example, to create TreeDisplay on a directory hierarchy, we write</P>
+
+<A NAME="auto1053"></A>
+<PRE>
+    directoryDisplay :=
+        (TreeDisplay on: treeRoot)
+             getChildrenBlock:
+                 [:node | node getSubdirectories]
+             createGraphicNodeBlock:
+                 [:node | node createGraphicNode].
+</PRE>
+
+<A NAME="auto1054"></A>
+<P>If you're building interface adaptation into a class, this approach
+offers a convenient alternative to subclassing.</P>
+
+</LI>
+
+</OL>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1055"></A>
+<P>We'll give a brief sketch of the implementation of class and object
+adapters for the Motivation example beginning with the classes
+<CODE>Shape</CODE> and <CODE>TextView</CODE>.</P>
+
+<A NAME="auto1056"></A>
+<PRE>
+    class Shape {
+    public:
+        Shape();
+        virtual void BoundingBox(
+            Point&amp; bottomLeft, Point&amp; topRight
+        ) const;
+        virtual Manipulator* CreateManipulator() const;
+    };
+    
+    class TextView {
+    public:
+        TextView();
+        void GetOrigin(Coord&amp; x, Coord&amp; y) const;
+        void GetExtent(Coord&amp; width, Coord&amp; height) const;
+        virtual bool IsEmpty() const;
+    };
+</PRE>
+
+<A NAME="textshape2"></A>
+<P><CODE>Shape</CODE> assumes a bounding box defined by its opposing
+corners. In contrast, <CODE>TextView</CODE> is defined by an origin,
+height, and width. <CODE>Shape</CODE> also defines a
+<CODE>CreateManipulator</CODE> operation for creating a
+<CODE>Manipulator</CODE> object, which knows how to animate a shape
+when the user manipulates it.<A NAME="fn1"></A><A
+HREF="#footnote1"><SUP>1</SUP></A> <CODE>TextView</CODE> has no
+equivalent operation.  The class <CODE>TextShape</CODE> is an
+adapter between these different interfaces.</P>
+
+<A NAME="auto1057"></A>
+<P>A class adapter uses multiple inheritance to adapt interfaces. The key
+to class adapters is to use one inheritance branch to inherit the
+interface and another branch to inherit the implementation. The usual
+way to make this distinction in C++ is to inherit the interface
+publicly and inherit the implementation privately.  We'll use this
+convention to define the <CODE>TextShape</CODE> adapter.</P>
+
+<A NAME="auto1058"></A>
+<PRE>
+    class TextShape : public Shape, private TextView {
+    public:
+        TextShape();
+    
+        virtual void BoundingBox(
+            Point&amp; bottomLeft, Point&amp; topRight
+        ) const;
+        virtual bool IsEmpty() const;
+        virtual Manipulator* CreateManipulator() const;
+    };
+</PRE>
+
+<A NAME="auto1059"></A>
+<P>The <CODE>BoundingBox</CODE> operation converts <CODE>TextView</CODE>'s
+interface to conform to <CODE>Shape</CODE>'s.</P>
+
+<A NAME="auto1060"></A>
+<PRE>
+    void TextShape::BoundingBox (
+        Point&amp; bottomLeft, Point&amp; topRight
+    ) const {
+        Coord bottom, left, width, height;
+    
+        GetOrigin(bottom, left);
+        GetExtent(width, height);
+    
+        bottomLeft = Point(bottom, left);
+        topRight = Point(bottom + height, left + width);
+    }
+</PRE>
+
+<A NAME="auto1061"></A>
+<P>The <CODE>IsEmpty</CODE> operation demonstrates the direct forwarding of
+requests common in adapter implementations:</P>
+
+<A NAME="auto1062"></A>
+<PRE>
+    bool TextShape::IsEmpty () const {
+        return TextView::IsEmpty();
+    }
+</PRE>
+
+<A NAME="auto1063"></A>
+<P>Finally, we define <CODE>CreateManipulator</CODE> (which isn't supported
+by <CODE>TextView</CODE>) from scratch.  Assume we've already implemented
+a <CODE>TextManipulator</CODE> class that supports manipulation of a
+<CODE>TextShape</CODE>.</P>
+
+<A NAME="auto1064"></A>
+<PRE>
+    Manipulator* TextShape::CreateManipulator () const {
+        return new TextManipulator(this);
+    }
+</PRE>
+
+<A NAME="auto1065"></A>
+<P>The object adapter uses object composition to combine classes with
+different interfaces.  In this approach, the adapter
+<CODE>TextShape</CODE> maintains a pointer to
+<CODE>TextView</CODE>.</P>
+
+<A NAME="auto1066"></A>
+<PRE>
+    class TextShape : public Shape {
+    public:
+        TextShape(TextView*);
+    
+        virtual void BoundingBox(
+            Point&amp; bottomLeft, Point&amp; topRight
+        ) const;
+        virtual bool IsEmpty() const;
+        virtual Manipulator* CreateManipulator() const;
+    private:
+        TextView* _text;
+    };
+</PRE>
+
+<A NAME="textshape3"></A>
+<P><CODE>TextShape</CODE> must initialize the pointer to the
+<CODE>TextView</CODE> instance, and it does so in the constructor.  It
+must also call operations on its <CODE>TextView</CODE> object whenever
+its own operations are called. In this example, assume that the client
+creates the <CODE>TextView</CODE> object and passes it to the
+<CODE>TextShape</CODE> constructor:</P>
+
+<A NAME="auto1067"></A>
+<PRE>
+    TextShape::TextShape (TextView* t) {
+        _text = t;
+    }
+    
+    void TextShape::BoundingBox (
+        Point&amp; bottomLeft, Point&amp; topRight
+    ) const {
+        Coord bottom, left, width, height;
+    
+        _text->GetOrigin(bottom, left);
+        _text->GetExtent(width, height);
+    
+        bottomLeft = Point(bottom, left);
+        topRight = Point(bottom + height, left + width);
+    }
+    
+    bool TextShape::IsEmpty () const {
+        return _text->IsEmpty();
+    }
+</PRE>
+
+<A NAME="et-use-adapter"></A>
+<P><CODE>CreateManipulator</CODE>'s implementation doesn't change
+from the class adapter version, since it's implemented from scratch
+and doesn't reuse any existing <CODE>TextView</CODE> functionality.</P>
+
+<A NAME="auto1068"></A>
+<PRE>
+    Manipulator* TextShape::CreateManipulator () const {
+        return new TextManipulator(this);
+    }
+</PRE>
+
+<A NAME="auto1069"></A>
+<P>Compare this code to the class adapter case. The object adapter
+requires a little more effort to write, but it's more flexible.  For
+example, the object adapter version of <CODE>TextShape</CODE> will work
+equally well with subclasses of <CODE>TextView</CODE>&#151;the client simply
+passes an instance of a <CODE>TextView</CODE> subclass to the
+<CODE>TextShape</CODE> constructor.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1070"></A>
+<P>The Motivation example comes from ET++Draw, a drawing application
+based on ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>].  ET++Draw
+reuses the ET++ classes for text editing by using a TextShape
+adapter class.</P>
+
+<A NAME="auto1071"></A>
+<P>InterViews 2.6 defines an Interactor abstract class for user
+interface elements such as scroll bars, buttons, and menus [<A HREF="bibfs.htm#interviews_graphic" TARGET="_mainDisplayFrame">VL88</A>].  It also defines a
+Graphic abstract class for structured graphic objects such as lines,
+circles, polygons, and splines.  Both Interactors and Graphics have
+graphical appearances, but they have different interfaces and
+implementations (they share no common parent class) and are therefore
+incompatible&#151;you can't embed a structured graphic object in,
+say, a dialog box directly.</P>
+
+<A NAME="auto1072"></A>
+<P>Instead, InterViews 2.6 defines an object adapter called
+GraphicBlock, a subclass of Interactor that contains a Graphic
+instance.  The GraphicBlock adapts the interface of the Graphic
+class to that of Interactor.  The GraphicBlock lets a Graphic
+instance be displayed, scrolled, and zoomed within an Interactor
+structure.</P>
+
+<A NAME="plugap-imp2"></A>
+<P>Pluggable adapters are common in
+ObjectWorks\Smalltalk [<A HREF="bibfs.htm#parcplace_smalltalk" TARGET="_mainDisplayFrame">Par90</A>].  Standard Smalltalk defines
+a ValueModel class for views that display a single value.  ValueModel
+defines a <CODE>value</CODE>, <CODE>value:</CODE> interface for accessing
+the value. These are abstract methods.  Application writers access the
+value with more domain-specific names like <CODE>width</CODE> and
+<CODE>width:</CODE>, but they shouldn't have to subclass ValueModel
+to adapt such application-specific names to the ValueModel interface.</P>
+
+<A NAME="auto1073"></A>
+<P>Instead, ObjectWorks\Smalltalk includes a subclass of ValueModel
+called PluggableAdaptor.  A PluggableAdaptor object adapts other
+objects to the ValueModel interface (<CODE>value</CODE>,
+<CODE>value:</CODE>).  It can be parameterized with blocks for getting
+and setting the desired value.  PluggableAdaptor uses these blocks
+internally to implement the
+<CODE>value</CODE>, <CODE>value:</CODE> interface.  PluggableAdaptor also
+lets you pass in the selector names (e.g., <CODE>width</CODE>,
+<CODE>width:</CODE>) directly for syntactic convenience.
+It converts these selectors into the corresponding blocks
+automatically.</P>
+
+<A NAME="plugap-149c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/plugg021.gif"></P>
+
+<A NAME="auto1074"></A>
+<P>Another example from ObjectWorks\Smalltalk is the TableAdaptor
+class.  A TableAdaptor can adapt a sequence of objects to a tabular
+presentation.  The table displays one object per row. The client
+parameterizes TableAdaptor with the set of messages that a table can
+use to get the column values from an object.</P>
+
+<A NAME="auto1075"></A>
+<P>Some classes in NeXT's AppKit [<A HREF="bibfs.htm#NeXT_AppKit" TARGET="_mainDisplayFrame">Add94</A>] use delegate objects
+to perform interface adaptation.  An example is the NXBrowser class that
+can display hierarchical lists of data.  NXBrowser uses a delegate
+object for accessing and adapting the data.</P>
+
+<A NAME="marriage"></A>
+<P>Meyer's "Marriage of Convenience" [<A HREF="bibfs.htm#meyer_book-88" TARGET="_mainDisplayFrame">Mey88</A>] is a form of
+class adapter.  Meyer describes how a FixedStack class adapts the
+implementation of an Array class to the interface of a Stack class.
+The result is a stack containing a fixed number of entries.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1076"></A>
+<P><A HREF="pat4bfs.htm" TARGET="_mainDisplayFrame">Bridge (151)</A> has
+a structure similar to an object adapter, but Bridge has a different
+intent: It is meant to separate an interface from its implementation
+so that they can be varied easily and independently.  An adapter
+is meant to change the interface of an <EM>existing</EM> object.</P>
+
+<A NAME="auto1077"></A>
+<P><A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A>
+enhances another object without changing its interface.  A decorator
+is thus more transparent to the application than an adapter is. As
+a consequence, Decorator supports recursive composition, which
+isn't possible with pure adapters.</P>
+
+<A NAME="auto1078"></A>
+<P><A HREF="pat4gfs.htm" TARGET="_mainDisplayFrame">Proxy (207)</A> defines
+a representative or surrogate for another object and does not change
+its interface.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat4bfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4bfs.htm"
+	TARGET="_mainDisplayFrame">Bridge</A><BR>
+<A HREF="chap4fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap4fs.htm"
+	TARGET="_mainDisplayFrame">Structural Patterns</A>
+</P>
+
+<HR>
+
+<A NAME="footnote1"></A>
+<P><SUP>1</SUP><CODE>CreateManipulator</CODE> is an example of a
+<A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A>.
+</P>
+
+</BODY>
+
+</HTML>
+
+

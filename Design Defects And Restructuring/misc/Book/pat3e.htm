@@ -1,0 +1,556 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML><HEAD>	<TITLE>Singleton</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Singleton"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Ensure a class only has one instance, and provide a global point
+of access to it.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1001"></A>
+<P>It's important for some classes to have exactly one instance.
+Although there can be many printers in a system, there should be only
+one printer spooler.  There should be only one file system and one
+window manager.  A digital filter will have one A/D converter.  An
+accounting system will be dedicated to serving one company.</P>
+
+<A NAME="auto1002"></A>
+<P>How do we ensure that a class has only one instance and that the
+instance is easily accessible?  A global variable makes an object
+accessible, but it doesn't keep you from instantiating multiple
+objects.</P>
+
+<A NAME="auto1003"></A>
+<P>A better solution is to make the class itself responsible for keeping
+track of its sole instance.  The class can ensure that no other
+instance can be created (by intercepting requests to create new
+objects), and it can provide a way to access the instance.  This is
+the Singleton pattern.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Structure"></A> Applicability</H2> 
+
+<A NAME="auto1004"></A>
+<P>Use the Singleton pattern when</P>
+
+<UL>
+
+<A NAME="auto1005"></A>
+<LI>there must be exactly one instance of a class, and it must be
+accessible to clients from a well-known access point.</LI>
+<A NAME="auto1006"></A>
+<P></P>
+<A NAME="auto1007"></A>
+<LI>when the sole instance should be extensible by subclassing, and
+clients should be able to use an extended instance without
+modifying their code.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Participants"></A>
+Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/singl014.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Collaborations"></A>
+Participants</H2>
+
+<UL>
+
+<A NAME="auto1008"></A>
+<LI><B>Singleton</B></LI>
+
+<A NAME="auto1009"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1010"></A>
+<LI>defines an Instance operation that lets clients access its
+    unique instance.  Instance is a class operation (that is, a class
+    method in Smalltalk and a static member function in C++).</LI>
+
+    <A NAME="auto1011"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1012"></A>
+<LI>may be responsible for creating its own unique instance.</LI>
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1013"></A>
+<LI>Clients access a Singleton instance solely through Singleton's
+Instance operation.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1014"></A>
+<P>The Singleton pattern has several benefits:</P>
+
+<OL>
+
+<A NAME="auto1015"></A>
+<LI><EM>Controlled access to sole instance.</EM>
+Because the Singleton class encapsulates its sole instance, it can
+have strict control over how and when clients access it.</LI>
+<A NAME="auto1016"></A>
+<P></P>
+<A NAME="auto1017"></A>
+<LI><EM>Reduced name space.</EM>
+The Singleton pattern is an improvement over global variables.  It
+avoids polluting the name space with global variables that store sole
+instances.</LI>
+<A NAME="auto1018"></A>
+<P></P>
+<A NAME="auto1019"></A>
+<LI><EM>Permits refinement of operations and representation.</EM>
+The Singleton class may be subclassed, and it's easy to configure an
+application with an instance of this extended class.  You can
+configure the application with an instance of the class you need at
+run-time.</LI>
+<A NAME="auto1020"></A>
+<P></P>
+<A NAME="auto1021"></A>
+<LI><EM>Permits a variable number of instances.</EM>
+The pattern makes it easy to change your mind and allow more than one
+instance of the Singleton class.  Moreover, you can use the same
+approach to control the number of instances that the application uses.
+Only the operation that grants access to the Singleton instance needs
+to change.</LI>
+<A NAME="auto1022"></A>
+<P></P>
+<A NAME="auto1023"></A>
+<LI><EM>More flexible than class operations.</EM>
+Another way to package a singleton's functionality is to use class
+operations (that is, static member functions in C++ or class methods
+in Smalltalk).  But both of these language techniques make it hard to
+change a design to allow more than one instance of a class.  Moreover,
+static member functions in C++ are never virtual, so subclasses can't
+override them polymorphically.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1024"></A>
+<P>Here are implementation issues to consider when using the Singleton
+pattern:</P>
+
+<OL>
+
+<A NAME="auto1025"></A>
+<LI><EM>Ensuring a unique instance.</EM>
+The Singleton pattern makes the sole instance a normal instance of a
+class, but that class is written so that only one instance can ever be
+created.  A common way to do this is to hide the operation that
+creates the instance behind a class operation (that is, either a
+static member function or a class method) that guarantees only one
+instance is created.  This operation has access to the variable that
+holds the unique instance, and it ensures the variable is initialized
+with the unique instance before returning its value.  This approach
+ensures that a singleton is created and initialized before its first
+use.
+
+<A NAME="single-cpp-imp"></A>
+<P>You can define the class operation in C++ with a static member
+function <CODE>Instance</CODE> of the <CODE>Singleton</CODE> class.
+<CODE>Singleton</CODE> also defines a static member variable
+<CODE>_instance</CODE> that contains a pointer to its unique instance.
+
+<A NAME="auto1026"></A>
+<P>The <CODE>Singleton</CODE> class is declared as
+<A NAME="auto1027"></A>
+<PRE>
+    class Singleton {
+    public:
+        static Singleton* Instance();
+    protected:
+        Singleton();
+    private:
+        static Singleton* _instance;
+    };
+</PRE>
+
+<A NAME="auto1028"></A>
+<P>The corresponding implementation is</P>
+
+<A NAME="auto1029"></A>
+<PRE>
+    Singleton* Singleton::_instance = 0;
+    
+    Singleton* Singleton::Instance () {
+        if (_instance == 0) {
+            _instance = new Singleton;
+        }
+        return _instance;
+    }
+</PRE>
+
+<A NAME="auto1030"></A>
+<P>Clients access the singleton exclusively through the <CODE>Instance</CODE>
+member function. The variable <CODE>_instance</CODE> is initialized to 0,
+and the static member function <CODE>Instance</CODE> returns its value,
+initializing it with the unique instance if it is 0. <CODE>Instance</CODE>
+uses lazy initialization; the value it returns isn't created and stored
+until it's first accessed.</P>
+
+<A NAME="auto1031"></A>
+<P>Notice that the constructor is protected.  A client that tries to
+instantiate <CODE>Singleton</CODE> directly will get an error at
+compile-time.  This ensures that only one instance can ever get
+created.</P>
+
+<A NAME="auto1032"></A>
+<P>Moreover, since the <CODE>_instance</CODE> is a pointer to a Singleton
+object, the <CODE>Instance</CODE> member function can assign a pointer to
+a subclass of Singleton to this variable. We'll give an example of
+this in the Sample Code.</P>
+
+<A NAME="auto1033"></A>
+<P>There's another thing to note about the C++ implementation. It
+isn't enough to define the singleton as a global or static object and
+then rely on automatic initialization.  There are three reasons for
+this:</P>
+
+<OL>
+
+<A NAME="auto1034"></A>
+<LI>We can't guarantee that only one instance of a static object
+will ever be declared.</LI>
+<A NAME="auto1035"></A>
+<P></P>
+<A NAME="auto1036"></A>
+<LI>We might not have enough information to instantiate every singleton at
+static initialization time.  A singleton might require values that are
+computed later in the program's execution.</LI>
+<A NAME="auto1037"></A>
+<P></P>
+<A NAME="auto1038"></A>
+<LI>C++ doesn't define the order in which constructors for global objects
+are called across translation units [<A HREF="bibfs.htm#c++_arm" TARGET="_mainDisplayFrame">ES90</A>].  This means
+that no dependencies can exist between singletons; if any do, then
+errors are inevitable.</LI>
+
+</OL>
+
+<A NAME="auto1039"></A>
+<P>An added (albeit small) liability of the global/static object approach
+is that it forces all singletons to be created whether they are used
+or not. Using a static member function avoids all of these problems.</P>
+
+<A NAME="auto1040"></A>
+<P>In Smalltalk, the function that returns the unique instance is
+implemented as a class method on the Singleton class.  To ensure that
+only one instance is created, override the <CODE>new</CODE> operation.
+The resulting Singleton class might have the following two class
+methods, where <CODE>SoleInstance</CODE> is a class variable
+that is not used anywhere else:</P>
+
+<A NAME="auto1041"></A>
+<PRE>
+    new
+        self error: 'cannot create new object'
+    
+    default
+        SoleInstance isNil ifTrue: [SoleInstance := super new].
+        ^ SoleInstance
+</PRE>
+
+</LI>
+
+<A NAME="single-subclass"></A>
+<LI><EM>Subclassing the Singleton class.</EM>
+The main issue is not so much defining the subclass but installing its
+unique instance so that clients will be able to use it.  In essence,
+the variable that refers to the singleton instance must get
+initialized with an instance of the subclass.  The simplest technique
+is to determine which singleton you want to use in the Singleton's
+<CODE>Instance</CODE> operation.  An example in the Sample Code shows how
+to implement this technique with environment variables.
+
+<A NAME="auto1042"></A>
+<P>Another way to choose the subclass of Singleton is to take the
+implementation of <CODE>Instance</CODE> out of the parent class (e.g.,
+<A HREF="pat3afs.htm#MazeFactory-def" TARGET="_mainDisplayFrame"><CODE>MazeFactory</CODE></A>) and put it in the subclass.  That lets a C++
+programmer decide the class of singleton at link-time (e.g., by
+linking in an object file containing a different implementation) but
+keeps it hidden from the clients of the singleton.</P>
+
+<A NAME="auto1043"></A>
+<P>The link approach fixes the choice of singleton class at link-time,
+which makes it hard to choose the singleton class at run-time. Using
+conditional statements to determine the subclass is more flexible, but
+it hard-wires the set of possible Singleton classes. Neither approach
+is flexible enough in all cases.</P>
+
+<A NAME="single-registry"></A>
+<P>A more flexible approach uses a <STRONG>registry of singletons</STRONG>.
+Instead of having <CODE>Instance</CODE> define the set of possible
+Singleton classes, the Singleton classes can register their singleton
+instance by name in a well-known registry.</P>
+
+<A NAME="auto1044"></A>
+<P>The registry maps between string names and singletons. When
+<CODE>Instance</CODE> needs a singleton, it consults the registry, asking
+for the singleton by name. The registry looks up the corresponding
+singleton (if it exists) and returns it. This approach frees
+<CODE>Instance</CODE> from knowing all possible Singleton classes or
+instances. All it requires is a common interface for all Singleton
+classes that includes operations for the registry:</P>
+
+<A NAME="auto1045"></A>
+<PRE>
+    class Singleton {
+    public:
+        static void Register(const char* name, Singleton*);
+        static Singleton* Instance();
+    protected:
+        static Singleton* Lookup(const char* name);
+    private:
+        static Singleton* _instance;
+        static List&lt;NameSingletonPair>* _registry;
+    };
+</PRE>
+
+<A NAME="auto1046"></A>
+<P><CODE>Register</CODE> registers the Singleton instance under the given
+name. To keep the registry simple, we'll have it store a list of
+<CODE>NameSingletonPair</CODE> objects. Each <CODE>NameSingletonPair</CODE>
+maps a name to a singleton. The <CODE>Lookup</CODE> operation finds a
+singleton given its name. We'll assume that an environment variable
+specifies the name of the singleton desired.</P>
+
+<A NAME="auto1047"></A>
+<PRE>
+    Singleton* Singleton::Instance () {
+        if (_instance == 0) {
+            const char* singletonName = getenv("SINGLETON");
+            // user or environment supplies this at startup
+    
+            _instance = Lookup(singletonName);
+            // Lookup returns 0 if there's no such singleton
+        }
+        return _instance;
+    }
+</PRE>
+
+<A NAME="auto1048"></A>
+<P>Where do Singleton classes register themselves? One possibility is in
+their constructor. For example, a <CODE>MySingleton</CODE> subclass could
+do the following:</P>
+
+<A NAME="auto1049"></A>
+<PRE>
+    MySingleton::MySingleton() {
+        // ...
+        Singleton::Register("MySingleton", this);
+    }
+</PRE>
+
+<A NAME="single-cpp-imp2"></A>
+<P>Of course, the constructor won't get called unless someone
+instantiates the class, which echoes the problem the Singleton pattern
+is trying to solve!  We can get around this problem in C++ by defining
+a static instance of <CODE>MySingleton</CODE>.  For example, we can
+define</P>
+
+<A NAME="auto1050"></A>
+<PRE>
+    static MySingleton theSingleton;
+</PRE>
+
+<A NAME="auto1051"></A>
+<P>in the file that contains <CODE>MySingleton</CODE>'s implementation.</P>
+
+<A NAME="auto1052"></A>
+<P>No longer is the Singleton class responsible for creating the
+singleton.  Instead, its primary responsibility is to make the
+singleton object of choice accessible in the system. The static object
+approach still has a potential drawback&#151;namely that instances of all
+possible Singleton subclasses must be created, or else they won't get
+registered.</P>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1053"></A>
+<P>Suppose we define a <CODE>MazeFactory</CODE> class for building
+mazes as described on <A HREF="pat3afs.htm#MazeFactory-def" TARGET="_mainDisplayFrame">page 92</A>.
+<CODE>MazeFactory</CODE> defines an interface for building different
+parts of a maze.  Subclasses can redefine the operations to return
+instances of specialized product classes, like <CODE>BombedWall</CODE>
+objects instead of plain <CODE>Wall</CODE> objects.</P>
+
+<A NAME="mazebld-single"></A>
+<P>What's relevant here is that the Maze application needs only one
+instance of a maze factory, and that instance should be available to
+code that builds any part of the maze.  This is where the Singleton
+pattern comes in.  By making the <CODE>MazeFactory</CODE> a singleton, we
+make the maze object globally accessible without resorting to global
+variables.</P>
+
+<A NAME="auto1054"></A>
+<P>For simplicity, let's assume we'll never subclass
+<CODE>MazeFactory</CODE>.  (We'll consider the alternative in a moment.)
+We make it a Singleton class in C++ by adding a static
+<CODE>Instance</CODE> operation and a static <CODE>_instance</CODE> member
+to hold the one and only instance.  We must also protect the
+constructor to prevent accidental instantiation, which might lead to
+more than one instance.</P>
+
+<A NAME="auto1055"></A>
+<PRE>
+    class MazeFactory {
+    public:
+        static MazeFactory* Instance();
+    
+        // existing interface goes here
+    protected:
+        MazeFactory();
+    private:
+        static MazeFactory* _instance;
+    };
+</PRE>
+
+<A NAME="auto1056"></A>
+<P>The corresponding implementation is</P>
+
+<A NAME="auto1057"></A>
+<PRE>
+    MazeFactory* MazeFactory::_instance = 0;
+    
+    MazeFactory* MazeFactory::Instance () {
+        if (_instance == 0) {
+            _instance = new MazeFactory;
+        }
+        return _instance;
+    }
+</PRE>
+
+<A NAME="auto1058"></A>
+<P>Now let's consider what happens when there are subclasses of
+<CODE>MazeFactory</CODE>, and the application must decide which one to
+use.  We'll select the kind of maze through an environment variable
+and add code that instantiates the proper <CODE>MazeFactory</CODE>
+subclass based on the environment variable's value.  The
+<CODE>Instance</CODE> operation is a good place to put this code, because it
+already instantiates <CODE>MazeFactory</CODE>:</P>
+
+<A NAME="auto1059"></A>
+<PRE>
+    MazeFactory* MazeFactory::Instance () {
+        if (_instance == 0) {
+            const char* mazeStyle = getenv("MAZESTYLE");
+    
+            if (strcmp(mazeStyle, "bombed") == 0) {
+                _instance = new BombedMazeFactory;
+    
+            } else if (strcmp(mazeStyle, "enchanted") == 0) {
+                _instance = new EnchantedMazeFactory;
+    
+            // ... other possible subclasses
+    
+            } else {        // default
+                _instance = new MazeFactory;
+            }
+        }
+        return _instance;
+    }
+</PRE>
+
+<A NAME="auto1060"></A>
+<P>Note that <CODE>Instance</CODE> must be modified whenever you define a
+new subclass of <CODE>MazeFactory</CODE>.  That might not be a problem in
+this application, but it might be for abstract factories defined in a
+framework.</P>
+
+<A NAME="auto1061"></A>
+<P>A possible solution would be to use the registry approach described in
+the Implementation section.  Dynamic linking could be useful here as
+well&#151;it would keep the application from having to load all the
+subclasses that are not used.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="smalltalk-use-single"></A>
+<P>An example of the Singleton pattern in
+Smalltalk-80 [<A HREF="bibfs.htm#parcplace_smalltalk" TARGET="_mainDisplayFrame">Par90</A>] is the set of changes to the
+code, which is <CODE>ChangeSet current</CODE>.  A more subtle example is
+the relationship between classes and their <a href="chapAfs.htm#metaclass" target="_mainDisplayFrame">metaclasses</a>.  A
+metaclass is the class of a class, and each metaclass has one
+instance.  Metaclasses do not have names (except indirectly through
+their sole instance), but they keep track of their sole instance and
+will not normally create another.</P>
+
+<A NAME="auto1062"></A>
+<P>The InterViews user interface toolkit [<A HREF="bibfs.htm#InterViews3.1" TARGET="_mainDisplayFrame">LCI+92</A>] uses the
+Singleton pattern to access the unique instance of its Session and
+WidgetKit classes, among others.  Session defines the application's
+main event dispatch loop, stores the user's database of stylistic
+preferences, and manages connections to one or more physical displays.
+WidgetKit is an <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> for
+defining the look and feel of user interface widgets.  The
+<CODE>WidgetKit::instance()</CODE> operation determines the particular
+WidgetKit subclass that's instantiated based on an environment
+variable that Session defines.  A similar operation on Session
+determines whether monochrome or color displays are supported and
+configures the singleton Session instance accordingly.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1063"></A>
+<P>Many patterns can be implemented using the Singleton pattern.
+See <A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A>,
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A>, and <A
+HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A>.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="disc3fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="disc3fs.htm"
+	TARGET="_mainDisplayFrame">Discussion of Creational Patterns</A><BR>
+<A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3dfs.htm"
+	TARGET="_mainDisplayFrame">Prototype</A>
+</P>
+
+</BODY>
+
+</HTML>
+
+
