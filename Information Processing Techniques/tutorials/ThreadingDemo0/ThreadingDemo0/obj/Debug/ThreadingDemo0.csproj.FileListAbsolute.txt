@@ -1,0 +1,7 @@
+C:\Users\Zain\source\repos\ThreadingDemo0\ThreadingDemo0\bin\Debug\ThreadingDemo0.exe.config
+C:\Users\Zain\source\repos\ThreadingDemo0\ThreadingDemo0\bin\Debug\ThreadingDemo0.exe
+C:\Users\Zain\source\repos\ThreadingDemo0\ThreadingDemo0\bin\Debug\ThreadingDemo0.pdb
+C:\Users\Zain\source\repos\ThreadingDemo0\ThreadingDemo0\obj\Debug\ThreadingDemo0.csprojAssemblyReference.cache
+C:\Users\Zain\source\repos\ThreadingDemo0\ThreadingDemo0\obj\Debug\ThreadingDemo0.csproj.CoreCompileInputs.cache
+C:\Users\Zain\source\repos\ThreadingDemo0\ThreadingDemo0\obj\Debug\ThreadingDemo0.exe
+C:\Users\Zain\source\repos\ThreadingDemo0\ThreadingDemo0\obj\Debug\ThreadingDemo0.pdb

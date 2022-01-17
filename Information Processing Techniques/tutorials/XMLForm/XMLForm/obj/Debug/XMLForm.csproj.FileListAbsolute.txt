@@ -1,0 +1,10 @@
+C:\Users\Zain\source\repos\XMLForm\XMLForm\bin\Debug\XMLForm.exe.config
+C:\Users\Zain\source\repos\XMLForm\XMLForm\bin\Debug\XMLForm.exe
+C:\Users\Zain\source\repos\XMLForm\XMLForm\bin\Debug\XMLForm.pdb
+C:\Users\Zain\source\repos\XMLForm\XMLForm\obj\Debug\XMLForm.csprojAssemblyReference.cache
+C:\Users\Zain\source\repos\XMLForm\XMLForm\obj\Debug\XMLForm.Form1.resources
+C:\Users\Zain\source\repos\XMLForm\XMLForm\obj\Debug\XMLForm.Properties.Resources.resources
+C:\Users\Zain\source\repos\XMLForm\XMLForm\obj\Debug\XMLForm.csproj.GenerateResource.cache
+C:\Users\Zain\source\repos\XMLForm\XMLForm\obj\Debug\XMLForm.csproj.CoreCompileInputs.cache
+C:\Users\Zain\source\repos\XMLForm\XMLForm\obj\Debug\XMLForm.exe
+C:\Users\Zain\source\repos\XMLForm\XMLForm\obj\Debug\XMLForm.pdb

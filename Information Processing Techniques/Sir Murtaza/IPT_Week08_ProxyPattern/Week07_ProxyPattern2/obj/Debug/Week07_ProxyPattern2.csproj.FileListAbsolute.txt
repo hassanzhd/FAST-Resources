@@ -1,0 +1,13 @@
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\bin\Debug\Week07_ProxyPattern2.exe.config
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\bin\Debug\Week07_ProxyPattern2.exe
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\bin\Debug\Week07_ProxyPattern2.pdb
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\obj\Debug\Week07_ProxyPattern2.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\obj\Debug\Week07_ProxyPattern2.exe
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\obj\Debug\Week07_ProxyPattern2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\bin\Debug\Week07_ProxyPattern2.exe.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\bin\Debug\Week07_ProxyPattern2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\bin\Debug\Week07_ProxyPattern2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\obj\Debug\Week07_ProxyPattern2.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\obj\Debug\Week07_ProxyPattern2.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\obj\Debug\Week07_ProxyPattern2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\Week07_ProxyPattern2\obj\Debug\Week07_ProxyPattern2.pdb

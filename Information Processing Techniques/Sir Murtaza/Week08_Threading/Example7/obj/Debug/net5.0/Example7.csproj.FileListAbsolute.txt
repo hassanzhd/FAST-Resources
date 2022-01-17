@@ -1,0 +1,16 @@
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/bin/Debug/net5.0/Example7
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/bin/Debug/net5.0/Example7.deps.json
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/bin/Debug/net5.0/Example7.runtimeconfig.json
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/bin/Debug/net5.0/Example7.runtimeconfig.dev.json
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/bin/Debug/net5.0/Example7.dll
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/bin/Debug/net5.0/ref/Example7.dll
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/bin/Debug/net5.0/Example7.pdb
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/Example7.csproj.AssemblyReference.cache
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/Example7.GeneratedMSBuildEditorConfig.editorconfig
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/Example7.AssemblyInfoInputs.cache
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/Example7.AssemblyInfo.cs
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/Example7.csproj.CoreCompileInputs.cache
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/Example7.dll
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/ref/Example7.dll
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/Example7.pdb
+/home/saif/Downloads/Sir Murtaza/Week08_Threading/Example7/obj/Debug/net5.0/Example7.genruntimeconfig.cache

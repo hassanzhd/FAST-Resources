@@ -1,0 +1,14 @@
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\bin\Debug\IPT_Week07_ProxyPattern.exe.config
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\bin\Debug\IPT_Week07_ProxyPattern.exe
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\bin\Debug\IPT_Week07_ProxyPattern.pdb
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\obj\Debug\IPT_Week07_ProxyPattern.csprojAssemblyReference.cache
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\obj\Debug\IPT_Week07_ProxyPattern.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\obj\Debug\IPT_Week07_ProxyPattern.exe
+C:\Users\mfazal\Documents\Visual Studio 2017\Projects\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\obj\Debug\IPT_Week07_ProxyPattern.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\bin\Debug\IPT_Week07_ProxyPattern.exe.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\bin\Debug\IPT_Week07_ProxyPattern.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\bin\Debug\IPT_Week07_ProxyPattern.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\obj\Debug\IPT_Week07_ProxyPattern.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\obj\Debug\IPT_Week07_ProxyPattern.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\obj\Debug\IPT_Week07_ProxyPattern.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week08\Code\IPT_Week07_ProxyPattern\IPT_Week07_ProxyPattern\obj\Debug\IPT_Week07_ProxyPattern.pdb

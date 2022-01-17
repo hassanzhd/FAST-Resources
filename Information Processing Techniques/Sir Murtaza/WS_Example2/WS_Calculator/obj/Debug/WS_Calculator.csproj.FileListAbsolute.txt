@@ -1,0 +1,40 @@
+C:\Users\mfazal\Documents\Visual Studio 2013\Projects\WS_Example2\WS_Calculator\bin\WS_Calculator.dll.config
+C:\Users\mfazal\Documents\Visual Studio 2013\Projects\WS_Example2\WS_Calculator\bin\WS_Calculator.dll
+C:\Users\mfazal\Documents\Visual Studio 2013\Projects\WS_Example2\WS_Calculator\bin\WS_Calculator.pdb
+C:\Users\mfazal\Documents\Visual Studio 2013\Projects\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csprojResolveAssemblyReference.cache
+C:\Users\mfazal\Documents\Visual Studio 2013\Projects\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.dll
+C:\Users\mfazal\Documents\Visual Studio 2013\Projects\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Calculator\bin\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Calculator\bin\WS_Calculator.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Calculator\bin\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Calculator\bin\WS_Calculator.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.csprojResolveAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Calculator\obj\Debug\WS_Calculator.pdb
