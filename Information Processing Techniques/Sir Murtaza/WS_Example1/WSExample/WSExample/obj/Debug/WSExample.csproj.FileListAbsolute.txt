@@ -1,0 +1,248 @@
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\ApplicationInsights.config
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\WSExample.dll.config
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\WSExample.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\WSExample.pdb
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.Agent.Intercept.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.PerfCounterCollector.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.Web.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.ApplicationInsights.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.Threading.Tasks.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\System.IO.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\System.Runtime.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\System.Threading.Tasks.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.Web.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.ApplicationInsights.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.Threading.Tasks.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\System.IO.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\System.Runtime.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\bin\System.Threading.Tasks.xml
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\obj\Debug\WSExample.csproj.App.config
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\obj\Debug\WSExample.csprojResolveAssemblyReference.cache
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\obj\Debug\WSExample.dll
+c:\users\mfazal\documents\visual studio 2015\Projects\WSExample\WSExample\obj\Debug\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\ApplicationInsights.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\WSExample.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.Web.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\System.IO.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\System.Runtime.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\System.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.Web.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\System.IO.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\System.Runtime.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\bin\System.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\obj\Debug\WSExample.csproj.App.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\obj\Debug\WSExample.csprojResolveAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\obj\Debug\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Spring 2018\IPT\Lectures\Week05\Code1\WSExample\WSExample\obj\Debug\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\ApplicationInsights.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\WSExample.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.Web.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\System.IO.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\System.Runtime.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\System.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.Web.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\System.IO.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\System.Runtime.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\bin\System.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\obj\Debug\WSExample.csproj.App.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\obj\Debug\WSExample.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\obj\Debug\WSExample.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\obj\Debug\WSExample.csproj.CopyComplete
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\obj\Debug\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\Code1\WSExample\WSExample\obj\Debug\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\ApplicationInsights.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Web.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.IO.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.Runtime.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Web.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.IO.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.Runtime.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.App.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.CopyComplete
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\ApplicationInsights.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Web.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.IO.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.Runtime.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Web.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.IO.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.Runtime.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\bin\System.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.App.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.CopyComplete
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\ApplicationInsights.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Web.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\System.IO.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\System.Runtime.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\System.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Web.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\System.IO.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\System.Runtime.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\bin\System.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.App.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.CopyComplete
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\ApplicationInsights.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\WSExample.dll.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\WSExample.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Web.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\System.IO.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\System.Runtime.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\System.Threading.Tasks.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.Web.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.ApplicationInsights.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.Diagnostics.Tracing.EventSource.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\System.IO.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\System.Runtime.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\bin\System.Threading.Tasks.xml
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.App.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.csproj.CopyComplete
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.dll
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example1\WSExample\WSExample\obj\Debug\WSExample.pdb

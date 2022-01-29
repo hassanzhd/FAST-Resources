@@ -1,0 +1,7 @@
+C:\Users\Zain\source\repos\XMLDemo\XMLDemo\bin\Debug\XMLDemo.exe.config
+C:\Users\Zain\source\repos\XMLDemo\XMLDemo\bin\Debug\XMLDemo.exe
+C:\Users\Zain\source\repos\XMLDemo\XMLDemo\bin\Debug\XMLDemo.pdb
+C:\Users\Zain\source\repos\XMLDemo\XMLDemo\obj\Debug\XMLDemo.csprojAssemblyReference.cache
+C:\Users\Zain\source\repos\XMLDemo\XMLDemo\obj\Debug\XMLDemo.csproj.CoreCompileInputs.cache
+C:\Users\Zain\source\repos\XMLDemo\XMLDemo\obj\Debug\XMLDemo.exe
+C:\Users\Zain\source\repos\XMLDemo\XMLDemo\obj\Debug\XMLDemo.pdb

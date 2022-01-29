@@ -1,0 +1,13 @@
+﻿Installing assembly 'C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.InstallLog
+   assemblypath = C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.exe
+Installing service Service1...
+Service Service1 has been successfully installed.
+Creating EventLog source Service1 in log Application...
+Committing assembly 'C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.InstallLog
+   assemblypath = C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.exe

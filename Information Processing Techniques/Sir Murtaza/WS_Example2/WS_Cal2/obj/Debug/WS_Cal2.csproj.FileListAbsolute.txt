@@ -1,0 +1,58 @@
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.pdb
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csprojResolveAssemblyReference.cache
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Form1.resources
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Properties.Resources.resources
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.GenerateResource.Cache
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.exe
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.pdb
+c:\users\mfazal\documents\visual studio 2013\Projects\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Form1.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Properties.Resources.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.GenerateResource.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\Fall 2018\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Form1.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Properties.Resources.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.GenerateResource.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - Spring\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Form1.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Properties.Resources.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.GenerateResource.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2019 - 2-Fall\IPT\Lectures\Week05\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csprojAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Form1.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Properties.Resources.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.GenerateResource.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.CoreCompileInputs.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2020 - 1-Spring\IPT-2020-S\Lectures\Week07\Codes\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe.config
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\bin\Debug\WS_Cal2.pdb
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csprojResolveAssemblyReference.cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Form1.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.Properties.Resources.resources
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.csproj.GenerateResource.Cache
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.exe
+C:\Users\mfazal\OneDrive\Teaching\FAST\2021 - 1-Spring\IPT-2021-S\Lectures\Week07\Code\WS_Example2\WS_Cal2\obj\Debug\WS_Cal2.pdb

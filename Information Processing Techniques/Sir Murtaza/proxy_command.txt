@@ -1,0 +1,4 @@
+1 - Open Visual Studio Command Prompt (Run as Administrator)
+2- execute command wsdl <.asmx> /out:<outputfile>
+
+Example : C:\>wsdl http://localhost:68015/service.asmx /out:C:\myproxyclass.cs

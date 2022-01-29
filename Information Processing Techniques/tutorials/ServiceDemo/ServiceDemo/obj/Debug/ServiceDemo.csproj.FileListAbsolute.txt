@@ -1,0 +1,9 @@
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.exe.config
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.exe
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\bin\Debug\ServiceDemo.pdb
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\obj\Debug\ServiceDemo.csprojAssemblyReference.cache
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\obj\Debug\ServiceDemo.ProjectInstaller.resources
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\obj\Debug\ServiceDemo.csproj.GenerateResource.cache
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\obj\Debug\ServiceDemo.csproj.CoreCompileInputs.cache
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\obj\Debug\ServiceDemo.exe
+C:\Users\Zain\source\repos\ServiceDemo\ServiceDemo\obj\Debug\ServiceDemo.pdb

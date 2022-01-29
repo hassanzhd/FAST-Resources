@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LambdaFunc0
+{
+    public class Student
+    {
+        public string name { get; set; }
+        public double gpa { get; set; }
+    }
+
+
+    class Program
+    {
+        delegate double IsEligible(Student o);
+        static void Main(string[] args)
+        {
+
+            IList<Student> students = new List<Student>() {
+                new Student()  { name = "Ali", gpa = 3.5 },
+                new Student() { name = "Ahmed", gpa = 2.4 },
+                new Student() { name = "Abdul", gpa = 2.2},
+                new Student() { name = "Qasim", gpa = 3.1}
+            };
+
+            var selectedStudents = from s in students
+                                   where s.gpa > 3.0
+                                   select s;
+
+
+            foreach (var stud in selectedStudents)
+                Console.WriteLine(stud.name);
+        }
+    }
+}

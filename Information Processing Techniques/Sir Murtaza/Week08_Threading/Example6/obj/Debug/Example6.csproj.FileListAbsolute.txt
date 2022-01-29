@@ -1,0 +1,4 @@
+c:\users\mfazal\documents\visual studio 2015\Projects\Week07_Threading\Example6\bin\Debug\Example6.exe
+c:\users\mfazal\documents\visual studio 2015\Projects\Week07_Threading\Example6\bin\Debug\Example6.pdb
+c:\users\mfazal\documents\visual studio 2015\Projects\Week07_Threading\Example6\obj\Debug\Example6.exe
+c:\users\mfazal\documents\visual studio 2015\Projects\Week07_Threading\Example6\obj\Debug\Example6.pdb
