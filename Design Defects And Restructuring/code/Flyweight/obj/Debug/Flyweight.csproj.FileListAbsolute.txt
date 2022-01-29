@@ -1,0 +1,4 @@
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Flyweight\bin\Debug\Flyweight.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Flyweight\bin\Debug\Flyweight.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Flyweight\obj\Debug\Flyweight.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Flyweight\obj\Debug\Flyweight.pdb

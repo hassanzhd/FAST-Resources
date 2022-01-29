@@ -1,0 +1,145 @@
+<HTML>
+<SCRIPT LANGUAGE="JavaScript">
+/*
+ * Storing this varible on the navigator object makes it truely global on NN4,
+ * but is no help on NN3, so we need the page global variable in NN3 which is
+ * the best we can do.  
+ */
+
+var search_win = navigator._searchWin;
+
+function loadApplet() {
+    if(navigator.appName == "Netscape") {
+	if(search_win == null || search_win.closed) {
+	    search_win = window.open("appletn.htm", "_appletWindow", "width=390,height=300,resizable=0,status=0,menubar=0,scrollbar=0");
+	    navigator._searchWin = search_win;
+	} 
+	search_win.opener = top;
+	search_win.focus();
+    } else if(top.loadApplet != null) {
+	top.loadApplet();
+    }
+}
+</SCRIPT>
+
+<BODY	BGCOLOR		= #336699
+	LEFTMARGIN	= 1
+	TOPMARGIN	= 1
+>
+
+<TABLE
+	WIDTH		= 100%
+	CELLPADDING	= 0
+	CELLSPACING	= 0
+	BORDER		= 0
+>
+
+
+<tr>
+<td colspan=2 align=center><A HREF="javascript:loadApplet()" TARGET="LEFT"><IMG SRC="gifsb/search.gif" BORDER=0></A></td>
+</tr>
+
+<tr>
+<td><img src="gifsb/clear.gif" width=1 height=20></td>
+<td><img src="gifsb/clear.gif" width=10 height=1></td>
+</tr>
+
+<tr>
+<td colspan=2 align=center><IMG
+	SRC="gifsb/indexmap.gif"
+	ISMAP
+	USEMAP="#index"
+	BORDER=0
+>
+</tr>
+
+</TABLE>
+
+</BODY>
+
+<MAP NAME="index">
+<!-- A -->
+<AREA SHAPE="rect" HREF="index-A.htm" TARGET="TEXT"
+        COORDS="4,3,22,33">
+<!-- B -->
+<AREA SHAPE="rect" HREF="index-B.htm" TARGET="TEXT"
+        COORDS="24,4,42,33">
+<!-- C -->
+<AREA SHAPE="rect" HREF="index-C.htm" TARGET="TEXT"
+        COORDS="44,4,62,33">
+<!-- D -->
+<AREA SHAPE="rect" HREF="index-D.htm" TARGET="TEXT"
+        COORDS="64,4,82,33">
+<!-- E -->
+<AREA SHAPE="rect" HREF="index-E.htm" TARGET="TEXT"
+        COORDS="3,35,22,68">
+<!-- F -->
+<AREA SHAPE="rect" HREF="index-F.htm" TARGET="TEXT"
+        COORDS="23,34,42,68">
+<!-- G -->
+<AREA SHAPE="rect" HREF="index-G.htm" TARGET="TEXT"
+        COORDS="44,35,63,68">
+<!-- H -->
+<AREA SHAPE="rect" HREF="index-H.htm" TARGET="TEXT"
+        COORDS="65,35,85,69">
+<!-- I -->
+<AREA SHAPE="rect" HREF="index-I.htm" TARGET="TEXT"
+        COORDS="4,70,22,103">
+<!-- J
+<AREA SHAPE="rect" HREF="index-J.htm" TARGET="TEXT"
+        COORDS="24,70,43,103">
+-->
+<!-- K -->
+<AREA SHAPE="rect" HREF="index-K.htm" TARGET="TEXT"
+        COORDS="43,70,63,103">
+<!-- L -->
+<AREA SHAPE="rect" HREF="index-L.htm" TARGET="TEXT"
+        COORDS="65,69,84,103">
+<!-- M -->
+<AREA SHAPE="rect" HREF="index-M.htm" TARGET="TEXT"
+        COORDS="4,105,22,138">
+<!-- N -->
+<AREA SHAPE="rect" HREF="index-N.htm" TARGET="TEXT"
+        COORDS="24,105,42,139">
+<!-- O -->
+<AREA SHAPE="rect" HREF="index-O.htm" TARGET="TEXT"
+        COORDS="42,105,64,138">
+<!-- P -->
+<AREA SHAPE="rect" HREF="index-P.htm" TARGET="TEXT"
+        COORDS="64,105,84,138">
+<!-- Q -->
+<AREA SHAPE="rect" HREF="index-Q.htm" TARGET="TEXT"
+        COORDS="3,139,22,173">
+<!-- R -->
+<AREA SHAPE="rect" HREF="index-R.htm" TARGET="TEXT"
+        COORDS="24,140,42,172">
+<!-- S -->
+<AREA SHAPE="rect" HREF="index-S.htm" TARGET="TEXT"
+        COORDS="44,140,63,170">
+<!-- T -->
+<AREA SHAPE="rect" HREF="index-T.htm" TARGET="TEXT"
+        COORDS="65,140,84,171">
+<!-- U -->
+<AREA SHAPE="rect" HREF="index-U.htm" TARGET="TEXT"
+        COORDS="4,173,22,204">
+<!-- V -->
+<AREA SHAPE="rect" HREF="index-V.htm" TARGET="TEXT"
+        COORDS="24,174,42,204">
+<!-- W -->
+<AREA SHAPE="rect" HREF="index-W.htm" TARGET="TEXT"
+        COORDS="44,174,63,204">
+<!-- X -->
+<AREA SHAPE="rect" HREF="index-X.htm" TARGET="TEXT"
+        COORDS="65,174,83,204">
+<!-- Y
+<AREA SHAPE="rect" HREF="index-Y.htm" TARGET="TEXT"
+        COORDS="23,206,42,236">
+-->
+<!-- Z  
+<AREA SHAPE="rect" HREF="index-Z.htm" TARGET="TEXT"
+        COORDS="44,206,63,236">
+-->     
+</MAP>
+
+</HTML>
+

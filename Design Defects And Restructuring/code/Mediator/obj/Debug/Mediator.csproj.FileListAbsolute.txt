@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Mediator\bin\Debug\Mediator.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Mediator\bin\Debug\Mediator.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Mediator\obj\Debug\Mediator.csprojResolveAssemblyReference.cache
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Mediator\obj\Debug\Mediator.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Mediator\obj\Debug\Mediator.pdb

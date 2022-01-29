@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Iterator\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Iterator\bin\Debug\Iterator.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Iterator\bin\Debug\Iterator.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Iterator\obj\Debug\Iterator.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Iterator\obj\Debug\Iterator.pdb

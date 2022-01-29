@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\TemplateMethod\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\TemplateMethod\bin\Debug\TemplateMethod.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\TemplateMethod\bin\Debug\TemplateMethod.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\TemplateMethod\obj\Debug\TemplateMethod.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\TemplateMethod\obj\Debug\TemplateMethod.pdb

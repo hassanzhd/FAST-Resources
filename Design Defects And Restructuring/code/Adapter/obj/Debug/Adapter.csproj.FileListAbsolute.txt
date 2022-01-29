@@ -1,0 +1,4 @@
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Adapter\bin\Debug\Adapter.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Adapter\bin\Debug\Adapter.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Adapter\obj\Debug\Adapter.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Adapter\obj\Debug\Adapter.pdb

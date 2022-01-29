@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\DesignPatterns\bin\Debug\DesignPatterns.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\DesignPatterns\bin\Debug\DesignPatterns.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\DesignPatterns\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\DesignPatterns\obj\Debug\DesignPatterns.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\DesignPatterns\obj\Debug\DesignPatterns.pdb

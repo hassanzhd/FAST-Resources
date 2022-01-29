@@ -1,0 +1,230 @@
+<HTML>
+
+<HEAD><TITLE>Guide to Notation</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" onLoad="setFocus()";>
+
+<A NAME="top"></A>
+
+<A NAME="chapter_notation"></A>
+<P>We use diagrams throughout the book to illustrate important ideas.
+Some diagrams are informal, like a screen shot of a dialog box or a
+schematic showing a tree of objects.  But the design patterns in
+particular use more formal notations to denote relationships and
+interactions between classes and objects.  This appendix describes
+these notations in detail.</P>
+
+<A NAME="auto1000"></A>
+<P>We use three different diagrammatic notations:</P>
+
+<OL>
+
+<A NAME="auto1001"></A>
+<LI>A <STRONG>class diagram</STRONG> depicts classes, their structure, and
+the static relationships between them.</LI>
+
+<A NAME="auto1002"></A>
+<P></P>
+
+<A NAME="auto1003"></A>
+<LI>An <STRONG>object diagram</STRONG> depicts a particular object structure
+at run-time.</LI>
+
+<A NAME="auto1004"></A>
+<P></P>
+
+<A NAME="auto1005"></A>
+<LI>An <STRONG>interaction diagram</STRONG> shows the flow of requests between
+objects.</LI>
+
+</OL>
+
+<A NAME="auto1006"></A>
+<P>Each design pattern includes at least one class diagram. The
+other notations are used as needed to supplement the discussion.
+The class and object diagrams are based on OMT (Object Modeling
+Technique) [<A HREF="bibfs.htm#rumbaugh_omt" TARGET="_mainDisplayFrame">RBP+91</A>, <A HREF="bibfs.htm#rumbaugh_omt_joop" TARGET="_mainDisp
+
+
+layFrame">Rum94</A>].<A NAME="fn1"></A><A HREF="#footnote1"><SUP>1</SUP></A>
+The interaction diagrams
+are taken from Objectory [<A HREF="bibfs.htm#jacobson_oose" TARGET="_mainDisplayFrame">JCJO92</A>] and the Booch method [<A HREF="bibfs.htm#booch_ood" TARGET="_mainDisplayFrame">Boo94</A>].  These notations are summarized
+on the inside back cover of the book.</P>
+
+<A NAME="abstractclass"></A>
+<A NAME="secB-1"></A>
+<H2><A HREF="#secB-2"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Object Diagram"></A>
+Class Diagram</H2>
+
+<A NAME="auto1007"></A>
+<P><A HREF="#ncdn">Figure B.1a</A>
+shows the OMT notation for abstract and concrete classes.  A class
+is denoted by a box with the class name in bold type at the top.
+The key operations of the class appear below the class name.  Any
+instance variables appear below the operations.  Type information
+is optional; we use the C++ convention, which puts the type name
+before the name of the operation (to signify the return type),
+instance variable, or actual parameter.  Slanted type indicates
+that the class or operation is abstract.</P>
+
+<A NAME="absclass"></A>
+<A NAME="ncdn"></A>
+<A NAME="notation_pseudocode"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/class088.gif"><BR><BR>
+Figure B.1:&nbsp;&nbsp;Class diagram notation</P>
+
+<A NAME="auto1008"></A>
+<P>In some design patterns it's helpful to see where client classes
+reference Participant classes.  When a pattern includes a Client
+class as one of its participants (meaning the client has a
+responsibility in the pattern), the Client appears as an ordinary
+class.  This is true in <A HREF="pat4ffs.htm"
+TARGET="_mainDisplayFrame">Flyweight (195)</A>,
+for example.  When the pattern does not include a Client participant
+(i.e., clients have no responsibilities in the pattern), but
+including it nevertheless clarifies which pattern participants
+interact with clients, then the Client class is shown in gray, as
+shown in <A HREF="#ncdn">Figure B.1b</A>.
+An example is <A HREF="pat4gfs.htm" TARGET="_mainDisplayFrame">Proxy (207)</A>. A gray Client
+also makes it clear that we haven't accidentally omitted the Client
+from the Participants discussion.</P>
+
+<A NAME="association"></A>
+
+<A HREF="#ncdn">Figure B.1c</A> shows various
+relationships between classes.  The OMT notation for class inheritance
+is a triangle connecting a subclass (LineShape in the figure) to its
+parent class (Shape).  An object reference representing a part-of or
+aggregation relationship is indicated by an arrowheaded line with a
+diamond at the base.  The arrow points to the class that is aggregated
+(e.g., Shape). An arrowheaded line without the diamond denotes
+acquaintance (e.g., a LineShape keeps a reference to a Color object,
+which other shapes may share).  A name for the reference may appear
+near the base to distinguish it from other
+references.<A NAME="fn2"></A><A HREF="#footnote2"><SUP>2</SUP></A>
+</P>
+
+<A NAME="auto1009"></A>
+<P>Another useful thing to show is which classes instantiate which
+others.  We use a dashed arrowheaded line to indicate this, since
+OMT doesn't support it.  We call this the "creates" relationship.
+The arrow points to the class that's instantiated.  In
+<A HREF="#ncdn">Figure B.1c</A>,
+CreationTool creates LineShape objects.</P>
+
+<A NAME="auto1010"></A>
+<P>OMT also defines a filled circle to mean "more than one."  When
+the circle appears at the head of a reference, it means multiple
+objects are being referenced or aggregated.
+<A HREF="#ncdn">Figure B.1c</A> shows that Drawing aggregates
+multiple objects of type Shape.</P>
+
+<A NAME="auto1011"></A>
+<P>Finally, we've augmented OMT with pseudocode annotations to let
+us sketch the implementations of operations.
+<A HREF="#ncdn">Figure B.1d</A> shows the pseudocode annotation
+for the Draw operation on the Drawing class.
+
+<A NAME="secB-2"></A>
+<H2><A HREF="#secB-3"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Interaction 
+Diagram"></A> Object Diagram</H2>
+
+<A NAME="auto1012"></A>
+<P>An object diagram shows instances exclusively. It provides a
+snapshot of the objects in a design pattern.  The objects are named
+"a<EM>Something</EM>", where <EM>Something</EM> is the class of
+the object.  Our symbol for an object (modified slightly from
+standard OMT) is a rounded box with a line separating the object
+name from any object references.  Arrows indicate the object
+referenced.
+<A HREF="#notation_object_diagram_notation">Figure B.2</A>
+shows an example.
+
+<A NAME="notation_object_diagram_notation"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/objec026.gif"><BR><BR>
+Figure B.2:&nbsp;&nbsp;Object diagram notation</P>
+
+<A NAME="secB-3"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: navigation"></A>
+Interaction Diagram</H2>
+
+<A NAME="auto1013"></A>
+<P>An interaction diagram shows the order in which requests between objects
+get executed.
+<A HREF="#notation_interaction_diagram_notation">Figure B.3</A> is an
+interaction diagram that shows how a shape gets added to a drawing.
+
+<A NAME="notation_interaction_diagram_notation"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/inter044.gif"><BR><BR>
+Figure B.3:&nbsp;&nbsp;Interaction diagram notation</P>
+
+<A NAME="auto1014"></A>
+<P>Time flows from top to bottom in an interaction diagram. A solid
+vertical line indicates the lifetime of a particular object. The
+naming convention for objects is the same as for object diagrams&#151;the
+class name prefixed by the letter "a" (e.g., aShape).  If the object
+doesn't get instantiated until after the beginning of time as recorded
+in the diagram, then its vertical line appears dashed until the point
+of creation.</P>
+
+<A NAME="auto1015"></A>
+<P>A vertical rectangle shows that an object is active; that is, it is
+handling a request. The operation can send requests to other objects;
+these are indicated with a horizontal arrow pointing to the receiving
+object. The name of the request is shown above the arrow.  A request
+to create an object is shown with a dashed arrowheaded line.  A
+request to the sending object itself points back to the sender.</P>
+
+<A HREF="#notation_interaction_diagram_notation">Figure B.3</A> 
+shows that the first request is from aCreationTool to
+create aLineShape. Later, aLineShape is Added to aDrawing, which
+prompts aDrawing to send a Refresh request to itself. Note that
+aDrawing sends a Draw request to aLineShape as part of the Refresh
+operation.
+
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="chapCfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chapCfs.htm"
+	TARGET="_mainDisplayFrame">Foundation Classes</A><BR>
+<A HREF="chapAfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chapAfs.htm"
+	TARGET="_mainDisplayFrame">Glossary</A>
+</P>
+
+<HR>
+
+<A NAME="footnote1"></A>
+<P><SUP>1</SUP>OMT uses the term "object diagram" to
+refer to class diagrams.  We use "object diagram" exclusively to
+refer to diagrams of object structures.
+</P>
+
+<A NAME="footnote2"></A>
+<P><SUP>2</SUP>OMT also defines <STRONG>associations</STRONG>
+between classes, which appear as plain lines between class boxes.
+Associations are bidirectional.  Although associations are appropriate
+during analysis, we feel they're too high-level for expressing the
+relationships in design patterns, simply because associations must
+be mapped down to object references or pointers during design.
+Object references are intrinsically directed and are therefore
+better suited to the relationships that concern us.  For example,
+Drawing knows about Shapes, but the Shapes don't know about the
+Drawing they're in.  You can't express this relationship with
+associations alone.
+</P>
+
+</BODY>
+
+</HTML>
+

@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Command\bin\Debug\Command.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Command\bin\Debug\Command.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Command\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Command\obj\Debug\Command.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Command\obj\Debug\Command.pdb

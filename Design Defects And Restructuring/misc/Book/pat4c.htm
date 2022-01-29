@@ -1,0 +1,847 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML>
+
+<HEAD><TITLE>Composite</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="Composite"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Compose objects into tree structures to represent part-whole
+hierarchies.  Composite lets clients treat individual objects and
+compositions of objects uniformly.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1001"></A>
+<P>Graphics applications like drawing editors and schematic capture
+systems let users build complex diagrams out of simple components.
+The user can group components to form larger components, which in
+turn can be grouped to form still larger components.  A simple
+implementation could define classes for graphical primitives such
+as Text and Lines plus other classes that act as containers for
+these primitives.</P>
+
+<A NAME="recursivecomp-graphics"></A>
+<P>But there's a problem with this approach:  Code that uses these
+classes must treat primitive and container objects differently,
+even if most of the time the user treats them identically.  Having
+to distinguish these objects makes the application more complex.
+The Composite pattern describes how to use recursive composition
+so that clients don't have to make this distinction.</P>
+
+<A NAME="picture-163c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/compo075.gif"></P>
+
+<A NAME="auto1002"></A>
+<P>The key to the Composite pattern is an abstract class that
+represents <EM>both</EM> primitives and their containers.  For the
+graphics system, this class is Graphic.  Graphic declares operations
+like Draw that are specific to graphical objects.  It also declares
+operations that all composite objects share, such as operations
+for accessing and managing its children.</P>
+
+<A NAME="auto1003"></A>
+<P>The subclasses Line, Rectangle, and Text (see preceding class diagram)
+define primitive graphical objects.  These classes implement Draw to
+draw lines, rectangles, and text, respectively.  Since primitive
+graphics have no child graphics, none of these subclasses implements
+child-related operations.</P>
+
+<A NAME="auto1004"></A>
+<P>The Picture class defines an aggregate of Graphic objects.  Picture
+implements Draw to call Draw on its children, and it implements
+child-related operations accordingly.  Because the Picture interface
+conforms to the Graphic interface, Picture objects can compose other
+Pictures recursively.</P>
+
+<A NAME="auto1005"></A>
+<P>The following diagram shows a typical composite object structure
+of recursively composed Graphic objects:</P>
+
+<A NAME="picture-164o"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/compo074.gif"></P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1006"></A>
+<P>Use the Composite pattern when</P>
+
+<UL>
+
+<A NAME="auto1007"></A>
+<LI>you want to represent part-whole hierarchies of objects.
+
+<A NAME="auto1008"></A>
+<P></P>
+
+<A NAME="auto1009"></A>
+<LI>you want clients to be able to ignore the difference between
+compositions of objects and individual objects. Clients will treat all
+objects in the composite structure uniformly.
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/compo072.gif"></P>
+
+<A NAME="auto1010"></A>
+<P>A typical Composite object structure might look like this:</P>
+
+<A NAME="composite-inst"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/compo073.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1011"></A>
+<LI><B>Component</B> (Graphic)
+
+<A NAME="auto1012"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1013"></A>
+<LI>declares the interface for objects in the composition.</LI>
+
+    <A NAME="auto1014"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1015"></A>
+<LI>implements default behavior for the interface
+    common to all classes, as appropriate.</LI>
+
+    <A NAME="auto1016"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1017"></A>
+<LI>declares an interface for accessing and managing its child
+    components.</LI>
+
+    <A NAME="auto1018"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1019"></A>
+<LI>(optional) defines an interface for accessing a component's
+    parent in the recursive structure, and implements it if that's
+    appropriate.</LI>
+
+    </UL>
+
+<A NAME="auto1020"></A>
+<P></P>
+
+<A NAME="leaf-part-comp"></A>
+<LI><B>Leaf</B> (Rectangle, Line, Text, etc.)
+
+<A NAME="auto1021"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1022"></A>
+<LI>represents leaf objects in the composition. A leaf has no
+    children.</LI>
+
+    <A NAME="auto1023"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1024"></A>
+<LI>defines behavior for primitive objects in the composition.</LI>
+
+    </UL>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<A NAME="auto1026"></A>
+<LI><B>Composite</B> (Picture)
+
+<A NAME="auto1027"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1028"></A>
+<LI>defines behavior for components having children.</LI>
+
+    <A NAME="auto1029"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1030"></A>
+<LI>stores child components.</LI>
+
+    <A NAME="auto1031"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1032"></A>
+<LI>implements child-related operations in the Component interface.</LI>
+
+    </UL>
+
+<A NAME="auto1033"></A>
+<P></P>
+
+<A NAME="auto1034"></A>
+<LI><B>Client</B>
+
+<A NAME="auto1035"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1036"></A>
+<LI>manipulates objects in the composition through the
+    Component interface.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1037"></A>
+<LI>Clients use the Component class interface to interact with objects in
+the composite structure. If the recipient is a Leaf, then the request
+is handled directly.  If the recipient is a Composite, then it usually
+forwards requests to its child components, possibly performing
+additional operations before and/or after forwarding.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1038"></A>
+<P>The Composite pattern</P>
+
+<UL>
+
+<A NAME="auto1039"></A>
+<LI>defines class hierarchies consisting of primitive objects
+and composite objects. Primitive objects can be composed into more
+complex objects, which in turn can be composed, and so on recursively.
+Wherever client code expects a primitive object, it can also take a
+composite object.</LI>
+<A NAME="auto1040"></A>
+<P></P>
+<A NAME="auto1041"></A>
+<LI>makes the client simple.
+Clients can treat composite structures and individual objects
+uniformly.  Clients normally don't know (and shouldn't care) whether
+they're dealing with a leaf or a composite component.  This simplifies
+client code, because it avoids having to write
+tag-and-case-statement-style functions over the classes that define
+the composition.</LI>
+<A NAME="auto1042"></A>
+<P></P>
+<A NAME="auto1043"></A>
+<LI>makes it easier to add new kinds of components.
+Newly defined Composite or Leaf subclasses work automatically with
+existing structures and client code.  Clients don't have to be changed
+for new Component classes.</LI>
+<A NAME="auto1044"></A>
+<P></P>
+<A NAME="auto1045"></A>
+<LI>can make your design overly general.
+The disadvantage of making it easy to add new components is that it
+makes it harder to restrict the components of a composite.  Sometimes
+you want a composite to have only certain components.  With
+Composite, you can't rely on the type system to enforce those
+constraints for you.  You'll have to use run-time checks instead.</LI>
+
+</UL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1046"></A>
+<P>There are many issues to consider when implementing the Composite
+pattern:</P>
+
+<OL>
+
+<A NAME="parentref-def-comp"></A>
+<LI><EM>Explicit parent references.</EM>
+Maintaining references from child components to their parent can
+simplify the traversal and management of a composite structure.  The
+parent reference simplifies moving up the structure and deleting a
+component. Parent references also help support the <A HREF="pat5afs.htm" TARGET="_mainDisplayFrame">Chain of Responsibility (223)</A> pattern.
+
+<A NAME="auto1047"></A>
+<P>The usual place to define the parent reference is in the Component
+class.  Leaf and Composite classes can inherit the reference and the
+operations that manage it.</P>
+
+<A NAME="auto1048"></A>
+<P>With parent references, it's essential to maintain the invariant that
+all children of a composite have as their parent the composite that in
+turn has them as children.  The easiest way to ensure this is to
+change a component's parent <EM>only</EM> when it's being added or
+removed from a composite.  If this can be implemented once in the Add
+and Remove operations of the Composite class, then it can be inherited
+by all the subclasses, and the invariant will be maintained
+automatically.</P>
+
+</LI>
+<A NAME="auto1049"></A>
+<P></P>
+<A NAME="auto1050"></A>
+<LI><EM>Sharing components.</EM>
+It's often useful to share components, for example, to reduce storage
+requirements. But when a component can have no more than one parent,
+sharing components becomes difficult.
+
+<A NAME="flywt-w-compst"></A>
+<P>A possible solution is for children to store multiple parents.  But
+that can lead to ambiguities as a request propagates up the structure.
+The
+<A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195)</A> pattern shows how to rework a
+design to avoid storing parents altogether.  It works in cases where
+children can avoid sending parent requests by externalizing some or
+all of their state.</P>
+
+</LI>
+<A NAME="auto1051"></A>
+<P></P>
+<A NAME="auto1052"></A>
+<LI><EM>Maximizing the Component interface.</EM>
+One of the goals of the Composite pattern is to make clients unaware
+of the specific Leaf or Composite classes they're using.  To attain
+this goal, the Component class should define as many common operations
+for Composite and Leaf classes as possible. The Component class
+usually provides default implementations for these operations, and
+Leaf and Composite subclasses will override them.
+
+<A NAME="auto1053"></A>
+<P>However, this goal will sometimes conflict with the principle of class
+hierarchy design that says a class should only define operations that
+are meaningful to its subclasses.  There are many operations that
+Component supports that don't seem to make sense for Leaf classes.
+How can Component provide a default implementation for them?</P>
+
+<A NAME="auto1054"></A>
+<P>Sometimes a little creativity shows how an operation that would appear
+to make sense only for Composites can be implemented for all
+Components by moving it to the Component class.  For example, the
+interface for accessing children is a fundamental part of a Composite
+class but not necessarily Leaf classes.  But if we view a Leaf as a
+Component that <EM>never</EM> has children, then we can define a default
+operation for child access in the Component class that never <EM>returns</EM> any children.  Leaf classes can use the default
+implementation, but Composite classes will reimplement it to return
+their children.</P>
+
+<A NAME="auto1055"></A>
+<P>The child management operations are more troublesome and are discussed
+in the next item.</P>
+
+</LI>
+<A NAME="auto1056"></A>
+<P></P>
+<A NAME="auto1057"></A>
+<LI><EM>Declaring the child management operations.</EM>
+Although the Composite class <EM>implements</EM> the Add and Remove
+operations for managing children, an important issue in the Composite
+pattern is which classes <EM>declare</EM> these operations in the
+Composite class hierarchy.  Should we declare these operations in the
+Component and make them meaningful for Leaf classes, or should we
+declare and define them only in Composite and its subclasses?
+
+<A NAME="auto1058"></A>
+<P>The decision involves a trade-off between safety and transparency:</P>
+
+<UL>
+
+<A NAME="auto1059"></A>
+<LI>Defining the child management interface at the root of the class
+hierarchy gives you transparency, because you can treat all components
+uniformly.  It costs you safety, however, because clients may try to
+do meaningless things like add and remove objects from leaves.</LI>
+<A NAME="auto1060"></A>
+<P></P>
+<A NAME="auto1061"></A>
+<LI>Defining child management in the Composite class gives you safety,
+because any attempt to add or remove objects from leaves will be
+caught at compile-time in a statically typed language like C++.  But
+you lose transparency, because leaves and composites have different
+interfaces.</LI>
+
+</UL>
+
+<A NAME="auto1062"></A>
+<P>We have emphasized transparency over safety in this pattern.  If you
+opt for safety, then at times you may lose type information and have
+to convert a component into a composite.  How can you do this without
+resorting to a type-unsafe cast?</P>
+
+<A NAME="leaf-in-comp"></A>
+<P>One approach is to declare an operation <CODE>Composite*
+GetComposite()</CODE> in the Component class.  Component provides a default
+operation that returns a null pointer.  The Composite class redefines
+this operation to return itself through the <CODE>this</CODE> pointer:</P>
+
+<A NAME="auto1063"></A>
+<PRE>
+    class Composite;
+    
+    class Component {
+    public:
+        //...
+        virtual Composite* GetComposite() { return 0; }
+    };
+    
+    class Composite : public Component {
+    public:
+        void Add(Component*);
+        // ...
+        virtual Composite* GetComposite() { return this; }
+    };
+    
+    class Leaf : public Component {
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1064"></A>
+<P><CODE>GetComposite</CODE> lets you query a component to see if it's a
+composite.  You can perform <CODE>Add</CODE> and
+<CODE>Remove</CODE> safely on the composite it returns.</P>
+
+<A NAME="auto1065"></A>
+<PRE>
+    Composite* aComposite = new Composite;
+    Leaf* aLeaf = new Leaf;
+    
+    Component* aComponent;
+    Composite* test;
+    
+    aComponent = aComposite;
+    if (test = aComponent->GetComposite()) {
+        test->Add(new Leaf);
+    }
+    
+    aComponent = aLeaf;
+    
+    if (test = aComponent->GetComposite()) {
+        test->Add(new Leaf); // will not add leaf
+    }
+</PRE>
+
+<A NAME="dynamic_cast"></A>
+<P>Similar tests for a Composite can be done using the C++
+<CODE>dynamic_cast</CODE> construct.</P>
+
+<A NAME="auto1066"></A>
+<P>Of course, the problem here is that we don't treat all components
+uniformly.  We have to revert to testing for different types before
+taking the appropriate action.</P>
+
+<A NAME="auto1067"></A>
+<P>The only way to provide transparency is to define default
+<CODE>Add</CODE> and <CODE>Remove</CODE> operations in Component.  That
+creates a new problem: There's no way to implement
+<CODE>Component::Add</CODE> without introducing the possibility of it
+failing.  You could make it do nothing, but that ignores an important
+consideration; that is, an attempt to add something to a leaf probably
+indicates a bug.  In that case, the <CODE>Add</CODE> operation produces
+garbage.  You could make it delete its argument, but that might not
+be what clients expect.</P>
+
+<A NAME="auto1068"></A>
+<P>Usually it's better to make <CODE>Add</CODE> and
+<CODE>Remove</CODE> fail by default (perhaps by raising an
+exception) if the component isn't allowed to have children or if the
+argument of <CODE>Remove</CODE> isn't a child of the component,
+respectively.</P>
+
+<A NAME="auto1069"></A>
+<P>Another alternative is to change the meaning of "remove" slightly.  If
+the component maintains a parent reference, then we could redefine
+<CODE>Component::Remove</CODE> to remove itself from its
+parent. However, there still isn't a meaningful interpretation for a
+corresponding <CODE>Add</CODE>.</P>
+
+</LI>
+<A NAME="auto1070"></A>
+<P></P>
+<A NAME="auto1071"></A>
+<LI><EM>Should Component implement a list of Components?</EM>
+You might be tempted to define the set of children as an instance
+variable in the Component class where the child access and management
+operations are declared.  But putting the child pointer in the base
+class incurs a space penalty for every leaf, even though a leaf never
+has children.  This is worthwhile only if there are relatively few
+children in the structure.</LI>
+<A NAME="auto1072"></A>
+<P></P>
+<A NAME="auto1073"></A>
+<LI><EM>Child ordering.</EM>
+Many designs specify an ordering on the children of Composite. In the
+earlier Graphics example, ordering may reflect front-to-back ordering.
+If Composites represent parse trees, then compound statements can be
+instances of a Composite whose children must be ordered to reflect the
+program.
+
+<A NAME="auto1074"></A>
+<P>When child ordering is an issue, you must design child access
+and management interfaces carefully to manage the sequence of
+children.  The <A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A> pattern
+can guide you in this.</P>
+
+</LI>
+<A NAME="auto1075"></A>
+<P></P>
+<A NAME="auto1076"></A>
+<LI><EM>Caching to improve performance.</EM>
+If you need to traverse or search compositions frequently, the
+Composite class can cache traversal or search information about its
+children.  The Composite can cache actual results or just information
+that lets it short-circuit the traversal or search.  For example, the
+Picture class from the Motivation example could cache the bounding box
+of its children.  During drawing or selection, this cached bounding
+box lets the Picture avoid drawing or searching when its children
+aren't visible in the current window.
+
+<A NAME="auto1077"></A>
+<P>Changes to a component will require invalidating the caches of its
+parents.  This works best when components know their parents.  So if
+you're using caching, you need to define an interface for telling
+composites that their caches are invalid.</P>
+
+</LI>
+<A NAME="auto1078"></A>
+<P></P>
+<A NAME="auto1079"></A>
+<LI><EM>Who should delete components?</EM>
+In languages without garbage collection, it's usually best to make a
+Composite responsible for deleting its children when it's destroyed.
+An exception to this rule is when Leaf objects are immutable and thus
+can be shared.</LI>
+<A NAME="auto1080"></A>
+<P></P>
+<A NAME="auto1081"></A>
+<LI><EM>What's the best data structure for storing components?</EM>
+Composites may use a variety of data structures to store their
+children, including linked lists, trees, arrays, and hash tables.  The
+choice of data structure depends (as always) on efficiency.  In fact,
+it isn't even necessary to use a general-purpose data structure at
+all.  Sometimes composites have a variable for each child, although this
+requires each subclass of Composite to implement its own management
+interface.  See <A HREF="pat5cfs.htm" TARGET="_mainDisplayFrame">Interpreter (243)</A> for an example.</LI>
+
+</OL>
+
+<A NAME="samplecode"></A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1082"></A>
+<P>Equipment such as computers and stereo components are often organized
+into part-whole or containment hierarchies. For example, a chassis can
+contain drives and planar boards, a bus can contain cards, and a
+cabinet can contain chassis, buses, and so forth. Such structures can
+be modeled naturally with the Composite pattern.</P>
+
+<A NAME="auto1083"></A>
+<P><CODE>Equipment</CODE> class defines an interface for all equipment in
+the part-whole hierarchy.</P>
+
+<A NAME="auto1084"></A>
+<PRE>
+    class Equipment {
+    public:
+        virtual ~Equipment();
+    
+        const char* Name() { return _name; }
+    
+        virtual Watt Power();
+        virtual Currency NetPrice();
+        virtual Currency DiscountPrice();
+    
+        virtual void Add(Equipment*);
+        virtual void Remove(Equipment*);
+        virtual Iterator<Equipment*>* CreateIterator();
+    protected:
+        Equipment(const char*);
+    private:
+        const char* _name;
+    };
+</PRE>
+
+<A NAME="auto1085"></A>
+<P><CODE>Equipment</CODE> declares operations that return the
+attributes of a piece of equipment, like its power consumption and
+cost. Subclasses implement these operations for specific kinds of
+equipment. <CODE>Equipment</CODE> also declares a
+<CODE>CreateIterator</CODE> operation that returns an <CODE>Iterator</CODE>
+(see <A HREF="chapCfs.htm" TARGET="_mainDisplayFrame">Appendix&nbsp;C</A>)
+for accessing its parts.  The
+default implementation for this operation returns a NullIterator,
+which iterates over the empty set.</P>
+
+<A NAME="auto1086"></A>
+<P>Subclasses of <CODE>Equipment</CODE> might include Leaf classes that
+represent disk drives, integrated circuits, and switches:</P>
+
+<A NAME="auto1087"></A>
+<PRE>
+    class FloppyDisk : public Equipment {
+    public:
+        FloppyDisk(const char*);
+        virtual ~FloppyDisk();
+    
+        virtual Watt Power();
+        virtual Currency NetPrice();
+        virtual Currency DiscountPrice();
+    };
+</PRE>
+
+<A NAME="auto1088"></A>
+<P><CODE>CompositeEquipment</CODE> is the base class for equipment
+that contains other equipment. It's also a subclass of
+<CODE>Equipment</CODE>.</P>
+
+<A NAME="auto1089"></A>
+<PRE>
+    class CompositeEquipment : public Equipment {
+    public:
+        virtual ~CompositeEquipment();
+    
+        virtual Watt Power();
+        virtual Currency NetPrice();
+        virtual Currency DiscountPrice();
+    
+        virtual void Add(Equipment*);
+        virtual void Remove(Equipment*);
+        virtual Iterator<Equipment*>* CreateIterator();
+    
+    protected:
+        CompositeEquipment(const char*);
+    private:
+        List<Equipment*> _equipment;
+    };
+</PRE>
+
+<A NAME="auto1090"></A>
+<P><CODE>CompositeEquipment</CODE> defines the operations for accessing and
+managing subequipment. The operations <CODE>Add</CODE> and
+<CODE>Remove</CODE> insert and delete equipment from the list of equipment
+stored in the <CODE>_equipment</CODE> member.  The operation
+<CODE>CreateIterator</CODE> returns an iterator (specifically, an
+instance of <CODE>ListIterator</CODE>) that will traverse this list.</P>
+
+<A NAME="auto1091"></A>
+<P>A default implementation of <CODE>NetPrice</CODE> might use
+<CODE>CreateIterator</CODE> to sum the net prices of the
+subequipment<SUP><A NAME="fn2"></A><A HREF="#footnote2">2</A></SUP>:</P>
+
+<A NAME="auto1092"></A>
+<PRE>
+    Currency CompositeEquipment::NetPrice () {
+        Iterator<Equipment*>* i = CreateIterator();
+        Currency total = 0;
+    
+        for (i->First(); !i->IsDone(); i->Next()) {
+            total += i->CurrentItem()->NetPrice();
+        }
+        delete i;
+        return total;
+    }
+</PRE>
+
+<A NAME="auto1093"></A>
+<P>Now we can represent a computer chassis as a subclass of
+<CODE>CompositeEquipment</CODE> called <CODE>Chassis</CODE>.
+<CODE>Chassis</CODE> inherits the child-related operations from
+<CODE>CompositeEquipment</CODE>.</P>
+
+<A NAME="auto1094"></A>
+<PRE>
+    class Chassis : public CompositeEquipment {
+    public:
+        Chassis(const char*);
+        virtual ~Chassis();
+    
+        virtual Watt Power();
+        virtual Currency NetPrice();
+        virtual Currency DiscountPrice();
+    };
+</PRE>
+
+<A NAME="auto1095"></A>
+<P>We can define other equipment containers such as
+<CODE>Cabinet</CODE> and <CODE>Bus</CODE> in a similar way.
+That gives us everything we need to assemble equipment into a (pretty
+simple) personal computer:</P>
+
+<A NAME="auto1096"></A>
+<PRE>
+    Cabinet* cabinet = new Cabinet("PC Cabinet");
+    Chassis* chassis = new Chassis("PC Chassis");
+    
+    cabinet->Add(chassis);
+    
+    Bus* bus = new Bus("MCA Bus");
+    bus->Add(new Card("16Mbs Token Ring"));
+    
+    chassis->Add(bus);
+    chassis->Add(new FloppyDisk("3.5in Floppy"));
+    
+    cout &lt;&lt; "The net price is " &lt;&lt; chassis->NetPrice() &lt;&lt; endl;
+</PRE>
+
+<A NAME="knownuses"></A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1097"></A>
+<P>Examples of the Composite pattern can be found in almost all
+object-oriented systems.  The original View class of Smalltalk
+Model/View/Controller [<A HREF="bibfs.htm#krasner_mvc" TARGET="_mainDisplayFrame">KP88</A>] was a Composite, and nearly every user interface
+toolkit or framework has followed in its steps, including ET++ (with
+its VObjects [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>]) and InterViews (Styles [<A HREF="bibfs.htm#InterView
+s3.1" TARGET="_mainDisplayFrame">LCI+92</A>],
+Graphics [<A HREF="bibfs.htm#interviews_graphic" TARGET="_mainDisplayFrame">VL88</A>], and
+Glyphs [<A HREF="bibfs.htm#interviews_glyphs" TARGET="_mainDisplayFrame">CL90</A>]).  It's interesting to note that the
+original View of Model/View/Controller had a set of subviews; in other words, View was
+both the Component class and the Composite class.  Release 4.0 of
+Smalltalk-80 revised Model/View/Controller with a VisualComponent class that has
+subclasses View and CompositeView.</P>
+
+<A NAME="rtlsmall-use-comp"></A>
+<A NAME="ssa"></A>
+<P>The RTL Smalltalk compiler framework [<A HREF="bibfs.htm#RTLSystem92" TARGET="_mainDisplayFrame">JML92</A>] uses the
+Composite pattern extensively.  RTLExpression is a Component class for
+parse trees. It has subclasses, such as BinaryExpression, that contain
+child RTLExpression objects.  These classes define a composite
+structure for parse trees.  RegisterTransfer is the Component class
+for a program's intermediate Single Static Assignment (SSA) form.
+Leaf subclasses of RegisterTransfer define different static
+assignments such as</P>
+
+<UL>
+
+<A NAME="auto1098"></A>
+<LI>primitive assignments that perform an operation on two registers and
+assign the result to a third;</LI>
+<A NAME="auto1099"></A>
+<P></P>
+<A NAME="auto1100"></A>
+<LI>an assignment with a source register but no destination register,
+which indicates that the register is used after a routine returns; and</LI>
+<A NAME="auto1101"></A>
+<P></P>
+<A NAME="auto1102"></A>
+<LI>an assignment with a destination register but no source, which
+indicates that the register is assigned before the routine starts.</LI>
+
+</UL>
+
+<A NAME="auto1103"></A>
+<P>Another subclass, RegisterTransferSet, is a Composite class
+for representing assignments that change several registers at once.</P>
+
+<A NAME="auto1104"></A>
+<P>Another example of this pattern occurs in the financial domain, where
+a portfolio aggregates individual assets.  You can support complex
+aggregations of assets by implementing a portfolio as a Composite that
+conforms to the interface of an individual
+asset [<A HREF="bibfs.htm#birrer-egg_swaps" TARGET="_mainDisplayFrame">BE93</A>].</P>
+
+<A NAME="auto1105"></A>
+<P>The <A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A> pattern describes how Command objects
+can be composed and sequenced with a MacroCommand Composite class.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1106"></A>
+<P>Often the component-parent link is used for a <A HREF="pat5afs.htm"
+TARGET="_mainDisplayFrame">Chain of Responsibility (223)</A>.</P>
+
+<A NAME="compcomposite"></A>
+<P><A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A> is
+often used with Composite.  When decorators and composites are used
+together, they will usually have a common parent class.  So decorators
+will have to support the Component interface with operations like
+Add, Remove, and GetChild.</P>
+
+<A NAME="auto1107"></A>
+<P><A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195)</A>
+lets you share components, but they can no longer refer to their
+parents.</P>
+
+<A NAME="auto1108"></A>
+<P><A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A> can
+be used to traverse composites.</P>
+
+<A NAME="auto1109"></A>
+<P><A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A>
+localizes operations and behavior that would otherwise be distributed
+across Composite and Leaf classes.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4dfs.htm"
+	TARGET="_mainDisplayFrame">Decorator</A><BR>
+<A HREF="pat4bfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4bfs.htm"
+	TARGET="_mainDisplayFrame">Bridge</A>
+</P>
+
+<HR>
+
+<A NAME="footnote2"></A>
+<P><SUP>2</SUP>It's easy to forget to delete
+the iterator once you're done with it.  The Iterator pattern shows
+how to guard against such bugs on
+<A HREF="pat5dfs.htm#clean-up_proxy_for_iterators" TARGET="_mainDisplayFrame">page 266</A>.</P>
+
+</BODY>
+
+</HTML>
+

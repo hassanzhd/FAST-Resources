@@ -1,0 +1,736 @@
+<HTML>
+
+<HEAD><TITLE>Command</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="Command"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Encapsulate a request as an object, thereby letting you parameterize
+clients with different requests, queue or log requests, and support
+undoable operations.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Action, Transaction</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>Sometimes it's necessary to issue requests to objects without knowing
+anything about the operation being requested or the receiver of the
+request.  For example, user interface toolkits include objects like
+buttons and menus that carry out a request in response to user input.
+But the toolkit can't implement the request explicitly in the button
+or menu, because only applications that use the toolkit know what
+should be done on which object.  As toolkit designers we have no way
+of knowing the receiver of the request or the operations that will
+carry it out.</P>
+
+<A NAME="toolkit2"></A>
+<P>The Command pattern lets toolkit objects make requests of unspecified
+application objects by turning the request itself into an object. This
+object can be stored and passed around like other objects. The key to
+this pattern is an abstract Command class, which declares an interface
+for executing operations.  In the simplest form this interface
+includes an abstract Execute operation.  Concrete Command subclasses
+specify a receiver-action pair by storing the receiver as an instance
+variable and by implementing Execute to invoke the request.  The
+receiver has the knowledge required to carry out the request.</P>
+
+<A NAME="233c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/comma081.gif"></P>
+
+<A NAME="document-234"></A>
+<P>Menus can be implemented easily with Command objects.  Each choice in
+a Menu is an instance of a MenuItem class.  An Application class creates
+these menus and their menu items along with the rest of the user interface.
+The Application class also keeps track of Document objects that a user has
+opened.</P>
+
+<A NAME="auto1003"></A>
+<P>The application configures each MenuItem with an instance of a
+concrete Command subclass.  When the user selects a MenuItem, the
+MenuItem calls Execute on its command, and Execute carries out the
+operation.  MenuItems don't know which subclass of Command they use.
+Command subclasses store the receiver of the request and invoke one or
+more operations on the receiver.</P>
+
+<A NAME="auto1004"></A>
+<P>For example, PasteCommand supports pasting text from the clipboard
+into a Document.  PasteCommand's receiver is the Document object it is
+supplied upon instantiation. The Execute operation invokes Paste on
+the receiving Document.</P>
+
+<A NAME="234c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/comma078.gif"></P>
+
+<A NAME="auto1005"></A>
+<P>OpenCommand's Execute operation is different: it prompts the user
+for a document name, creates a corresponding Document object, adds the
+document to the receiving application, and opens the document.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/comma079.gif">
+
+<A NAME="macrocommand"></A>
+<A NAME="sequence-request"></A>
+<P>Sometimes a MenuItem needs to execute a <EM>sequence</EM> of commands.
+For example, a MenuItem for centering a page at normal size could be
+constructed from a CenterDocumentCommand object and a
+NormalSizeCommand object.  Because it's common to string commands
+together in this way, we can define a MacroCommand class to allow a
+MenuItem to execute an open-ended number of commands.  MacroCommand is
+a concrete Command subclass that simply executes a sequence of
+Commands.  MacroCommand has no explicit receiver, because the commands
+it sequences define their own receiver.</P>
+
+<A NAME="command-eg-macro"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/comma080.gif"></P>
+
+<A NAME="auto1006"></A>
+<P>In each of these examples, notice how the Command pattern decouples
+the object that invokes the operation from the one having the
+knowledge to perform it.  This gives us a lot of flexibility in
+designing our user interface.  An application can provide both a menu
+and a push button interface to a feature just by making the menu and
+the push button share an instance of the same concrete Command subclass.
+We can replace commands dynamically, which would be useful for
+implementing context-sensitive menus.  We can also support command
+scripting by composing commands into larger ones.  All of this is
+possible because the object that issues a request only needs to know
+how to issue it; it doesn't need to know how the request will be carried out.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1007"></A>
+<P>Use the Command pattern when you want to</P>
+
+<UL>
+
+<A NAME="auto1008"></A>
+<LI>    parameterize objects by an action to perform, as MenuItem objects
+    did above.  You can express such parameterization in a procedural
+    language with a <STRONG>callback</STRONG> function, that is, a function
+    that's registered somewhere to be called at a later point.
+    Commands are an object-oriented replacement for callbacks.</LI>
+
+<A NAME="auto1009"></A>
+<P></P>
+
+<A NAME="request-sequence"></A>
+<LI>    specify, queue, and execute requests at different times.  A
+    Command object can have a lifetime independent of the original
+    request.  If the receiver of a request can be represented in an
+    address space-independent way, then you can transfer a command
+    object for the request to a different process and fulfill the
+    request there.</LI>
+
+<A NAME="auto1010"></A>
+<P></P>
+
+<A NAME="support-undo"></A>
+<LI>    support undo.  The Command's Execute operation can store state for
+    reversing its effects in the command itself. The Command interface
+    must have an added Unexecute operation that reverses the effects
+    of a previous call to Execute.  Executed commands are stored in a
+    history list.  Unlimited-level undo and redo is achieved by
+    traversing this list backwards and forwards calling Unexecute and
+    Execute, respectively.</LI>
+
+<A NAME="auto1011"></A>
+<P></P>
+
+<A NAME="auto1012"></A>
+<LI>    support logging changes so that they can be reapplied in case of a
+    system crash.  By augmenting the Command interface with load and
+    store operations, you can keep a persistent log of changes.
+    Recovering from a crash involves reloading logged commands from
+    disk and reexecuting them with the Execute operation.</LI>
+
+<A NAME="auto1013"></A>
+<P></P>
+
+<A NAME="def-transaction"></A>
+<LI>    structure a system around high-level operations built on
+    primitives operations.  Such a structure is common in information
+    systems that support <STRONG>transactions</STRONG>. A transaction
+    encapsulates a set of changes to data. The Command pattern offers
+    a way to model transactions.  Commands have a common interface,
+    letting you invoke all transactions the same way.  The pattern
+    also makes it easy to extend the system with new transactions.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/command.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1014"></A>
+<LI><B>Command</B>
+
+<A NAME="auto1015"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1016"></A>
+<LI>declares an interface for executing an operation.</LI>
+
+</UL>
+
+<A NAME="auto1017"></A>
+<P></P>
+
+<A NAME="auto1018"></A>
+<LI><B>ConcreteCommand</B> (PasteCommand, OpenCommand)
+
+<A NAME="auto1019"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1020"></A>
+<LI>defines a binding between a Receiver object and an action.</LI>
+
+    <A NAME="auto1021"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1022"></A>
+<LI>implements Execute by invoking the corresponding operation(s)
+    on Receiver.</LI>
+
+</UL>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<A NAME="auto1024"></A>
+<LI><B>Client</B> (Application)</LI>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1026"></A>
+<LI>creates a ConcreteCommand object and sets its receiver.</LI>
+
+</UL>
+
+<A NAME="auto1027"></A>
+<P></P>
+
+<A NAME="auto1028"></A>
+<LI><B>Invoker</B> (MenuItem)
+
+<A NAME="auto1029"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1030"></A>
+<LI>asks the command to carry out the request.</LI>
+
+</UL>
+
+<A NAME="auto1031"></A>
+<P></P>
+
+<A NAME="receiver-part-command"></A>
+<LI><B>Receiver</B> (Document, Application)
+
+<A NAME="auto1032"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1033"></A>
+<LI>knows how to perform the operations associated with carrying
+    out a request.  Any class may serve as a Receiver.</LI>
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1034"></A>
+<LI>The client creates a ConcreteCommand object and specifies its receiver.</LI>
+<A NAME="auto1035"></A>
+<P></P>
+<A NAME="auto1036"></A>
+<LI>An Invoker object stores the ConcreteCommand object.</LI>
+<A NAME="auto1037"></A>
+<P></P>
+<A NAME="auto1038"></A>
+<LI>The invoker issues a request by calling Execute on the command.  When
+commands are undoable, ConcreteCommand stores state for undoing the
+command prior to invoking Execute.</LI>
+<A NAME="auto1039"></A>
+<P></P>
+<A NAME="auto1040"></A>
+<LI>The ConcreteCommand object invokes operations on its receiver to carry
+out the request.</LI>
+
+</UL>
+
+<A NAME="auto1041"></A>
+<P>The following diagram shows the interactions between these objects.
+It illustrates how Command decouples the invoker from the receiver
+(and the request it carries out).</P>
+
+<A NAME="command-237i"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/comma077.gif"></P>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1042"></A>
+<P>The Command pattern has the following consequences:</P>
+
+<OL>
+
+<A NAME="auto1043"></A>
+<LI>Command decouples the object that invokes the operation from the one
+that knows how to perform it.</LI>
+<A NAME="auto1044"></A>
+<P></P>
+<A NAME="auto1045"></A>
+<LI>Commands are first-class objects. They can be manipulated and extended
+like any other object.</LI>
+<A NAME="auto1046"></A>
+<P></P>
+<A NAME="auto1047"></A>
+<LI>You can assemble commands into a composite command. An example is the
+MacroCommand class described earlier.  In general, composite commands
+are an instance of the <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A> pattern.</LI>
+<A NAME="auto1048"></A>
+<P></P>
+<A NAME="auto1049"></A>
+<LI>It's easy to add new Commands, because you don't have to change
+existing classes.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1050"></A>
+<P>Consider the following issues when implementing the Command pattern:</P>
+
+<OL>
+
+<A NAME="auto1051"></A>
+<LI><EM>How intelligent should a command be?</EM>
+A command can have a wide range of abilities.  At one extreme it
+merely defines a binding between a receiver and the actions that carry
+out the request.  At the other extreme it implements everything itself
+without delegating to a receiver at all.  The latter extreme is useful
+when you want to define commands that are independent of existing
+classes, when no suitable receiver exists, or when a command knows its
+receiver implicitly.  For example, a command that creates another
+application window may be just as capable of creating the window as
+any other object.  Somewhere in between these extremes are commands
+that have enough knowledge to find their receiver dynamically.</LI>
+
+<A NAME="auto1052"></A>
+<P></P>
+
+<A NAME="supp-undo-redo"></A>
+<LI><EM>Supporting undo and redo.</EM>
+Commands can support undo and redo capabilities if they provide a way
+to reverse their execution (e.g., an Unexecute or Undo operation).  A
+ConcreteCommand class might need to store additional state to do so.  This
+state can include</LI>
+
+<A NAME="auto1053"></A>
+<P></P>
+
+<UL>
+
+<A NAME="receive-part-command2"></A>
+<LI>the Receiver object, which actually carries out operations in
+response to the request,</LI>
+
+<A NAME="auto1054"></A>
+<P></P>
+
+<A NAME="auto1055"></A>
+<LI>the arguments to the operation performed on the receiver, and</LI>
+
+<A NAME="auto1056"></A>
+<P></P>
+
+<A NAME="auto1057"></A>
+<LI>any original values in the receiver that can change
+as a result of handling the request.  The receiver must provide
+operations that let the command return the receiver to its prior state.</LI>
+
+</UL>
+
+<A NAME="auto1058"></A>
+<P></P>
+
+<A NAME="auto1059"></A>
+<P>To support one level of undo, an application needs to store only the
+command that was executed last.  For multiple-level undo and redo, the
+application needs a <STRONG>history list</STRONG> of commands that have
+been executed, where the maximum length of the list determines the
+number of undo/redo levels.  The history list stores sequences of
+commands that have been executed.  Traversing backward through the
+list and reverse-executing commands cancels their effect; traversing
+forward and executing commands reexecutes them.</P>
+
+<A NAME="auto1060"></A>
+<P>An undoable command might have to be copied before it can be placed on
+the history list.  That's because the command object that carried out
+the original request, say, from a MenuItem, will perform other
+requests at later times.  Copying is required to distinguish different
+invocations of the same command if its state can vary across
+invocations.</P>
+
+<A NAME="proto-w-command"></A>
+<P>For example, a DeleteCommand that deletes selected objects must store
+different sets of objects each time it's executed.  Therefore the
+DeleteCommand object must be copied following execution, and the copy
+is placed on the history list.  If the command's state never changes
+on execution, then copying is not required&#151;only a reference to the
+command need be placed on the history list.  Commands that must be
+copied before being placed on the history list act as prototypes (see
+<A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A>).</P>
+
+<A NAME="avoid-error"></A>
+<LI><EM>Avoiding error accumulation in the undo process.</EM>
+Hysteresis can be a problem in ensuring a reliable,
+semantics-preserving undo/redo mechanism.  Errors can accumulate as
+commands are executed, unexecuted, and reexecuted repeatedly so that
+an application's state eventually diverges from original values.  It
+may be necessary therefore to store more information in the command to
+ensure that objects are restored to their original state.  The
+<A HREF="pat5ffs.htm" TARGET="_mainDisplayFrame">Memento (283)</A> pattern can be applied to give the command
+access to this information without exposing the internals of other
+objects.</LI>
+
+<A NAME="auto1061"></A>
+<P></P>
+
+<A NAME="template-implement"></A>
+<LI><EM>Using C++ templates.</EM>
+For commands that (1) aren't undoable and (2) don't require arguments,
+we can use C++ templates to avoid creating a Command subclass for
+every kind of action and receiver.  We show how to do this in the Sample
+Code section.</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1062"></A>
+<P>The C++ code shown here sketches the implementation of the Command classes
+in the Motivation section.  We'll define <CODE>OpenCommand</CODE>,
+<CODE>PasteCommand</CODE>, and <CODE>MacroCommand</CODE>.  First the
+abstract <CODE>Command</CODE> class:</P>
+
+<A NAME="auto1063"></A>
+<PRE>
+    class Command {
+    public:
+        virtual ~Command();
+    
+        virtual void Execute() = 0;
+    protected:
+        Command();
+    };
+</PRE>
+
+<A NAME="auto1064"></A>
+<P><CODE>OpenCommand</CODE> opens a document whose name is supplied by the
+user.  An <CODE>OpenCommand</CODE> must be passed an
+<CODE>Application</CODE> object in its constructor.  <CODE>AskUser</CODE> is an
+implementation routine that prompts the user for the name of the
+document to open.</P>
+
+<A NAME="auto1065"></A>
+<PRE>
+    class OpenCommand : public Command {
+    public:
+        OpenCommand(Application*);
+    
+        virtual void Execute();
+    protected:
+        virtual const char* AskUser();
+    private:
+        Application* _application;
+        char* _response;
+    };
+    
+    OpenCommand::OpenCommand (Application* a) {
+        _application = a;
+    }
+    
+    void OpenCommand::Execute () {
+        const char* name = AskUser();
+    
+        if (name != 0) {
+            Document* document = new Document(name);
+            _application->Add(document);
+            document->Open();
+        }
+    }
+</PRE>
+
+<A NAME="auto1066"></A>
+<P>A <CODE>PasteCommand</CODE> must be passed a <CODE>Document</CODE> object as
+its receiver.  The receiver is given as a parameter to <CODE>PasteCommand</CODE>'s
+constructor.</P>
+
+<A NAME="auto1067"></A>
+<PRE>
+    class PasteCommand : public Command {
+    public:
+        PasteCommand(Document*);
+    
+        virtual void Execute();
+    private:
+        Document* _document;
+    };
+    
+    PasteCommand::PasteCommand (Document* doc) {
+        _document = doc;
+    }
+    
+    void PasteCommand::Execute () {
+        _document->Paste();
+    }
+</PRE>
+
+<A NAME="auto1068"></A>
+<P>For simple commands that aren't undoable and don't require arguments,
+we can use a class template to parameterize the command's receiver.
+We'll define a template subclass <CODE>SimpleCommand</CODE> for such
+commands. <CODE>SimpleCommand</CODE> is parameterized by the
+<CODE>Receiver</CODE> type and maintains a binding between a receiver object
+and an action stored as a pointer to a member function.</P>
+
+<A NAME="auto1069"></A>
+<PRE>
+    template &lt;class Receiver>
+    class SimpleCommand : public Command {
+    public:
+        typedef void (Receiver::* Action)();
+    
+        SimpleCommand(Receiver* r, Action a) :
+            _receiver(r), _action(a) { }
+    
+        virtual void Execute();
+    private:
+        Action _action;
+        Receiver* _receiver;
+    };
+</PRE>
+
+<A NAME="auto1070"></A>
+<P>The constructor stores the receiver and the action in the corresponding
+instance variables. <CODE>Execute</CODE> simply applies the action to the
+receiver.</P>
+
+<A NAME="auto1071"></A>
+<PRE>
+    template &lt;class Receiver>
+    void SimpleCommand&ltReceiver>::Execute () {
+        (_receiver->*_action)();
+    }
+</PRE>
+
+<A NAME="auto1072"></A>
+<P>To create a command that calls <CODE>Action</CODE>
+on an instance of class <CODE>MyClass</CODE>, a client simply writes</P>
+
+<A NAME="auto1073"></A>
+<PRE>
+    MyClass* receiver = new MyClass;
+    // ...
+    Command* aCommand =
+        new SimpleCommand&lt;MyClass>(receiver, &amp;MyClass::Action);
+    // ...
+    aCommand->Execute();
+</PRE>
+
+<A NAME="auto1074"></A>
+<P>Keep in mind that this solution only works for simple commands.  More
+complex commands that keep track of not only their receivers but also
+arguments and/or undo state require a <CODE>Command</CODE> subclass.</P>
+
+<A NAME="macrocommand2"></A>
+<P>A <CODE>MacroCommand</CODE> manages a sequence of subcommands and provides
+operations for adding and removing subcommands.  No explicit receiver
+is required, because the subcommands already define their receiver.</P>
+
+<A NAME="auto1075"></A>
+<PRE>
+    class MacroCommand : public Command {
+    public:
+        MacroCommand();
+        virtual ~MacroCommand();
+    
+        virtual void Add(Command*);
+        virtual void Remove(Command*);
+    
+        virtual void Execute();
+    private:
+        List&lt;Command*>* _cmds;
+    };
+</PRE>
+
+<A NAME="auto1076"></A>
+<P>The key to the <CODE>MacroCommand</CODE> is its <CODE>Execute</CODE> member
+function. This traverses all the subcommands and performs
+<CODE>Execute</CODE> on each of them.</P>
+
+<A NAME="auto1077"></A>
+<PRE>
+    void MacroCommand::Execute () {
+        ListIterator&lt;Command*> i(_cmds);
+    
+        for (i.First(); !i.IsDone(); i.Next()) {
+            Command* c = i.CurrentItem();
+            c->Execute();
+        }
+    }
+</PRE>
+
+<A NAME="auto1078"></A>
+<P>Note that should the <CODE>MacroCommand</CODE> implement an
+<CODE>Unexecute</CODE> operation, then its subcommands must be
+unexecuted in <EM>reverse</EM> order relative to <CODE>Execute</CODE>'s
+implementation.</P>
+
+<A NAME="auto1079"></A>
+<P>Finally, <CODE>MacroCommand</CODE> must provide operations to manage its
+subcommands.  The <CODE>MacroCommand</CODE> is also responsible for
+deleting its subcommands.</P>
+
+<A NAME="auto1080"></A>
+<PRE>
+    void MacroCommand::Add (Command* c) {
+        _cmds->Append(c);
+    }
+    
+    void MacroCommand::Remove (Command* c) {
+        _cmds->Remove(c);
+    }
+</PRE>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="unidraw-use-comm"></A>
+<P>Perhaps the first example of the Command pattern appears in a paper by
+Lieberman [<A HREF="bibfs.htm#lieberman_menus" TARGET="_mainDisplayFrame">Lie85</A>].  MacApp [<A HREF="bibfs.htm#macapp" TARGET=
+
+"_mainDisplayFrame">App89</A>] popularized
+the notion of commands for implementing undoable operations.
+ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>], InterViews [<A HREF="bibfs.htm#InterViews3.1" TARGET="_main
+
+DisplayFrame">LCI+92</A>], and
+Unidraw [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>] also define classes that follow the
+Command pattern. InterViews defines an Action abstract class that
+provides command functionality. It also defines an ActionCallback
+template, parameterized by action method, that can instantiate command
+subclasses automatically.</P>
+
+<A NAME="think-use-comm"></A>
+<P>The THINK class library [<A HREF="bibfs.htm#think" TARGET="_mainDisplayFrame">Sym93b</A>] also uses commands to support
+undoable actions.  Commands in THINK are called "Tasks."  Task
+objects are passed along a <A HREF="pat5afs.htm" TARGET="_mainDisplayFrame">Chain of Responsibility (223)</A>
+for consumption.</P>
+
+<A NAME="auto1081"></A>
+<P>Unidraw's command objects are unique in that they can behave like
+messages.  A Unidraw command may be sent to another object for
+interpretation, and the result of the interpration varies with the
+receiving object.  Moreover, the receiver may delegate the
+interpretation to another object, typically the receiver's parent in a
+larger structure as in a Chain of Responsibility.  The receiver of a
+Unidraw command is thus computed rather than stored.  Unidraw's
+interpretation mechanism depends on run-time type information.</P>
+
+<A NAME="functor"></A>
+<P>Coplien describes how to implement <STRONG>functors</STRONG>, objects that
+are functions, in C++ [<A HREF="bibfs.htm#coplien_idioms" TARGET="_mainDisplayFrame">Cop92</A>].  He achieves a degree of
+transparency in their use by overloading the function call operator
+(<CODE>operator()</CODE>).  The Command pattern is different; its focus
+is on maintaining a <EM>binding between</EM> a receiver and a function
+(i.e., action), not just maintaining a function.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1082"></A>
+<P>A <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>
+can be used to implement MacroCommands.</P>
+
+<A NAME="auto1083"></A>
+<P>A <A HREF="pat5ffs.htm" TARGET="_mainDisplayFrame">Memento (283)</A>
+can keep state the command requires to undo its effect.</P>
+
+<A NAME="auto1084"></A>
+<P>A command that must be copied before being placed on the history
+list acts as a <A HREF="pat3dfs.htm"
+TARGET="_mainDisplayFrame">Prototype (117)</A>.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5cfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5cfs.htm"
+        TARGET="_mainDisplayFrame">Interpreter</A><BR>
+<A HREF="pat5afs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5afs.htm"
+        TARGET="_mainDisplayFrame">Chain of Responsibility</A>
+</P>
+
+
+</BODY>
+
+</HTML>

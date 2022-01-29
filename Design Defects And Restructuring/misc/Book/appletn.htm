@@ -1,0 +1,38 @@
+<HTML>
+<TITLE>Design Patterns CD</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+_loaded = false;
+function loadApplet() {
+	if(top._appletFrame.document.CDSearch != null)
+	      top._appletFrame.document.CDSearch.showFrame();
+}
+
+// -->
+</SCRIPT>
+<BODY BGCOLOR=#COCOCO onLoad="_loaded=true;" >
+
+<applet code="CDSearch.class" width=370 height=285
+ name="CDSearch" archive="cdsearch.zip" mayscript>
+<param name="cabbase"             value="cdsearch.cab">
+<param name="background"          value="C0C0C0">
+<param name="title"               value="Search: Book Contents">
+<param name="resultsFrameName"    value="_mainDisplayFrame">
+<param name="attemptLiveConnect"  value="true">
+<param name="embedSearchFrame"    value="true">
+<param name="blockIndex"          value="blocks.idx">
+<param name="fileIndex"           value="files.idx">
+<param name="wordIndex"           value="words.idx">
+<param name="sectionIndex"        value="sections.idx">
+<param name="helpURL"             value="srchhelp.htm">
+<param name="fontFamily"          value="Helvetica">
+<param name="icon"                value="search.gif">
+<param name="hide"                value="false">
+<param name="textFrameName"	  value="TEXT">
+<param name="framesetIndex"	  value="lookup.idx">
+<param name="animation"		  value="anim/t10.gif,anim/t1,anim/t2.gif,anim/t3.gif,anim/t4.gif,anim/t5.gif,anim/t6.gif,anim/t7.gif,anim/t8.gif,anim/t9.gif,anim/t10.gif">
+<param name="animationDelay"      value="50">
+</applet>
+
+</BODY>
+</HTML>

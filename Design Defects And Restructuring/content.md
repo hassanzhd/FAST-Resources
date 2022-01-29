@@ -1,0 +1,170 @@
+# Content
+
+- Object Oriented Concepts
+  - Abstraction
+  - Class
+  - Object
+  - Encapsulation
+  - Information Hiding (Scope)
+  - Inheritance
+  - Polymorphism
+    - Ad hoc
+    - Subtype
+    - Parametric
+  - Interface
+  - Messaging
+  - Delegate (Function Pointer)
+  - Relationship
+- Objects & Classes
+  - Object Recognition
+  - Class Creation
+  - Top-Down Approach
+  - Bottom-Up Approach
+  - Abstraction
+  - Dependency
+- Common Design Practice
+  - Client
+  - Abstract Server
+  - Server Extension Or Implementation
+- Data Model
+- Definition Of Coupling
+  - Content Coupling
+  - Common Coupling
+  - External Coupling
+  - Control Coupling
+  - Stamp Coupling
+  - Data Coupling
+- Definition Of Cohesion
+  - Functional
+  - Sequential
+  - Communicational
+  - Temporal
+  - Procedural
+  - Logical
+  - Coincidental
+- Cohesion Comparison
+- Cohesion Of Module Cohesion
+- Symptoms Of Poor Design
+  - Rigidity
+  - Fragility
+  - Immobility
+  - Viscosity
+  - Needless Complexity
+  - Needless Repetition
+  - Opacity
+- Signs Of Good Design
+  - Adaptability
+  - Robustness
+  - Reusability
+  - Fluidity
+  - Simplicity
+  - Terseness
+  - Perspicuity
+- Design Principles - SOLID Principles
+  - Single Responsibility Principle
+  - Open Close Principle
+  - Liskov Substitution Principle
+  - Interface Segregation Principle
+  - Dependency Inversion Principle
+- Refactoring
+- Bad Smells In Code,
+  - Duplicate Code
+  - Long Method
+  - Large Class
+  - Long Parameter List
+  - Divergent Change
+  - Shotgun Surgery
+  - Feature nvy
+  - Data Clumps
+  - Primitive Obsession
+  - Switch Statements
+  - Parallel Inheritance Hierarchy
+  - Lazy Class
+  - Speculative Generality
+  - Temporary Field
+  - Message Chains
+  - Middleman
+  - Inappropriate Intimacy
+  - Alternative Classes With Different Interfaces
+  - Incomplete Library Class
+  - Data Class
+  - Refused Bequest
+  - Comments
+- Refactoring Methods,
+  - Extract Method
+  - Inline Method
+  - Inline Temp
+  - Replace Temp With Query
+  - Introduce Explaining Variable
+  - Split Temporary Variable
+  - Remove Assignments To Parameters
+  - Replace Method With Method Object
+  - Substitute Algorithm
+- Reliability
+- Defensive Programming
+- Design By Contract
+- Example Contract
+- Assertions
+- Substitutability
+- Design Patterns - GoF
+- Creational Patterns
+  - Abstract Factory
+  - Builder
+  - Factory Method
+  - Prototype
+  - Singleton
+- Structural Patterns
+  - Adapter
+  - Bridge
+  - Composite
+  - Decorator
+  - Facade
+  - Flyweight
+  - Proxy
+- Behavioral Patterns
+  - Chain Of Responsibility
+  - Command
+  - Interpreter
+  - Iterator
+  - Mediator
+  - Memento
+  - Observer
+  - State
+  - Strategy
+  - Template Method
+  - Visitor
+- Principles Of Package Design
+  - Granularity
+    - REP
+    - CRP
+    - CCP
+  - Stability
+    - ADP
+    - SDP
+    - SAP
+- The Main Sequence
+- Enterprise Application Architecture Prerequisites
+- Layering
+  - Benefits
+  - Downsides
+  - 3 Principle Layers
+- Organizing Domain Logic
+  - Patterns,
+    - Transaction Script
+    - Domain Model
+    - Table Module
+    - Service Layer
+- Mapping To Relational Databases
+  - Architecture
+  - Behavioral Issues
+  - Using Metadata
+  - Database Connections
+- Data Source Architectural Patterns
+  - Table Data Gateway
+  - Row Data Gateway
+  - Active Record
+  - Data Mapper
+- Object - Relational Behavioral Patterns
+  - Unit Of Work
+  - Identity Map
+  - Lazy Load

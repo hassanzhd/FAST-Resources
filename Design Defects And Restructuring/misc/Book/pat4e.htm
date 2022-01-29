@@ -1,0 +1,598 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML><HEAD>	<TITLE>Facade</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Facade"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Provide a unified interface to a set of interfaces in a subsystem.
+Facade defines a higher-level interface that makes the subsystem
+easier to use.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1001"></A>
+<P>Structuring a system into subsystems helps reduce complexity.  A
+common design goal is to minimize the communication and dependencies
+between subsystems.  One way to achieve this goal is to introduce a
+<STRONG>facade</STRONG> object that provides a single, simplified interface
+to the more general facilities of a subsystem.</P>
+
+<A NAME="facade-eg"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/facad057.gif" border=0></P>
+
+<A NAME="auto1002"></A>
+<P>Consider for example a programming environment that gives applications
+access to its compiler subsystem.  This subsystem contains classes
+such as Scanner, Parser, ProgramNode, BytecodeStream, and
+ProgramNodeBuilder that implement the compiler.  Some specialized
+applications might need to access these classes directly.  But most
+clients of a compiler generally don't care about details like parsing
+and code generation; they merely want to compile some code.  For them,
+the powerful but low-level interfaces in the compiler subsystem only
+complicate their task.</P>
+
+<A NAME="auto1003"></A>
+<P>To provide a higher-level interface that can shield clients from these
+classes, the compiler subsystem also includes a Compiler class.  This
+class defines a unified interface to the compiler's functionality.
+The Compiler class acts as a facade: It offers clients a single,
+simple interface to the compiler subsystem.  It glues together the
+classes that implement compiler functionality without hiding them
+completely.  The compiler facade makes life easier for most
+programmers without hiding the lower-level functionality from the few
+that need it.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/facad058.gif"></P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1004"></A>
+<P>Use the Facade pattern when</P>
+
+<UL>
+
+<A NAME="auto1005"></A>
+<LI>you want to provide a simple interface to a complex subsystem.
+Subsystems often get more complex as they evolve.  Most patterns, when
+applied, result in more and smaller classes.  This makes the subsystem
+more reusable and easier to customize, but it also becomes harder to
+use for clients that don't need to customize it.  A facade can provide
+a simple default view of the subsystem that is good enough for most
+clients.  Only clients needing more customizability will need to look
+beyond the facade.</LI>
+<A NAME="auto1006"></A>
+<P></P>
+<A NAME="auto1007"></A>
+<LI>there are many dependencies between clients and the implementation
+classes of an abstraction.  Introduce a facade to decouple the
+subsystem from clients and other subsystems, thereby promoting
+subsystem independence and portability.</LI>
+<A NAME="auto1008"></A>
+<P></P>
+<A NAME="auto1009"></A>
+<LI>you want to layer your subsystems. Use a facade to define an entry
+point to each subsystem level.  If subsystems are dependent, then you
+can simplify the dependencies between them by making them communicate
+with each other solely through their facades.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<A NAME="facade-gif"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/facade.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1010"></A>
+<LI><B>Facade</B> (Compiler)
+
+<A NAME="auto1011"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1012"></A>
+<LI>knows which subsystem classes are responsible for a request.</LI>
+
+<A NAME="auto1013"></A>
+<P></P>
+
+    <A NAME="auto1014"></A>
+<LI>delegates client requests to appropriate subsystem objects.</LI>
+
+    </UL>
+
+<A NAME="auto1015"></A>
+<P></P>
+
+<A NAME="auto1016"></A>
+<LI><B>subsystem classes</B> (Scanner, Parser, ProgramNode, etc.)
+
+<A NAME="auto1017"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1018"></A>
+<LI>implement subsystem functionality.</LI>
+
+    <A NAME="auto1019"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1020"></A>
+<LI>handle work assigned by the Facade object.</LI>
+
+    <A NAME="auto1021"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1022"></A>
+<LI>have no knowledge of the facade; that is, they keep no
+    references to it.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1023"></A>
+<LI>Clients communicate with the subsystem by sending requests to Facade,
+which forwards them to the appropriate subsystem object(s).  Although
+the subsystem objects perform the actual work, the facade may have to
+do work of its own to translate its interface to subsystem
+interfaces.</LI>
+<A NAME="auto1024"></A>
+<P></P>
+<A NAME="auto1025"></A>
+<LI>Clients that use the facade don't have to access its subsystem objects
+directly.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1026"></A>
+<P>The Facade pattern offers the following benefits:</P>
+
+<OL>
+
+<A NAME="auto1027"></A>
+<LI>It shields clients from subsystem components, thereby reducing the number
+of objects that clients deal with and making the subsystem easier to
+use.</LI>
+<A NAME="auto1028"></A>
+<P></P>
+<A NAME="auto1029"></A>
+<LI>It promotes weak coupling between the subsystem and its clients.
+Often the components in a subsystem are strongly coupled.  Weak
+coupling lets you vary the components of the subsystem without
+affecting its clients.  Facades help layer a system and the
+dependencies between objects.  They can eliminate complex or
+circular dependencies.  This can be an important consequence when
+the client and the subsystem are implemented independently.
+
+<A NAME="auto1030"></A>
+<P>Reducing compilation dependencies is vital in large software
+systems.  You want to save time by minimizing recompilation when
+subsystem classes change.  Reducing compilation dependencies with
+facades can limit the recompilation needed for a small change in
+an important subsystem.  A facade can also simplify porting
+systems to other platforms, because it's less likely that building
+one subsystem requires building all others.</P>
+
+</LI>
+<A NAME="auto1031"></A>
+<P></P>
+<A NAME="auto1032"></A>
+<LI>It doesn't prevent applications from using subsystem classes if
+they need to.  Thus you can choose between ease of use and generality.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1033"></A>
+<P>Consider the following issues when implementing a facade:</P>
+
+<OL>
+
+<A NAME="auto1034"></A>
+<LI><EM>Reducing client-subsystem coupling.</EM>
+The coupling between clients and the subsystem can be reduced even
+further by making Facade an abstract class with concrete subclasses
+for different implementations of a subsystem.  Then clients can
+communicate with the subsystem through the interface of the abstract
+Facade class. This abstract coupling keeps clients from knowing which
+implementation of a subsystem is used.
+
+<A NAME="auto1035"></A>
+<P>An alternative to subclassing is to configure a Facade object with
+different subsystem objects.  To customize the facade, simply replace
+one or more of its subsystem objects.
+
+</LI>
+<A NAME="auto1036"></A>
+<P></P>
+<A NAME="auto1037"></A>
+<LI><EM>Public versus private subsystem classes.</EM>
+A subsystem is analogous to a class in that both have interfaces, and
+both encapsulate something&#151;a class encapsulates state and
+operations, while a subsystem encapsulates classes.  And just as it's
+useful to think of the public and private interface of a class, we can
+think of the public and private interface of a subsystem.
+
+<A NAME="auto1038"></A>
+<P>The public interface to a subsystem consists of classes that all
+clients can access; the private interface is just for subsystem
+extenders.  The Facade class is part of the public interface, of
+course, but it's not the only part.  Other subsystem classes are
+usually public as well.  For example, the classes Parser and Scanner
+in the compiler subsystem are part of the public interface.</P>
+
+<A NAME="auto1039"></A>
+<P>Making subsystem classes private would be useful, but few
+object-oriented languages support it.  Both C++ and Smalltalk
+traditionally have had a global name space for classes.  Recently,
+however, the C++ standardization committee added name spaces to the
+language [<A HREF="bibfs.htm#c++_namespaces" TARGET="_mainDisplayFrame">Str94</A>], which will let you expose just the
+public subsystem classes.</P>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1040"></A>
+<P>Let's take a closer look at how to put a facade on a compiler
+subsystem.</P>
+
+<A NAME="auto1041"></A>
+<P>The compiler subsystem defines a {BytecodeStream} class that
+implements a stream of <CODE>Bytecode</CODE> objects.  A
+<CODE>Bytecode</CODE> object encapsulates a bytecode, which can specify machine
+instructions.  The subsystem also defines a <CODE>Token</CODE> class for
+objects that encapsulate tokens in the programming language.</P>
+
+<A NAME="auto1042"></A>
+<P>The <CODE>Scanner</CODE> class takes a stream of characters and produces
+a stream of tokens, one token at a time.</P>
+
+<A NAME="auto1043"></A>
+<PRE>
+    class Scanner {
+    public:
+        Scanner(istream&amp;);
+        virtual ~Scanner();
+    
+        virtual Token&amp; Scan();
+    private:
+        istream&amp; _inputStream;
+    };
+</PRE>
+
+<A NAME="auto1044"></A>
+<P>The class <CODE>Parser</CODE> uses a <CODE>ProgramNodeBuilder</CODE> to construct a
+parse tree from a <CODE>Scanner</CODE>'s tokens.</P>
+
+<A NAME="auto1045"></A>
+<PRE>
+    class Parser {
+    public:
+        Parser();
+        virtual ~Parser();
+    
+        virtual void Parse(Scanner&amp;, ProgramNodeBuilder&amp;);
+    };
+</PRE>
+
+
+<A NAME="auto1046"></A>
+<P><CODE>Parser</CODE> calls back on <CODE>ProgramNodeBuilder</CODE> to build
+the parse tree incrementally.  These classes interact according to the
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A> pattern.</P>
+
+<A NAME="auto1047"></A>
+<PRE>
+    class ProgramNodeBuilder {
+    public:
+        ProgramNodeBuilder();
+    
+        virtual ProgramNode* NewVariable(
+            const char* variableName
+        ) const;
+    
+        virtual ProgramNode* NewAssignment(
+            ProgramNode* variable, ProgramNode* expression
+        ) const;
+    
+        virtual ProgramNode* NewReturnStatement(
+            ProgramNode* value
+        ) const;
+    
+        virtual ProgramNode* NewCondition(
+            ProgramNode* condition,
+            ProgramNode* truePart, ProgramNode* falsePart
+        ) const;
+        // ...
+    
+        ProgramNode* GetRootNode();
+    private:
+        ProgramNode* _node;
+    };
+</PRE>
+
+<A NAME="auto1048"></A>
+<P>The parse tree is made up of instances of <CODE>ProgramNode</CODE>
+subclasses such as <CODE>StatementNode</CODE>,
+<CODE>ExpressionNode</CODE>, and so forth.  The <CODE>ProgramNode</CODE>
+hierarchy is an example of the <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>
+pattern. <CODE>ProgramNode</CODE> defines an interface for manipulating
+the program node and its children, if any.</P>
+
+<A NAME="auto1049"></A>
+<PRE>
+    class ProgramNode {
+    public:
+        // program node manipulation
+        virtual void GetSourcePosition(int&amp; line, int&amp; index);
+        // ...
+    
+        // child manipulation
+        virtual void Add(ProgramNode*);
+        virtual void Remove(ProgramNode*);
+        // ...
+    
+        virtual void Traverse(CodeGenerator&amp;);
+    protected:
+        ProgramNode();
+    };
+</PRE>
+
+
+<A NAME="visit-in-compiler"></A>
+<P>The <CODE>Traverse</CODE> operation takes a <CODE>CodeGenerator</CODE>
+object.  <CODE>ProgramNode</CODE> subclasses use this object to generate
+machine code in the form of <CODE>Bytecode</CODE> objects on a
+<CODE>BytecodeStream</CODE>.  The class <CODE>CodeGenerator</CODE> is a
+visitor (see <A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A>).</P>
+
+<A NAME="auto1050"></A>
+<PRE>
+    class CodeGenerator {
+    public:
+        virtual void Visit(StatementNode*);
+        virtual void Visit(ExpressionNode*);
+        // ...
+    protected:
+        CodeGenerator(BytecodeStream&amp;);
+    protected:
+        BytecodeStream&amp; _output;
+    };
+</PRE>
+
+<A NAME="auto1051"></A>
+<P><CODE>CodeGenerator</CODE> has subclasses, for example,
+<CODE>StackMachineCodeGenerator</CODE> and <CODE>RISCCodeGenerator</CODE>,
+that generate machine code for different hardware architectures.</P>
+
+<A NAME="auto1052"></A>
+<P>Each subclass of <CODE>ProgramNode</CODE> implements <CODE>Traverse</CODE>
+to call <CODE>Traverse</CODE> on its child <CODE>ProgramNode</CODE>
+objects.  In turn, each child does the same for its children, and so
+on recursively.  For example, <CODE>ExpressionNode</CODE> defines
+<CODE>Traverse</CODE> as follows:</P>
+
+<A NAME="auto1053"></A>
+<PRE>
+    void ExpressionNode::Traverse (CodeGenerator&amp; cg) {
+        cg.Visit(this);
+    
+        ListIterator<ProgramNode*> i(_children);
+    
+        for (i.First(); !i.IsDone(); i.Next()) {
+            i.CurrentItem()->Traverse(cg);
+        }
+    }
+</PRE>
+
+<A NAME="auto1054"></A>
+<P>The classes we've discussed so far make up the compiler subsystem.
+Now we'll introduce a <CODE>Compiler</CODE> class, a facade that puts all
+these pieces together.  <CODE>Compiler</CODE> provides a simple interface
+for compiling source and generating code for a particular machine.</P>
+
+<A NAME="auto1055"></A>
+<PRE>
+    class Compiler {
+    public:
+        Compiler();
+    
+        virtual void Compile(istream&amp;, BytecodeStream&amp;);
+    };
+    
+    void Compiler::Compile (
+        istream&amp; input, BytecodeStream&amp; output
+    ) {
+        Scanner scanner(input);
+        ProgramNodeBuilder builder;
+        Parser parser;
+    
+        parser.Parse(scanner, builder);
+    
+        RISCCodeGenerator generator(output);
+        ProgramNode* parseTree = builder.GetRootNode();
+        parseTree->Traverse(generator);
+    }
+</PRE>
+
+<A NAME="auto1056"></A>
+<P>This implementation hard-codes the type of code generator to use so
+that programmers aren't required to specify the target architecture.
+That might be reasonable if there's only ever one target architecture.
+If that's not the case, then we might want to change the
+<CODE>Compiler</CODE> constructor to take a <CODE>CodeGenerator</CODE>
+parameter.  Then programmers can specify the generator to use when
+they instantiate <CODE>Compiler</CODE>.  The compiler facade can
+parameterize other participants such as <CODE>Scanner</CODE> and
+<CODE>ProgramNodeBuilder</CODE> as well, which adds flexibility, but it also
+detracts from the Facade pattern's mission, which is to simplify the
+interface for the common case.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+
+<A NAME="auto1057"></A>
+<P>The compiler example in the Sample Code section was inspired by the
+ObjectWorks\Smalltalk compiler system [<A HREF="bibfs.htm#parcplace_smalltalk" TARGET="_mainDisplayFrame">Par90</A>].</P>
+
+<A NAME="et-use-facade"></A>
+<P>In the ET++ application framework [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>], an application can have
+built-in browsing tools for inspecting its objects at run-time.  These
+browsing tools are implemented in a separate subsystem that includes a
+Facade class called "ProgrammingEnvironment."  This facade defines
+operations such as InspectObject and InspectClass for accessing the
+browsers.</P>
+
+<A NAME="auto1058"></A>
+<P>An ET++ application can also forgo built-in browsing support.  In
+that case, ProgrammingEnvironment implements these requests as null
+operations; that is, they do nothing.  Only the
+ETProgrammingEnvironment subclass implements these requests with
+operations that display the corresponding browsers.  The application
+has no knowledge of whether a browsing environment is available or
+not; there's abstract coupling between the application and the
+browsing subsystem.</P>
+
+<A NAME="domain"></A>
+<A NAME="facade-use"></A>
+<P>The Choices operating system [<A HREF="bibfs.htm#choices_cacm" TARGET="_mainDisplayFrame">CIRM93</A>] uses facades to
+compose many frameworks into one.  The key abstractions in Choices are
+processes, storage, and address spaces.  For each of these
+abstractions there is a corresponding subsystem, implemented as a
+framework, that supports porting Choices to a variety of different
+hardware platforms.  Two of these subsystems have a "representative"
+(i.e., facade). These representatives are FileSystemInterface (storage)
+and Domain (address spaces).</P>
+
+<A NAME="facade-choices"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/facad059.gif"></P>
+
+<A NAME="virtual-memory"></A>
+<P>For example, the virtual memory framework has Domain as its facade.  A
+Domain represents an address space.  It provides a mapping between
+virtual addresses and offsets into memory objects, files, or backing
+store.  The main operations on Domain support adding a memory object
+at a particular address, removing a memory object, and handling a page
+fault.</P>
+
+<A NAME="auto1059"></A>
+<P>As the preceding diagram shows, the virtual memory subsystem uses the
+following components internally:</P>
+
+<UL>
+
+<A NAME="auto1060"></A>
+<LI>MemoryObject represents a data store.</LI>
+
+<A NAME="auto1061"></A>
+<P></P>
+
+<A NAME="strat-in-choices"></A>
+<LI>MemoryObjectCache caches the data of MemoryObjects in physical memory.
+MemoryObjectCache is actually a <A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A> that
+localizes the caching policy.</LI>
+
+<A NAME="auto1062"></A>
+<P></P>
+
+<A NAME="auto1063"></A>
+<LI>AddressTranslation encapsulates the address translation hardware.</LI>
+
+</UL>
+
+<A NAME="auto1064"></A>
+<P>The RepairFault operation is called whenever a page fault interrupt
+occurs.  The Domain finds the memory object at the address causing the
+fault and delegates the RepairFault operation to the cache associated
+with that memory object.  Domains can be customized by changing their
+components.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="absfact"></A>
+<P><A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A>
+can be used with Facade to provide an interface for creating
+subsystem objects in a subsystem-independent way.  Abstract Factory
+can also be used as an alternative to Facade to hide platform-specific
+classes.</P>
+
+<A NAME="facade-vs-med"></A>
+<P><A HREF="pat5efs.htm" TARGET="_mainDisplayFrame">Mediator (273)</A> is
+similar to Facade in that it abstracts functionality of existing
+classes.  However, Mediator's purpose is to abstract arbitrary
+communication between colleague objects, often centralizing
+functionality that doesn't belong in any one of them.  A mediator's
+colleagues are aware of and communicate with the mediator instead
+of communicating with each other directly.  In contrast, a facade
+merely abstracts the interface to subsystem objects to make them
+easier to use; it doesn't define new functionality, and subsystem
+classes don't know about it.</P>
+
+<A NAME="auto1065"></A>
+<P>Usually only one Facade object is required.  Thus Facade objects are
+often <A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singletons (127)</A>.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4ffs.htm"
+	TARGET="_mainDisplayFrame">Flyweight</A><BR>
+<A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat4dfs.htm"
+	TARGET="_mainDisplayFrame">Decorator</A>
+</P>
+
+</BODY>
+
+</HTML>
+

@@ -1,0 +1,688 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML><HEAD>	<TITLE>Builder</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Builder"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2>
+
+<A NAME="auto1000"></A>
+<P>Separate the construction of a complex object from its representation
+so that the same construction process can create different
+representations.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2>
+
+<A NAME="auto1001"></A>
+<P>A reader for the RTF (Rich Text Format) document exchange format
+should be able to convert RTF to many text formats. The reader might
+convert RTF documents into plain ASCII text or into a text widget that
+can be edited interactively.  The problem, however, is that the number
+of possible conversions is open-ended.  So it should be easy to add a
+new conversion without modifying the reader.</P>
+
+<A NAME="rtfreader"></A>
+<P>A solution is to configure the RTFReader class with a TextConverter
+object that converts RTF to another textual representation.  As the
+RTFReader parses the RTF document, it uses the TextConverter to
+perform the conversion.  Whenever the RTFReader recognizes an RTF
+token (either plain text or an RTF control word), it issues a request
+to the TextConverter to convert the token.  TextConverter objects are
+responsible both for performing the data conversion and for
+representing the token in a particular format.</P>
+
+<A NAME="tex"></A>
+<P>Subclasses of TextConverter specialize in different conversions and
+formats.  For example, an ASCIIConverter ignores requests to convert
+anything except plain text.  A TeXConverter, on the other hand, will
+implement operations for all requests in order to produce a TeX
+representation that captures all the stylistic information in the
+text.  A TextWidgetConverter will produce a complex user interface
+object that lets the user see and edit the text.</P>
+
+<A NAME="rtfreader-97c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/build096.gif"></P>
+
+<A NAME="auto1002"></A>
+<P>Each kind of converter class takes the mechanism for creating and
+assembling a complex object and puts it behind an abstract interface.
+The converter is separate from the reader, which is responsible for
+parsing an RTF document.</P>
+
+<A NAME="auto1003"></A>
+<P>The Builder pattern captures all these relationships.  Each converter
+class is called a <STRONG>builder</STRONG> in the pattern, and the reader
+is called the <STRONG>director</STRONG>.  Applied to this example, the
+Builder pattern separates the algorithm for interpreting a textual
+format (that is, the parser for RTF documents) from how a converted
+format gets created and represented.  This lets us reuse the
+RTFReader's parsing algorithm to create different text representations
+from RTF documents&#151;just configure the RTFReader with different
+subclasses of TextConverter.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2>
+
+<A NAME="auto1004"></A>
+<P>Use the Builder pattern when</P>
+
+<UL>
+
+<A NAME="auto1005"></A>
+<LI>the algorithm for creating a complex object should be independent of the
+parts that make up the object and how they're assembled.</P>
+
+<A NAME="auto1006"></A>
+<LI>the construction process must allow different representations for the
+object that's constructed.</P>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Participants"></A> Structure</H2>
+
+<A NAME="prod-98c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/builder.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1007"></A>
+<LI><B>Builder</B> (TextConverter)</LI>
+
+<A NAME="auto1008"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1009"></A>
+<LI>specifies an abstract interface for creating parts of a
+    Product object.</LI>
+
+</UL>
+
+<A NAME="auto1010"></A>
+<P></P>
+
+<A NAME="auto1011"></A>
+<LI><B>ConcreteBuilder</B> (ASCIIConverter, TeXConverter,
+     TextWidgetConverter)</LI>
+
+<A NAME="auto1012"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1013"></A>
+<LI>constructs and assembles parts of the product by
+    implementing the Builder interface.</LI>
+
+    <A NAME="auto1014"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1015"></A>
+<LI>defines and keeps track of the representation it creates.</LI>
+
+    <A NAME="auto1016"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1017"></A>
+<LI>provides an interface for retrieving the product (e.g.,
+    GetASCIIText, GetTextWidget).</LI>
+
+</UL>
+
+<A NAME="auto1018"></A>
+<P></P>
+
+<A NAME="director"></A>
+<LI><B>Director</B> (RTFReader)</LI>
+
+<A NAME="auto1019"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1020"></A>
+<LI>constructs an object using the Builder interface.</LI>
+
+</UL>
+
+<A NAME="auto1021"></A>
+<P></P>
+
+<A NAME="prod-part-build"></A>
+<LI><B>Product</B> (ASCIIText, TeXText, TextWidget)</LI>
+
+<A NAME="auto1022"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1023"></A>
+<LI>represents the complex object under construction.
+    ConcreteBuilder builds the product's internal representation and
+    defines the process by which it's assembled.</LI>
+
+    <A NAME="auto1024"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1025"></A>
+<LI>includes classes that define the constituent parts,
+    including interfaces for assembling the parts into the final
+    result.</LI>
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1026"></A>
+<LI>The client creates the Director object and configures it with
+the desired Builder object.</LI>
+<A NAME="auto1027"></A>
+<P></P>
+<A NAME="auto1028"></A>
+<LI>Director notifies the builder whenever a part of the product
+should be built.</LI>
+<A NAME="auto1029"></A>
+<P></P>
+<A NAME="auto1030"></A>
+<LI>Builder handles requests from the director and adds parts to
+the product.</LI>
+<A NAME="auto1031"></A>
+<P></P>
+<A NAME="auto1032"></A>
+<LI>The client retrieves the product from the builder.</LI>
+
+</UL>
+
+<A NAME="auto1033"></A>
+<P>The following interaction diagram illustrates how Builder and Director
+cooperate with a client.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/build095.gif"></P>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementaion"></A> Consequences</H2>
+
+<A NAME="auto1034"></A>
+<P>Here are key consequences of the Builder pattern:</P>
+
+<OL>
+
+<A NAME="auto1035"></A>
+<LI><EM>It lets you vary a product's internal representation.</EM>
+The Builder object provides the director with an abstract interface
+for constructing the product. The interface lets the builder hide the
+representation and internal structure of the product.  It also hides
+how the product gets assembled.  Because the product is constructed
+through an abstract interface, all you have to do to change the
+product's internal representation is define a new kind of builder.</LI>
+<A NAME="auto1036"></A>
+<P></P>
+<A NAME="auto1037"></A>
+<LI><EM>It isolates code for construction and representation.</EM>
+The Builder pattern improves modularity by encapsulating the way a
+complex object is constructed and represented.  Clients needn't know
+anything about the classes that define the product's internal
+structure; such classes don't appear in Builder's interface.</LI>
+
+<A NAME="auto1038"></A>
+<P>Each ConcreteBuilder contains all the code to create and assemble a
+particular kind of product. The code is written once; then different
+Directors can reuse it to build Product variants from the same set of
+parts.  In the earlier RTF example, we could define a reader for a
+format other than RTF, say, an SGMLReader, and use the same
+TextConverters to generate ASCIIText, TeXText, and TextWidget
+renditions of SGML documents.</LI>
+<A NAME="auto1039"></A>
+<P></P>
+<A NAME="auto1040"></A>
+<LI><EM>It gives you finer control over the construction process.</EM>
+Unlike creational patterns that construct products in one shot, the
+Builder pattern constructs the product step by step under the
+director's control.  Only when the product is finished does the
+director retrieve it from the builder.  Hence the Builder interface
+reflects the process of constructing the product more than other
+creational patterns. This gives you finer control over the
+construction process and consequently the internal structure of the
+resulting product.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2>
+
+<A NAME="auto1041"></A>
+<P>Typically there's an abstract Builder class that defines an operation
+for each component that a director may ask it to create.  The
+operations do nothing by default.  A ConcreteBuilder class overrides
+operations for components it's interested in creating.</P>
+
+<A NAME="auto1042"></A>
+<P>Here are other implementation issues to consider:</P>
+
+<OL>
+
+<A NAME="auto1043"></A>
+<LI><EM>Assembly and construction interface.</EM>
+Builders construct their products in step-by-step fashion.  Therefore
+the Builder class interface must be general enough to allow
+the construction of products for all kinds of concrete builders.
+
+<A NAME="auto1044"></A>
+<P>A key design issue concerns the model for the construction and
+assembly process.  A model where the results of construction requests
+are simply appended to the product is usually sufficient.  In the RTF
+example, the builder converts and appends the next token to the text
+it has converted so far.</P>
+
+<A NAME="auto1045"></A>
+<P>But sometimes you might need access to parts of the product
+constructed earlier. In the Maze example we present in the Sample
+Code, the MazeBuilder interface lets you add a door between
+existing rooms.  Tree structures such as parse trees that are built
+bottom-up are another example. In that case, the builder would return
+child nodes to the director, which then would pass them back to the
+builder to build the parent nodes.</LI>
+<A NAME="auto1046"></A>
+<P></P>
+<A NAME="auto1047"></A>
+<LI><EM>Why no abstract class for products?</EM>
+In the common case, the products produced by the concrete builders
+differ so greatly in their representation that there is little to gain
+from giving different products a common parent class.  In the RTF
+example, the ASCIIText and the TextWidget objects are unlikely to have
+a common interface, nor do they need one.  Because the client usually
+configures the director with the proper concrete builder, the client
+is in a position to know which concrete subclass of Builder is in use
+and can handle its products accordingly.</LI>
+<A NAME="auto1048"></A>
+<P></P>
+<A NAME="auto1049"></A>
+<LI><EM>Empty methods as default in Builder.</EM>
+In C++, the build methods are intentionally not declared pure virtual
+member functions.  They're defined as empty methods instead, letting
+clients override only the operations they're interested in.</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2>
+
+<A NAME="auto1050"></A>
+<P>We'll define a variant of the <CODE>CreateMaze</CODE> member function
+(<A HREF="chap3fs.htm#CreateMaze-def" TARGET="_mainDisplayFrame">page 84</A>) that takes a builder of class
+<CODE>MazeBuilder</CODE> as an argument.</P>
+
+<A NAME="auto1051"></A>
+<P>The <CODE>MazeBuilder</CODE> class defines the following interface for
+building mazes:</P>
+
+<A NAME="auto1052"></A>
+<PRE>
+    class MazeBuilder {
+    public:
+        virtual void BuildMaze() { }
+        virtual void BuildRoom(int room) { }
+        virtual void BuildDoor(int roomFrom, int roomTo) { }
+    
+        virtual Maze* GetMaze() { return 0; }
+    protected:
+        MazeBuilder();
+    };
+</PRE>
+
+<A NAME="auto1053"></A>
+<P>This interface can create three things: (1) the maze, (2) rooms with a
+particular room number, and (3) doors between numbered rooms.  The
+<CODE>GetMaze</CODE> operation returns the maze to the client.
+Subclasses of <CODE>MazeBuilder</CODE> will override this operation to
+return the maze that they build.</P>
+
+<A NAME="auto1054"></A>
+<P>All the maze-building operations of <CODE>MazeBuilder</CODE> do nothing
+by default. They're not declared pure virtual to let derived classes
+override only those methods in which they're interested.</P>
+
+<A NAME="auto1055"></A>
+<P>Given the <CODE>MazeBuilder</CODE> interface, we can change the
+<CODE>CreateMaze</CODE> member function to take this builder as a
+parameter.</P>
+
+<A NAME="auto1056"></A>
+<PRE>
+    Maze* MazeGame::CreateMaze (MazeBuilder&amp; builder) {
+        builder.BuildMaze();
+    
+        builder.BuildRoom(1);
+        builder.BuildRoom(2);
+        builder.BuildDoor(1, 2);
+    
+        return builder.GetMaze();
+    }
+</PRE>
+
+<A NAME="auto1057"></A>
+<P>Compare this version of <CODE>CreateMaze</CODE> with the original.
+Notice how the builder hides the internal representation of the
+Maze&#151;that is, the classes that define rooms, doors, and walls&#151;and
+how these parts are assembled to complete the final maze.  Someone
+might guess that there are classes for representing rooms and doors,
+but there is no hint of one for walls.  This makes it easier to change
+the way a maze is represented, since none of the clients of
+<CODE>MazeBuilder</CODE> has to be changed.</P>
+
+<A NAME="auto1058"></A>
+<P>Like the other creational patterns, the Builder pattern encapsulates
+how objects get created, in this case through the interface defined by
+<CODE>MazeBuilder</CODE>.  That means we can reuse <CODE>MazeBuilder</CODE>
+to build different kinds of mazes.  The <CODE>CreateComplexMaze</CODE>
+operation gives an example:</P>
+
+<A NAME="auto1059"></A>
+<PRE>
+    Maze* MazeGame::CreateComplexMaze (MazeBuilder&amp; builder) {
+        builder.BuildRoom(1);
+        // ...
+        builder.BuildRoom(1001);
+    
+        return builder.GetMaze();
+    }
+</PRE>
+
+<A NAME="auto1060"></A>
+<P>Note that <CODE>MazeBuilder</CODE> does not create mazes itself; its
+main purpose is just to define an interface for creating mazes.  It
+defines empty implementations primarily for convenience.  Subclasses of
+<CODE>MazeBuilder</CODE> do the actual work.</P>
+
+<A NAME="standardmazebuilder"></A>
+<P>The subclass <CODE>StandardMazeBuilder</CODE> is an implementation that
+builds simple mazes. It keeps track of the maze it's building in the
+variable <CODE>_currentMaze</CODE>.</P>
+
+<A NAME="auto1061"></A>
+<PRE>
+    class StandardMazeBuilder : public MazeBuilder {
+    public:
+        StandardMazeBuilder();
+    
+        virtual void BuildMaze();
+        virtual void BuildRoom(int);
+        virtual void BuildDoor(int, int);
+    
+        virtual Maze* GetMaze();
+    private:
+        Direction CommonWall(Room*, Room*);
+        Maze* _currentMaze;
+    };
+</PRE>
+
+<A NAME="auto1062"></A>
+<P><CODE>CommonWall</CODE> is a utility operation that determines
+the direction of the common wall between two rooms.</P>
+
+<A NAME="auto1063"></A>
+<P>The <CODE>StandardMazeBuilder</CODE> constructor simply initializes
+<CODE>_currentMaze</CODE>.</P>
+
+<A NAME="auto1064"></A>
+<PRE>
+    StandardMazeBuilder::StandardMazeBuilder () {
+        _currentMaze = 0;
+    }
+</PRE>
+
+<A NAME="auto1065"></A>
+<P><CODE>BuildMaze</CODE> instantiates a <CODE>Maze</CODE> that
+other operations will assemble and eventually return to the client
+(with <CODE>GetMaze</CODE>).</P>
+
+<A NAME="auto1066"></A>
+<PRE>
+    void StandardMazeBuilder::BuildMaze () {
+        _currentMaze = new Maze;
+    }
+    
+    Maze* StandardMazeBuilder::GetMaze () {
+        return _currentMaze;
+    }
+</PRE>
+
+<A NAME="auto1067"></A>
+<P>The <CODE>BuildRoom</CODE> operation creates a room and builds the
+walls around it:</P>
+
+<A NAME="auto1068"></A>
+<PRE>
+    void StandardMazeBuilder::BuildRoom (int n) {
+        if (!_currentMaze->RoomNo(n)) {
+            Room* room = new Room(n);
+            _currentMaze->AddRoom(room);
+    
+            room->SetSide(North, new Wall);
+            room->SetSide(South, new Wall);
+            room->SetSide(East, new Wall);
+            room->SetSide(West, new Wall);
+        }
+    }
+</PRE>
+
+<A NAME="auto1069"></A>
+<P>To build a door between two rooms, <CODE>StandardMazeBuilder</CODE> looks
+up both rooms in the maze and finds their adjoining wall:</P>
+
+<A NAME="auto1070"></A>
+<PRE>
+    void StandardMazeBuilder::BuildDoor (int n1, int n2) {
+        Room* r1 = _currentMaze->RoomNo(n1);
+        Room* r2 = _currentMaze->RoomNo(n2);
+        Door* d = new Door(r1, r2);
+    
+        r1->SetSide(CommonWall(r1,r2), d);
+        r2->SetSide(CommonWall(r2,r1), d);
+    }
+</PRE>
+
+<A NAME="auto1071"></A>
+<P>Clients can now use <CODE>CreateMaze</CODE> in conjunction with
+<CODE>StandardMazeBuilder</CODE> to create a maze:</P>
+
+<A NAME="auto1072"></A>
+<PRE>
+    Maze* maze;
+    MazeGame game;
+    StandardMazeBuilder builder;
+    
+    game.CreateMaze(builder);
+    maze = builder.GetMaze();
+</PRE>
+
+<A NAME="auto1073"></A>
+<P>We could have put all the <CODE>StandardMazeBuilder</CODE> operations in
+<CODE>Maze</CODE> and let each <CODE>Maze</CODE> build itself.  But making
+<CODE>Maze</CODE> smaller makes it easier to understand and modify, and
+<CODE>StandardMazeBuilder</CODE> is easy to separate from <CODE>Maze</CODE>.
+Most importantly, separating the two lets you have a variety of
+<CODE>MazeBuilders</CODE>, each using different classes for rooms, walls,
+and doors.</P>
+
+<A NAME="auto1074"></A>
+<P>A more exotic <CODE>MazeBuilder</CODE> is
+<CODE>CountingMazeBuilder</CODE>.  This builder doesn't create a
+maze at all; it just counts the different kinds of components that
+would have been created.</P>
+
+<A NAME="auto1075"></A>
+<PRE>
+    class CountingMazeBuilder : public MazeBuilder {
+    public:
+        CountingMazeBuilder();
+    
+        virtual void BuildMaze();
+        virtual void BuildRoom(int);
+        virtual void BuildDoor(int, int);
+        virtual void AddWall(int, Direction);
+    
+        void GetCounts(int&amp;, int&amp;) const;
+    private:
+        int _doors;
+        int _rooms;
+    };
+</PRE>
+
+<A NAME="auto1076"></A>
+<P>The constructor initializes the counters, and the overridden
+<CODE>MazeBuilder</CODE> operations increment them accordingly.</P>
+
+<A NAME="auto1077"></A>
+<PRE>
+    CountingMazeBuilder::CountingMazeBuilder () {
+        _rooms = _doors = 0;
+    }
+    
+    void CountingMazeBuilder::BuildRoom (int) {
+        _rooms++;
+    }
+    
+    void CountingMazeBuilder::BuildDoor (int, int) {
+        _doors++;
+    }
+    
+    void CountingMazeBuilder::GetCounts (
+        int&amp; rooms, int&amp; doors
+    ) const {
+        rooms = _rooms;
+        doors = _doors;
+    }
+</PRE>
+
+<A NAME="auto1078"></A>
+<P>Here's how a client might use a <CODE>CountingMazeBuilder</CODE>:</P>
+
+<A NAME="auto1079"></A>
+<PRE>
+    int rooms, doors;
+    MazeGame game;
+    CountingMazeBuilder builder;
+    
+    game.CreateMaze(builder);
+    builder.GetCounts(rooms, doors);
+    
+    cout &lt;&lt; "The maze has "
+         &lt;&lt; rooms &lt;&lt; " rooms and "
+         &lt;&lt; doors &lt;&lt; " doors" &lt;&lt; endl;
+</PRE>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2>
+
+<A NAME="auto1080"></A>
+<P>The RTF converter application is from ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>].  Its text building block uses a
+builder to process text stored in the RTF format.</P>
+
+<A NAME="et-use-builder"></A>
+<A NAME="smalltalk-use-builder"></A>
+<P>Builder is a common pattern in
+Smalltalk-80 [<A HREF="bibfs.htm#parcplace_smalltalk" TARGET="_mainDisplayFrame">Par90</A>]:</P>
+
+<UL>
+
+<A NAME="auto1081"></A>
+<LI>The Parser class in the compiler subsystem is a Director that takes a
+ProgramNodeBuilder object as an argument.  A Parser object notifies
+its ProgramNodeBuilder object each time it recognizes a syntactic
+construct.  When the parser is done, it asks the builder for the parse
+tree it built and returns it to the client.</LI>
+<A NAME="auto1082"></A>
+<P></P>
+<A NAME="auto1083"></A>
+<LI>ClassBuilder is a builder that Classes use to create subclasses for
+themselves.  In this case a Class is both the Director and the
+Product.</LI>
+<A NAME="auto1084"></A>
+<P></P>
+<A NAME="auto1085"></A>
+<LI>ByteCodeStream is a builder that creates a compiled method as a byte
+array.  ByteCodeStream is a nonstandard use of the Builder pattern,
+because the complex object it builds is encoded as a byte array, not
+as a normal Smalltalk object.  But the interface to ByteCodeStream is
+typical of a builder, and it would be easy to replace ByteCodeStream
+with a different class that represented programs as a composite
+object.</LI>
+
+</UL>
+
+<A NAME="auto1086"></A>
+<P>The Service Configurator framework from the Adaptive Communications
+Environment uses a builder to construct network service components
+that are linked into a server at run-time [<A HREF="bibfs.htm#schmidt94" TARGET="_mainDisplayFrame">SS94</A>].  The components are described
+with a configuration language that's parsed by an LALR(1) parser.
+The semantic actions of the parser perform operations on the builder
+that add information to the service component.  In this case, the
+parser is the Director.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1087"></A>
+<P><A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A> is
+similar to Builder in that it too may construct complex objects.
+The primary difference is that the Builder pattern focuses on
+constructing a complex object step by step.  Abstract Factory's
+emphasis is on families of product objects (either simple or
+complex).  Builder returns the product as a final step, but as far
+as the Abstract Factory pattern is concerned, the product gets
+returned immediately.</P>
+
+<A NAME="auto1088"></A>
+<P>A <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A> is what the
+builder often builds.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3cfs.htm"
+	TARGET="_mainDisplayFrame">Factory Method</A><BR>
+<A HREF="pat3afs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3afs.htm"
+	TARGET="_mainDisplayFrame">Abstract Factory</A>
+</P>
+
+</BODY>
+
+</HTML>
+
+

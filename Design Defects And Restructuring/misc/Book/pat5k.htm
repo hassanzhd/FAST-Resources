@@ -1,0 +1,949 @@
+<HTML>
+
+<HEAD><TITLE>Visitor</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="Visitor"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Represent an operation to be performed on the elements of an object
+structure.  Visitor lets you define a new operation without changing the
+classes of the elements on which it operates.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="abssyntree"></A>
+<P>Consider a compiler that represents programs as abstract syntax trees.
+It will need to perform operations on abstract syntax trees for "static
+semantic" analyses like checking that all variables are defined. It
+will also need to generate code. So it might define operations for
+type-checking, code optimization, flow analysis, checking for variables
+being assigned values before they're used, and so on. Moreover, we could
+use the abstract syntax trees for pretty-printing, program
+restructuring, code instrumentation, and computing various metrics of a
+program.</P>
+
+<A NAME="auto1001"></A>
+<P>Most of these operations will need to treat nodes that represent
+assignment statements differently from nodes that represent variables or
+arithmetic expressions. Hence there will be one class for assignment
+statements, another for variable accesses, another for arithmetic
+expressions, and so on. The set of node classes depends on the language
+being compiled, of course, but it doesn't change much for a given
+language.</P>
+
+<A NAME="abssync"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/visit006.gif"></P>
+
+<A NAME="auto1002"></A>
+<P>This diagram shows part of the Node class hierarchy.  The problem here
+is that distributing all these operations across the various node
+classes leads to a system that's hard to understand, maintain, and
+change. It will be confusing to have type-checking code mixed with
+pretty-printing code or flow analysis code. Moreover, adding a new
+operation usually requires recompiling all of these classes. It would be
+better if each new operation could be added separately, and the node
+classes were independent of the operations that apply to them.</P>
+
+<A NAME="def-visitor"></A>
+<P>We can have both by packaging related operations from each class in a
+separate object, called a <STRONG>visitor</STRONG>, and passing it to
+elements of the abstract syntax tree as it's traversed. When an element
+"accepts" the visitor, it sends a request to the visitor that encodes
+the element's class. It also includes the element as an argument. The
+visitor will then execute the operation for that element&#151;the
+operation that used to be in the class of the element.</P>
+
+<A NAME="typecheck"></A>
+<P>For example, a compiler that didn't use visitors might type-check a
+procedure by calling the TypeCheck operation on its abstract syntax
+tree. Each of the nodes would implement TypeCheck by calling TypeCheck
+on its components (see the preceding class diagram). If the compiler
+type-checked a procedure using visitors, then it would create a
+TypeCheckingVisitor object and call the Accept operation on the
+abstract syntax tree with that object as an argument. Each of the
+nodes would implement Accept by calling back on the visitor: an
+assignment node calls VisitAssignment operation on the visitor, while
+a variable reference calls VisitVariableReference. What used to be the
+TypeCheck operation in class AssignmentNode is now the VisitAssignment
+operation on TypeCheckingVisitor.</P>
+
+<A NAME="auto1003"></A>
+<P>To make visitors work for more than just type-checking, we need an
+abstract parent class NodeVisitor for all visitors of an abstract syntax
+tree. NodeVisitor must declare an operation for each node class. An
+application that needs to compute program metrics will define new
+subclasses of NodeVisitor and will no longer need to add
+application-specific code to the node classes. The Visitor pattern
+encapsulates the operations for each compilation phase in a Visitor
+associated with that phase.</P>
+
+<A NAME="332c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/visit113.gif"></P>
+
+<A NAME="333c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/visit112.gif"></P>
+
+<A NAME="auto1004"></A>
+<P>With the Visitor pattern, you define two class hierarchies: one for the
+elements being operated on (the Node hierarchy) and one for the visitors
+that define operations on the elements (the NodeVisitor hierarchy). You
+create a new operation by adding a new subclass to the visitor class
+hierarchy. As long as the grammar that the compiler accepts doesn't
+change (that is, we don't have to add new Node subclasses), we can add
+new functionality simply by defining new NodeVisitor subclasses.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1005"></A>
+<P>Use the Visitor pattern when</P>
+
+<UL>
+
+<A NAME="auto1006"></A>
+<LI>an object structure contains many classes of objects with differing
+interfaces, and you want to perform operations on these objects that
+depend on their concrete classes.</LI>
+<A NAME="auto1007"></A>
+<P></P>
+<A NAME="auto1008"></A>
+<LI>many distinct and unrelated operations need to be performed on objects
+in an object structure, and you want to avoid "polluting" their
+classes with these operations. Visitor lets you keep related operations
+together by defining them in one class. When the object structure is
+shared by many applications, use Visitor to put operations in just those
+applications that need them.</LI>
+<A NAME="auto1009"></A>
+<P></P>
+<A NAME="auto1010"></A>
+<LI>the classes defining the object structure rarely change, but you often
+want to define new operations over the structure. Changing the object
+structure classes requires redefining the interface to all visitors,
+which is potentially costly. If the object structure classes change
+often, then it's probably better to define the operations in those
+classes.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/visitor.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1011"></A>
+<LI><B>Visitor</B> (NodeVisitor)</LI>
+
+<A NAME="auto1012"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1013"></A>
+<LI>declares a Visit operation for each class of ConcreteElement
+    in the object structure.  The operation's name and
+    signature identifies the class that sends the Visit
+    request to the visitor. That lets the visitor determine the
+    concrete class of the element being visited.  Then the visitor
+    can access the element directly through its particular interface.</LI>
+
+    </UL>
+
+<A NAME="auto1014"></A>
+<P></P>
+
+<A NAME="auto1015"></A>
+<LI><B>ConcreteVisitor</B> (TypeCheckingVisitor)</LI>
+
+<A NAME="auto1016"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1017"></A>
+<LI>implements each operation declared by Visitor. Each operation
+    implements a fragment of the algorithm defined for the corresponding
+    class of object in the structure.  ConcreteVisitor provides the
+    context for the algorithm and stores its local state. This state often
+    accumulates results during the traversal of the structure.</LI>
+
+    </UL>
+
+<A NAME="auto1018"></A>
+<P></P>
+
+<A NAME="part-element"></A>
+<LI><B>Element</B> (Node)</LI>
+
+<A NAME="auto1019"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1020"></A>
+<LI>defines an Accept operation that takes a visitor as an argument.</LI>
+
+    </UL>
+
+<A NAME="auto1021"></A>
+<P></P>
+
+<A NAME="auto1022"></A>
+<LI><B>ConcreteElement</B> (AssignmentNode,VariableRefNode)</LI>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1024"></A>
+<LI>implements an Accept operation that takes a visitor as an
+    argument.</LI>
+
+    </UL>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<A NAME="auto1026"></A>
+<LI><B>ObjectStructure</B> (Program)</LI>
+
+<A NAME="auto1027"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1028"></A>
+<LI>can enumerate its elements.</LI>
+
+    <A NAME="auto1029"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1030"></A>
+<LI>may provide a high-level interface to allow the visitor
+    to visit its elements.</LI>
+
+    <A NAME="auto1031"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1032"></A>
+<LI>may either be a composite (see
+    <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>)
+    or a collection such as a list or a set.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1033"></A>
+<LI>A client that uses the Visitor pattern must create a ConcreteVisitor
+object and then traverse the object structure, visiting each element
+with the visitor.</LI>
+<A NAME="auto1034"></A>
+<P></P>
+<A NAME="auto1035"></A>
+<LI>When an element is visited, it calls the Visitor operation that
+corresponds to its class.  The element supplies itself as an argument
+to this operation to let the visitor access its state, if necessary.
+
+<A NAME="auto1036"></A>
+<P>The following interaction diagram illustrates the collaborations
+between an object structure, a visitor, and two elements:</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/visit003.gif"></P>
+
+</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1037"></A>
+<P>Some of the benefits and liabilities of the Visitor pattern are as follows:</P>
+
+<OL>
+
+<A NAME="auto1038"></A>
+<LI><EM>Visitor makes adding new operations easy.</EM>
+Visitors make it easy to add operations that depend on the components of
+complex objects. You can define a new operation over an object structure
+simply by adding a new visitor. In contrast, if you spread functionality
+over many classes, then you must change each class to define a new
+operation.</LI>
+<A NAME="auto1039"></A>
+<P></P>
+<A NAME="auto1040"></A>
+<LI><EM>A visitor gathers related operations and separates unrelated ones.</EM>
+Related behavior isn't spread over the classes defining the object
+structure; it's localized in a visitor. Unrelated sets of behavior are
+partitioned in their own visitor subclasses. That simplifies both the
+classes defining the elements and the algorithms defined in the
+visitors. Any algorithm-specific data structures can be hidden in the
+visitor.</LI>
+<A NAME="auto1041"></A>
+<P></P>
+<A NAME="auto1042"></A>
+<LI><EM>Adding new ConcreteElement classes is hard.</EM>
+The Visitor pattern makes it hard to add new subclasses of Element. Each
+new ConcreteElement gives rise to a new abstract operation on Visitor and
+a corresponding implementation in every ConcreteVisitor class. Sometimes a
+default implementation can be provided in Visitor that can be inherited
+by most of the ConcreteVisitors, but this is the exception rather than
+the rule.
+
+<A NAME="auto1043"></A>
+<P>So the key consideration in applying the Visitor pattern is whether you
+are mostly likely to change the algorithm applied over an object
+structure or the classes of objects that make up the structure. The
+Visitor class hierarchy can be difficult to maintain when new
+ConcreteElement classes are added frequently. In such cases, it's
+probably easier just to define operations on the classes that make up
+the structure. If the Element class hierarchy is stable, but you are
+continually adding operations or changing algorithms, then the Visitor
+pattern will help you manage the changes.</P>
+
+</LI>
+
+<A NAME="trav-across-class"></A>
+<LI><EM>Visiting across class hierarchies.</EM>
+An iterator (see <A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A>) can visit the objects in a
+structure as it traverses them by calling their operations. But an iterator
+can't work across object structures with different types of elements. For
+example, the Iterator interface defined on
+<A HREF="pat5dfs.htm#class_Iterator_declaration" TARGET="_mainDisplayFrame">page 263</A> can access only objects of type <CODE>Item</CODE>:
+
+<A NAME="auto1044"></A>
+<PRE>
+    template &lt;class Item>
+    class Iterator {
+        // ...
+        Item CurrentItem() const;
+    };
+</PRE>
+
+<A NAME="auto1045"></A>
+<P>This implies that all elements the iterator can visit have a common parent
+class <CODE>Item</CODE>.</P>
+
+<A NAME="auto1046"></A>
+<P>Visitor does not have this restriction.  It can visit objects that
+don't have a common parent class. You can add any type of object to a
+Visitor interface.  For example, in</P>
+
+<A NAME="auto1047"></A>
+<PRE>
+    class Visitor {
+    public:
+        // ...
+        void VisitMyType(MyType*);
+        void VisitYourType(YourType*);
+    };
+</PRE>
+
+<A NAME="auto1048"></A>
+<P><CODE>MyType</CODE> and <CODE>YourType</CODE> do not have to be related through
+inheritance at all.</P>
+
+</LI>
+
+<A NAME="auto1049"></A>
+<P></P>
+
+<A NAME="accumulatingstate"></A>
+<LI><EM>Accumulating state.</EM>
+Visitors can accumulate state as they visit each element in the object
+structure.  Without a visitor, this state would be passed as extra
+arguments to the operations that perform the traversal, or they
+might appear as global variables.</LI>
+
+<A NAME="auto1050"></A>
+<P></P>
+
+<A NAME="breakencap"></A>
+<LI><EM>Breaking encapsulation.</EM>
+Visitor's approach assumes that the ConcreteElement interface is powerful
+enough to let visitors do their job.  As a result, the pattern often
+forces you to provide public operations that access an element's
+internal state, which may compromise its encapsulation.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1051"></A>
+<P>Each object structure will have an associated Visitor class.  This
+abstract visitor class declares a VisitConcreteElement operation for
+each class of ConcreteElement defining the object structure.  Each
+Visit operation on the Visitor declares its argument to be a
+particular ConcreteElement, allowing the Visitor to access the
+interface of the ConcreteElement directly.  ConcreteVisitor classes
+override each Visit operation to implement visitor-specific behavior
+for the corresponding ConcreteElement class.</P>
+
+<A NAME="auto1052"></A>
+<P>The Visitor class would be declared like this in C++:</P>
+
+<A NAME="auto1053"></A>
+<PRE>
+    class Visitor {
+    public:
+        virtual void VisitElementA(ElementA*);
+        virtual void VisitElementB(ElementB*);
+    
+        // and so on for other concrete elements
+    protected:
+        Visitor();
+    };
+</PRE>
+
+<A NAME="auto1054"></A>
+<P>Each class of ConcreteElement implements an <CODE>Accept</CODE> operation
+that calls the matching <CODE>Visit...</CODE> operation on the visitor
+for that ConcreteElement.  Thus the operation that ends up getting
+called depends on both the class of the element and the class of the
+visitor.<A NAME="fn10"></A><SUP><A HREF="#footnote10">10</A></SUP></P>
+
+<A NAME="auto1055"></A>
+<P>The concrete elements are declared as</P>
+
+<A NAME="auto1056"></A>
+<PRE>
+    class Element {
+    public:
+        virtual ~Element();
+        virtual void Accept(Visitor&amp;) = 0;
+    protected:
+        Element();
+    };
+    
+    class ElementA : public Element {
+    public:
+        ElementA();
+        virtual void Accept(Visitor&amp; v) { v.VisitElementA(this); }
+    };
+    
+    class ElementB : public Element {
+    public:
+        ElementB();
+        virtual void Accept(Visitor&amp; v) { v.VisitElementB(this); }
+    };
+</PRE>
+
+<A NAME="auto1057"></A>
+<P>A <CODE>CompositeElement</CODE> class might implement <CODE>Accept</CODE>
+like this:</P>
+
+<A NAME="auto1058"></A>
+<PRE>
+    class CompositeElement : public Element {
+    public:
+        virtual void Accept(Visitor&amp;);
+    private:
+        List&lt;Element*>* _children;
+    };
+    
+    void CompositeElement::Accept (Visitor&amp; v) {
+        ListIterator&lt;Element*> i(_children);
+    
+        for (i.First(); !i.IsDone(); i.Next()) {
+            i.CurrentItem()->Accept(v);
+        }
+        v.VisitCompositeElement(this);
+    }
+</PRE>
+
+<A NAME="auto1059"></A>
+<P>Here are two other implementation issues that arise when you apply the
+Visitor pattern:</P>
+
+<OL>
+
+<A NAME="doubledispatch"></A>
+<A NAME="singledispatch"></A>
+<LI><EM>Double dispatch.</EM>
+Effectively, the Visitor pattern lets you add operations to classes
+without changing them.  Visitor achieves this by using a technique
+called <STRONG>double-dispatch</STRONG>.  It's a well-known technique.  In
+fact, some programming languages support it directly (CLOS, for
+example).  Languages like C++ and Smalltalk support
+<STRONG>single-dispatch</STRONG>.
+
+<A NAME="auto1060"></A>
+<P>In single-dispatch languages, two criteria determine which operation
+will fulfill a request: the name of the request and the type of
+receiver. For example, the operation that a GenerateCode request will
+call depends on the type of node object you ask. In C++, calling
+<CODE>GenerateCode</CODE> on an instance of <CODE>VariableRefNode</CODE> will
+call <CODE>VariableRefNode::GenerateCode</CODE> (which generates code for a
+variable reference). Calling <CODE>GenerateCode</CODE> on an
+<CODE>AssignmentNode</CODE> will call
+<CODE>AssignmentNode::GenerateCode</CODE> (which will generate code for an
+assignment). The operation that gets executed depends both on the kind
+of request and the type of the receiver.</P>
+
+<A NAME="auto1061"></A>
+<P>"Double-dispatch" simply means the operation that gets executed
+depends on the kind of request and the types of <EM>two</EM> receivers.
+<CODE>Accept</CODE> is a double-dispatch operation.  Its meaning depends
+on two types: the Visitor's and the Element's.  Double-dispatching
+lets visitors request different operations on each class of
+element.<A NAME="fn11"></A><SUP><A HREF="#footnote11">11</A></SUP></P>
+
+<A NAME="auto1062"></A>
+<P>This is the key to the Visitor pattern: The operation that gets
+executed depends on both the type of Visitor and the type of Element
+it visits.  Instead of binding operations statically into the Element
+interface, you can consolidate the operations in a Visitor and use
+<CODE>Accept</CODE> to do the binding at run-time.  Extending the Element
+interface amounts to defining one new Visitor subclass rather than many new
+Element subclasses.</P>
+
+</LI>
+
+<A NAME="trav-responsibility"></A>
+<LI><EM>Who is responsible for traversing the object structure?</EM>
+A visitor must visit each element of the object structure. The question
+is, how does it get there? We can put responsibility for traversal in
+any of three places: in the object structure, in the visitor, or in a
+separate iterator object (see <A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A>).
+
+<A NAME="auto1063"></A>
+<P>Often the object structure is responsible for iteration. A collection
+will simply iterate over its elements, calling the Accept operation on
+each. A composite will commonly traverse itself by having each Accept
+operation traverse the element's children and call Accept on each of
+them recursively.</P>
+
+<A NAME="iter-ext-int"></A>
+<P>Another solution is to use an iterator to visit the elements. In C++,
+you could use either an internal or external iterator, depending on what
+is available and what is most efficient. In Smalltalk, you usually use
+an internal iterator using <CODE>do:</CODE> and a block. Since internal
+iterators are implemented by the object structure, using an internal
+iterator is a lot like making the object structure responsible for
+iteration. The main difference is that an internal iterator will not
+cause double-dispatching&#151;it will call an operation on the <EM>visitor</EM> with an <EM>element</EM> as an argument as opposed to calling an
+operation on the <EM>element</EM> with the <EM>visitor</EM> as an argument.
+But it's easy to use the Visitor pattern with an internal iterator if
+the operation on the visitor simply calls the operation on the element
+without recursing.</P>
+
+<A NAME="auto1064"></A>
+<P>You could even put the traversal algorithm in the visitor, although you'll
+end up duplicating the traversal code in each ConcreteVisitor for each
+aggregate ConcreteElement. The main reason to put the traversal strategy
+in the visitor is to implement a particularly complex traversal, one
+that depends on the results of the operations on the object structure.
+We'll give an example of such a case in the Sample Code.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1065"></A>
+<P>Because visitors are usually associated with composites, we'll use the
+<CODE>Equipment</CODE> classes defined in the Sample Code of
+<A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A> to illustrate the Visitor pattern.  We
+will use Visitor to define operations for computing the
+inventory of materials and the total cost for a piece of equipment.
+The <CODE>Equipment</CODE> classes are so simple that using Visitor
+isn't really necessary, but they make it easy to see what's
+involved in implementing the pattern.</P>
+
+<A NAME="equipment"></A>
+<P>Here again is the <CODE>Equipment</CODE> class from
+<A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>.  We've augmented it with an
+<CODE>Accept</CODE> operation to let it work with a visitor.</P>
+
+<A NAME="auto1066"></A>
+<PRE>
+    class Equipment {
+    public:
+        virtual ~Equipment();
+    
+        const char* Name() { return _name; }
+    
+        virtual Watt Power();
+        virtual Currency NetPrice();
+        virtual Currency DiscountPrice();
+    
+        virtual void Accept(EquipmentVisitor&amp;);
+    protected:
+        Equipment(const char*);
+    private:
+        const char* _name;
+    };
+</PRE>
+
+<A NAME="auto1067"></A>
+<P>The <CODE>Equipment</CODE> operations return the attributes of a piece of
+equipment, such as its power consumption and cost.  Subclasses redefine
+these operations appropriately for specific types of equipment (e.g.,
+a chassis, drives, and planar boards).</P>
+
+<A NAME="auto1068"></A>
+<P>The abstract class for all visitors of equipment has a virtual
+function for each subclass of equipment, as shown next.  All of the
+virtual functions do nothing by default.</P>
+
+<A NAME="equip-visit"></A>
+<PRE>
+    class EquipmentVisitor {
+    public:
+        virtual ~EquipmentVisitor();
+    
+        virtual void VisitFloppyDisk(FloppyDisk*);
+        virtual void VisitCard(Card*);
+        virtual void VisitChassis(Chassis*);
+        virtual void VisitBus(Bus*);
+    
+        // and so on for other concrete subclasses of Equipment
+    protected:
+        EquipmentVisitor();
+    };
+</PRE>
+
+<A NAME="auto1069"></A>
+<P><CODE>Equipment</CODE> subclasses define <CODE>Accept</CODE> in
+basically the same way: It calls the
+<CODE>EquipmentVisitor</CODE> operation that corresponds to the class
+that received the <CODE>Accept</CODE> request, like this:</P>
+
+<A NAME="auto1070"></A>
+<PRE>
+    void FloppyDisk::Accept (EquipmentVisitor&amp; visitor) {
+       visitor.VisitFloppyDisk(this);
+    }
+</PRE>
+
+<A NAME="auto1071"></A>
+<P>Equipment that contains other equipment (in particular, subclasses of
+<CODE>CompositeEquipment</CODE> in the Composite pattern) implements
+<CODE>Accept</CODE> by iterating over its children and calling
+<CODE>Accept</CODE> on each of them. Then it calls the
+<CODE>Visit</CODE> operation as usual.
+For example, <CODE>Chassis::Accept</CODE> could traverse
+all the parts in the chassis as follows:</P>
+
+<A NAME="auto1072"></A>
+<PRE>
+    void Chassis::Accept (EquipmentVisitor&amp; visitor) {
+        for (
+            ListIterator<Equipment*> i(_parts);
+            !i.IsDone();
+            i.Next()
+        ) {
+            i.CurrentItem()->Accept(visitor);
+        }
+        visitor.VisitChassis(this);
+    }
+</PRE>
+
+<A NAME="pricingvisitor"></A>
+<P>Subclasses of <CODE>EquipmentVisitor</CODE> define particular algorithms
+over the equipment structure. The <CODE>PricingVisitor</CODE> computes the
+cost of the equipment structure. It computes the net price of all simple
+equipment (e.g., floppies) and the discount price of all composite
+equipment (e.g., chassis and buses).</P>
+
+<A NAME="auto1073"></A>
+<PRE>
+    class PricingVisitor : public EquipmentVisitor {
+    public:
+        PricingVisitor();
+    
+        Currency&amp; GetTotalPrice();
+    
+        virtual void VisitFloppyDisk(FloppyDisk*);
+        virtual void VisitCard(Card*);
+        virtual void VisitChassis(Chassis*);
+        virtual void VisitBus(Bus*);
+        // ...
+    private:
+        Currency _total;
+    };
+    
+    void PricingVisitor::VisitFloppyDisk (FloppyDisk* e) {
+        _total += e->NetPrice();
+    }
+    
+    void PricingVisitor::VisitChassis (Chassis* e) {
+        _total += e->DiscountPrice();
+    }
+</PRE>
+
+<A NAME="auto1074"></A>
+<P><CODE>PricingVisitor</CODE> will compute the total cost of all nodes in the
+equipment structure. Note that <CODE>PricingVisitor</CODE> chooses the
+appropriate pricing policy for a class of equipment by dispatching to
+the corresponding member function. What's more, we can change the
+pricing policy of an equipment structure just by changing the
+<CODE>PricingVisitor</CODE> class.</P>
+
+<A NAME="auto1075"></A>
+<P>We can define a visitor for computing inventory like this:
+
+<A NAME="auto1076"></A>
+<PRE>
+    class InventoryVisitor : public EquipmentVisitor {
+    public:
+        InventoryVisitor();
+    
+        Inventory&amp; GetInventory();
+    
+        virtual void VisitFloppyDisk(FloppyDisk*);
+        virtual void VisitCard(Card*);
+        virtual void VisitChassis(Chassis*);
+        virtual void VisitBus(Bus*);
+        // ...
+    
+    private:
+        Inventory _inventory;
+    };
+</PRE>
+
+<A NAME="auto1077"></A>
+<P>The <CODE>InventoryVisitor</CODE> accumulates the totals for each type of
+equipment in the object structure. <CODE>InventoryVisitor</CODE> uses an
+<CODE>Inventory</CODE> class that defines an interface for adding equipment
+(which we won't bother defining here).</P>
+
+<A NAME="auto1078"></A>
+<PRE>
+    void InventoryVisitor::VisitFloppyDisk (FloppyDisk* e) {
+        _inventory.Accumulate(e);
+    }
+    
+    void InventoryVisitor::VisitChassis (Chassis* e) {
+        _inventory.Accumulate(e);
+    }
+</PRE>
+
+<A NAME="auto1079"></A>
+<P>Here's how we can use an <CODE>InventoryVisitor</CODE> on an
+equipment structure:</P>
+
+<A NAME="auto1080"></A>
+<PRE>
+    Equipment* component;
+    InventoryVisitor visitor;
+    
+    component->Accept(visitor);
+    cout &lt;&lt; "Inventory "
+         &lt;&lt; component->Name()
+         &lt;&lt; visitor.GetInventory();
+</PRE>
+
+<A NAME="auto1081"></A>
+<P>Now we'll show how to implement the Smalltalk example from the Interpreter
+pattern (see
+<A HREF="pat5cfs.htm#Smalltalk_example_in_Interpreter" TARGET="_mainDisplayFrame">page 248</A>) with the
+Visitor pattern. Like the previous example, this one is so small that
+Visitor probably won't buy us much, but it provides a good illustration of
+how to use the pattern. Further, it illustrates a situation in which
+iteration is the visitor's responsibility.</P>
+
+<A NAME="auto1082"></A>
+<P>The object structure (regular expressions) is made of four classes,
+and all of them have an <CODE>accept:</CODE> method that takes the
+visitor as an argument.  In class <CODE>SequenceExpression</CODE>, the
+<CODE>accept:</CODE> method is</P>
+
+<A NAME="auto1083"></A>
+<PRE>
+    accept: aVisitor
+         ^ aVisitor visitSequence: self
+</PRE>
+
+<A NAME="altexp"></A>
+<A NAME="literalexp"></A>
+<A NAME="repeatexp"></A>
+<P>In class <CODE>RepeatExpression</CODE>, the <CODE>accept:</CODE> method
+sends the <CODE>visitRepeat:</CODE> message.
+In class <CODE>AlternationExpression</CODE>, it sends the
+<CODE>visitAlternation:</CODE> message.
+In class <CODE>LiteralExpression</CODE>, it sends the
+<CODE>visitLiteral:</CODE> message.</P>
+
+<A NAME="seqexp"></A>
+<P>The four classes also must have accessing functions that the visitor
+can use.  For <CODE>SequenceExpression</CODE> these are
+<CODE>expression1</CODE> and <CODE>expression2</CODE>; for
+<CODE>AlternationExpression</CODE> these are <CODE>alternative1</CODE>
+and <CODE>alternative2</CODE>; for
+<CODE>RepeatExpression</CODE> it is <CODE>repetition</CODE>; and for
+<CODE>LiteralExpression</CODE> these are <CODE>components</CODE>.</P>
+
+<A NAME="auto1084"></A>
+<P>The ConcreteVisitor class is <CODE>REMatchingVisitor</CODE>.  It
+is responsible for the traversal because its traversal algorithm
+is irregular.  The biggest irregularity is that a
+<CODE>RepeatExpression</CODE> will repeatedly traverse its component.
+The class <CODE>REMatchingVisitor</CODE> has an instance variable
+<CODE>inputState</CODE>.   Its methods are essentially the same as
+the <CODE>match:</CODE> methods of the expression classes in the
+Interpreter pattern except they
+replace the argument named <CODE>inputState</CODE> with the
+expression node being matched.  However, they
+still return the set of streams that the expression would match
+to identify the current state.</P>
+
+<A NAME="auto1085"></A>
+<PRE>
+    visitSequence: sequenceExp
+        inputState := sequenceExp expression1 accept: self.
+        ^ sequenceExp expression2 accept: self.
+    
+    visitRepeat: repeatExp
+        | finalState |
+        finalState := inputState copy.
+        [inputState isEmpty]
+            whileFalse:
+                [inputState := repeatExp repetition accept: self.
+                finalState addAll: inputState].
+        ^ finalState
+    
+    visitAlternation: alternateExp
+        | finalState originalState |
+        originalState := inputState.
+        finalState := alternateExp alternative1 accept: self.
+        inputState := originalState.
+        finalState addAll: (alternateExp alternative2 accept: self).
+        ^ finalState
+    
+    visitLiteral: literalExp
+        | finalState tStream |
+        finalState := Set new.
+        inputState
+            do:
+                [:stream | tStream := stream copy.
+                    (tStream nextAvailable:
+                        literalExp components size
+                    ) = literalExp components
+                        ifTrue: [finalState add: tStream]
+                ].
+        ^ finalState
+</PRE>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="smalltalk-use-visitor"></A>
+<P>The Smalltalk-80 compiler has a Visitor class called ProgramNodeEnumerator.
+It's used primarily for algorithms that analyze source code.
+It isn't used for code generation or pretty-printing, although it could be.</P>
+
+<A NAME="auto1086"></A>
+<P>IRIS Inventor [<A HREF="bibfs.htm#strauss_oopsla93" TARGET="_mainDisplayFrame">Str93</A>]
+is a toolkit for developing 3-D graphics applications. Inventor
+represents a three-dimensional scene as a hierarchy of nodes, each
+representing either a geometric object or an attribute of one.
+Operations like rendering a scene or mapping an input event require
+traversing this hierarchy in different ways. Inventor does this
+using visitors called "actions." There are different visitors for
+rendering, event handling, searching, filing, and determining
+bounding boxes.</P>
+
+<A NAME="auto1087"></A>
+<P>To make adding new nodes easier, Inventor implements a
+double-dispatch scheme for C++. The scheme relies on run-time type
+information and a two-dimensional table in which rows represent
+visitors and columns represent node classes.  The cells store a
+pointer to the function bound to the visitor and node class.</P>
+
+<A NAME="fresco"></A>
+<A NAME="linton"></A>
+<P>Mark Linton coined the term "Visitor" in the X Consortium's
+Fresco Application Toolkit specification [<A HREF="bibfs.htm#fresco" TARGET="_mainDisplayFrame">LP93</A>].</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1088"></A>
+<P><A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>:
+Visitors can be used to apply an operation over an object structure
+defined by the Composite pattern.</P>
+
+<A NAME="auto1089"></A>
+<P><A HREF="pat5cfs.htm" TARGET="_mainDisplayFrame">Interpreter (243)</A>:
+Visitor may be applied to do the interpretation.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="disc5fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="disc5fs.htm"
+        TARGET="_mainDisplayFrame">Discussion of Behavioral Patterns</A><BR>
+<A HREF="pat5jfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5jfs.htm"
+        TARGET="_mainDisplayFrame">Template Method</A>
+</P>
+
+<HR>
+
+<A NAME="footnote10"></A>
+<P><SUP>10</SUP>We could use function overloading to give these operations
+the same simple name, like <CODE>Visit</CODE>, since the operations are
+already differentiated by the parameter they're passed.  There are
+pros and cons to such overloading.  On the one hand, it reinforces the
+fact that each operation involves the same analysis, albeit on a
+different argument.  On the other hand, that might make what's going
+on at the call site less obvious to someone reading the code.  It
+really boils down to whether you believe function overloading is good
+or not.
+</P>
+
+<A NAME="footnote11"></A>
+<P><SUP>11</SUP>If we can have <EM>double</EM>-dispatch, then why not
+<EM>triple</EM> or <EM>quadruple</EM>, or any other number?  Actually,
+double-dispatch is just a special case of <STRONG>multiple
+dispatch</STRONG>, in which the operation is chosen based on any number of
+types.  (CLOS actually supports multiple dispatch.)  Languages that
+support double- or multiple dispatch lessen the need for the
+Visitor pattern.
+</P>
+
+</BODY>
+
+</HTML>
+

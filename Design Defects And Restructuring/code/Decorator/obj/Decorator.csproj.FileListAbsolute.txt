@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Decorator\bin\Debug\Decorator.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Decorator\bin\Debug\Decorator.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Decorator\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Decorator\obj\Debug\Decorator.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Decorator\obj\Debug\Decorator.pdb

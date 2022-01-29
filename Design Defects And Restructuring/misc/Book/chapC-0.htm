@@ -1,0 +1,428 @@
+<HTML><HEAD><TITLE>Foundation Classes</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR=#FFFFFF
+      TEXT=#000000
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="chapter_foundation"></A>
+<P>This appendix documents the foundation classes we use in the C++
+sample code of several design patterns. We've intentionally kept the
+classes simple and minimal.  We describe the following classes:</P>
+
+<UL>
+
+<A NAME="auto1000"></A>
+<LI><A HREF="#secC-1"><CODE>List</CODE></A>, an ordered list of objects.</LI>
+
+<A NAME="auto1001"></A>
+<P></P>
+
+<A NAME="auto1002"></A>
+<LI><A HREF="#secC-2"><CODE>Iterator</CODE></A>,
+the interface for accessing an aggregate's objects in a sequence.</LI>
+
+<A NAME="auto1003"></A>
+<P></P>
+
+<A NAME="auto1004"></A>
+<LI><A HREF="#secC-3"><CODE>ListIterator</CODE></A>,
+an iterator for traversing a <CODE>List</CODE>.</LI>
+
+<A NAME="auto1005"></A>
+<P></P>
+
+<A NAME="auto1006"></A>
+<LI><A HREF="#secC-4"><CODE>Point</CODE></A>,
+a two-dimensional point.</LI>
+
+<A NAME="auto1007"></A>
+<P></P>
+
+<A NAME="auto1008"></A>
+<LI><A HREF="#secC-5"><CODE>Rect</CODE></A>, an axis-aligned rectangle.</LI>
+
+</UL>
+
+<A NAME="auto1009"></A>
+<P>Some newer C++ standard types may not be available on all
+compilers.  In particular, if your compiler doesn't define
+<CODE>bool</CODE>, then define it manually as</P>
+
+<A NAME="auto1010"></A>
+<PRE>
+    typedef int bool;
+    const int true = 1;
+    const int false = 0;
+</PRE>
+
+<A NAME="secC-1"></A>
+<H2><A HREF="#secC-2"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Iterator"></A>
+List</H2>
+
+<A NAME="auto1011"></A>
+<P>The <CODE>List</CODE> class template provides a basic container for
+storing an ordered list of objects. <CODE>List</CODE> stores elements by
+value, which means it works for built-in types as well as class
+instances. For example, <CODE>List<int></CODE> declares a list of
+<CODE>int</CODE>s. But most of the patterns use <CODE>List</CODE> to
+store pointers to objects, as in <CODE>List<Glyph*></CODE>.  That way
+<CODE>List</CODE> can be used for heterogeneous lists.</P>
+
+<A NAME="auto1012"></A>
+<P>For convenience, <CODE>List</CODE> also provides synonyms for stack
+operations, which make code that uses <CODE>List</CODE> for stacks more
+explicit without defining another class.</P>
+
+<A NAME="auto1013"></A>
+<PRE>
+    template &lt;class Item>
+    class List {
+    public:
+        List(long size = DEFAULT_LIST_CAPACITY);
+        List(List&amp;);
+        ~List();
+        List&amp; operator=(const List&amp;);
+    
+        long Count() const;
+        Item&amp; Get(long index) const;
+        Item&amp; First() const;
+        Item&amp; Last() const;
+        bool Includes(const Item&amp;) const;
+    
+        void Append(const Item&amp;);
+        void Prepend(const Item&amp;);
+    
+        void Remove(const Item&amp;);
+        void RemoveLast();
+        void RemoveFirst();
+        void RemoveAll();
+    
+        Item&amp; Top() const;
+        void Push(const Item&amp;);
+        Item&amp; Pop();
+    };
+</PRE>
+
+<A NAME="auto1014"></A>
+<P>The following sections describe these operations in greater detail.</P>
+
+
+<H3>Construction, Destruction, Initialization, and Assignment</H3>
+
+<DL>
+
+<DT><CODE>List(long size)</CODE></DT>
+<DD>initializes the list.  The <CODE>size</CODE> parameter is a hint for
+the initial number of elements.</DD>
+
+<A NAME="auto1015"></A>
+<P></P>
+
+<DT><CODE>List(List&amp;)</CODE></DT>
+<DD>overrides the default copy constructor so that member data are
+initialized properly.</DD>
+
+<A NAME="auto1016"></A>
+<P></P>
+
+<DT><CODE>~List()</CODE></DT>
+<DD>frees the list's internal data structures but <EM>not</EM> the
+elements in the list.  The class is not designed for subclassing;
+therefore the destructor isn't virtual.</DD>
+
+<A NAME="auto1017"></A>
+<P></P>
+
+<DT><CODE>List&amp; operator=(const List&amp;)</CODE></DT>
+<DD>implements the assignment operation to assign member data properly.</DD>
+
+</DL>
+
+<H3>Accessing</H3>
+
+<A NAME="auto1018"></A>
+<P>These operations provide basic access to the list's elements.
+
+<DL>
+
+<DT><CODE>long Count() const</CODE></DT>
+<DD>returns the number of objects in the list.</DD>
+
+<A NAME="auto1019"></A>
+<P></P>
+
+<DT><CODE>Item&amp; Get(long index) const</CODE></DT>
+<DD>returns the object at the given index.</DD>
+
+<A NAME="auto1020"></A>
+<P></P>
+
+<DT><CODE>Item&amp; First() const</CODE></DT>
+<DD>returns the first object in the list.</DD>
+
+<A NAME="auto1021"></A>
+<P></P>
+
+<DT><CODE>Item&amp; Last() const</CODE></DT>
+<DD>returns the last object in the list.</DD>
+
+</DL>
+
+<H3>Adding</H3>
+
+<DL>
+
+<DT><CODE>void Append(const Item&amp;)</CODE></DT>
+<DD>adds the argument to the list, making it the last element.</DD>
+
+<A NAME="auto1022"></A>
+<P></P>
+
+<DT><CODE>void Prepend(const Item&amp;)</CODE></DT>
+<DD>adds the argument to the list, making it the first element.</DD>
+
+</DL>
+
+
+<H3>Removing</H3>
+
+<DL>
+
+<DT><CODE>void Remove(const Item&amp;)</CODE></DT>
+<DD>removes the given element from the list. This operation requires
+that the type of elements in the list supports the
+<CODE>==</CODE> operator for comparison.</DD>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<DT><CODE>void RemoveFirst()</CODE></DT>
+<DD>removes the first element from the list.</DD>
+
+<A NAME="auto1024"></A>
+<P></P>
+
+<DT><CODE>void RemoveLast()</CODE></DT>
+<DD>removes the last element from the list.</DD>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<DT><CODE>void RemoveAll()</CODE></DT>
+<DD>removes all elements from the list.</DD>
+
+</DL>
+
+
+<H3>Stack Interface</H3>
+
+<DL>
+
+<DT><CODE>Item&amp; Top() const</CODE></DT>
+<DD>returns the top element (when the List is viewed as a stack).</DD>
+
+<A NAME="auto1026"></A>
+<P></P>
+
+<DT><CODE>void Push(const Item&amp;)</CODE></DT>
+<DD>pushes the element onto the stack.</DD>
+
+<A NAME="auto1027"></A>
+<P></P>
+
+<DT><CODE>Item&amp; Pop()</CODE></DT>
+<DD>pops the top element from the stack.</DD>
+
+</DL>
+
+<A NAME="secC-2"></A>
+<H2><A HREF="#secC-3"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: ListIterator"></A>
+Iterator</H2>
+
+<A NAME="auto1028"></A>
+<P><CODE>Iterator</CODE> is an abstract class that defines a traversal
+interface for aggregates.</P>
+
+<A NAME="auto1029"></A>
+<PRE>
+    template &lt;class Item>
+    class Iterator {
+    public:
+        virtual void First() = 0;
+        virtual void Next() = 0;
+        virtual bool IsDone() const = 0;
+        virtual Item CurrentItem() const = 0;
+    protected:
+        Iterator();
+    };
+</PRE>
+
+<A NAME="auto1030"></A>
+<P>The operations do the following:</P>
+
+<DL>
+
+<DT><CODE>virtual void First()</CODE></DT>
+<DD>positions the iterator to the first object in the aggregate.</DD>
+
+<A NAME="auto1031"></A>
+<P></P>
+
+<DT><CODE>virtual void Next()</CODE></DT>
+<DD>positions the iterator to the next object in the sequence.</DD>
+
+<A NAME="auto1032"></A>
+<P></P>
+
+<DT><CODE>virtual bool IsDone() const</CODE></DT>
+<DD>returns <CODE>true</CODE> when there are no more objects in the sequence.</DD>
+
+<A NAME="auto1033"></A>
+<P></P>
+
+<DT><CODE>virtual Item CurrentItem() const</CODE></DT>
+<DD>returns the object at the current position in the sequence.</DD>
+
+</DL>
+
+<A NAME="secC-3"></A>
+<H2><A HREF="#secC-4"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Point"></A>
+ListIterator</H2>
+
+<A NAME="auto1034"></A>
+<P><CODE>ListIterator</CODE> implements the <CODE>Iterator</CODE> interface
+to traverse List objects.  Its constructor takes a list to traverse as
+an argument.</P>
+
+<A NAME="auto1035"></A>
+<PRE>
+    template &lt;class Item>
+    class ListIterator : public Iterator&lt;Item> {
+    public:
+        ListIterator(const List&lt;Item>* aList);
+    
+        virtual void First();
+        virtual void Next();
+        virtual bool IsDone() const;
+        virtual Item CurrentItem() const;
+    };
+</PRE>
+
+<A NAME="secC-4"></A>
+<H2><A HREF="#secC-5"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: Rect"></A>
+Point</H2>
+
+<A NAME="auto1036"></A>
+<P><CODE>Point</CODE> represents a point in a two-dimensional Cartesian
+coordinate space.  <CODE>Point</CODE> supports some minimal vector arithmetic.
+The coordinates of a <CODE>Point</CODE> are defined as</P>
+
+<A NAME="auto1037"></A>
+<PRE>
+    typedef float Coord;
+</PRE>
+
+<A NAME="auto1038"></A>
+<P><CODE>Point</CODE>'s operations are self-explanatory.</P>
+
+<A NAME="auto1039"></A>
+<PRE>
+    class Point {
+    public:
+        static const Point Zero;	
+    
+        Point(Coord x = 0.0, Coord y = 0.0);
+    
+        Coord X() const;  void X(Coord x);
+        Coord Y() const;  void Y(Coord y);
+    
+        friend Point operator+(const Point&amp;, const Point&amp;);
+        friend Point operator-(const Point&amp;, const Point&amp;);
+        friend Point operator*(const Point&amp;, const Point&amp;);
+        friend Point operator/(const Point&amp;, const Point&amp;);
+    
+        Point&amp; operator+=(const Point&amp;);
+        Point&amp; operator-=(const Point&amp;);
+        Point&amp; operator*=(const Point&amp;);
+        Point&amp; operator/=(const Point&amp;);
+    
+        Point operator-();
+    
+        friend bool operator==(const Point&amp;, const Point&amp;);
+        friend bool operator!=(const Point&amp;, const Point&amp;);
+    
+        friend ostream&amp; operator&lt;&lt;(ostream&amp;, const Point&amp;);
+        friend istream&amp; operator>>(istream&amp;, Point&amp;);
+    };
+</PRE>
+
+<A NAME="auto1040"></A>
+<P>The static member <CODE>Zero</CODE> represents <CODE>Point(0, 0)</CODE>.
+
+<A NAME="secC-5"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: navigation"></A>
+Rect</H2>
+
+<A NAME="auto1041"></A>
+<P><CODE>Rect</CODE> represents an axis-aligned rectangle. A
+<CODE>Rect</CODE> is defined by an origin point and an extent (that
+is, width and height).  The <CODE>Rect</CODE> operations are
+self-explanatory.</P>
+
+<A NAME="auto1042"></A>
+<PRE>
+    class Rect {
+    public:
+        static const Rect Zero;	
+    
+        Rect(Coord x, Coord y, Coord w, Coord h);
+        Rect(const Point&amp; origin, const Point&amp; extent);
+    
+        Coord Width() const;   void Width(Coord);
+        Coord Height() const;  void Height(Coord);
+        Coord Left() const;    void Left(Coord);
+        Coord Bottom() const;  void Bottom(Coord);
+    
+        Point&amp; Origin() const; void Origin(const Point&amp;);
+        Point&amp; Extent() const; void Extent(const Point&amp;);
+    
+        void MoveTo(const Point&amp;);
+        void MoveBy(const Point&amp;);
+    
+        bool IsEmpty() const;
+        bool Contains(const Point&amp;) const;
+    };
+</PRE>
+
+<A NAME="auto1043"></A>
+<P>The static member <CODE>Zero</CODE> is equivalent to the rectangle</P>
+
+<A NAME="auto1044"></A>
+<PRE>
+    Rect(Point(0, 0), Point(0, 0));
+</PRE>
+
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="bibfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="bibfs.htm"
+	TARGET="_mainDisplayFrame">Bibliography</A><BR>
+<A HREF="chapBfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chapBfs.htm"
+	TARGET="_mainDisplayFrame">Guide to Notation</A>
+</P>
+
+</BODY>
+
+</HTML>

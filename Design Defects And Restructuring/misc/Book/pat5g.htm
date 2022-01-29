@@ -1,0 +1,814 @@
+<HTML><HEAD>	<TITLE>Observer</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="Observer"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Define a one-to-many dependency between objects so that when one
+object changes state, all its dependents are notified and updated
+automatically.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Dependents, Publish-Subscribe</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>A common side-effect of partitioning a system into a collection of
+cooperating classes is the need to maintain consistency between
+related objects.  You don't want to achieve consistency by making the
+classes tightly coupled, because that reduces their reusability.</P>
+
+<A NAME="auto1003"></A>
+<P>For example, many graphical user interface toolkits separate the
+presentational aspects of the user interface from the underlying
+application data [<A HREF="bibfs.htm#krasner_mvc" TARGET="_mainDisplayFrame">KP88</A>, <A HREF="bibfs.htm#interviews_composition" TARGET="_mainDisplayFrame">LVC89</A>, <A HREF="bibfs.htm#atk" TARGET="_mainDisplayFrame">P+88</A>, <A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>].
+Classes defining application data and presentations can be reused
+independently. They can work together, too. Both a spreadsheet object
+and bar chart object can depict information in the same application data
+object using different presentations. The spreadsheet and the bar chart
+don't know about each other, thereby letting you reuse only the one you
+need. But they <EM>behave</EM> as though they do. When the user changes the
+information in the spreadsheet, the bar chart reflects the changes
+immediately, and vice versa.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/obser023.gif"></P>
+
+<A NAME="auto1004"></A>
+<P>This behavior implies that the spreadsheet and bar chart are dependent
+on the data object and therefore should be notified of any change in
+its state.  And there's no reason to limit the number of dependent
+objects to two; there may be any number of different user interfaces
+to the same data.</P>
+
+<A NAME="def-subject"></A>
+<P>The Observer pattern describes how to establish these relationships.
+The key objects in this pattern are <STRONG>subject</STRONG> and
+<STRONG>observer</STRONG>.  A subject may have any number of dependent
+observers.  All observers are notified whenever the subject undergoes
+a change in state. In response, each observer will query the subject
+to synchronize its state with the subject's state.</P>
+
+<A NAME="auto1005"></A>
+<P>This kind of interaction is also known as
+<STRONG>publish-subscribe</STRONG>. The subject is the publisher of
+notifications. It sends out these notifications without having to know
+who its observers are. Any number of observers can subscribe to
+receive notifications.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1006"></A>
+<P>Use the Observer pattern in any of the following situations:</P>
+
+<UL>
+
+<A NAME="auto1007"></A>
+<LI>When an abstraction has two aspects, one dependent on the other.
+Encapsulating these aspects in separate objects lets you vary and
+reuse them independently.</LI>
+<A NAME="auto1008"></A>
+<P></P>
+<A NAME="auto1009"></A>
+<LI>When a change to one object requires changing others, and you
+don't know how many objects need to be changed.</LI>
+<A NAME="auto1010"></A>
+<P></P>
+<A NAME="auto1011"></A>
+<LI>When an object should be able to notify other objects without making
+assumptions about who these objects are.  In other words, you don't
+want these objects tightly coupled.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/observer.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1012"></A>
+<LI><B>Subject</B></LI>
+
+<A NAME="auto1013"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1014"></A>
+<LI>knows its observers. Any number of Observer objects may
+    observe a subject.</LI>
+
+    <A NAME="auto1015"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1016"></A>
+<LI>provides an interface for attaching and detaching Observer
+    objects.</LI>
+
+</UL>
+
+<A NAME="auto1017"></A>
+<P></P>
+
+<A NAME="auto1018"></A>
+<LI><B>Observer</B></LI>
+
+<A NAME="auto1019"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1020"></A>
+<LI>defines an updating interface for objects that should be
+    notified of changes in a subject.</LI>
+
+</UL>
+
+<A NAME="auto1021"></A>
+<P></P>
+
+<A NAME="auto1022"></A>
+<LI><B>ConcreteSubject</B>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1024"></A>
+<LI>stores state of interest to ConcreteObserver objects.
+
+    <A NAME="auto1025"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1026"></A>
+<LI>sends a notification to its observers when its state changes.
+
+</UL>
+
+<A NAME="auto1027"></A>
+<P></P>
+
+<A NAME="auto1028"></A>
+<LI><B>ConcreteObserver</B>
+
+<A NAME="auto1029"></A>
+<P></P>
+
+<UL>
+
+    <A NAME="auto1030"></A>
+<LI>maintains a reference to a ConcreteSubject object.
+
+    <A NAME="auto1031"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1032"></A>
+<LI>stores state that should stay consistent with the subject's.
+
+    <A NAME="auto1033"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1034"></A>
+<LI>implements the Observer updating interface to keep
+    its state consistent with the subject's.
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1035"></A>
+<LI>ConcreteSubject notifies its observers whenever a change
+occurs that could make its observers' state inconsistent with its own.</LI>
+<A NAME="auto1036"></A>
+<P></P>
+<A NAME="auto1037"></A>
+<LI>After being informed of a change in the concrete subject, a
+ConcreteObserver object may query the subject for information.
+ConcreteObserver uses this information to reconcile its state with that
+of the subject.
+
+<A NAME="auto1038"></A>
+<P>The following interaction diagram illustrates the collaborations
+between a subject and two observers:</P>
+
+<A NAME="subj-295i"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/obser022.gif"></P>
+
+<A NAME="auto1039"></A>
+<P>Note how the Observer object that initiates the change request
+postpones its update until it gets a notification from the subject.
+Notify is not always called by the subject.  It can be called by an
+observer or by another kind of object entirely.  The Implementation
+section discusses some common variations.</P>
+
+</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1040"></A>
+<P>The Observer pattern lets you vary subjects and observers
+independently.  You can reuse subjects without reusing their
+observers, and vice versa.  It lets you add observers without
+modifying the subject or other observers.</P>
+
+<A NAME="auto1041"></A>
+<P>Further benefits and liabilities of the Observer pattern include the
+following:</P>
+
+<A NAME="abscoup"></A>
+
+<OL>
+
+<A NAME="auto1042"></A>
+<LI><EM>Abstract coupling between Subject and Observer.</EM>
+All a subject knows is that it has a list of observers, each
+conforming to the simple interface of the abstract Observer class.
+The subject doesn't know the concrete class of any observer.  Thus the
+coupling between subjects and observers is abstract and minimal.
+
+<A NAME="auto1043"></A>
+<P>Because Subject and Observer aren't tightly coupled, they can belong to
+different layers of abstraction in a system.  A lower-level subject
+can communicate and inform a higher-level observer, thereby keeping the
+system's layering intact.  If Subject and Observer are lumped
+together, then the resulting object must either span two layers (and
+violate the layering), or it must be forced to live in one layer or
+the other (which might compromise the layering abstraction).</P>
+
+</LI>
+
+<A NAME="auto1044"></A>
+<P></P>
+
+<A NAME="auto1045"></A>
+<LI><EM>Support for broadcast communication.</EM>
+Unlike an ordinary request, the notification that a subject sends
+needn't specify its receiver.  The notification is broadcast
+automatically to all interested objects that subscribed to it. The
+subject doesn't care how many interested objects exist; its only
+responsibility is to notify its observers.  This gives you the freedom
+to add and remove observers at any time.  It's up to the observer to
+handle or ignore a notification.</LI>
+
+<A NAME="auto1046"></A>
+<P></P>
+
+<A NAME="update-limit"></A>
+<LI><EM>Unexpected updates.</EM>
+Because observers have no knowledge of each other's presence, they can
+be blind to the ultimate cost of changing the subject.  A seemingly
+innocuous operation on the subject may cause a cascade of updates to
+observers and their dependent objects.  Moreover, dependency criteria
+that aren't well-defined or maintained usually lead to spurious
+updates, which can be hard to track down.
+
+<A NAME="update-protocol"></A>
+<P>This problem is aggravated by the fact that the simple update protocol
+provides no details on <EM>what</EM> changed in the subject.  Without
+additional protocol to help observers discover what changed, they may
+be forced to work hard to deduce the changes.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1047"></A>
+<P>Several issues related to the implementation of the dependency
+mechanism are discussed in this section.</P>
+
+<OL>
+
+<A NAME="subj-map-obsrv"></A>
+<LI><EM>Mapping subjects to their observers.</EM>
+The simplest way for a subject to keep track of the observers it
+should notify is to store references to them explicitly in the
+subject.  However, such storage may be too expensive when there are
+many subjects and few observers.  One solution is to trade space for
+time by using an associative look-up (e.g., a hash table) to maintain
+the subject-to-observer mapping.  Thus a subject with no observers
+does not incur storage overhead.  On the other hand, this approach
+increases the cost of accessing the observers.</LI>
+
+<A NAME="auto1048"></A>
+<P></P>
+
+<A NAME="subj-mult-obsrv"></A>
+<LI><EM>Observing more than one subject.</EM>
+It might make sense in some situations for an observer to depend on
+more than one subject.  For example, a spreadsheet may depend on more
+than one data source.  It's necessary to extend the Update interface
+in such cases to let the observer know <EM>which</EM> subject is sending
+the notification.  The subject can simply pass itself as a parameter
+in the Update operation, thereby letting the observer know which
+subject to examine.</LI>
+
+<A NAME="auto1049"></A>
+<P></P>
+
+<A NAME="update-trigger"></A>
+<LI><EM>Who triggers the update?</EM>
+The subject and its observers rely on the notification mechanism to
+stay consistent.  But what object actually calls Notify to trigger the
+update?  Here are two options:</LI>
+
+<A NAME="auto1050"></A>
+<P></P>
+
+<OL TYPE=a>
+
+<A NAME="auto1051"></A>
+<LI>Have state-setting operations on Subject call Notify after they
+change the subject's state.  The advantage of this approach is that
+clients don't have to remember to call Notify on the subject.  The
+disadvantage is that several consecutive operations will cause
+several consecutive updates, which may be inefficient.</LI>
+
+<A NAME="auto1052"></A>
+<P></P>
+
+<A NAME="auto1053"></A>
+<LI>Make clients responsible for calling Notify at the right time.
+The advantage here is that the client can wait to trigger the update
+until after a series of state changes has been made, thereby
+avoiding needless intermediate updates.  The disadvantage is that
+clients have an added responsibility to trigger the update.  That
+makes errors more likely, since clients might forget to call Notify.</LI>
+
+</OL>
+
+<A NAME="auto1054"></A>
+<P></P>
+
+<A NAME="subj-avoid-dangle"></A>
+<LI><EM>Dangling references to deleted subjects.</EM>
+Deleting a subject should not produce dangling references in its
+observers.  One way to avoid dangling references is to make the
+subject notify its observers as it is deleted so that they can reset
+their reference to it.  In general, simply deleting the observers is not 
+an option, because other objects may reference them, or they may be
+observing other subjects as well.</LI>
+<A NAME="auto1055"></A>
+<P></P>
+<A NAME="auto1056"></A>
+<LI><EM>Making sure Subject state is self-consistent before
+notification.</EM>
+It's important to make sure Subject state is self-consistent before
+calling Notify, because observers query the subject for its current
+state in the course of updating their own state.
+
+<A NAME="auto1057"></A>
+<P>This self-consistency rule is easy to violate unintentionally when
+Subject subclass operations call inherited operations.  For example,
+the notification in the following code sequence is trigged when the
+subject is in an inconsistent state:</P>
+
+<A NAME="auto1058"></A>
+<PRE>
+    void MySubject::Operation (int newValue) {
+        BaseClassSubject::Operation(newValue);
+            // trigger notification
+    
+        _myInstVar += newValue;
+            // update subclass state (too late!)
+    }
+</PRE>
+
+<A NAME="auto1059"></A>
+<P>You can avoid this pitfall by sending notifications from template
+methods (<A HREF="pat5jfs.htm" TARGET="_mainDisplayFrame">Template Method (325)</A>) in abstract Subject
+classes. Define a primitive operation for subclasses to override, and make
+Notify the last operation in the template method, which will ensure that
+the object is self-consistent when subclasses override Subject
+operations.</P>
+
+<A NAME="auto1060"></A>
+<PRE>
+    void Text::Cut (TextRange r) {
+         ReplaceRange(r);       // redefined in subclasses
+         Notify();
+    }
+</PRE>
+
+<A NAME="auto1061"></A>
+<P>By the way, it's always a good idea to document which Subject operations
+trigger notifications.</P>
+
+</LI>
+
+<A NAME="auto1062"></A>
+<P></P>
+
+<A NAME="auto1063"></A>
+<LI><EM>Avoiding observer-specific update protocols: the push
+and pull models.</EM> Implementations of the Observer pattern often have
+the subject broadcast additional information about the change.  The
+subject passes this information as an argument to Update.  The amount
+of information may vary widely.
+
+<A NAME="pullmodel"></A>
+<A NAME="pushmodel"></A>
+<P>At one extreme, which we call the <STRONG>push model</STRONG>, the subject
+sends observers detailed information about the change, whether they
+want it or not.  At the other extreme is the <STRONG>pull model</STRONG>;
+the subject sends nothing but the most minimal notification, and
+observers ask for details explicitly thereafter.</P>
+
+<A NAME="auto1064"></A>
+<P>The pull model emphasizes the subject's ignorance of its observers,
+whereas the push model assumes subjects know something about their
+observers' needs.  The push model might make observers less reusable,
+because Subject classes make assumptions about Observer classes that
+might not always be true.  On the other hand, the pull model may be
+inefficient, because Observer classes must ascertain what changed
+without help from the Subject.</P>
+
+</LI>
+
+<A NAME="auto1065"></A>
+<P></P>
+
+<A NAME="aspect"></A>
+<LI><EM>Specifying modifications of interest explicitly.</EM>
+You can improve update efficiency by extending the subject's
+registration interface to allow registering observers only for
+specific events of interest. When such an event occurs, the subject
+informs only those observers that have registered interest in that
+event. One way to support this uses the notion of
+<STRONG>aspects</STRONG> for Subject objects. To register
+interest in particular events, observers are attached to their
+subjects using
+
+<A NAME="auto1066"></A>
+<PRE>
+    void Subject::Attach(Observer*, Aspect&amp; interest);
+</PRE>
+
+<A NAME="auto1067"></A>
+<P>where <CODE>interest</CODE> specifies the event
+of interest.  At notification time, the subject supplies the changed
+aspect to its observers as a parameter to the Update operation.  For
+example:</P>
+
+<A NAME="auto1068"></A>
+<PRE>
+    void Observer::Update(Subject*, Aspect&amp; interest);
+</PRE>
+
+</LI>
+
+<A NAME="auto1069"></A>
+<P></P>
+
+<A NAME="depend-manage"></A>
+<A NAME="encap-complex"></A>
+<A NAME="media-w-obsrv"></A>
+<LI><EM>Encapsulating complex update semantics.</EM>
+When the dependency relationship between subjects and observers is
+particularly complex, an object that maintains these relationships might
+be required.  We call such an object a <STRONG>ChangeManager</STRONG>.  Its
+purpose is to minimize the work required to make observers reflect a
+change in their subject.  For example, if an operation involves
+changes to several interdependent subjects, you might have to
+ensure that their observers are notified only after <EM>all</EM> the
+subjects have been modified to avoid notifying observers more than
+once.
+
+<A NAME="auto1070"></A>
+<P>ChangeManager has three responsibilities:</P>
+
+<OL>
+
+<A NAME="auto1071"></A>
+<LI>It maps a subject to its observers and provides an interface to
+maintain this mapping. This eliminates the need for subjects to maintain
+references to their observers and vice versa.</LI>
+
+<A NAME="auto1072"></A>
+<P></P>
+
+<A NAME="auto1073"></A>
+<LI>It defines a particular update strategy.</LI>
+
+<A NAME="auto1074"></A>
+<P></P>
+
+<A NAME="auto1075"></A>
+<LI>It updates all dependent observers at the request of a subject.</LI>
+
+</OL>
+
+<A NAME="auto1076"></A>
+<P>The following diagram depicts a simple ChangeManager-based implementation of
+the Observer pattern. There are two specialized ChangeManagers.
+SimpleChangeManager is naive in that it always updates all observers of
+each subject. In contrast, DAGChangeManager handles directed-acyclic
+graphs of dependencies between subjects and their observers. A
+DAGChangeManager is preferable to a SimpleChangeManager when an observer
+observes more than one subject. In that case, a change in two or more
+subjects might cause redundant updates. The DAGChangeManager ensures
+the observer receives just one update. SimpleChangeManager is
+fine when multiple updates aren't an issue.</P>
+
+<A NAME="subj-300c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/obser025.gif"></P>
+
+<A NAME="auto1077"></A>
+<P>ChangeManager is an instance of the <A HREF="pat5efs.htm" TARGET="_mainDisplayFrame">Mediator (273)</A>
+pattern.  In general there is only one ChangeManager, and it is known
+globally.  The <A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A> pattern would be
+useful here.</P>
+
+</LI>
+
+<A NAME="auto1078"></A>
+<P></P>
+
+<A NAME="subj-w-obser"></A>
+<LI><EM>Combining the Subject and Observer classes.</EM>
+Class libraries written in languages that lack multiple inheritance
+(like Smalltalk) generally don't define separate Subject and Observer
+classes but combine their interfaces in one class.  That lets you
+define an object that acts as both a subject and an observer without
+multiple inheritance.  In Smalltalk, for example, the Subject and
+Observer interfaces are defined in the root class Object, making them
+available to all classes.</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1079"></A>
+<P>An abstract class defines the Observer interface:</P>
+
+<A NAME="auto1080"></A>
+<PRE>
+    class Subject;
+    
+    class Observer {
+    public:
+        virtual ~ Observer();
+        virtual void Update(Subject* theChangedSubject) = 0;
+    protected:
+        Observer();
+    };
+</PRE>
+
+<A NAME="auto1081"></A>
+<P>This implementation supports multiple subjects for each observer.  The
+subject passed to the <CODE>Update</CODE> operation lets the observer
+determine which subject changed when it observes more than one.</P>
+
+<A NAME="subject"></A>
+<P>Similarly, an abstract class defines the Subject interface:</P>
+
+<A NAME="auto1082"></A>
+<PRE>
+    class Subject {
+    public:
+        virtual ~Subject();
+    
+        virtual void Attach(Observer*);
+        virtual void Detach(Observer*);
+        virtual void Notify();
+    protected:
+        Subject();
+    private:
+        List&lt;Observer*> *_observers;
+    };
+    
+    void Subject::Attach (Observer* o) {
+        _observers->Append(o);
+    }
+    
+    void Subject::Detach (Observer* o) {
+        _observers->Remove(o);
+    }
+    
+    void Subject::Notify () {
+        ListIterator&lt;Observer*> i(_observers);
+    
+        for (i.First(); !i.IsDone(); i.Next()) {
+            i.CurrentItem()->Update(this);
+        }
+    }
+</PRE>
+
+<A NAME="auto1083"></A>
+<P><CODE>ClockTimer</CODE> is a concrete subject for storing and
+maintaining the time of day. It notifies its observers every second.
+<CODE>ClockTimer</CODE> provides the interface for retrieving individual
+time units such as the hour, minute, and second.</P>
+
+<A NAME="auto1084"></A>
+<PRE>
+    class ClockTimer : public Subject {
+    public:
+        ClockTimer();
+    
+        virtual int GetHour();
+        virtual int GetMinute();
+        virtual int GetSecond();
+    
+        void Tick();
+    };
+</PRE>
+
+<A NAME="auto1085"></A>
+<P>The <CODE>Tick</CODE> operation gets called by an internal timer at
+regular intervals to provide an accurate time base.  <CODE>Tick</CODE>
+updates the <CODE>ClockTimer</CODE>'s internal state and calls
+<CODE>Notify</CODE> to inform observers of the change:</P>
+
+<A NAME="auto1086"></A>
+<PRE>
+    void ClockTimer::Tick () {
+        // update internal time-keeping state
+        // ...
+        Notify();
+    }
+</PRE>
+
+<A NAME="digitalclock"></A>
+<P>Now we can define a class <CODE>DigitalClock</CODE> that displays the
+time. It inherits its graphical functionality from a <CODE>Widget</CODE>
+class provided by a user interface toolkit. The Observer interface is
+mixed into the <CODE>DigitalClock</CODE> interface by inheriting from
+<CODE>Observer</CODE>.</P>
+
+<A NAME="auto1087"></A>
+<PRE>
+    class DigitalClock: public Widget, public Observer {
+    public:
+        DigitalClock(ClockTimer*);
+        virtual ~DigitalClock();
+    
+        virtual void Update(Subject*);
+            // overrides Observer operation
+    
+        virtual void Draw();
+            // overrides Widget operation;
+            // defines how to draw the digital clock
+    private:
+        ClockTimer* _subject;
+    };
+    
+    DigitalClock::DigitalClock (ClockTimer* s) {
+        _subject = s;
+        _subject->Attach(this);
+    }
+    
+    DigitalClock::&nbsp;DigitalClock () {
+        _subject->Detach(this);
+    }
+</PRE>
+
+<A NAME="auto1088"></A>
+<P>Before the <CODE>Update</CODE> operation draws the clock face, it checks
+to make sure the notifying subject is the clock's subject:</P>
+
+<A NAME="auto1089"></A>
+<PRE>
+    void DigitalClock::Update (Subject* theChangedSubject) {
+        if (theChangedSubject == _subject) {
+            Draw();
+        }
+    }
+    
+    void DigitalClock::Draw () {
+        // get the new values from the subject
+    
+        int hour = _subject->GetHour();
+        int minute = _subject->GetMinute();
+        // etc.
+    
+        // draw the digital clock
+    }
+</PRE>
+
+<A NAME="clock"></A>
+<P>An <CODE>AnalogClock</CODE> class can be defined in the same way.</P>
+
+<A NAME="auto1090"></A>
+<PRE>
+    class AnalogClock : public Widget, public Observer {
+    public:
+        AnalogClock(ClockTimer*);
+        virtual void Update(Subject*);
+        virtual void Draw();
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1091"></A>
+<P>The following code creates an <CODE>AnalogClock</CODE> and a
+<CODE>DigitalClock</CODE> that always show the same time:</P>
+
+<A NAME="auto1092"></A>
+<PRE>
+    ClockTimer* timer = new ClockTimer;
+    AnalogClock* analogClock = new AnalogClock(timer);
+    DigitalClock* digitalClock = new DigitalClock(timer);
+</PRE>
+
+<A NAME="auto1093"></A>
+<P>Whenever the <CODE>timer</CODE> ticks, the two clocks will be updated
+and will redisplay themselves appropriately.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="smalltalk-use-observe"></A>
+<A NAME="think-use-obsrv"></A>
+<P>The first and perhaps best-known example of the Observer pattern appears
+in Smalltalk Model/View/Controller (MVC), the user interface framework in the Smalltalk
+environment [<A HREF="bibfs.htm#krasner_mvc" TARGET="_mainDisplayFrame">KP88</A>]. MVC's Model class plays the role of
+Subject, while View is the base class for observers. Smalltalk,
+ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>], and the THINK class library [<A HREF="bibfs.htm#think" TARGET="_mainDisplayFrame">Sym93b</A>] provide a
+general dependency mechanism by putting Subject and Observer interfaces
+in the parent class for all other classes in the system.</P>
+
+<A NAME="toolkit"></A>
+<A NAME="unidraw-use-observ"></A>
+<P>Other user interface toolkits that employ this pattern are
+InterViews [<A HREF="bibfs.htm#interviews_composition" TARGET="_mainDisplayFrame">LVC89</A>], the Andrew
+Toolkit [<A HREF="bibfs.htm#atk" TARGET="_mainDisplayFrame">P+88</A>], and Unidraw [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>]. InterViews
+defines Observer and Observable (for subjects) classes explicitly.
+Andrew calls them "view" and "data object," respectively. Unidraw
+splits graphical editor objects into View (for observers) and Subject
+parts.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1094"></A>
+<P><A HREF="pat5efs.htm" TARGET="_mainDisplayFrame">Mediator (273)</A>: By
+encapsulating complex update semantics, the ChangeManager acts as
+mediator between subjects and observers.</P>
+
+<A NAME="auto1095"></A>
+<P><A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A>:
+The ChangeManager may use the Singleton pattern to make it unique
+and globally accessible.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5hfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5hfs.htm" TARGET="_mainDisplayFrame">State</A><BR>
+<A HREF="pat5ffs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5ffs.htm" TARGET="_mainDisplayFrame">Memento</A>
+</P>
+
+</BODY>
+
+</HTML>
+

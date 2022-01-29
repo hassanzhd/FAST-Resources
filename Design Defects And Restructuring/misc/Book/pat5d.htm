@@ -1,0 +1,1128 @@
+<HTML><HEAD>	<TITLE>Iterator</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="Iterator"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Provide a way to access the elements of an aggregate object
+sequentially without exposing its underlying representation.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Cursor</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>An aggregate object such as a list should give you a way to access its
+elements without exposing its internal structure.  Moreover, you might
+want to traverse the list in different ways, depending on what you
+want to accomplish.  But you probably don't want to bloat the List
+interface with operations for different traversals, even if you could
+anticipate the ones you will need.  You might also need to have more than
+one traversal pending on the same list.</P>
+
+<A NAME="auto1003"></A>
+<P>The Iterator pattern lets you do all this.  The key idea in this
+pattern is to take the responsibility for access and traversal out of
+the list object and put it into an <STRONG>iterator</STRONG> object.  The
+Iterator class defines an interface for accessing the list's elements.
+An iterator object is responsible for keeping track of the current
+element; that is, it knows which elements have been traversed already.</P>
+
+<A NAME="list1"></A>
+<A NAME="list-iter1"></A>
+<P>For example, a List class would call for a ListIterator with the
+following relationship between them:</P>
+
+<A NAME="iterator-eg-simple"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/itera039.gif"></P>
+
+<A NAME="auto1004"></A>
+<P>Before you can instantiate ListIterator, you must supply the List to
+traverse.  Once you have the ListIterator instance, you can access the
+list's elements sequentially.  The CurrentItem operation returns the
+current element in the list, First initializes the current element to
+the first element, Next advances the current element to the next
+element, and IsDone tests whether we've advanced beyond the last
+element&#151;that is, we're finished with the traversal.</P>
+
+<A NAME="auto1005"></A>
+<P>Separating the traversal mechanism from the List object lets us define
+iterators for different traversal policies without enumerating them in
+the List interface.  For example, FilteringListIterator might provide
+access only to those elements that satisfy specific filtering
+constraints.</P>
+
+<A NAME="iter-polyiter"></A>
+<P>Notice that the iterator and the list are coupled, and the client must
+know that it is a <EM>list</EM> that's traversed as opposed to some other
+aggregate structure.  Hence the client commits to a particular
+aggregate structure. It would be better if we could change the aggregate
+class without changing client code.  We can do this by generalizing
+the iterator concept to support <STRONG>polymorphic iteration</STRONG>.</P>
+
+<A NAME="def-skiplist"></A>
+<P>As an example, let's assume that we also have a SkipList
+implementation of a list. A skiplist [<A HREF="bibfs.htm#skiplists" TARGET="_mainDisplayFrame">Pug90</A>] is a
+probabilistic data structure with characteristics similar to balanced
+trees.  We want to be able to write code that works for both List and
+SkipList objects.</P>
+
+<A NAME="auto1006"></A>
+<P>We define an AbstractList class that provides a common interface
+for manipulating lists.  Similarly, we need an abstract Iterator
+class that defines a common iteration interface.  Then we can define
+concrete Iterator subclasses for the different list implementations.
+As a result, the iteration mechanism becomes independent of concrete
+aggregate classes.</P>
+
+<A NAME="iterator-eg-poly"></A>
+<A NAME="skiplist-258c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/itera040.gif"></P>
+
+<A NAME="auto1007"></A>
+<P>The remaining problem is how to create the iterator.  Since we want to
+write code that's independent of the concrete List subclasses, we
+cannot simply instantiate a specific class.  Instead, we make the list
+objects responsible for creating their corresponding iterator.  This
+requires an operation like CreateIterator through which clients
+request an iterator object.</P>
+
+<A NAME="fact-iter-create"></A>
+<P>CreateIterator is an example of a factory method (see <A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A>).  We use it here to let a client ask
+a list object for the appropriate iterator.  The Factory Method
+approach give rise to two class hierarchies, one for lists and another
+for iterators. The CreateIterator factory method "connects" the two
+hierarchies.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1008"></A>
+<P>Use the Iterator pattern</P>
+
+<UL>
+
+<A NAME="auto1009"></A>
+<LI>to access an aggregate object's contents without exposing its internal
+representation.</P>
+
+<A NAME="auto1010"></A>
+<LI>to support multiple traversals of aggregate objects.</P>
+
+<A NAME="auto1011"></A>
+<LI>to provide a uniform interface for traversing different aggregate
+structures (that is, to support polymorphic iteration).</P>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<A NAME="259c"></A>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/iterator.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1012"></A>
+<LI><B>Iterator</B></LI>
+
+<A NAME="auto1013"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1014"></A>
+<LI>defines an interface for accessing and traversing elements.
+
+    </UL>
+
+<A NAME="auto1015"></A>
+<P></P>
+
+<A NAME="auto1016"></A>
+<LI><B>ConcreteIterator</B>
+
+<A NAME="auto1017"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1018"></A>
+<LI>implements the Iterator interface.</LI>
+
+    <A NAME="auto1019"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1020"></A>
+<LI>keeps track of the current position in the traversal of
+    the aggregate.</LI>
+
+    </UL>
+
+<A NAME="auto1021"></A>
+<P></P>
+
+<A NAME="auto1022"></A>
+<LI><B>Aggregate</B>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1024"></A>
+<LI>defines an interface for creating an Iterator object.</LI>
+
+    </UL>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<A NAME="auto1026"></A>
+<LI><B>ConcreteAggregate</B></LI>
+
+<A NAME="auto1027"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1028"></A>
+<LI>implements the Iterator creation interface to return an
+    instance of the proper ConcreteIterator.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1029"></A>
+<LI>A ConcreteIterator keeps track of the current object in the
+aggregate and can compute the succeeding object in the
+traversal.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1030"></A>
+<P>The Iterator pattern has three important consequences:</P>
+
+<OL>
+
+<A NAME="auto1031"></A>
+<LI><EM>It supports variations in the traversal of an aggregate.</EM>
+Complex aggregates may be traversed in many ways.  For example, code
+generation and semantic checking involve traversing parse trees. Code
+generation may traverse the parse tree inorder or preorder.
+Iterators make it easy to change the traversal algorithm: Just replace
+the iterator instance with a different one.  You can also define
+Iterator subclasses to support new traversals.</LI>
+<A NAME="auto1032"></A>
+<P></P>
+<A NAME="auto1033"></A>
+<LI><EM>Iterators simplify the Aggregate interface.</EM>
+Iterator's traversal interface obviates the need for a similar
+interface in Aggregate, thereby simplifying the aggregate's interface.</LI>
+<A NAME="auto1034"></A>
+<P></P>
+<A NAME="auto1035"></A>
+<LI><EM>More than one traversal can be pending on an aggregate.</EM>
+An iterator keeps track of its own traversal state.  Therefore you can
+have more than one traversal in progress at once.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1036"></A>
+<P>Iterator has many implementation variants and alternatives.  Some
+important ones follow.  The trade-offs often depend on the
+control structures your language provides.  Some languages 
+(CLU [<A HREF="bibfs.htm#CLU" TARGET="_mainDisplayFrame">LG86</A>], for example) even support this pattern directly.</P>
+
+<OL>
+
+<A NAME="iter-ext-int"></A>
+<A NAME="iter-passive"></A>
+<LI><EM>Who controls the iteration?</EM>
+A fundamental issue is deciding which party controls the iteration,
+the iterator or the client that uses the iterator.  When the client
+controls the iteration, the iterator is called an <STRONG>external
+iterator</STRONG>, and when the iterator controls it, the iterator is an
+<STRONG>internal iterator</STRONG>.<A NAME="fn2"></A><A HREF="#footnote2"><SUP>2</SUP></A>
+Clients that use an
+external iterator must advance the traversal and request the next
+element explicitly from the iterator.  In contrast, the client hands
+an internal iterator an operation to perform, and the iterator applies
+that operation to every element in the aggregate.
+
+<A NAME="auto1037"></A>
+<P>External iterators are more flexible than internal iterators.  It's
+easy to compare two collections for equality with an external
+iterator, for example, but it's practically impossible with internal
+iterators.  Internal iterators are especially weak in a language like
+C++ that does not provide anonymous functions, closures, or
+continuations like Smalltalk and CLOS.  But on the other hand,
+internal iterators are easier to use, because they define the iteration
+logic for you.</P>
+
+</LI>
+
+<A NAME="auto1038"></A>
+<P></P>
+
+<A NAME="iter-cursor"></A>
+<LI><EM>Who defines the traversal algorithm?</EM>
+The iterator is not the only place where the traversal algorithm can
+be defined.  The aggregate might define the traversal algorithm and
+use the iterator to store just the state of the iteration.  We call
+this kind of iterator a <STRONG>cursor</STRONG>, since it merely points to
+the current position in the aggregate.  A client will invoke the Next
+operation on the aggregate with the cursor as an argument, and the
+Next operation will change the state of the
+cursor.<A NAME="fn3"></A><A HREF="#footnote3"><SUP>3</SUP></A>
+
+<A NAME="auto1039"></A>
+<P>If the iterator is responsible for the traversal algorithm, then it's
+easy to use different iteration algorithms on the same aggregate, and
+it can also be easier to reuse the same algorithm on different
+aggregates.  On the other hand, the traversal algorithm might need to
+access the private variables of the aggregate.  If so, putting the
+traversal algorithm in the iterator violates the encapsulation of the
+aggregate.</P>
+
+</LI>
+
+<A NAME="auto1040"></A>
+<P></P>
+
+<A NAME="auto1041"></A>
+<LI><EM>How robust is the iterator?</EM>
+It can be dangerous to modify an aggregate while you're traversing it.
+If elements are added or deleted from the aggregate, you might end up
+accessing an element twice or missing it completely.  A simple
+solution is to copy the aggregate and traverse the copy, but that's
+too expensive to do in general.
+
+<A NAME="iter-robust"></A>
+<P>A <STRONG>robust iterator</STRONG> ensures that insertions and removals
+won't interfere with traversal, and it does it without copying the
+aggregate.  There are many ways to implement robust iterators. Most
+rely on registering the iterator with the aggregate.  On insertion or
+removal, the aggregate either adjusts the internal state of iterators
+it has produced, or it maintains information internally to ensure
+proper traversal.</P>
+
+<A NAME="et-use-iter"></A>
+<P>Kofler provides a good discussion of how robust iterators are
+implemented in ET++ [<A HREF="bibfs.htm#kofler-iterators" TARGET="_mainDisplayFrame">Kof93</A>].  Murray discusses the
+implementation of robust iterators for the USL StandardComponents'
+List class [<A HREF="bibfs.htm#murray_c++strategies" TARGET="_mainDisplayFrame">Mur93</A>].</P>
+
+</LI>
+
+<A NAME="auto1042"></A>
+<P></P>
+
+<A NAME="iter-interface"></A>
+<LI><EM>Additional Iterator operations.</EM>
+The minimal interface to Iterator consists of the operations First,
+Next, IsDone, and CurrentItem.<A NAME="fn4"></A><A HREF="#footnote4"><SUP>4</SUP></A>
+Some
+additional operations might prove useful.  For example, ordered
+aggregates can have a Previous operation that positions the iterator
+to the previous element.  A SkipTo operation is useful for sorted or
+indexed collections.  SkipTo positions the iterator to an object
+matching specific criteria.</LI>
+
+<A NAME="auto1043"></A>
+<P></P>
+
+<A NAME="iter-use-poly"></A>
+<LI><EM>Using polymorphic iterators in C++.</EM>
+Polymorphic iterators have their cost. They require the iterator
+object to be allocated dynamically by a factory method.  Hence they
+should be used only when there's a need for polymorphism.  Otherwise
+use concrete iterators, which can be allocated on the stack.
+
+<A NAME="auto1044"></A>
+<P>Polymorphic iterators have another drawback: the client is responsible
+for deleting them.  This is error-prone, because it's easy to forget
+to free a heap-allocated iterator object when you're finished with it.
+That's especially likely when there are multiple exit points in an
+operation.  And if an exception is triggered, the iterator object will
+never be freed.</P>
+
+<A NAME="proxy-w-iter"></A>
+<P>The <A HREF="pat4gfs.htm" TARGET="_mainDisplayFrame">Proxy (207)</A> pattern provides a remedy.  We can use a
+stack-allocated proxy as a stand-in for the real iterator. The proxy
+deletes the iterator in its destructor.  Thus when the proxy goes out
+of scope, the real iterator will get deallocated along with it.  The
+proxy ensures proper cleanup, even in the face of exceptions.  This
+is an application of the well-known C++ technique "resource
+allocation is initialization" [<A HREF="bibfs.htm#c++_arm" TARGET="_mainDisplayFrame">ES90</A>].  The Sample Code gives
+an example.</P>
+
+</LI>
+
+<A NAME="auto1045"></A>
+<P></P>
+
+<A NAME="friend-iter"></A>
+<LI><EM>Iterators may have privileged access.</EM>
+An iterator can be viewed as an extension of the aggregate that
+created it.  The iterator and the aggregate are tightly coupled.  We
+can express this close relationship in C++ by making the iterator a
+<CODE>friend</CODE> of its aggregate.  Then you don't need to
+define aggregate operations whose sole purpose is to let iterators
+implement traversal efficiently.
+
+<A NAME="auto1046"></A>
+<P>However, such privileged access can make defining new traversals
+difficult, since it'll require changing the aggregate interface to add
+another friend.  To avoid this problem, the Iterator class can include
+<CODE>protected</CODE> operations for accessing important but publicly
+unavailable members of the aggregate.  Iterator subclasses (and <EM>only</EM> Iterator subclasses) may use these protected operations to gain
+privileged access to the aggregate.</P>
+
+</LI>
+
+<A NAME="auto1047"></A>
+<P></P>
+
+<A NAME="iter-recur"></A>
+<LI><EM>Iterators for composites.</EM>
+External iterators can be difficult to implement over recursive
+aggregate structures like those in the <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>
+pattern, because a position in the structure may span many levels of
+nested aggregates.  Therefore an external iterator has to store a path
+through the Composite to keep track of the current object.  Sometimes
+it's easier just to use an internal iterator.  It can record the
+current position simply by calling itself recursively, thereby storing
+the path implicitly in the call stack.
+
+<A NAME="auto1048"></A>
+<P>If the nodes in a Composite have an interface for moving from a node
+to its siblings, parents, and children, then a cursor-based iterator
+may offer a better alternative. The cursor only needs to keep track of
+the current node; it can rely on the node interface to traverse the
+Composite.</P>
+
+<A NAME="trav-in-pre-post"></A>
+<P>Composites often need to be traversed in more than one way.  Preorder,
+postorder, inorder, and breadth-first traversals are common.  You can
+support each kind of traversal with a different class of iterator.</P>
+
+</LI>
+
+<A NAME="auto1049"></A>
+<P></P>
+
+<A NAME="NullIterator"></A>
+<LI><EM>Null iterators.</EM>
+A <STRONG>NullIterator</STRONG> is a degenerate iterator that's helpful for
+handling boundary conditions. By definition, a NullIterator is <EM>always</EM> done with traversal; that is, its IsDone operation always
+evaluates to true.
+
+<A NAME="auto1050"></A>
+<P>NullIterator can make traversing tree-structured aggregates (like
+Composites) easier.  At each point in the traversal, we ask the
+current element for an iterator for its children.  Aggregate elements
+return a concrete iterator as usual.  But leaf elements return an
+instance of NullIterator.  That lets us implement traversal over the
+entire structure in a uniform way.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1051"></A>
+<P>We'll look at the implementation of a simple List class, which is part
+of our foundation library
+(<A HREF="chapCfs.htm" TARGET="_mainDisplayFrame">Appendix&nbsp;C</A>).
+We'll
+show two Iterator implementations, one for traversing the List in
+front-to-back order, and another for traversing back-to-front (the
+foundation library supports only the first one).  Then we show how to
+use these iterators and how to avoid committing to a particular
+implementation.  After that, we change the design to make sure
+iterators get deleted properly.  The last example illustrates an
+internal iterator and compares it to its external counterpart.</P>
+
+<OL>
+
+<A NAME="iter-interface2"></A>
+<A NAME="list-interface"></A>
+<LI><EM>List and Iterator interfaces.</EM>
+First let's look at the part of the List interface that's relevant to
+implementing iterators. Refer to
+(<A HREF="chapCfs.htm" TARGET="_mainDisplayFrame">Appendix&nbsp;C</A>).
+for the full interface.
+
+<A NAME="auto1052"></A>
+<PRE>
+    template &lt;class Item>
+    class List {
+    public:
+        List(long size = DEFAULT_LIST_CAPACITY);
+    
+        long Count() const;
+        Item&amp; Get(long index) const;
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1053"></A>
+<P>The <CODE>List</CODE> class provides a reasonably efficient way to
+support iteration through its public interface.  It's sufficient to
+implement both traversals. So there's no need to give iterators
+privileged access to the underlying data structure; that is, the
+iterator classes are not friends of <CODE>List</CODE>.  To enable
+transparent use of the different traversals we define an abstract
+<CODE>Iterator</CODE> class, which defines the iterator interface.</P>
+
+<A NAME="class_Iterator_declaration"></A>
+<PRE>
+    template &lt;class Item>
+    class Iterator {
+    public:
+        virtual void First() = 0;
+        virtual void Next() = 0;
+        virtual bool IsDone() const = 0;
+        virtual Item CurrentItem() const = 0;
+    protected:
+        Iterator();
+    };
+</PRE>
+
+</LI>
+<A NAME="auto1054"></A>
+<P></P>
+<A NAME="auto1055"></A>
+<LI><EM>Iterator subclass implementations.</EM>
+<CODE>ListIterator</CODE> is a subclass of <CODE>Iterator</CODE>.
+
+<A NAME="auto1056"></A>
+<PRE>
+    template &lt;class Item>
+    class ListIterator : public Iterator&lt;Item> {
+    public:
+        ListIterator(const List&lt;Item>* aList);
+        virtual void First();
+        virtual void Next();
+        virtual bool IsDone() const;
+        virtual Item CurrentItem() const;
+    
+    private:
+        const List&lt;Item>* _list;
+        long _current;
+    };
+</PRE>
+
+<A NAME="list-iter2"></A>
+<P>The implementation of <CODE>ListIterator</CODE> is straightforward.  It
+stores the <CODE>List</CODE> along with an index <CODE>_current</CODE> into
+the list:</P>
+
+<A NAME="auto1057"></A>
+<PRE>
+    template &lt;class Item>
+    ListIterator&lt;Item>::ListIterator (
+        const List&lt;Item>* aList
+    ) : _list(aList), _current(0) {
+    }
+</PRE>
+
+<A NAME="auto1058"></A>
+<P><CODE>First</CODE> positions the iterator to the first element:</P>
+
+<A NAME="auto1059"></A>
+<PRE>
+    template &lt;class Item>
+    void ListIterator&lt;Item>::First () {
+        _current = 0;
+    }
+</PRE>
+
+<A NAME="auto1060"></A>
+<P><CODE>Next</CODE> advances the current element:</P>
+
+<A NAME="auto1061"></A>
+<PRE>
+    template &lt;class Item>
+    void ListIterator&lt;Item>::Next () {
+        _current++;
+    }
+</PRE>
+
+<A NAME="auto1062"></A>
+<P><CODE>IsDone</CODE> checks whether the index refers to an element within
+the List:</P>
+
+<A NAME="auto1063"></A>
+<PRE>
+    template &lt;class Item>
+    bool ListIterator&lt;Item>::IsDone () const {
+        return _current >= _list->Count();
+    }
+</PRE>
+
+<A NAME="auto1064"></A>
+<P>Finally, <CODE>CurrentItem</CODE> returns the item at the current index.
+If the iteration has already terminated, then we throw an
+<CODE>IteratorOutOfBounds</CODE> exception:</P>
+
+<A NAME="auto1065"></A>
+<PRE>
+    template &lt;class Item>
+    Item ListIterator&lt;Item>::CurrentItem () const {
+        if (IsDone()) {
+            throw IteratorOutOfBounds;
+        }
+        return _list->Get(_current);
+    }
+</PRE>
+
+<A NAME="auto1066"></A>
+<P>The implementation of ReverseListIterator is identical, except its
+<CODE>First</CODE> operation positions <CODE>_current</CODE>
+to the end of the list, and <CODE>Next</CODE> decrements
+<CODE>_current</CODE> toward the first item.</P>
+
+</LI>
+
+<A NAME="auto1067"></A>
+<P></P>
+
+<A NAME="auto1068"></A>
+<LI><EM>Using the iterators.</EM>
+Let's assume we have a <CODE>List</CODE> of <CODE>Employee</CODE> objects,
+and we would like to print all the contained employees.  The
+<CODE>Employee</CODE> class supports this with a <CODE>Print</CODE>
+operation.  To print the list, we define a <CODE>PrintEmployees</CODE>
+operation that takes an iterator as an argument. It uses the iterator
+to traverse and print the list.
+
+<A NAME="auto1069"></A>
+<PRE>
+    void PrintEmployees (Iterator&lt;Employee*>&amp; i) {
+        for (i.First(); !i.IsDone(); i.Next()) {
+            i.CurrentItem()->Print();
+        }
+    }
+</PRE>
+
+<A NAME="auto1070"></A>
+<P>Since we have iterators for both back-to-front and front-to-back
+traversals, we can reuse this operation to print the employees in both
+orders.</P>
+
+<A NAME="auto1071"></A>
+<PRE>
+    List&lt;Employee*>* employees;
+    // ...
+    ListIterator&lt;Employee*> forward(employees);
+    ReverseListIterator&lt;Employee*> backward(employees);
+    
+    PrintEmployees(forward);
+    PrintEmployees(backward);
+</PRE>
+
+</LI>
+
+<A NAME="skiplist-265"></A>
+<LI><EM>Avoiding commitment to a specific list implementation.</EM>
+Let's consider how a skiplist variation of <CODE>List</CODE> would affect
+our iteration code.  A <CODE>SkipList</CODE> subclass of
+<CODE>List</CODE> must provide a <CODE>SkipListIterator</CODE> that
+implements the <CODE>Iterator</CODE> interface.  Internally, the
+<CODE>SkipListIterator</CODE> has to keep more than just an index to
+do the iteration efficiently.  But since
+<CODE>SkipListIterator</CODE> conforms to the
+<CODE>Iterator</CODE> interface, the <CODE>PrintEmployees</CODE> operation
+can also be used when the employees are stored in a <CODE>SkipList</CODE>
+object.
+
+<A NAME="auto1072"></A>
+<PRE>
+    SkipList&lt;Employee*>* employees;
+    // ...
+    
+    SkipListIterator&lt;Employee*> iterator(employees);
+    PrintEmployees(iterator);
+</PRE>
+
+<A NAME="auto1073"></A>
+<P>Although this approach works, it would be better if we didn't have to commit
+to a specific <CODE>List</CODE> implementation, namely
+<CODE>SkipList</CODE>.  We can introduce an <CODE>AbstractList</CODE>
+class to standardize the list interface for different list
+implementations.  <CODE>List</CODE> and <CODE>SkipList</CODE> become
+subclasses of <CODE>AbstractList</CODE>.
+
+<A NAME="iter-poly-enable"></A>
+<P>To enable polymorphic iteration, <CODE>AbstractList</CODE> defines a
+factory method <CODE>CreateIterator</CODE>, which subclasses override to
+return their corresponding iterator:</P>
+
+<A NAME="auto1074"></A>
+<PRE>
+    template &lt;class Item>
+    class AbstractList {
+    public:
+        virtual Iterator&lt;Item>* CreateIterator() const = 0;
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1075"></A>
+<P>An alternative would be to define a general mixin class
+<CODE>Traversable</CODE> that defines the interface for creating an
+iterator.  Aggregate classes can mix in
+<CODE>Traversable</CODE> to support polymorphic iteration.
+
+<A NAME="auto1076"></A>
+<P><CODE>List</CODE> overrides <CODE>CreateIterator</CODE> to return a
+<CODE>ListIterator</CODE> object:</P>
+
+<A NAME="auto1077"></A>
+<PRE>
+    template &lt;class Item>
+    Iterator&lt;Item>* List&lt;Item>::CreateIterator () const {
+        return new ListIterator&lt;Item>(this);
+    }
+</PRE>
+
+<A NAME="auto1078"></A>
+<P>Now we're in a position to write the code for printing
+the employees independent of a concrete representation.</P>
+
+<A NAME="auto1079"></A>
+<PRE>
+    // we know only that we have an AbstractList
+    AbstractList&lt;Employee*>* employees;
+    // ...
+    
+    Iterator&lt;Employee*>* iterator = employees->CreateIterator();
+    PrintEmployees(*iterator);
+    delete iterator;
+</PRE>
+
+</LI>
+
+<A NAME="iter-dest"></A>
+<LI><EM>Making sure iterators get deleted.</EM>
+<A NAME="clean-up_proxy_for_iterators"></A>
+Notice that <CODE>CreateIterator</CODE> returns a newly allocated
+iterator object.  We're responsible for deleting it.  If we forget,
+then we've created a storage leak.  To make life easier for clients,
+we'll provide an <CODE>IteratorPtr</CODE> that acts as a proxy for an
+iterator.  It takes care of cleaning up the <CODE>Iterator</CODE> object
+when it goes out of scope.
+
+<A NAME="auto1080"></A>
+<P><CODE>IteratorPtr</CODE> is always allocated on the
+stack.<A NAME="fn5"></A><A HREF="#footnote5"><SUP>5</SUP></A>
+C++ automatically takes care of calling
+its destructor, which deletes the real iterator.
+<CODE>IteratorPtr</CODE> overloads both
+<CODE>operator-></CODE> and
+<CODE>operator*</CODE> in such a way that an <CODE>IteratorPtr</CODE> can be
+treated just like a pointer to an iterator.  The members of
+<CODE>IteratorPtr</CODE> are all implemented inline; thus they can incur no
+overhead.</P>
+
+<A NAME="auto1081"></A>
+<PRE>
+    template &lt;class Item>
+    class IteratorPtr {
+    public:
+        IteratorPtr(Iterator&lt;Item>* i): _i(i) { }
+        ~IteratorPtr() { delete _i; }
+    
+        Iterator&lt;Item>* operator->() { return _i; }
+        Iterator&lt;Item>&amp; operator*() { return *_i; }
+    private:
+        // disallow copy and assignment to avoid
+        // multiple deletions of _i:
+    
+        IteratorPtr(const IteratorPtr&amp;);
+        IteratorPtr&amp; operator=(const IteratorPtr&amp;);
+    private:
+        Iterator&lt;Item>* _i;
+    };
+</PRE>
+
+<A NAME="auto1082"></A>
+<P><CODE>IteratorPtr</CODE> lets us simplify our printing code:</P>
+
+<A NAME="auto1083"></A>
+<PRE>
+    AbstractList&lt;Employee*>* employees;
+    // ...
+    
+    IteratorPtr&lt;Employee*> iterator(employees->CreateIterator());
+    PrintEmployees(*iterator);
+</PRE>
+
+<A NAME="iter-internal"></A>
+<LI><EM>An internal ListIterator.</EM>
+As a final example, let's look at a possible implementation of an
+internal or passive <CODE>ListIterator</CODE> class.  Here the iterator
+controls the iteration, and it applies an operation to each element.
+
+<A NAME="iter-param"></A>
+<P>The issue in this case is how to parameterize the iterator with the
+operation we want to perform on each element. C++ does not support
+anonymous functions or closures that other languages provide for this
+task.  There are at least two options: (1) Pass in a pointer to a
+function (global or static), or (2) rely on subclassing. In the first
+case, the iterator calls the operation passed to it at each point in
+the iteration.  In the second case, the iterator calls an operation
+that a subclass overrides to enact specific behavior.</P>
+
+<A NAME="auto1084"></A>
+<P>Neither option is perfect.  Often you want to accumulate state during
+the iteration, and functions aren't well-suited to that; we would have
+to use static variables to remember the state.  An
+<CODE>Iterator</CODE> subclass provides us with a convenient place to
+store the accumulated state, like in an instance variable.  But
+creating a subclass for every different traversal is more work.</P>
+
+<A NAME="listtrav"></A>
+<P>Here's a sketch of the second option, which uses subclassing.  We call
+the internal iterator a <CODE>ListTraverser</CODE>.</P>
+
+<A NAME="auto1085"></A>
+<PRE>
+    template &lt;class Item>
+    class ListTraverser {
+    public:
+        ListTraverser(List&lt;Item>* aList);
+        bool Traverse();
+    protected:
+        virtual bool ProcessItem(const Item&amp;) = 0;
+    private:
+        ListIterator&lt;Item> _iterator;
+    };
+</PRE>
+
+<A NAME="auto1086"></A>
+<P><CODE>ListTraverser</CODE> takes a <CODE>List</CODE> instance as a parameter.
+Internally it uses an external <CODE>ListIterator</CODE> to do the
+traversal. <CODE>Traverse</CODE> starts the traversal and calls
+<CODE>ProcessItem</CODE> for each item.  The internal iterator can choose to
+terminate a traversal by returning <CODE>false</CODE> from
+<CODE>ProcessItem</CODE>. <CODE>Traverse</CODE> returns whether the traversal
+terminated prematurely.</P>
+
+<A NAME="auto1087"></A>
+<PRE>
+    template &lt;class Item>
+    ListTraverser&lt;Item>::ListTraverser (
+        List&lt;Item>* aList
+    ) : _iterator(aList) { }
+    
+    template &lt;class Item>
+    bool ListTraverser&lt;Item>::Traverse () {
+        bool result = false;
+    
+        for (
+            _iterator.First();
+            !_iterator.IsDone();
+            _iterator.Next()
+        ) {
+            result = ProcessItem(_iterator.CurrentItem());
+    
+            if (result == false) {
+                break;
+            }
+        }
+        return result;
+    }
+</PRE>
+
+<A NAME="auto1088"></A>
+<P>Let's use a <CODE>ListTraverser</CODE> to print the first 10
+employees from our employee list. To do it we have to subclass
+<CODE>ListTraverser</CODE> and override <CODE>ProcessItem</CODE>. We
+count the number of printed employees in a <CODE>_count</CODE> instance
+variable.</P>
+
+<A NAME="auto1089"></A>
+<PRE>
+    class PrintNEmployees : public ListTraverser&lt;Employee*> {
+    public:
+        PrintNEmployees(List&lt;Employee*>* aList, int n) :
+            ListTraverser&lt;Employee*>(aList),
+            _total(n), _count(0) { }
+    
+    protected:
+        bool ProcessItem(Employee* const&amp;);
+    private:
+        int _total;
+        int _count;
+    };
+    
+    bool PrintNEmployees::ProcessItem (Employee* const&amp; e) {
+        _count++;
+        e->Print();
+        return _count &lt; _total;
+    }
+</PRE>
+
+<A NAME="auto1090"></A>
+<P>Here's how <CODE>PrintNEmployees</CODE> prints the first 10 employees
+on the list:</P>
+
+<A NAME="auto1091"></A>
+<PRE>
+    List&lt;Employee*>* employees;
+    // ...
+    
+    PrintNEmployees pa(employees, 10);
+    pa.Traverse();
+</PRE>
+
+<A NAME="iter-external"></A>
+<P>Note how the client doesn't specify the iteration loop. The entire
+iteration logic can be reused. This is the primary benefit of an
+internal iterator.  It's a bit more work than an external iterator,
+though, because we have to define a new class.  Contrast this with
+using an external iterator:</P>
+
+<A NAME="auto1092"></A>
+<PRE>
+    ListIterator&lt;Employee*> i(employees);
+    int count = 0;
+    
+    for (i.First(); !i.IsDone(); i.Next()) {
+        count++;
+        i.CurrentItem()->Print();
+    
+        if (count >= 10) {
+            break;
+        }
+    }
+</PRE>
+
+<A NAME="auto1093"></A>
+<P>Internal iterators can encapsulate different kinds of iteration. For
+example, <CODE>FilteringListTraverser</CODE> encapsulates an
+iteration that processes only items that satisfy a test:</P>
+<A NAME="auto1094"></A>
+<PRE>
+    template &lt;class Item>
+    class FilteringListTraverser {
+    public:
+        FilteringListTraverser(List&lt;Item>* aList);
+        bool Traverse();
+    protected:
+        virtual bool ProcessItem(const Item&amp;) = 0;
+        virtual bool TestItem(const Item&amp;) = 0;
+    private:
+        ListIterator&lt;Item> _iterator;
+    };
+</PRE>
+
+<A NAME="auto1095"></A>
+<P>This interface is the same as <CODE>ListTraverser</CODE>'s except for an
+added <CODE>TestItem</CODE> member function that defines the test.
+Subclasses override <CODE>TestItem</CODE> to specify the test.</P>
+
+<A NAME="auto1096"></A>
+<P><CODE>Traverse</CODE> decides to continue the traversal based on the
+outcome of the test:</P>
+
+<A NAME="auto1097"></A>
+<PRE>
+    template &lt;class Item>
+    void FilteringListTraverser&lt;Item>::Traverse () {
+        bool result = false;
+    
+        for (
+            _iterator.First();
+            !_iterator.IsDone();
+            _iterator.Next()
+        ) {
+            if (TestItem(_iterator.CurrentItem())) {
+                result = ProcessItem(_iterator.CurrentItem());
+    
+                if (result == false) {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+</PRE>
+
+<A NAME="auto1098"></A>
+<P>A variant of this class could define <CODE>Traverse</CODE> to return if
+at least one item satisfies the test.<A NAME="fn6"></A><A HREF="#footnote6"><SUP>6</SUP></A></P>
+
+</LI>
+
+</OL>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1099"></A>
+<P>Iterators are common in object-oriented systems.  Most collection
+class libraries offer iterators in one form or another.</P>
+
+<A NAME="auto1100"></A>
+<P>Here's an example from the Booch components [<A HREF="bibfs.htm#booch_ood" TARGET="_mainDisplayFrame">Boo94</A>], a
+popular collection class library.  It provides both a fixed size
+(bounded) and dynamically growing (unbounded) implementation of a
+queue. The queue interface is defined by an abstract Queue class. To
+support polymorphic iteration over the different queue
+implementations, the queue iterator is implemented in the terms of the
+abstract Queue class interface.  This variation has the advantage that
+you don't need a factory method to ask the queue implementations for
+their appropriate iterator.  However, it requires the interface of the
+abstract Queue class to be powerful enough to implement the iterator
+efficiently.</P>
+
+<A NAME="smalltalk-use-iter"></A>
+<P>Iterators don't have to be defined as explicitly in Smalltalk.  The
+standard collection classes (Bag, Set, Dictionary, OrderedCollection,
+String, etc.) define an internal iterator method <CODE>do:</CODE>, which
+takes a block (i.e., closure) as an argument.  Each element in the
+collection is bound to the local variable in the block; then the block
+is executed.  Smalltalk also includes a set of Stream classes that
+support an iterator-like interface.  ReadStream is essentially an
+Iterator, and it can act as an external iterator for all the
+sequential collections.  There are no standard external iterators for
+nonsequential collections such as Set and Dictionary.</P>
+
+<A NAME="unidraw-use-iter"></A>
+<P>Polymorphic iterators and the cleanup Proxy described earlier are
+provided by the ET++ container classes [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>].  The Unidraw
+graphical editing framework classes use cursor-based
+iterators [<A HREF="bibfs.htm#unidraw_framework" TARGET="_mainDisplayFrame">VL90</A>].</P>
+
+<A NAME="auto1101"></A>
+<P>ObjectWindows 2.0 [<A HREF="bibfs.htm#objectwindows" TARGET="_mainDisplayFrame">Bor94</A>] provides a class hierarchy of
+iterators for containers.  You can iterate over different container
+types in the same way.  The ObjectWindow iteration syntax relies on
+overloading the postincrement operator <CODE>++</CODE> to advance the
+iteration.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1102"></A>
+<P><A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>:
+Iterators are often applied to recursive structures such as
+Composites.</P>
+
+<A NAME="auto1103"></A>
+<P><A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A>:
+Polymorphic iterators rely on factory methods to instantiate the
+appropriate Iterator subclass.</P>
+
+<A NAME="auto1104"></A>
+<P><A HREF="pat5ffs.htm" TARGET="_mainDisplayFrame">Memento (283)</A> is
+often used in conjunction with the Iterator pattern.  An iterator
+can use a memento to capture the state of an iteration.  The iterator
+stores the memento internally.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5efs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5efs.htm"
+        TARGET="_mainDisplayFrame">Mediator</A><BR>
+<A HREF="pat5cfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5cfs.htm"
+        TARGET="_mainDisplayFrame">Interpreter</A>
+</P>
+
+<HR>
+
+<A NAME="footnote2"></A>
+<P><SUP>2</SUP>Booch refers to external and internal iterators as
+<STRONG>active</STRONG> and <STRONG>passive</STRONG> iterators,
+respectively [<A HREF="bibfs.htm#booch_ood" TARGET="_mainDisplayFrame">Boo94</A>].  The
+terms "active" and "passive" describe the role of the client, not
+the level of activity in the iterator.
+</P>
+
+<A NAME="footnote3"></A>
+<P><SUP>3</SUP>Cursors are a simple example of the <A HREF="pat5ffs.htm"
+TARGET="_mainDisplayFrame">Memento (283)</A> pattern and share many of its
+implementation issues.
+</P>
+
+<A NAME="footnote4"></A>
+<P><SUP>4</SUP>We can make this interface
+even <EM>smaller</EM> by merging Next, IsDone, and CurrentItem into a
+single operation that advances to the next object and returns it.  If
+the traversal is finished, then this operation returns a special
+value (0, for instance) that marks the end of the iteration.
+</P>
+
+<A NAME="footnote5"></A>
+<P><SUP>5</SUP>You can ensure this at compile-time just by declaring
+private <CODE>new</CODE> and <CODE>delete</CODE> operators.  An accompanying
+implementation isn't needed.
+</P>
+
+<A NAME="footnote6"></A>
+<P><SUP>6</SUP>The <CODE>Traverse</CODE> operation in these examples
+is a <A HREF="pat5jfs.htm" TARGET="_mainDisplayFrame">Template Method (325)</A>
+with primitive operations <CODE>TestItem</CODE> and
+<CODE>ProcessItem</CODE>.
+</P>
+
+</BODY>
+
+</HTML>

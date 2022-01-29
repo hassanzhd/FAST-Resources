@@ -1,0 +1,51 @@
+<HTML>
+
+<HEAD><TITLE>Guide to Notation</TITLE></HEAD>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+if(navigator.appName == "Netscape") {
+	self.name = "_mainDisplayFrame";
+        self._mainDisplayFrame = self;
+}
+
+function loadApplet() {
+	if(top._appletFrame != null) {
+	   if(top._appletFrame._loaded != null &&
+		 top._appletFrame._loaded == true) {
+			if(top._appletFrame.loadApplet != null) {
+				top._appletFrame.loadApplet();
+			}
+		}
+	}
+}
+
+
+function load(chapnum,anchor) {
+	if(top._mainDisplayFrame.load != null)
+		top._mainDisplayFrame.load(chapnum, anchor);
+}
+
+str   = location.href;
+index = str.indexOf(".htm");
+firstPart = str.substring(0, index);
+secondPart = str.substring(index, str.length);
+target = firstPart + "o" + secondPart;
+
+if(navigator.appName != "Netscape") {
+	if ( top._mainDisplayFrame == null) {
+		str =
+"<FRAMESET FRAMEBORDER=NO BORDER=0 FRAMESPACING=NO COLS=\"4,*\" ROWS=\"*\">\<FRAME SRC=\"applet.htm\" NAME=\"_appletFrame\" SCROLLING=NO>\<FRAME SRC=\"";
+		str+=target;
+		str+="\" NAME=\"_mainDisplayFrame\">\</FRAMESET>";
+		document.write(str);
+	} else {
+		top._mainDisplayFrame.location.replace(target);
+	}
+} else {
+	location.replace(target);
+}
+
+</SCRIPT>
+
+</HTML>

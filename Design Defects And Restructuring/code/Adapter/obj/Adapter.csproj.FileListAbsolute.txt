@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Adapter\bin\Debug\Adapter.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Adapter\bin\Debug\Adapter.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Adapter\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Adapter\obj\Debug\Adapter.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Adapter\obj\Debug\Adapter.pdb

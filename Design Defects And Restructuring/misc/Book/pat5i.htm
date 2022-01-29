@@ -1,0 +1,720 @@
+<HTML>
+
+<HEAD><TITLE>Strategy</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="Strategy"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Define a family of algorithms, encapsulate each one, and make them
+interchangeable.  Strategy lets the algorithm vary independently from
+clients that use it.</P>
+
+<A NAME="alsoknownas"><A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Policy</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>Many algorithms exist for breaking a stream of text into lines.
+Hard-wiring all such algorithms into the classes that require them
+isn't desirable for several reasons:</P>
+
+<UL>
+
+<A NAME="auto1003"></A>
+<LI>Clients that need linebreaking get more complex if they include
+the linebreaking code.  That makes clients bigger and harder to
+maintain, especially if they support multiple linebreaking algorithms.</LI>
+
+<A NAME="auto1004"></A>
+<P></P>
+
+<A NAME="auto1005"></A>
+<LI>Different algorithms will be appropriate at different times.  We don't
+want to support multiple linebreaking algorithms if we don't use them
+all.</LI>
+
+<A NAME="auto1006"></A>
+<P></P>
+
+<A NAME="auto1007"></A>
+<LI>It's difficult to add new algorithms and vary existing ones when
+linebreaking is an integral part of a client.</LI>
+
+</UL>
+
+<A NAME="def-strategy"></A>
+<P>We can avoid these problems by defining classes that encapsulate
+different linebreaking algorithms. An algorithm that's encapsulated in
+this way is called a <STRONG>strategy</STRONG>.</P>
+
+<A NAME="315c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/strat011.gif"></P>
+
+<A NAME="compositor"></A>
+<P>Suppose a Composition class is responsible for maintaining and
+updating the linebreaks of text displayed in a text viewer.
+Linebreaking strategies aren't implemented by the class Composition.
+Instead, they are implemented separately by subclasses of the abstract
+Compositor class. Compositor subclasses implement different strategies:</P>
+
+<UL>
+
+<A NAME="simplecompositor"></A>
+<LI><STRONG>SimpleCompositor</STRONG>
+implements a simple strategy that determines linebreaks one at a
+time.</LI>
+
+<A NAME="auto1008"></A>
+<P></P>
+
+<A NAME="tex-comp"></A>
+<LI><STRONG>TeXCompositor</STRONG>
+implements the TeX algorithm for finding linebreaks. This strategy
+tries to optimize linebreaks globally, that is, one paragraph at a
+time.</LI>
+
+<A NAME="auto1009"></A>
+<P></P>
+
+<A NAME="auto1010"></A>
+<LI><STRONG>ArrayCompositor</STRONG>
+implements a strategy that selects breaks so that each row has a fixed
+number of items.  It's useful for breaking a collection of icons into
+rows, for example.</LI>
+
+</UL>
+
+<A NAME="auto1011"></A>
+<P>A Composition maintains a reference to a Compositor object. Whenever a
+Composition reformats its text, it forwards this responsibility to its
+Compositor object. The client of Composition specifies which
+Compositor should be used by installing the Compositor it desires into
+the Composition.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1012"></A>
+<P>Use the Strategy pattern when</P>
+
+<UL>
+
+<A NAME="auto1013"></A>
+<LI>many related classes differ only in their behavior.  Strategies
+provide a way to configure a class with one of many behaviors.</LI>
+<A NAME="auto1014"></A>
+<P></P>
+<A NAME="auto1015"></A>
+<LI>you need different variants of an algorithm. For example, you might define
+algorithms reflecting different space/time trade-offs.
+Strategies can be used when these variants are implemented as a class
+hierarchy of algorithms [<A HREF="bibfs.htm#halbert-obrien" TARGET="_mainDisplayFrame">HO87</A>].</LI>
+<A NAME="auto1016"></A>
+<P></P>
+<A NAME="auto1017"></A>
+<LI>an algorithm uses data that clients shouldn't know about. Use the
+Strategy pattern to avoid exposing complex, algorithm-specific data
+structures.</LI>
+<A NAME="auto1018"></A>
+<P></P>
+<A NAME="auto1019"></A>
+<LI>a class defines many behaviors, and these appear as multiple
+conditional statements in its operations. Instead of many
+conditionals, move related conditional branches into their own
+Strategy class.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<A NAME="strat-316c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/strategy.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1020"></A>
+<LI><B>Strategy</B> (Compositor)</LI>
+
+<A NAME="auto1021"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1022"></A>
+<LI>declares an interface common to all supported algorithms.
+    Context uses this interface to call the
+    algorithm defined by a ConcreteStrategy.</LI>
+
+    </UL>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<A NAME="auto1024"></A>
+<LI><B>ConcreteStrategy</B> (SimpleCompositor, TeXCompositor,
+ArrayCompositor)</LI>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1026"></A>
+<LI>implements the algorithm using the Strategy interface.</LI>
+
+    </UL>
+
+<A NAME="auto1027"></A>
+<P></P>
+
+<A NAME="auto1028"></A>
+<LI><B>Context</B> (Composition)
+
+<A NAME="auto1029"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1030"></A>
+<LI>is configured with a ConcreteStrategy object.</LI>
+
+    <A NAME="auto1031"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1032"></A>
+<LI>maintains a reference to a Strategy object.</LI>
+
+    <A NAME="auto1033"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1034"></A>
+<LI>may define an interface that lets Strategy access its data.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1035"></A>
+<LI>Strategy and Context interact to implement the chosen algorithm.  A
+context may pass all data required by the algorithm to the strategy
+when the algorithm is called. Alternatively, the context can pass
+itself as an argument to Strategy operations. That lets the strategy
+call back on the context as required.</LI>
+<A NAME="auto1036"></A>
+<P></P>
+<A NAME="auto1037"></A>
+<LI>A context forwards requests from its clients to its strategy.  Clients
+usually create and pass a ConcreteStrategy object to the context;
+thereafter, clients interact with the context exclusively. There is
+often a family of ConcreteStrategy classes for a client to choose
+from.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1038"></A>
+<P>The Strategy pattern has the following benefits and drawbacks:</P>
+
+<OL>
+
+<A NAME="families"></A>
+<LI><EM>Families of related algorithms.</EM>
+Hierarchies of Strategy classes define a family of algorithms or
+behaviors for contexts to reuse. Inheritance can
+help factor out common functionality of the algorithms.</LI>
+<A NAME="auto1039"></A>
+<P></P>
+<A NAME="auto1040"></A>
+<LI><EM>An alternative to subclassing.</EM>
+Inheritance offers another way to support a variety of algorithms or
+behaviors. You can subclass a Context class directly to give it
+different behaviors. But this hard-wires the behavior into Context.
+It mixes the algorithm implementation with Context's, making Context
+harder to understand, maintain, and extend. And you can't vary the
+algorithm dynamically. You wind up with many related classes whose
+only difference is the algorithm or behavior they employ.
+Encapsulating the algorithm in separate Strategy classes lets you vary
+the algorithm independently of its context, making it easier to
+switch, understand, and extend.</LI>
+<A NAME="auto1041"></A>
+<P></P>
+<A NAME="auto1042"></A>
+<LI><EM>Strategies eliminate conditional statements.</EM>
+The Strategy pattern offers an alternative to conditional statements for
+selecting desired behavior. When different behaviors are lumped into one
+class, it's hard to avoid using conditional statements to select the
+right behavior. Encapsulating the behavior in separate Strategy classes
+eliminates these conditional statements.
+
+<A NAME="auto1043"></A>
+<P>For example, without strategies, the code for breaking
+text into lines could look like
+
+<A NAME="auto1044"></A>
+<PRE>
+    void Composition::Repair () {
+        switch (_breakingStrategy) {
+        case SimpleStrategy:
+            ComposeWithSimpleCompositor();
+            break;
+        case TeXStrategy:
+            ComposeWithTeXCompositor();
+            break;
+        // ...
+        }
+        // merge results with existing composition, if necessary
+    }
+</PRE>
+
+<A NAME="auto1045"></A>
+<P>The Strategy pattern eliminates this case statement by delegating the
+linebreaking task to a Strategy object:</P>
+
+<A NAME="auto1046"></A>
+<PRE>
+    void Composition::Repair () {
+        _compositor->Compose();
+        // merge results with existing composition, if necessary
+    }
+</PRE>
+
+<A NAME="auto1047"></A>
+<P>Code containing many conditional statements often indicates
+the need to apply the Strategy pattern.</P>
+
+</LI>
+<A NAME="auto1048"></A>
+<P></P>
+<A NAME="auto1049"></A>
+<LI><EM>A choice of implementations.</EM>
+Strategies can provide different implementations of the <EM>same</EM>
+behavior. The client can choose among strategies with different
+time and space trade-offs.</LI>
+<A NAME="auto1050"></A>
+<P></P>
+<A NAME="auto1051"></A>
+<LI><EM>Clients must be aware of different Strategies.</EM>
+The pattern has a potential drawback in that a client must understand
+how Strategies differ before it can select the appropriate one.
+Clients might be exposed to implementation issues.  Therefore you
+should use the Strategy pattern only when the variation in behavior is
+relevant to clients.</LI>
+<A NAME="auto1052"></A>
+<P></P>
+<A NAME="auto1053"></A>
+<LI><EM>Communication overhead between Strategy and Context.</EM>
+The Strategy interface is shared by all ConcreteStrategy classes
+whether the algorithms they implement are trivial or complex.  Hence
+it's likely that some ConcreteStrategies won't use all the information
+passed to them through this interface; simple ConcreteStrategies may
+use none of it!  That means there will be times when the context
+creates and initializes parameters that never get used. If this is an
+issue, then you'll need tighter coupling between Strategy and Context.</LI>
+<A NAME="auto1054"></A>
+<P></P>
+<A NAME="auto1055"></A>
+<LI><EM>Increased number of objects.</EM>
+Strategies increase the number of objects in an application. Sometimes
+you can reduce this overhead by implementing strategies as stateless
+objects that contexts can share. Any residual state is maintained by the
+context, which passes it in each request to the Strategy object. Shared
+strategies should not maintain state across invocations. The
+<A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195</A>) pattern describes this approach in more
+detail.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1056"></A>
+<P>Consider the following implementation issues:</P>
+
+<OL>
+
+<A NAME="auto1057"></A>
+<LI><EM>Defining the Strategy and Context interfaces.</EM>
+The Strategy and Context interfaces must give a ConcreteStrategy
+efficient access to any data it needs from a context, and vice versa.
+
+<A NAME="auto1058"></A>
+<P>One approach is to have Context pass data in parameters to Strategy
+operations&#151;in other words, take the data to the strategy. This keeps
+Strategy and Context decoupled. On the other hand, Context might
+pass data the Strategy doesn't need.</P>
+
+<A NAME="auto1059"></A>
+<P>Another technique has a context pass <EM>itself</EM> as an argument, and
+the strategy requests data from the context explicitly.
+Alternatively, the strategy can store a reference to its context,
+eliminating the need to pass anything at all.  Either way, the
+strategy can request exactly what it needs.  But now Context must
+define a more elaborate interface to its data, which couples Strategy
+and Context more closely.</P>
+
+<A NAME="auto1060"></A>
+<P>The needs of the particular algorithm and its data requirements will
+determine the best technique.</P>
+
+</LI>
+
+<A NAME="template-impl-strat"></A>
+<LI><EM>Strategies as template parameters.</EM>
+In C++ templates can be used to configure a class with a strategy.
+This technique is only applicable if (1) the Strategy can be selected
+at compile-time, and (2) it does not have to be changed at run-time.
+In this case, the class to be configured (e.g., <CODE>Context</CODE>) is
+defined as a template class that has a <CODE>Strategy</CODE> class as a
+parameter:
+
+<A NAME="auto1061"></A>
+<PRE>
+    template &lt;class AStrategy>
+    class Context {
+        void Operation() { theStrategy.DoAlgorithm(); }
+        // ...
+    private:
+        AStrategy theStrategy;
+    };
+</PRE>
+The class is then configured with a <CODE>Strategy</CODE> class when it's
+instantiated:
+<A NAME="auto1062"></A>
+<PRE>
+    class MyStrategy {
+    public:
+        void DoAlgorithm();
+    };
+    
+    Context&lt;MyStrategy> aContext;
+</PRE>
+With templates, there's no need to define an abstract class that defines
+the interface to the <CODE>Strategy.</CODE> Using <CODE>Strategy</CODE> as a
+template parameter also lets you bind a <CODE>Strategy</CODE> to its
+<CODE>Context</CODE> statically, which can increase efficiency.</P>
+
+</LI>
+
+<A NAME="strat-optional"></A>
+<LI><EM>Making Strategy objects optional.</EM>
+The Context class may be simplified if it's meaningful <EM>not</EM> to
+have a Strategy object.  Context checks to see if it has a Strategy
+object before accessing it.  If there is one, then Context uses it
+normally.  If there isn't a strategy, then Context carries out default
+behavior.  The benefit of this approach is that clients don't have to
+deal with Strategy objects at all <EM>unless</EM> they don't like the
+default behavior.</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1064"></A>
+<P>We'll give the high-level code for the Motivation example, which is
+based on the implementation of Composition and Compositor classes in
+InterViews [<A HREF="bibfs.htm#InterViews3.1" TARGET="_mainDisplayFrame">LCI+92</A>].</P>
+
+<A NAME="shrinkability"></A>
+<A NAME="stretchability"></A>
+<P>The <CODE>Composition</CODE> class maintains a collection of
+<CODE>Component</CODE> instances, which represent text and graphical
+elements in a document.  A composition arranges component objects into
+lines using an instance of a <CODE>Compositor</CODE> subclass, which
+encapsulates a linebreaking strategy.  Each component has an
+associated natural size, stretchability, and shrinkability. The
+stretchability defines how much the component can grow beyond its
+natural size; shrinkability is how much it can shrink.  The
+composition passes these values to a compositor, which uses them to
+determine the best location for linebreaks.</P>
+
+<A NAME="auto1065"></A>
+<PRE>
+    class Composition {
+    public:
+        Composition(Compositor*);
+        void Repair();
+    private:
+        Compositor* _compositor;
+        Component* _components;    // the list of components
+        int _componentCount;       // the number of components
+        int _lineWidth;            // the Composition's line width
+        int* _lineBreaks;          // the position of linebreaks
+                                   // in components
+        int _lineCount;            // the number of lines
+    };
+</PRE>
+
+<A NAME="auto1066"></A>
+<P>When a new layout is required, the composition asks its compositor to
+determine where to place linebreaks. The composition passes the
+compositor three arrays that define natural sizes, stretchabilities,
+and shrinkabilities of the components.  It also passes the number of
+components, how wide the line is, and an array that the compositor
+fills with the position of each linebreak.  The compositor returns the
+number of calculated breaks.</P>
+
+<A NAME="auto1067"></A>
+<P>The <CODE>Compositor</CODE> interface lets the composition pass the
+compositor all the information it needs.  This is an example of
+"taking the data to the strategy":</P>
+
+<A NAME="auto1068"></A>
+<PRE>
+    class Compositor {
+    public:
+        virtual int Compose(
+            Coord natural[], Coord stretch[], Coord shrink[],
+            int componentCount, int lineWidth, int breaks[]
+        ) = 0;
+    protected:
+        Compositor();
+    };
+</PRE>
+
+<A NAME="auto1069"></A>
+<P>Note that <CODE>Compositor</CODE> is an abstract class.  Concrete
+subclasses define specific linebreaking strategies.</P>
+
+<A NAME="auto1070"></A>
+<P>The composition calls its compositor in its <CODE>Repair</CODE>
+operation.  <CODE>Repair</CODE> first initializes arrays with the natural
+size, stretchability, and shrinkability of each component (the details
+of which we omit for brevity).  Then it calls on the compositor to
+obtain the linebreaks and finally lays out the components according to
+the breaks (also omitted):</P>
+
+<A NAME="auto1071"></A>
+<PRE>
+    void Composition::Repair () {
+        Coord* natural;
+        Coord* stretchability;
+        Coord* shrinkability;
+        int componentCount;
+        int* breaks;
+    
+        // prepare the arrays with the desired component sizes
+        // ...
+    
+        // determine where the breaks are:
+        int breakCount;
+        breakCount = _compositor->Compose(
+            natural, stretchability, shrinkability,
+            componentCount, _lineWidth, breaks
+        );
+    
+        // lay out components according to breaks
+        // ...
+    }
+</PRE>
+
+<A NAME="simplecompositor2"></A>
+<P>Now let's look at the <CODE>Compositor</CODE> subclasses.
+<CODE>SimpleCompositor</CODE> examines components a line at a time to
+determine where breaks should go:</P>
+
+<A NAME="auto1072"></A>
+<PRE>
+    class SimpleCompositor : public Compositor {
+    public:
+        SimpleCompositor();
+    
+        virtual int Compose(
+            Coord natural[], Coord stretch[], Coord shrink[],
+            int componentCount, int lineWidth, int breaks[]
+        );
+        // ...
+    };
+</PRE>
+
+<A NAME="doc-color"></A>
+<A NAME="tex-comp2"></A>
+<P><CODE>TeXCompositor</CODE> uses a more global strategy.  It examines a
+<EM>paragraph</EM> at a time, taking into account the components' size
+and stretchability.  It also tries to give an even "color" to the
+paragraph by minimizing the whitespace between components.</P>
+
+<A NAME="auto1073"></A>
+<PRE>
+    class TeXCompositor : public Compositor {
+    public:
+        TeXCompositor();
+    
+        virtual int Compose(
+            Coord natural[], Coord stretch[], Coord shrink[],
+            int componentCount, int lineWidth, int breaks[]
+        );
+        // ...
+    };
+</PRE>
+
+<A NAME="breaks"></A>
+<P><CODE>ArrayCompositor</CODE> breaks the components into lines at regular
+intervals.</P>
+
+<A NAME="auto1074"></A>
+<PRE>
+    class ArrayCompositor : public Compositor {
+    public:
+        ArrayCompositor(int interval);
+    
+        virtual int Compose(
+            Coord natural[], Coord stretch[], Coord shrink[],
+            int componentCount, int lineWidth, int breaks[]
+        );
+        // ...
+    };
+</PRE>
+
+<A NAME="auto1075"></A>
+<P>These classes don't use all the information passed in
+<CODE>Compose</CODE>.  <CODE>SimpleCompositor</CODE> ignores the stretchability
+of the components, taking only their natural widths into account.
+<CODE>TeXCompositor</CODE> uses all the information passed to it, whereas
+<CODE>ArrayCompositor</CODE> ignores everything.</P>
+
+<A NAME="auto1076"></A>
+<P>To instantiate <CODE>Composition</CODE>, you pass it the compositor
+you want to use:</P>
+
+<A NAME="auto1077"></A>
+<PRE>
+    Composition* quick = new Composition(new SimpleCompositor);
+    Composition* slick = new Composition(new TeXCompositor);
+    Composition* iconic = new Composition(new ArrayCompositor(100));
+</PRE>
+
+<A NAME="auto1078"></A>
+<P><CODE>Compositor</CODE>'s interface is carefully designed to support all
+layout algorithms that subclasses might implement.  You don't want to
+have to change this interface with every new subclass, because that will
+require changing existing subclasses.  In general, the Strategy and
+Context interfaces determine how well the pattern achieves its intent.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1079"></A>
+<P>Both ET++ [<A HREF="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>] and InterViews use strategies to encapsulate
+different linebreaking algorithms as we've described.</P>
+
+<A NAME="rtlsmall-use-strat"></A>
+<P>In the RTL System for compiler code optimization [<A HREF="bibfs.htm#RTLSystem92" TARGET="_mainDisplayFrame">JML92</A>],
+strategies define different register allocation schemes
+(RegisterAllocator) and instruction set scheduling policies
+(RISCscheduler, CISCscheduler). This provides flexibility in targeting the
+optimizer for different machine architectures.</P>
+
+<A NAME="et-swapman"></A>
+<A NAME="future-cashflow"></A>
+<A NAME="swaps"></A>
+<P>The ET++SwapsManager calculation engine framework computes prices for
+different financial instruments [<A HREF="bibfs.htm#egg-gamma_swaps" TARGET="_mainDisplayFrame">EG92</A>]. Its key
+abstractions are Instrument and YieldCurve. Different instruments are
+implemented as subclasses of Instrument. YieldCurve calculates
+discount factors, which determine the present value of future cash
+flows. Both of these classes delegate some behavior to Strategy
+objects. The framework provides a family of ConcreteStrategy classes
+for generating cash flows, valuing swaps, and calculating discount
+factors. You can create new calculation engines by configuring
+Instrument and YieldCurve with the different ConcreteStrategy objects.
+This approach supports mixing and matching existing Strategy
+implementations as well as defining new ones.</P>
+
+<A NAME="template-impl-strat2"></A>
+<P>The Booch components [<A HREF="bibfs.htm#booch_components" TARGET="_mainDisplayFrame">BV90</A>] use strategies as template
+arguments. The Booch collection classes support three different kinds of
+memory allocation strategies: managed (allocation out of a pool),
+controlled (allocations/deallocations are protected by locks), and
+unmanaged (the normal memory allocator). These strategies are passed as
+template arguments to a collection class when it's instantiated. For
+example, an UnboundedCollection that uses the unmanaged strategy is
+instantiated as <CODE>UnboundedCollection<MyItemType*, Unmanaged></CODE>.</P>
+
+<A NAME="rapp-use-strategy"></A>
+<P>RApp is a system for integrated circuit layout [<A HREF="bibfs.htm#rapp89" TARGET="_mainDisplayFrame">GA89</A>, <A HREF="bibfs.htm#rapp90" TARGET="_mainDisplayFrame">AG90</A>].
+RApp must lay out and route wires that connect subsystems on the
+circuit. Routing algorithms in RApp are defined as
+subclasses of an abstract Router class.  Router is a Strategy class.</P>
+
+<A NAME="auto1080"></A>
+<P>Borland's ObjectWindows [<A HREF="bibfs.htm#objectwindows" TARGET="_mainDisplayFrame">Bor94</A>] uses strategies in dialogs
+boxes to ensure that the user enters valid data. For example, numbers might
+have to be in a certain range, and a numeric entry field should accept
+only digits. Validating that a string is correct can require a
+table look-up.</P>
+
+<A NAME="validator"></A>
+<P>ObjectWindows uses Validator objects to encapsulate validation
+strategies.  Validators are examples of Strategy objects.  Data entry
+fields delegate the validation strategy to an optional Validator
+object. The client attaches a validator to a field if validation is
+required (an example of an optional strategy).  When the dialog is
+closed, the entry fields ask their validators to validate the data.
+The class library provides validators for common cases, such as a
+RangeValidator for numbers.  New client-specific validation strategies
+can be defined easily by subclassing the Validator class.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1081"></A>
+<P><A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195)</A>:
+Strategy objects often make good flyweights.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5jfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5jfs.htm"
+        TARGET="_mainDisplayFrame">Template Method</A><BR>
+<A HREF="pat5hfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5hfs.htm"
+        TARGET="_mainDisplayFrame">State</A>
+</P>
+
+</BODY>
+
+</HTML>

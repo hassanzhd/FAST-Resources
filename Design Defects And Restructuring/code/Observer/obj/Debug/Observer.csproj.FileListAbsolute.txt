@@ -1,0 +1,4 @@
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Observer\bin\Debug\Observer.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Observer\bin\Debug\Observer.pdb
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Observer\obj\Debug\Observer.exe
+C:\Users\Yousuf\Desktop\Current\Lectures\DP13\Source Code\Observer\obj\Debug\Observer.pdb

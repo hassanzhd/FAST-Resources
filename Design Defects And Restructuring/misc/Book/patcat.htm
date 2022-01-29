@@ -1,0 +1,194 @@
+<HTML><HEAD>	<TITLE>Pattern Catalog</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR=#FFFFFF
+      TEXT=#000000
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+
+<A NAME="creational"></A>
+<H2><A HREF="#structural"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structural Patterns"></A>
+<A HREF="chap3fs.htm" TARGET="_mainDisplayFrame">Creational Patterns</A></H2>
+
+<DL>
+
+<A NAME="absfact"></A>
+<DT><B><A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A></B>
+<DD>Provide an interface for creating families of related or dependent
+objects without specifying their concrete classes.
+
+<DT><B><A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A></B>
+<DD>Separate the construction of a complex object from its representation
+so that the same construction process can create different
+representations.
+
+<A NAME="cat-factory"></A>
+<DT><B><A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A></B>
+<DD>Define an interface for creating an object, but let subclasses decide
+which class to instantiate. Factory Method lets a class defer
+instantiation to subclasses.
+
+<A NAME="cat-proto"></A>
+<DT><B><A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A></B>
+<DD>Specify the kinds of objects to create using a prototypical
+instance, and create new objects by copying this prototype.
+
+<A NAME="cat-single"></A>
+<DT><B><A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A></B>
+<DD>Ensure a class only has one instance, and provide a global point
+of access to it.<BR><BR>
+
+<A NAME="disc3"></A>
+<DT><B><A HREF="disc3fs.htm" TARGET="_mainDisplayFrame">Discussion
+of Creational Patterns</A></B>
+
+</DL>
+
+<A NAME="structural"></A>
+<H2><A HREF="#behavioral"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Behavioral Patterns"></A>
+<A HREF="chap4fs.htm" TARGET="_mainDisplayFrame">Structural Patterns</A></H2>
+
+<DL>
+
+<A NAME="adapter"></A>
+<DT><B><A HREF="pat4afs.htm" TARGET="_mainDisplayFrame">Adapter (139)</A></B>
+<DD>Convert the interface of a class into another interface clients
+expect.  Adapter lets classes work together that couldn't otherwise
+because of incompatible interfaces.
+
+<DT><B><A HREF="pat4bfs.htm" TARGET="_mainDisplayFrame">Bridge (151)</A></B>
+<DD>Decouple an abstraction from its implementation so that the two
+can vary independently.
+
+<DT><B><A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A></B>
+<DD>Compose objects into tree structures to represent part-whole
+hierarchies.  Composite lets clients treat individual objects and
+compositions of objects uniformly.
+
+<A NAME="cat-dec"></A>
+<DT><B><A HREF="pat4dfs.htm" TARGET="_mainDisplayFrame">Decorator (175)</A></B>
+<DD>Attach additional responsibilities to an object dynamically.
+Decorators provide a flexible alternative to subclassing for extending
+functionality.
+
+<A NAME="cat-facade"></A>
+<DT><B><A HREF="pat4efs.htm" TARGET="_mainDisplayFrame">Facade (185)</A></B>
+<DD>Provide a unified interface to a set of interfaces in a subsystem.
+Facade defines a higher-level interface that makes the subsystem
+easier to use.
+
+<A NAME="cat-flywt"></A>
+<DT><B><A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195)</A></B>
+<DD>Use sharing to support large numbers of fine-grained objects efficiently.
+
+<A NAME="cat-proxy"></A>
+<DT><B><A HREF="pat4gfs.htm" TARGET="_mainDisplayFrame">Proxy (207)</A></B>
+<DD>Provide a surrogate or placeholder for another object to control
+access to it.<BR><BR>
+
+<A NAME="disc4"></A>
+<DT><B><A HREF="disc4fs.htm" TARGET="_mainDisplayFrame">Discussion
+of Structural Patterns</A></B>
+
+</DL>
+
+<A NAME="behavioral"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A>
+<A HREF="chap5fs.htm" TARGET="_mainDisplayFrame">Behavioral Patterns</A></H2>
+
+
+<DL>
+
+<DT><B><A HREF="pat5afs.htm" TARGET="_mainDisplayFrame">Chain of Responsibility (223)</A></B>
+<DD>Avoid coupling the sender of a request to its receiver by giving more
+than one object a chance to handle the request.  Chain the receiving
+objects and pass the request along the chain until an object
+handles it.
+
+<DT><B><A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame">Command (233)</A></B>
+<DD>Encapsulate a request as an object, thereby letting you parameterize
+clients with different requests, queue or log requests, and support
+undoable operations.
+
+<DT><B><A HREF="pat5cfs.htm" TARGET="_mainDisplayFrame">Interpreter (243)</A></B>
+<DD>Given a language, define a represention for its grammar along with an
+interpreter that uses the representation to interpret sentences in the
+language.
+
+<DT><B><A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A></B>
+<DD>Provide a way to access the elements of an aggregate object
+sequentially without exposing its underlying representation.
+
+<A NAME="cat-media"></A>
+<DT><B><A HREF="pat5efs.htm" TARGET="_mainDisplayFrame">Mediator (273)</A></B>
+<DD>Define an object that encapsulates how a set of objects interact.
+Mediator promotes loose coupling by keeping objects from referring to
+each other explicitly, and it lets you vary their interaction
+independently.
+
+<A NAME="cat-memen"></A>
+<DT><B><A HREF="pat5ffs.htm" TARGET="_mainDisplayFrame">Memento (283)</A></B>
+<DD>Without violating encapsulation, capture and externalize an object's
+internal state so that the object can be restored to this state later.
+
+<DT><B><A HREF="pat5gfs.htm" TARGET="_mainDisplayFrame">Observer (293)</A></B>
+<DD>Define a one-to-many dependency between objects so that when one
+object changes state, all its dependents are notified and updated
+automatically.
+
+<A NAME="cat-state"></A>
+<DT><B><A HREF="pat5hfs.htm" TARGET="_mainDisplayFrame">State (305)</A></B>
+<DD>Allow an object to alter its behavior when its internal state changes.
+The object will appear to change its class.
+
+<A NAME="cat-strat"></A>
+<DT><B><A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A></B>
+<DD>Define a family of algorithms, encapsulate each one, and make them
+interchangeable.  Strategy lets the algorithm vary independently from
+clients that use it.
+
+<A NAME="cat-tempmeth"></A>
+<DT><B><A HREF="pat5jfs.htm" TARGET="_mainDisplayFrame">Template Method (325)</A></B>
+<DD>Define the skeleton of an algorithm in an operation, deferring some
+steps to subclasses. Template Method lets subclasses redefine
+certain steps of an algorithm without changing the algorithm's
+structure.
+
+<A NAME="cat-visit"></A>
+<DT><B><A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A></B>
+<DD>Represent an operation to be performed on the elements of an object
+structure.  Visitor lets you define a new operation without changing the
+classes of the elements on which it operates.<BR><BR>
+
+<A NAME="disc5"></A>
+<DT><B><A HREF="disc5fs.htm" TARGET="_mainDisplayFrame">Discussion
+of Behavioral Patterns</A></B>
+
+</DL>
+
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="chap3fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap3fs.htm"
+	TARGET="_mainDisplayFrame">Creational Patterns</A><BR>
+<A HREF="chap2fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap2fs.htm"
+	TARGET="_mainDisplayFrame">Case Study</A>
+</P>
+
+</BODY>
+
+</HTML>

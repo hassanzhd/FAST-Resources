@@ -1,0 +1,721 @@
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT><HTML>
+
+<HEAD><TITLE>Abstract Factory</TITLE></HEAD>
+
+<BODY	BGCOLOR	= #FFFFFF
+	TEXT = #000000
+onLoad="setFocus()";
+>
+
+<A NAME="top"></A>
+<A NAME="AbstractFactory"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#alsoknownas"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Also Known As"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Provide an interface for creating families of related or dependent
+objects without specifying their concrete classes.</P>
+
+<A NAME="alsoknownas"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Motivation"></A>Also Known As</H2> 
+
+<A NAME="auto1001"></A>
+<P>Kit</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1002"></A>
+<P>Consider a user interface toolkit that supports multiple look-and-feel
+standards, such as Motif and Presentation Manager.  Different
+look-and-feels define different appearances and behaviors for user
+interface "widgets" like scroll bars, windows, and buttons.  To be
+portable across look-and-feel standards, an application should not
+hard-code its widgets for a particular look and feel.  Instantiating
+look-and-feel-specific classes of widgets throughout the application
+makes it hard to change the look and feel later.</P>
+
+<A NAME="widgetfactory"></A>
+<P>We can solve this problem by defining an abstract WidgetFactory class
+that declares an interface for creating each basic kind of widget.
+
+There's also an abstract class for each kind of widget, and concrete
+subclasses implement widgets for specific look-and-feel standards.
+WidgetFactory's interface has an operation that returns a new widget
+object for each abstract widget class.  Clients call these operations
+to obtain widget instances, but clients aren't aware of the concrete
+classes they're using.  Thus clients stay independent of the
+prevailing look and feel.</P>
+
+<P ALIGN=CENTER><IMG SRC="Pictures/abfac109.gif">
+
+
+<A NAME="auto1003"></A>
+<P>There is a concrete subclass of WidgetFactory for each look-and-feel
+standard.  Each subclass implements the operations to create the
+appropriate widget for the look and feel.  For example, the
+CreateScrollBar operation on the MotifWidgetFactory instantiates and
+returns a Motif scroll bar, while the corresponding operation on the
+PMWidgetFactory returns a scroll bar for Presentation Manager.
+Clients create widgets solely through the WidgetFactory interface and
+have no knowledge of the classes that implement widgets for a
+particular look and feel.  In other words, clients only have to commit
+to an interface defined by an abstract class, not a particular
+concrete class.</P>
+
+<A NAME="auto1004"></A>
+<P>A WidgetFactory also enforces dependencies between the concrete widget
+classes.  A Motif scroll bar should be used with a Motif button and a
+Motif text editor, and that constraint is enforced automatically as a
+consequence of using a MotifWidgetFactory.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1005"></A>
+<P>Use the Abstract Factory pattern when</P>
+
+<UL>
+
+<A NAME="auto1006"></A>
+<LI>a system should be independent of how its products are created,
+composed, and represented.</LI>
+
+<A NAME="auto1007"></A>
+<P></P>
+
+<A NAME="auto1008"></A>
+<LI>a system should be configured with one of multiple families of products.
+
+<A NAME="auto1009"></A>
+<P></P>
+
+<A NAME="auto1010"></A>
+<LI>a family of related product objects is designed to be used
+together, and you need to enforce this constraint.
+
+<A NAME="auto1011"></A>
+<P></P>
+
+<A NAME="auto1012"></A>
+<LI>you want to provide a class library of products, and you want
+to reveal just their interfaces, not their implementations.
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/abfac108.gif">
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1013"></A>
+<LI><B>AbstractFactory</B> (WidgetFactory)</LI>
+
+<A NAME="auto1014"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1015"></A>
+<LI>declares an interface for operations that create abstract product
+     objects.</LI>
+
+    </UL>
+
+<A NAME="auto1016"></A>
+<P></P>
+
+<A NAME="auto1017"></A>
+<LI><B>ConcreteFactory</B> (MotifWidgetFactory, PMWidgetFactory)</LI>
+
+<A NAME="auto1018"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1019"></A>
+<LI>implements the operations to create concrete product objects.</LI>
+
+    </UL>
+
+<A NAME="auto1020"></A>
+<P></P>
+
+<A NAME="auto1021"></A>
+<LI><B>AbstractProduct</B> (Window, ScrollBar)</LI>
+
+<A NAME="auto1022"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1023"></A>
+<LI>declares an interface for a type of product object.</LI>
+
+    </UL>
+
+<A NAME="auto1024"></A>
+<P></P>
+
+<A NAME="auto1025"></A>
+<LI><B>ConcreteProduct</B> (MotifWindow, MotifScrollBar)</LI>
+
+<A NAME="auto1026"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1027"></A>
+<LI>defines a product object to be created by the corresponding concrete
+    factory.</LI>
+
+    <A NAME="auto1028"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1029"></A>
+<LI>implements the AbstractProduct interface.</LI>
+
+    </UL>
+
+<A NAME="auto1030"></A>
+<P></P>
+
+<A NAME="auto1031"></A>
+<LI><B>Client</B></LI>
+
+<A NAME="auto1032"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1033"></A>
+<LI>uses only interfaces declared by AbstractFactory and
+    AbstractProduct classes.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequenses"></A> Collaborations </H2>
+
+<UL>
+
+<A NAME="auto1034"></A>
+<LI>Normally a single instance of a ConcreteFactory class is created at
+run-time.  This concrete factory creates product objects having a
+particular implementation.  To create different product objects,
+clients should use a different concrete factory.</LI>
+<A NAME="auto1035"></A>
+<P></P>
+<A NAME="auto1036"></A>
+<LI>AbstractFactory defers creation of product objects to its ConcreteFactory
+subclass.</LI>
+
+</UL>
+
+<A NAME="consequences"></A> <H2><A HREF="#implementation"><IMG
+SRC="gifsb/down3.gif" BORDER=0 ALT="next: Implementation"></A> 
+Consequences</H2> <A NAME="auto1037"></A>
+<P>The Abstract Factory pattern has the following benefits and liabilities:</P>
+
+<OL>
+
+<A NAME="auto1038"></A>
+<LI><EM>It isolates concrete classes.</EM>
+The Abstract Factory pattern helps you control the classes of objects
+that an application creates.  Because a factory encapsulates the
+responsibility and the process of creating product objects, it
+isolates clients from implementation classes.  Clients manipulate
+instances through their abstract interfaces.  Product class names are
+isolated in the implementation of the concrete factory; they do not
+appear in client code.</LI>
+
+<A NAME="auto1039"></A>
+<P></P>
+
+<A NAME="prodobj-exchange"></A>
+<LI><EM>It makes exchanging product families easy.</EM>
+The class of a concrete factory appears only once in an
+application&#151;that is, where it's instantiated.  This makes it easy to
+change the concrete factory an application uses.  It can use
+different product configurations simply by changing the concrete
+factory. Because an abstract factory creates a complete family of
+products, the whole product family changes at once.  In our user
+interface example, we can switch from Motif widgets to Presentation
+Manager widgets simply by switching the corresponding factory objects
+and recreating the interface.</LI>
+
+<A NAME="auto1040"></A>
+<P></P>
+
+<A NAME="auto1041"></A>
+<LI><EM>It promotes consistency among products.</EM>
+When product objects in a family are designed to work together, it's
+important that an application use objects from only one family at a
+time.  AbstractFactory makes this easy to enforce.</LI>
+
+<A NAME="auto1042"></A>
+<P></P>
+
+<A NAME="auto1043"></A>
+<LI><EM>Supporting new kinds of products is difficult.</EM>
+Extending abstract factories to produce new kinds of Products isn't
+easy.  That's because the AbstractFactory interface fixes the set of
+products that can be created. Supporting new kinds of products
+requires extending the factory interface, which involves changing the
+AbstractFactory class and all of its subclasses.  We discuss one solution
+to this problem in the Implementation section.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1044"></A>
+<P>Here are some useful techniques for implementing the Abstract Factory
+pattern.</P>
+
+<OL>
+
+<A NAME="single-absfact"></A>
+<LI><EM>Factories as singletons.</EM>
+An application typically needs only one instance of a ConcreteFactory
+per product family.  So it's usually best implemented as a
+<A HREF="pat3efs.htm" TARGET="_mainDisplayFrame">Singleton (127)</A>.
+
+<A NAME="auto1045"></A>
+<P></P>
+
+<A NAME="prodobj-creat-absfact"></A>
+<LI><EM>Creating the products.</EM> AbstractFactory only declares
+an <EM>interface</EM> for creating products. It's up to ConcreteProduct
+subclasses to actually create them.  The most common way to do this
+is to define a factory method (see <A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A>) for each product.  A concrete
+factory will specify its products by overriding the factory method
+for each.  While this implementation is simple, it requires a new
+concrete factory subclass for each product family, even if the
+product families differ only slightly.
+
+<A NAME="proto-imp-absfact"></A>
+<P>If many product families are possible, the concrete factory can
+be implemented using the <A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A>
+pattern.  The concrete factory is initialized with a prototypical
+instance of each product in the family, and it creates a new product
+by cloning its prototype. The Prototype-based approach eliminates
+the need for a new concrete factory class for each new product
+family.</P>
+
+<A NAME="auto1046"></A>
+<P>Here's a way to implement a Prototype-based factory in Smalltalk.  The
+concrete factory stores the prototypes to be cloned in a dictionary
+called <CODE>partCatalog</CODE>. The method <CODE>make:</CODE> retrieves the
+prototype and clones it:</P>
+
+<A NAME="auto1047"></A>
+<PRE>
+    make: partName
+        ^ (partCatalog at: partName) copy
+</PRE>
+
+<A NAME="auto1048"></A>
+<P>The concrete factory has a method for adding parts to the catalog.</P>
+
+<A NAME="auto1049"></A>
+<PRE>
+    addPart: partTemplate named: partName
+        partCatalog at: partName put: partTemplate
+</PRE>
+
+<A NAME="auto1050"></A>
+<P>Prototypes are added to the factory by identifying them with a symbol:</P>
+
+<A NAME="auto1051"></A>
+<PRE>
+    aFactory addPart: aPrototype named: #ACMEWidget
+</PRE>
+
+<A NAME="auto1052"></A>
+<P>A variation on the Prototype-based approach is possible in languages
+that treat classes as first-class objects (Smalltalk and Objective C,
+for example).  You can think of a class in these languages as a
+degenerate factory that creates only one kind of product.  You can
+store <EM>classes</EM> inside a concrete factory that create the various
+concrete products in variables, much like prototypes.  These classes
+create new instances on behalf of the concrete factory.  You define a
+new factory by initializing an instance of a concrete factory with
+<EM>classes</EM> of products rather than by subclassing.  This approach
+takes advantage of language characteristics, whereas the pure
+Prototype-based approach is language-independent.
+
+<A NAME="auto1053"></A>
+<P>Like the Prototype-based factory in Smalltalk just discussed, the
+class-based version will have a single instance variable
+<CODE>partCatalog</CODE>, which is a dictionary whose key is the name of
+the part.  Instead of storing prototypes to be cloned,
+<CODE>partCatalog</CODE> stores the classes of the products. The method
+<CODE>make:</CODE> now looks like this:</P>
+
+<A NAME="auto1054"></A>
+<PRE>
+    make: partName
+        ^ (partCatalog at: partName) new
+</PRE>
+
+</LI>
+
+<A NAME="auto1055"></A>
+<P></P>
+
+<A NAME="extensible"></A>
+<LI><EM>Defining extensible factories.</EM>
+AbstractFactory usually defines a different operation for each kind of
+product it can produce.  The kinds of products are encoded in the
+operation signatures.  Adding a new kind of product requires changing
+the AbstractFactory interface and all the classes that depend on it.
+
+<A NAME="auto1056"></A>
+<P>A more flexible but less safe design is to add a parameter to
+operations that create objects.  This parameter specifies the kind of
+object to be created.  It could be a class identifier, an integer, a
+string, or anything else that identifies the kind of product.  In fact
+with this approach, AbstractFactory only needs a single "Make"
+operation with a parameter indicating the kind of object to create.
+This is the technique used in the Prototype- and the class-based
+abstract factories discussed earlier.</P>
+
+<A NAME="auto1057"></A>
+<P>This variation is easier to use in a dynamically typed language like
+Smalltalk than in a statically typed language like C++.  You can use
+it in C++ only when all objects have the same abstract base class or
+when the product objects can be safely coerced to the correct type by
+the client that requested them.  The implementation section of <A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A> shows how to implement such
+parameterized operations in C++.</P>
+
+<A NAME="downcast"></A>
+<A NAME="dynamic_cast"></A>
+<P>But even when no coercion is needed, an inherent problem remains: All
+products are returned to the client with the <EM>same</EM> abstract
+interface as given by the return type.  The client will not be able to
+differentiate or make safe assumptions about the class of a product.
+If clients need to perform subclass-specific operations, they won't be
+accessible through the abstract interface.  Although the client could
+perform a downcast (e.g., with <CODE>dynamic_cast</CODE> in C++), that's
+not always feasible or safe, because the downcast can fail.  This is the
+classic trade-off for a highly flexible and extensible interface.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="samplecode"></A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1058"></A>
+<P>We'll apply the Abstract Factory pattern to creating the mazes we
+discussed at the beginning of this chapter.</P>
+
+<A NAME="auto1059"></A>
+<P>Class <CODE>MazeFactory</CODE> can create components of mazes.  It builds
+rooms, walls, and doors between rooms.  It might be used by a program
+that reads plans for mazes from a file and builds the corresponding
+maze.  Or it might be used by a program that builds mazes randomly.
+Programs that build mazes take a <CODE>MazeFactory</CODE> as an argument
+so that the programmer can specify the classes of rooms, walls, and
+doors to construct.</P>
+
+<A NAME="MazeFactory-def"></A>
+<PRE>
+    class MazeFactory {
+    public:
+        MazeFactory();
+    
+        virtual Maze* MakeMaze() const
+            { return new Maze; }
+        virtual Wall* MakeWall() const
+            { return new Wall; }
+        virtual Room* MakeRoom(int n) const
+            { return new Room(n); }
+        virtual Door* MakeDoor(Room* r1, Room* r2) const
+            { return new Door(r1, r2); }
+    };
+</PRE>
+
+<A NAME="auto1060"></A>
+<P>Recall that the member function
+<CODE>CreateMaze</CODE> (<a href="chap3fs.htm#CreateMaze-def" TARGET="_mainDisplayFrame">page 84</A>)
+builds a small maze consisting of two rooms with a door between them.
+<CODE>CreateMaze</CODE> hard-codes the class names, making it difficult
+to create mazes with different components.</P>
+
+<A NAME="auto1061"></A>
+<P>Here's a version of <CODE>CreateMaze</CODE> that remedies that
+shortcoming by taking a <CODE>MazeFactory</CODE> as a parameter:</P>
+
+<A NAME="auto1062"></A>
+<PRE>
+    Maze* MazeGame::CreateMaze (MazeFactory&amp; factory) {
+        Maze* aMaze = factory.MakeMaze();
+        Room* r1 = factory.MakeRoom(1);
+        Room* r2 = factory.MakeRoom(2);
+        Door* aDoor = factory.MakeDoor(r1, r2);
+    
+        aMaze->AddRoom(r1);
+        aMaze->AddRoom(r2);
+    
+        r1->SetSide(North, factory.MakeWall());
+        r1->SetSide(East, aDoor);
+        r1->SetSide(South, factory.MakeWall());
+        r1->SetSide(West, factory.MakeWall());
+    
+        r2->SetSide(North, factory.MakeWall());
+        r2->SetSide(East, factory.MakeWall());
+        r2->SetSide(South, factory.MakeWall());
+        r2->SetSide(West, aDoor);
+    
+        return aMaze;
+    }
+</PRE>
+
+<A NAME="enchnt-maze-fac"></A>
+<P>We can create <CODE>EnchantedMazeFactory</CODE>, a factory for enchanted
+mazes, by subclassing <CODE>MazeFactory</CODE>.
+<CODE>EnchantedMazeFactory</CODE> will override different member
+functions and return different subclasses of
+<CODE>Room</CODE>, <CODE>Wall</CODE>, etc.</P>
+
+<A NAME="auto1063"></A>
+<PRE>
+    class EnchantedMazeFactory : public MazeFactory {
+    public:
+        EnchantedMazeFactory();
+    
+        virtual Room* MakeRoom(int n)  const
+            { return new EnchantedRoom(n, CastSpell()); }
+    
+        virtual Door* MakeDoor(Room* r1, Room* r2)  const
+            { return new DoorNeedingSpell(r1, r2); }
+    
+    protected:
+        Spell* CastSpell() const;
+    };
+</PRE>
+
+<A NAME="auto1064"></A>
+<P>Now suppose we want to make a maze game in which a room can have a
+bomb set in it.  If the bomb goes off, it will damage the walls (at
+least).  We can make a subclass of <CODE>Room</CODE> keep track of
+whether the room has a bomb in it and whether the bomb has gone off.
+We'll also need a subclass of <CODE>Wall</CODE> to keep track of the
+damage done to the wall.  We'll call these classes
+<CODE>RoomWithABomb</CODE> and <CODE>BombedWall</CODE>.</P>
+
+<A NAME="auto1065"></A>
+<P>The last class we'll define is <CODE>BombedMazeFactory</CODE>, a subclass
+of <CODE>MazeFactory</CODE> that ensures walls are of class
+<CODE>BombedWall</CODE> and rooms are of class <CODE>RoomWithABomb</CODE>.
+<CODE>BombedMazeFactory</CODE> only needs to override two functions:</P>
+
+<A NAME="auto1066"></A>
+<PRE>
+    Wall* BombedMazeFactory::MakeWall () const {
+        return new BombedWall;
+    }
+    
+    Room* BombedMazeFactory::MakeRoom(int n) const {
+        return new RoomWithABomb(n);
+    }
+</PRE>
+
+<A NAME="auto1067"></A>
+<P>To build a simple maze that can contain bombs, we simply call
+<CODE>CreateMaze</CODE> with a <CODE>BombedMazeFactory</CODE>.</P>
+
+<A NAME="auto1068"></A>
+<PRE>
+    MazeGame game;
+    BombedMazeFactory factory;
+    
+    game.CreateMaze(factory);
+</PRE>
+
+<A NAME="auto1069"></A>
+<P><CODE>CreateMaze</CODE> can take an instance of
+<CODE>EnchantedMazeFactory</CODE> just as well to build enchanted
+mazes.</P>
+
+<A NAME="auto1070"></A>
+<P>Notice that the <CODE>MazeFactory</CODE> is just a collection of factory
+methods.  This is the most common way to implement the Abstract
+Factory pattern.  Also note that <CODE>MazeFactory</CODE> is not an
+abstract class; thus it acts as both the AbstractFactory <EM>and</EM> the
+ConcreteFactory.  This is another common implementation for simple
+applications of the Abstract Factory pattern.  Because the <CODE>MazeFactory</CODE> is a concrete class consisting
+entirely of factory methods, it's easy to make a new
+<CODE>MazeFactory</CODE> by making a subclass and overriding the
+operations that need to change.</P>
+
+<CODE>CreateMaze</CODE> used the <CODE>SetSide</CODE> operation on rooms to
+specify their sides.  If it creates rooms with a
+<CODE>BombedMazeFactory</CODE>, then the maze will be made up of
+<CODE>RoomWithABomb</CODE> objects with <CODE>BombedWall</CODE> sides.  If
+<CODE>RoomWithABomb</CODE> had to access a subclass-specific member of
+<CODE>BombedWall</CODE>, then it would have to cast a
+reference to its walls from <CODE>Wall*</CODE> to
+<CODE>BombedWall*</CODE>.  This downcasting is safe as long as the argument
+<EM>is</EM> in fact a <CODE>BombedWall</CODE>, which is guaranteed to be
+true if walls are built solely with a <CODE>BombedMazeFactory</CODE>.</P>
+
+<A NAME="auto1072"></A>
+<P>Dynamically typed languages such as Smalltalk don't require downcasting,
+of course, but they might produce run-time errors if they encounter a
+<CODE>Wall</CODE> where they expect a <EM>subclass</EM> of <CODE>Wall</CODE>.
+Using Abstract Factory to build walls helps prevent these run-time
+errors by ensuring that only certain kinds of walls can be
+created.</P>
+
+<A NAME="auto1073"></A>
+<P>Let's consider a Smalltalk version of <CODE>MazeFactory</CODE>, one with
+a single <CODE>make</CODE> operation that takes the kind of object to
+make as a parameter.  Moreover, the concrete factory stores the
+classes of the products it creates.</P>
+
+<A NAME="auto1074"></A>
+<P>First, we'll write an equivalent of <CODE>CreateMaze</CODE> in
+Smalltalk:</P>
+
+<A NAME="auto1075"></A>
+<PRE>
+    createMaze: aFactory
+        | room1 room2 aDoor |
+        room1 := (aFactory make: #room) number: 1.
+        room2 := (aFactory make: #room) number: 2.
+        aDoor := (aFactory make: #door) from: room1 to: room2.
+        room1 atSide: #north put: (aFactory make: #wall).
+        room1 atSide: #east put: aDoor.
+        room1 atSide: #south put: (aFactory make: #wall).
+        room1 atSide: #west put: (aFactory make: #wall).
+        room2 atSide: #north put: (aFactory make: #wall).
+        room2 atSide: #east put: (aFactory make: #wall).
+        room2 atSide: #south put: (aFactory make: #wall).
+        room2 atSide: #west put: aDoor.
+        ^ Maze new addRoom: room1; addRoom: room2; yourself
+</PRE>
+
+<A NAME="auto1076"></A>
+<P>As we discussed in the Implementation section, <CODE>MazeFactory</CODE>
+needs only a single instance variable <CODE>partCatalog</CODE> to provide
+a dictionary whose key is the class of the component.  Also recall how
+we implemented the <CODE>make:</CODE> method:</P>
+
+<A NAME="auto1077"></A>
+<PRE>
+    make: partName
+        ^ (partCatalog at: partName) new
+</PRE>
+
+<A NAME="auto1078"></A>
+<P>Now we can create a <CODE>MazeFactory</CODE> and use it to implement
+<CODE>createMaze</CODE>.  We'll create the factory using a method
+<CODE>createMazeFactory</CODE> of class <CODE>MazeGame</CODE>.</P>
+
+<A NAME="auto1079"></A>
+<PRE>
+    createMazeFactory
+        ^ (MazeFactory new
+            addPart: Wall named: #wall;
+            addPart: Room named: #room;
+            addPart: Door named: #door;
+            yourself)
+</PRE>
+
+<A NAME="auto1080"></A>
+<P>A <CODE>BombedMazeFactory</CODE> or <CODE>EnchantedMazeFactory</CODE> is
+created by associating different classes with the keys. For example,
+an <CODE>EnchantedMazeFactory</CODE> could be created like this:</P>
+
+<A NAME="auto1081"></A>
+<PRE>
+    createMazeFactory
+        ^ (MazeFactory new
+            addPart: Wall named: #wall;
+            addPart: EnchantedRoom named: #room;
+            addPart: DoorNeedingSpell named: #door;
+            yourself)
+</PRE>
+
+
+<A NAME="knownuses"></A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1082"></A>
+<P>InterViews uses the "Kit" suffix [<a href="bibfs.htm#interviews_kit" TARGET="_mainDisplayFrame">Lin92</A>] to denote AbstractFactory
+classes.  It defines WidgetKit and DialogKit abstract factories
+for generating look-and-feel-specific user interface objects.
+InterViews also includes a LayoutKit that generates different
+composition objects depending on the layout desired.  For example,
+a layout that is conceptually horizontal may require different
+composition objects depending on the document's orientation (portrait
+or landscape).</P>
+
+<A NAME="use-ab-fac"></A>
+<P>ET++ [<a href="bibfs.htm#et++" TARGET="_mainDisplayFrame">WGM88</A>] uses the Abstract Factory pattern to achieve
+portability across different window systems (X Windows and SunView,
+for example).  The WindowSystem abstract base class defines the
+interface for creating objects that represent window system resources
+(MakeWindow, MakeFont, MakeColor, for example).  Concrete subclasses
+implement the interfaces for a specific window system. At run-time,
+ET++ creates an instance of a concrete WindowSystem subclass that
+creates concrete system resource objects.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1083"></A>
+<P>AbstractFactory classes are often implemented with factory
+methods (<A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory
+Method (107)</A>), but they can also be implemented using <A
+HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A>.</P>
+
+<A NAME="auto1084"></A>
+<P>A concrete factory is often a singleton (<A HREF="pat3efs.htm"
+TARGET="_mainDisplayFrame">Singleton (127)</A>).
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3bfs.htm"
+	TARGET="_mainDisplayFrame">Builder</A><BR>
+<A HREF="chapfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap3fs.htm"
+	TARGET="_mainDisplayFrame">Creational Patterns</A>
+</P>
+
+</BODY>
+
+</HTML>
+

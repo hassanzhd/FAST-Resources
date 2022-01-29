@@ -1,0 +1,62 @@
+<HTML>
+<SCRIPT LANGUAGE="JavaScript">
+/*
+ * Storing this varible on the navigator object makes it truely global on NN4,
+ * but is no help on NN3, so we need the page global variable in NN3 which is
+ * the best we can do.  
+ */
+
+var search_win = navigator._searchWin;
+
+function loadApplet() {
+    if(navigator.appName == "Netscape") {
+	if(search_win == null || search_win.closed) {
+	    search_win = window.open("appletn.htm", "_appletWindow", "width=390,height=300,resizable=0,status=0,menubar=0,scrollbar=0");
+	    navigator._searchWin = search_win;
+	} 
+	search_win.opener = top;
+	search_win.focus();
+    } else if(top.loadApplet != null) {
+	top.loadApplet();
+    }
+}
+</SCRIPT>
+
+<BODY BGCOLOR="#336699" LEFTMARGIN="1" TOPMARGIN="1">
+
+<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+
+
+<tr>
+<td colspan="2" align="right"><A HREF="javascript:loadApplet()" TARGET="LEFT"><IMG SRC="gifsb/search.gif" BORDER="0"></A></td>
+</tr>
+
+<tr>
+<td><img src="gifsb/clear.gif" width="1" height="20"></td>
+<td><img src="gifsb/clear.gif" width="10" height="1"></td>
+</tr>
+
+<tr>
+<td align="right"><img src="gifsb/patlefta.gif" border="0" ismap usemap="#patlefta"></td>
+<td></td>
+</tr>
+
+</TABLE>
+
+<map name="patlefta">
+<area shape="rect" coords="0,0,81,12" href="pat5i.htm#intent" target="TEXT">
+<area shape="rect" coords="0,19,81,33" href="pat5i.htm#alsoknownas" target="TEXT">
+<area shape="rect" coords="-3,42,80,54" href="pat5i.htm#motivation" target="TEXT">
+<area shape="rect" coords="-1,61,81,77" href="pat5i.htm#applicability" target="TEXT">
+<area shape="rect" coords="0,82,79,100" href="pat5i.htm#structure" target="TEXT">
+<area shape="rect" coords="1,104,80,118" href="pat5i.htm#participants" target="TEXT">
+<area shape="rect" coords="1,125,80,137" href="pat5i.htm#collaborations" target="TEXT">
+<area shape="rect" coords="0,146,79,159" href="pat5i.htm#consequences" target="TEXT">
+<area shape="rect" coords="-2,167,79,181" href="pat5i.htm#implementation" target="TEXT">
+<area shape="rect" coords="0,189,79,201" href="pat5i.htm#samplecode" target="TEXT">
+<area shape="rect" coords="1,207,81,222" href="pat5i.htm#knownuses" target="TEXT">
+<area shape="rect" coords="1,230,80,244" href="pat5i.htm#relatedpatterns" target="TEXT">
+<area shape="default" nohref>
+</map>
+</HTML>
+

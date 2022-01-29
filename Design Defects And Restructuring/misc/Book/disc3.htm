@@ -1,0 +1,125 @@
+<HTML><HEAD>	<TITLE>Discussion of Creational Patterns</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   TOPMARGIN       = 4
+        LEFTMARGIN      = 4
+        BGCOLOR         = #FFFFFF
+onLoad="setFocus()";>
+
+<A NAME="top">
+
+<A NAME="creational_discussion"></A>
+
+<A NAME="disc3-1"></A>
+<P>There are two common ways to parameterize a system by the classes of
+objects it creates.  One way is to subclass the class that creates the
+objects; this corresponds to using the
+<A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A> pattern.  The main drawback of this
+approach is that it can require creating a new subclass just to change
+the class of the product.  Such changes can cascade.  For example,
+when the product creator is itself created by a factory method, then
+you have to override its creator as well.</P>
+<A NAME="disc3-2"></A>
+<A NAME="protocol-vs-abstrfact"></A>
+<A NAME="build-vs-abstfact"></A>
+<P>The other way to parameterize a system relies more on object
+composition: Define an object that's responsible for knowing the class
+of the product objects, and make it a parameter of the system.  This
+is a key aspect of the
+<A HREF="pat3afs.htm" TARGET="_mainDisplayFrame">Abstract Factory (87)</A>,
+<A HREF="pat3bfs.htm" TARGET="_mainDisplayFrame">Builder (97)</A>, and
+<A HREF="pat3dfs.htm" TARGET="_mainDisplayFrame">Prototype (117)</A>
+patterns.  All three involve creating a new "factory object" whose
+responsibility is to create product objects.  Abstract Factory has the
+factory object producing objects of several classes.  Builder has the
+factory object building a complex product incrementally using a
+correspondingly complex protocol.  Prototype has the factory object
+building a product by copying a prototype object.  In this case, the
+factory object and the prototype are the same object, because the
+prototype is responsible for returning the product.</P>
+<A NAME="disc3-3"></A>
+<P>Consider the drawing editor framework described in the Prototype
+pattern.  There are several ways to parameterize a GraphicTool by the
+class of product:</P>
+
+<UL>
+<A NAME="disc3-4"></A>
+<LI>By applying the Factory Method pattern, a subclass of GraphicTool will be
+created for each subclass of Graphic in the palette.  GraphicTool will
+have a NewGraphic operation that each GraphicTool subclass will
+redefine.</LI>
+
+<P></P>
+<A NAME="disc3-5"></A>
+<LI>By applying the Abstract Factory pattern, there will be a class hierarchy
+of GraphicsFactories, one for each Graphic subclass.  Each factory
+creates just one product in this case: CircleFactory will create
+Circles, LineFactory will create Lines, and so on.  A GraphicTool will
+be parameterized with a factory for creating the appropriate kind of
+Graphics.</LI>
+
+<P></P>
+<A NAME="disc3-6"></A>
+<LI>By applying the Prototype pattern, each subclass of Graphics will
+implement the Clone operation, and a GraphicTool will be parameterized
+with a prototype of the Graphic it creates.</LI>
+
+</UL>
+<A NAME="disc3-7"></A>
+<P>Which pattern is best depends on many factors.  In our drawing editor
+framework, the Factory Method pattern is easiest to use at first.
+It's easy to define a new subclass of GraphicTool, and the instances
+of GraphicTool are created only when the palette is defined.  The main
+disadvantage here is that GraphicTool subclasses proliferate, and none
+of them does very much.</P>
+<A NAME="disc3-8"></A>
+<P>Abstract Factory doesn't offer much of an improvement, because it
+requires an equally large GraphicsFactory class hierarchy.  Abstract
+Factory would be preferable to Factory Method only if there were
+already a GraphicsFactory class hierarchy&#151;either because the
+compiler provides it automatically (as in Smalltalk or Objective C) or
+because it's needed in another part of the system.</P>
+<A NAME="disc3-9"></A>
+<P>Overall, the Prototype pattern is probably the best for the drawing
+editor framework, because it only requires implementing a Clone
+operation on each Graphics class.  That reduces the number of classes,
+and Clone can be used for purposes other than pure instantiation (e.g.,
+a Duplicate menu operation).</P>
+<A NAME="disc3-10"></A>
+<P>Factory Method makes a design more customizable and only a little more
+complicated.  Other design patterns require new classes, whereas
+Factory Method only requires a new operation.  People often use
+Factory Method as the standard way to create objects, but it isn't
+necessary when the class that's instantiated never changes or when
+instantiation takes place in an operation that subclasses can easily
+override, such as an initialization operation.</P>
+<A NAME="disc3-11"></A>
+<P>Designs that use Abstract Factory, Prototype, or Builder are even more
+flexible than those that use Factory Method, but they're also more
+complex.  Often, designs start out using Factory Method and evolve
+toward the other creational patterns as the designer discovers where
+more flexibility is needed.  Knowing many design patterns gives you
+more choices when trading off one design criterion against another.</P>
+<A NAME="disc3-12"></A>
+<A NAME="last"></A>
+<P><A HREF="#top"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="chap4fs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="chap4fs.htm"
+	TARGET="_mainDisplayFrame">Structural Patterns</A><BR>
+<A HREF="pat3efs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+	ALIGN=TOP BORDER=0></A> <A HREF="pat3efs.htm"
+	TARGET="_mainDisplayFrame">Singleton</A>
+</P>
+
+</BODY>
+
+</HTML>

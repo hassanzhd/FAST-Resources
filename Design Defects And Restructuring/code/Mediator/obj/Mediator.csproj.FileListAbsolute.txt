@@ -1,0 +1,5 @@
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Mediator\bin\Debug\Mediator.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Mediator\bin\Debug\Mediator.pdb
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Mediator\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Mediator\obj\Debug\Mediator.exe
+C:\Users\Yousuf\Documents\Visual Studio 2005\Projects\Mediator\obj\Debug\Mediator.pdb

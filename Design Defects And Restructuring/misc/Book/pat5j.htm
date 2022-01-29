@@ -1,0 +1,434 @@
+<HTML><HEAD>	<TITLE>Template Method</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="TemplateMethod"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Define the skeleton of an algorithm in an operation, deferring some
+steps to subclasses. Template Method lets subclasses redefine
+certain steps of an algorithm without changing the algorithm's
+structure.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1001"></A>
+<P>Consider an application framework that provides Application and
+Document classes.  The Application class is responsible for opening
+existing documents stored in an external format, such as a file.  A
+Document object represents the information in a document once it's
+read from the file.</P>
+
+<A NAME="auto1002"></A>
+<P>Applications built with the framework can subclass Application and
+Document to suit specific needs.  For example, a drawing application
+defines DrawApplication and DrawDocument subclasses; a spreadsheet
+application defines SpreadsheetApplication and SpreadsheetDocument
+subclasses.
+
+<A NAME="325c"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/tmeth007.gif"></P>
+
+<A NAME="auto1003"></A>
+<P>The abstract Application class defines the algorithm for opening and
+reading a document in its OpenDocument operation:</P>
+
+<A NAME="auto1004"></A>
+<PRE>
+    void Application::OpenDocument (const char* name) {
+        if (!CanOpenDocument(name)) {
+            // cannot handle this document
+            return;
+        }
+    
+        Document* doc = DoCreateDocument();
+    
+        if (doc) {
+            _docs->AddDocument(doc);
+            AboutToOpenDocument(doc);
+            doc->Open();
+            doc->DoRead();
+        }
+    }
+</PRE>
+
+<A NAME="auto1005"></A>
+<P>OpenDocument defines each step for opening a document.  It checks if
+the document can be opened, creates the application-specific Document
+object, adds it to its set of documents, and reads the Document from a
+file.</P>
+
+<A NAME="deftempmeth"></A>
+<P>We call OpenDocument a <STRONG>template method</STRONG>.  A template method
+defines an algorithm in terms of abstract operations that subclasses
+override to provide concrete behavior.  Application subclasses define
+the steps of the algorithm that check if the document can be opened
+(CanOpenDocument) and that create the Document (DoCreateDocument).
+Document classes define the step that reads the document (DoRead).
+The template method also defines an operation that lets Application
+subclasses know when the document is about to be opened
+(AboutToOpenDocument), in case they care.</P>
+
+<A NAME="auto1006"></A>
+<P>By defining some of the steps of an algorithm using abstract
+operations, the template method fixes their ordering, but it lets
+Application and Document subclasses vary those steps to suit their
+needs.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1007"></A>
+<P>The Template Method pattern should be used</P>
+
+<UL>
+
+<A NAME="auto1008"></A>
+<LI>to implement the invariant parts of an algorithm once and leave it up
+to subclasses to implement the behavior that can vary.</LI>
+
+<A NAME="auto1009"></A>
+<P></P>
+
+<A NAME="refactoring"></A>
+<LI>when common behavior among subclasses should be factored and localized
+in a common class to avoid code duplication. This is a good example of
+"refactoring to generalize" as described by Opdyke and
+Johnson [<A HREF="bibfs.htm#opdyke-johnson_refactoring2" TARGET="_mainDisplayFrame">OJ93</A>].  You first identify the
+differences in the existing code and then separate the differences
+into new operations.  Finally, you replace the differing code with a
+template method that calls one of these new operations.</LI>
+
+<A NAME="auto1010"></A>
+<P></P>
+
+<A NAME="auto1011"></A>
+<LI>to control subclasses extensions. You can define a template method
+that calls "hook" operations (see Consequences) at specific points,
+thereby permitting extensions only at those points.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/tmethod.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1012"></A>
+<LI><B>AbstractClass</B> (Application)
+
+<A NAME="auto1013"></A>
+<P></P>
+
+<UL>
+
+<A NAME="oper-primitive1"></A>
+<LI>defines abstract <STRONG>primitive operations</STRONG> that concrete
+subclasses define to implement steps of an algorithm.</LI>
+
+<A NAME="auto1014"></A>
+<P></P>
+
+<A NAME="skeleton"></A>
+<LI>implements a template method defining the skeleton of an algorithm.
+The template method calls primitive operations as well as operations
+defined in AbstractClass or those of other objects.</LI>
+
+</UL>
+
+<A NAME="auto1015"></A>
+<P></P>
+
+<A NAME="auto1016"></A>
+<LI><B>ConcreteClass</B> (MyApplication)
+
+<A NAME="auto1017"></A>
+<P></P>
+
+<UL>
+
+<A NAME="auto1018"></A>
+<LI>implements the primitive operations to carry out subclass-specific
+steps of the algorithm.</LI>
+
+</UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1019"></A>
+<LI>ConcreteClass relies on AbstractClass to implement the invariant steps of 
+the algorithm.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1020"></A>
+<P>Template methods are a fundamental technique for code reuse.  They are
+particularly important in class libraries, because they are the means
+for factoring out common behavior in library classes.</P>
+
+<A NAME="auto1021"></A>
+<P>Template methods lead to an inverted control structure that's
+sometimes referred to as "the Hollywood principle," that is, "Don't
+call us, we'll call you" [<A HREF="bibfs.htm#hollywood-principle" TARGET="_mainDisplayFrame">Swe85</A>].  This refers to
+how a parent class calls the operations of a subclass and not the
+other way around.</P>
+
+<A NAME="oper-concrete"></A>
+<P>Template methods call the following kinds of operations:</P>
+
+<UL>
+
+<A NAME="auto1022"></A>
+<LI>concrete operations (either on the ConcreteClass or on
+client classes);</LI>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<A NAME="auto1024"></A>
+<LI>concrete AbstractClass operations (i.e., operations that are
+generally useful to subclasses);</LI>
+
+<A NAME="auto1025"></A>
+<P></P>
+
+<A NAME="oper-primitive2"></A>
+<LI>primitive operations (i.e., abstract operations);</LI>
+
+<A NAME="auto1026"></A>
+<P></P>
+
+<A NAME="auto1027"></A>
+<LI>factory methods (see <A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Method (107)</A>);
+and</LI>
+
+<A NAME="auto1028"></A>
+<P></P>
+
+<A NAME="auto1029"></A>
+<LI><STRONG>hook operations</STRONG>, which provide default behavior that
+subclasses can extend if necessary. A hook operation often does
+nothing by default.</LI>
+
+</UL>
+
+<A NAME="auto1030"></A>
+<P>It's important for template methods to specify which operations are
+hooks (<EM>may</EM> be overridden) and which are abstract operations
+(<EM>must</EM> be overridden). To reuse an abstract class effectively,
+subclass writers must understand which operations are designed for
+overriding.</P>
+
+<A NAME="auto1031"></A>
+<P>A subclass can <EM>extend</EM> a parent class operation's behavior by
+overriding the operation and calling the parent operation explicitly:
+
+<A NAME="auto1032"></A>
+<PRE>
+    void DerivedClass::Operation () {
+        // DerivedClass extended behavior
+        ParentClass::Operation();
+    }
+</PRE>
+
+<A NAME="auto1033"></A>
+<P>Unfortunately, it's easy to forget to call the inherited operation.
+We can transform such an operation into a template method to give
+the parent control over how subclasses extend it. The idea is to
+call a hook operation from a template method in the parent class.
+Then subclasses can then override this hook operation:</P>
+
+<A NAME="auto1034"></A>
+<PRE>
+    void ParentClass::Operation () {
+        // ParentClass behavior
+        HookOperation();
+    }
+</PRE>
+
+<A NAME="auto1035"></A>
+<P><CODE>HookOperation</CODE> does nothing in <CODE>ParentClass</CODE>:</P>
+
+<A NAME="auto1036"></A>
+<PRE>
+    void ParentClass::HookOperation () { }
+</PRE>
+
+<A NAME="auto1037"></A>
+<P>Subclasses override <CODE>HookOperation</CODE> to extend its
+behavior:</P>
+
+<A NAME="auto1038"></A>
+<PRE>
+    void DerivedClass::HookOperation () {
+         // derived class extension
+    }
+</PRE>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1039"></A>
+<P>Three implementation issues are worth noting:</P>
+
+<OL>
+
+<A NAME="auto1040"></A>
+<LI><EM>Using C++ access control.</EM>
+In C++, the primitive operations that a template method calls can be
+declared protected members. This ensures that they are only called by
+the template method. Primitive operations that <EM>must</EM> be overridden are
+declared pure virtual. The template method itself should not be
+overridden; therefore you can make the template method a nonvirtual
+member function.</LI>
+
+<A NAME="auto1041"></A>
+<P></P>
+
+<A NAME="auto1042"></A>
+<LI><EM>Minimizing primitive operations.</EM>
+An important goal in designing template methods is to minimize the
+number of primitive operations that a subclass must override to flesh
+out the algorithm. The more operations that need overriding, the more
+tedious things get for clients.</LI>
+
+<A NAME="auto1043"></A>
+<P></P>
+
+<A NAME="templ-naming"></A>
+<LI><EM>Naming conventions.</EM>
+You can identify the operations that should be overridden by adding a
+prefix to their names. For example, the MacApp framework for Macintosh
+applications [<A HREF="bibfs.htm#macapp" TARGET="_mainDisplayFrame">App89</A>] prefixes template method names with "Do-":
+"DoCreateDocument", "DoRead", and so forth.</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1044"></A>
+<P>The following C++ example shows how a parent class can enforce an
+invariant for its subclasses. The example comes from NeXT's
+AppKit [<A HREF="bibfs.htm#NeXT_AppKit" TARGET="_mainDisplayFrame">Add94</A>]. Consider a class <CODE>View</CODE> that supports
+drawing on the screen. <CODE>View</CODE> enforces the invariant that its
+subclasses can draw into a view only after it becomes the "focus,"
+which requires certain drawing state (for example, colors and fonts) to
+be set up properly.</P>
+
+<A NAME="auto1045"></A>
+<P>We can use a <CODE>Display</CODE> template method to set up this state.
+<CODE>View</CODE> defines two concrete operations,
+<CODE>SetFocus</CODE> and <CODE>ResetFocus</CODE>, that set up and clean up
+the drawing state, respectively.  <CODE>View</CODE>'s <CODE>DoDisplay</CODE>
+hook operation performs the actual drawing.  <CODE>Display</CODE> calls
+<CODE>SetFocus</CODE> before <CODE>DoDisplay</CODE> to set up the drawing
+state; <CODE>Display</CODE> calls <CODE>ResetFocus</CODE> afterwards to
+release the drawing state.</P>
+
+<A NAME="auto1046"></A>
+<PRE>
+    void View::Display () {
+        SetFocus();
+        DoDisplay();
+        ResetFocus();
+    }
+</PRE>
+
+<A NAME="auto1047"></A>
+<P>To maintain the invariant, the <CODE>View</CODE>'s clients always call
+<CODE>Display</CODE>, and <CODE>View</CODE> subclasses always override
+<CODE>DoDisplay</CODE>.</P>
+
+<A NAME="auto1048"></A>
+<P><CODE>DoDisplay</CODE> does nothing in <CODE>View</CODE>:</P>
+
+<A NAME="auto1049"></A>
+<PRE>
+    void View::DoDisplay () { }
+</PRE>
+
+<A NAME="auto1050"></A>
+<P>Subclasses override it to add their specific drawing behavior:</P>
+
+<A NAME="auto1051"></A>
+<PRE>
+    void MyView::DoDisplay () {
+        // render the view's contents
+    }
+</PRE>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="auto1052"></A>
+<P>Template methods are so fundamental that they can be found in almost
+every abstract class.  Wirfs-Brock et al. [<A HREF="bibfs.htm#doosw_www" TARGET="_mainDisplayFrame">WBWW90,</A>
+<A HREF="bibfs.htm#wirfs-brock_cacm" TARGET="_mainDisplayFrame"> WBJ90</A>] provide a good overview and
+discussion of template methods.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1053"></A>
+<P><A HREF="pat3cfs.htm" TARGET="_mainDisplayFrame">Factory Methods (107)</A>
+are often called by template methods. In the Motivation example,
+the factory method DoCreateDocument is called by the template method
+OpenDocument.</P>
+
+<A NAME="auto1054"></A>
+<P><A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame">Strategy (315)</A>:
+Template methods use inheritance to vary part of an algorithm.
+Strategies use delegation to vary the entire algorithm.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5kfs.htm"
+        TARGET="_mainDisplayFrame">Visitor</A><BR>
+<A HREF="pat5ifs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5ifs.htm"
+        TARGET="_mainDisplayFrame">Strategy</A>
+</P>
+
+</BODY>
+
+</HTML>

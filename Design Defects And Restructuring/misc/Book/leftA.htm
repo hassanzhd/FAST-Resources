@@ -1,0 +1,69 @@
+<HTML>
+<SCRIPT LANGUAGE="JavaScript">
+/*
+ * Storing this varible on the navigator object makes it truely global on NN4,
+ * but is no help on NN3, so we need the page global variable in NN3 which is
+ * the best we can do.  
+ */
+
+var search_win = navigator._searchWin;
+
+function loadApplet() {
+    if(navigator.appName == "Netscape") {
+	if(search_win == null || search_win.closed) {
+	    search_win = window.open("appletn.htm", "_appletWindow", "width=390,height=300,resizable=0,status=0,menubar=0,scrollbar=0");
+	    navigator._searchWin = search_win;
+	} 
+	search_win.opener = top;
+	search_win.focus();
+    } else if(top.loadApplet != null) {
+	top.loadApplet();
+    }
+}
+</SCRIPT>
+
+<BODY BGCOLOR="#336699" LEFTMARGIN="1" TOPMARGIN="1">
+
+<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+
+
+<tr>
+<td colspan="2" align="center"><A HREF="javascript:loadApplet()" TARGET="LEFT"><IMG SRC="gifsb/search.gif" BORDER="0"></A></td>
+</tr>
+
+<tr>
+<td><img src="gifsb/clear.gif" width="1" height="20"></td>
+<td><img src="gifsb/clear.gif" width="10" height="1"></td>
+</tr>
+
+<tr>
+<td colspan="2" align="center"><IMG SRC="gifsb/glossmap.gif" ISMAP USEMAP="#index" BORDER="0">
+</tr>
+
+</TABLE>
+
+<map name="index">
+<area shape="rect" coords="4,3,22,33" href="chapA-0.htm#A" target="TEXT">
+<area shape="rect" coords="24,4,42,33" href="chapA-0.htm#B" target="TEXT">
+<area shape="rect" coords="44,4,62,33" href="chapA-0.htm#C" target="TEXT">
+<area shape="rect" coords="64,4,82,33" href="chapA-0.htm#D" target="TEXT">
+<area shape="rect" coords="3,35,22,68" href="chapA-0.htm#E" target="TEXT">
+<area shape="rect" coords="23,34,42,68" href="chapA-0.htm#F" target="TEXT">
+<area shape="rect" coords="44,35,63,68" href="chapA-0.htm#G" target="TEXT">
+<area shape="rect" coords="4,70,22,103" href="chapA-0.htm#I" target="TEXT">
+<area shape="rect" coords="24,70,43,103" href="chapA-0.htm#J" target="TEXT">
+<area shape="rect" coords="4,105,22,138" href="chapA-0.htm#M" target="TEXT">
+<area shape="rect" coords="24,105,42,139" href="chapA-0.htm#N" target="TEXT">
+<area shape="rect" coords="42,105,64,138" href="chapA-0.htm#O" target="TEXT">
+<area shape="rect" coords="64,105,84,138" href="chapA-0.htm#P" target="TEXT">
+<area shape="rect" coords="3,139,22,173" href="chapA-0.htm#Q" target="TEXT">
+<area shape="rect" coords="44,140,63,170" href="chapA-0.htm#S" target="TEXT">
+<area shape="rect" coords="65,140,84,171" href="chapA-0.htm#T" target="TEXT">
+<area shape="rect" coords="4,173,22,204" href="chapA-0.htm#U" target="TEXT">
+<area shape="rect" coords="44,174,63,204" href="chapA-0.htm#W" target="TEXT">
+<area shape="rect" coords="65,174,83,204" href="chapA-0.htm#X" target="TEXT">
+<area shape="rect" coords="21,138,44,172" href="chapA-0.htm#R" target="TEXT">
+<area shape="default" nohref>
+</map>
+</HTML>
+

@@ -1,0 +1,1013 @@
+<HTML><HEAD>	<TITLE>Interpreter</TITLE>
+<SCRIPT>
+function setFocus() {	
+	if ((navigator.appName != "Netscape") && (parseFloat(navigator.appVersion) == 2)) {
+	return;
+	} else {
+	self.focus();
+	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY   BGCOLOR         = #FFFFFF
+onLoad="setFocus()";>
+
+<A NAME="top"></A>
+<A NAME="Interpreter"></A>
+<A NAME="intent"></A>
+<H2><A HREF="#motivation"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Motivation"></A> Intent</H2> 
+
+<A NAME="auto1000"></A>
+<P>Given a language, define a represention for its grammar along with an
+interpreter that uses the representation to interpret sentences in the
+language.</P>
+
+<A NAME="motivation"></A>
+<H2><A HREF="#applicability"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Applicability"></A> Motivation</H2> 
+
+<A NAME="auto1001"></A>
+<P>If a particular kind of problem occurs often enough, then it might be
+worthwhile to express instances of the problem as sentences in a
+simple language.  Then you can build an interpreter that solves the
+problem by interpreting these sentences.</P>
+
+<A NAME="pattern-matching"></A>
+<A NAME="regexp"></A>
+<P>For example, searching for strings that match a pattern is a common
+problem.  Regular expressions are a standard language for specifying
+patterns of strings.  Rather than building custom algorithms to match
+each pattern against strings, search algorithms could interpret a
+regular expression that specifies a set of strings to match.</P>
+
+<A NAME="auto1002"></A>
+<P>The Interpreter pattern describes how to define a grammar for simple
+languages, represent sentences in the language, and interpret these
+sentences.  In this example, the pattern describes how to define a
+grammar for regular expressions, represent a particular regular
+expression, and how to interpret that regular expression.</P>
+
+<A NAME="auto1003"></A>
+<P>Suppose the following grammar defines the regular expressions:</P>
+
+<A NAME="auto1004"></A>
+<PRE>
+    expression ::= literal | alternation | sequence | repetition |
+                   '(' expression ')'
+    alternation ::= expression  '|' expression
+    sequence ::= expression '&amp;' expression
+    repetition ::= expression '*'
+    literal ::= 'a' | 'b' | 'c' | ... { 'a' | 'b' | 'c' | ... }*
+</PRE>
+
+<A NAME="auto1005"></A>
+<P>The symbol <CODE>expression</CODE> is the start symbol, and <CODE>literal</CODE>
+is a terminal symbol defining simple words.</P>
+
+<A NAME="auto1006"></A>
+<P>The Interpreter pattern uses a class to represent each grammar rule.
+Symbols on the right-hand side of the rule are instance variables of
+these classes.  The grammar above is represented by five classes: an
+abstract class RegularExpression and its four subclasses
+LiteralExpression, AlternationExpression, SequenceExpression, and
+RepetitionExpression.  The last three classes define variables that
+hold subexpressions.</P>
+
+<A NAME="abssynclass"></A>
+<A NAME="244co"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/inter043.gif"></P>
+
+<A NAME="abssyntree"></A>
+<P>Every regular expression defined by this grammar is represented by an
+abstract syntax tree made up of instances of these classes. For
+example, the abstract syntax tree</P>
+
+<A NAME="abssync"></A>
+<P ALIGN=CENTER><IMG SRC="Pictures/inter042.gif"></P>
+
+<A NAME="auto1007"></A>
+<P>represents the regular expression</P>
+
+<A NAME="auto1008"></A>
+<PRE>
+    raining &amp; (dogs | cats) *
+</PRE>
+
+<A NAME="auto1009"></A>
+<P>We can create an interpreter for these regular expressions by defining
+the Interpret operation on each subclass of RegularExpression.
+Interpret takes as an argument the context in which to interpret the
+expression.  The context contains the input string and information on
+how much of it has been matched so far.  Each subclass of
+RegularExpression implements Interpret to match the next part of the
+input string based on the current context.  For example,</P>
+
+<UL>
+
+<A NAME="auto1010"></A>
+<LI>LiteralExpression will check if the input matches the literal it
+defines,</LI>
+<A NAME="auto1011"></A>
+<P></P>
+<A NAME="auto1012"></A>
+<LI>AlternationExpression will check if the input matches any of its
+alternatives,</LI>
+<A NAME="auto1013"></A>
+<P></P>
+<A NAME="auto1014"></A>
+<LI>RepetitionExpression will check if the input has multiple copies of
+expression it repeats,</LI>
+
+</UL>
+
+<A NAME="auto1015"></A>
+<P>and so on.</P>
+
+<A NAME="applicability"></A>
+<H2><A HREF="#structure"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Structure"></A> Applicability</H2> 
+
+<A NAME="auto1016"></A>
+<P>Use the Interpreter pattern when there is a language to interpret, and
+you can represent statements in the language as abstract syntax trees.
+The Interpreter pattern works best when</P>
+
+<UL>
+
+<A NAME="auto1017"></A>
+<LI>the grammar is simple. For complex grammars, the class hierarchy for
+the grammar becomes large and unmanageable.  Tools such as parser
+generators are a better alternative in such cases.  They can interpret
+expressions without building abstract syntax trees, which can save
+space and possibly time.</LI>
+<A NAME="auto1018"></A>
+<P></P>
+<A NAME="auto1019"></A>
+<LI>efficiency is not a critical concern.  The most efficient interpreters
+are usually <EM>not</EM> implemented by interpreting parse trees directly
+but by first translating them into another form.  For example, regular
+expressions are often transformed into state machines.  But even then,
+the <EM>translator</EM> can be implemented by the Interpreter pattern, so
+the pattern is still applicable.</LI>
+
+</UL>
+
+<A NAME="structure"></A>
+<H2><A HREF="#participants"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Participants"></A> Structure</H2> 
+
+<P ALIGN=CENTER><IMG SRC="Pictures/inter041.gif"></P>
+
+<A NAME="participants"></A>
+<H2><A HREF="#collaborations"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Collaborations"></A> Participants</H2>
+
+<UL>
+
+<A NAME="auto1020"></A>
+<LI><B>AbstractExpression</B> (RegularExpression)</LI>
+
+<A NAME="auto1021"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1022"></A>
+<LI>declares an abstract Interpret operation that is common to
+    all nodes in the abstract syntax tree.</LI>
+
+    </UL>
+
+<A NAME="auto1023"></A>
+<P></P>
+
+<A NAME="terminal-symbol"></A>
+<A NAME="terminal-expr"></A>
+<LI><B>TerminalExpression</B> (LiteralExpression)</LI>
+
+<A NAME="auto1024"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1025"></A>
+<LI>implements an Interpret operation associated with terminal
+    symbols in the grammar.</LI>
+
+    <A NAME="auto1026"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1027"></A>
+<LI>an instance is required for every terminal symbol in a
+    sentence.</LI>
+
+    </UL>
+
+<A NAME="auto1028"></A>
+<P></P>
+
+<A NAME="auto1029"></A>
+<LI><B>NonterminalExpression</B> (AlternationExpression,
+RepetitionExpression, SequenceExpressions)</LI>
+
+<A NAME="auto1030"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1031"></A>
+<LI>one such class is required for every rule <I>R</I> ::=
+    <I>R</I><SUB>1</SUB> <I>R</I><SUB>2</SUB> ... <I>R</I><SUB>n</SUB></I>
+    in the grammar.</LI>
+
+    <A NAME="auto1032"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1033"></A>
+<LI>maintains instance variables of type AbstractExpression
+    for each of the symbols <I>R</I><SUB>1</SUB> through
+    <I>R</I><SUB>n</SUB>.</LI>
+
+    <A NAME="auto1034"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1035"></A>
+<LI>implements an Interpret operation for
+    nonterminal symbols in the grammar. Interpret typically calls itself
+    recursively on the variables representing <I>R</I><SUB>1</SUB> through
+    <I>R</I><SUB>n</SUB>.</LI>
+
+    </UL>
+
+<A NAME="auto1036"></A>
+<P></P>
+
+<A NAME="auto1037"></A>
+<LI><B>Context</B></LI>
+
+<A NAME="auto1038"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1039"></A>
+<LI>contains information that's global to the interpreter.</LI>
+
+    </UL>
+
+<A NAME="auto1040"></A>
+<P></P>
+
+<A NAME="auto1041"></A>
+<LI><B>Client</B></LI>
+
+<A NAME="auto1042"></A>
+<P></P>
+
+    <UL>
+
+    <A NAME="auto1043"></A>
+<LI>builds (or is given) an abstract syntax tree representing a
+    particular sentence in the language that the grammar defines.  The
+    abstract syntax tree is assembled from instances of the
+    NonterminalExpression and TerminalExpression classes.</LI>
+
+    <A NAME="auto1044"></A>
+<P><!-- extra space --></P>
+
+    <A NAME="auto1045"></A>
+<LI>invokes the Interpret operation.</LI>
+
+    </UL>
+
+</UL>
+
+<A NAME="collaborations"></A>
+<H2><A HREF="#consequences"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Consequences"></A> Collaborations</H2>
+
+<UL>
+
+<A NAME="auto1046"></A>
+<LI>The client builds (or is given) the sentence as an abstract syntax
+tree of NonterminalExpression and TerminalExpression instances.  Then
+the client initializes the context and invokes the Interpret
+operation.</LI>
+<A NAME="auto1047"></A>
+<P></P>
+<A NAME="auto1048"></A>
+<LI>Each NonterminalExpression node defines Interpret in terms of
+Interpret on each subexpression.  The Interpret operation of each
+TerminalExpression defines the base case in the recursion.</LI>
+<A NAME="auto1049"></A>
+<P></P>
+<A NAME="auto1050"></A>
+<LI>The Interpret operations at each node use the context to
+store and access the state of the interpreter.</LI>
+
+</UL>
+
+<A NAME="consequences"></A>
+<H2><A HREF="#implementation"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Implementation"></A> Consequences</H2> 
+
+<A NAME="auto1051"></A>
+<P>The Interpreter pattern has the following benefits and liabilities:</P>
+
+<OL>
+
+<A NAME="auto1052"></A>
+<LI><EM>It's easy to change and extend the grammar.</EM>
+Because the pattern uses classes to represent grammar rules, you can
+use inheritance to change or extend the grammar.  Existing expressions
+can be modified incrementally, and new expressions can be defined as
+variations on old ones.</LI>
+
+<A NAME="auto1053"></A>
+<P></P>
+
+<A NAME="parser-247"></A>
+<LI><EM>Implementing the grammar is easy, too.</EM>
+Classes defining nodes in the abstract syntax tree have similar
+implementations.  These classes are easy to write, and often their
+generation can be automated with a compiler or parser generator.</LI>
+
+<A NAME="auto1054"></A>
+<P></P>
+
+<A NAME="auto1055"></A>
+<LI><EM>Complex grammars are hard to maintain.</EM>
+The Interpreter pattern defines at least one class for every rule
+in the grammar (grammar rules defined using BNF may require multiple
+classes).  Hence grammars containing many rules can be hard to
+manage and maintain.  Other design patterns can be applied to
+mitigate the problem (see <A HREF="#implementation">Implementation</A>).
+But when the grammar is very complex, other techniques such as
+parser or compiler generators are more appropriate.</LI>
+
+<A NAME="auto1056"></A>
+<P></P>
+
+<A NAME="auto1057"></A>
+<LI><EM>Adding new ways to interpret expressions.</EM>
+The Interpreter pattern makes it easier to evaluate an expression in a
+new way.  For example, you can support pretty printing or
+type-checking an expression by defining a new operation on the
+expression classes.  If you keep creating new ways of interpreting an
+expression, then consider using the <A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A>
+pattern to avoid changing the grammar classes.</LI>
+
+</OL>
+
+<A NAME="implementation"></A>
+<H2><A HREF="#samplecode"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Sample Code"></A> Implementation</H2> 
+
+<A NAME="auto1058"></A>
+<P>The Interpreter and <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>
+patterns share many implementation issues. The following issues
+are specific to Interpreter:</P>
+
+<OL>
+
+<A NAME="auto1059"></A>
+<LI><EM>Creating the abstract syntax tree.</EM>
+The Interpreter pattern doesn't explain how to <EM>create</EM> an
+abstract syntax tree.  In other words, it doesn't address parsing.
+The abstract syntax tree can be created by a table-driven parser, by a
+hand-crafted (usually recursive descent) parser, or directly by the
+client.</LI>
+
+<A NAME="auto1060"></A>
+<P></P>
+
+<A NAME="variable-w-interp"></A>
+<LI><EM>Defining the Interpret operation.</EM>
+You don't have to define the Interpret operation in the expression
+classes.  If it's common to create a new interpreter, then it's better
+to use the <A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A> pattern to put Interpret in a
+separate "visitor" object.  For example, a grammar for a programming
+language will have many operations on abstract syntax trees, such as
+as type-checking, optimization, code generation, and so on. It will be
+more likely to use a visitor to avoid defining these operations on
+every grammar class.</LI>
+
+<A NAME="auto1061"></A>
+<P></P>
+
+<A NAME="flywt-w-interp"></A>
+<A NAME="term-symb-w-flywt"></A>
+<LI><EM>Sharing terminal symbols with the Flyweight pattern.</EM>
+Grammars whose sentences contain many occurrences of a terminal symbol
+might benefit from sharing a single copy of that symbol.  Grammars for
+computer programs are good examples&#151;each program variable will
+appear in many places throughout the code. In the Motivation example,
+a sentence can have the terminal symbol <CODE>dog</CODE> (modeled by the
+LiteralExpression class) appearing many times.
+
+<A NAME="auto1062"></A>
+<P>Terminal nodes generally don't store information about their position
+in the abstract syntax tree.  Parent nodes pass them whatever context
+they need during interpretation.  Hence there is a distinction between
+shared (intrinsic) state and passed-in (extrinsic) state, and the
+<A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195</A>) pattern applies.</P>
+
+<A NAME="auto1063"></A>
+<P>For example, each instance of LiteralExpression for <CODE>dog</CODE>
+receives a context containing the substring matched so far.  And every
+such LiteralExpression does the same thing in its Interpret
+operation&#151;it checks whether the next part of the input contains a
+<CODE>dog</CODE>&#151;no matter where the instance appears in the tree.</P>
+
+</LI>
+
+</OL>
+
+<A NAME="samplecode"><A>
+<H2><A HREF="#knownuses"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+Known Uses"></A> Sample Code</H2> 
+
+<A NAME="auto1064"></A>
+<P>Here are two examples.  The first is a complete example in Smalltalk
+for checking whether a sequence matches a regular expression.  The
+second is a C++ program for evaluating Boolean expressions.</P>
+
+<A NAME="Smalltalk_example_in_Interpreter"></A>
+<P>The regular expression matcher tests whether a string is in the
+language defined by the regular expression. The regular expression is
+defined by the following grammar:</P>
+
+<A NAME="auto1065"></A>
+<PRE>
+    expression ::= literal | alternation | sequence | repetition |
+                   '(' expression ')'
+    alternation ::= expression  '|' expression
+    sequence ::= expression '&amp;' expression
+    repetition ::= expression 'repeat'
+    literal ::= 'a' | 'b' | 'c' | ... { 'a' | 'b' | 'c' | ... }*
+</PRE>
+
+<A NAME="auto1066"></A>
+<P>This grammar is a slight modification of the Motivation example.  We
+changed the concrete syntax of regular expressions a little, because
+symbol "<CODE>*</CODE>" can't be a postfix operation in Smalltalk.  So
+we use <CODE>repeat</CODE> instead.  For example, the regular expression</P>
+
+<A NAME="auto1067"></A>
+<PRE>
+    (('dog ' | 'cat ') repeat &amp; 'weather')
+</PRE>
+
+<A NAME="auto1068"></A>
+<P>matches the input string "<CODE>dog dog cat weather</CODE>".</P>
+
+<A NAME="auto1069"></A>
+<P>To implement the matcher, we define the five classes described on
+<A HREF="#auto1006">page 243</A>.  The class
+<CODE>SequenceExpression</CODE> has instance variables
+<CODE>expression1</CODE> and <CODE>expression2</CODE> for its children
+in the abstract syntax tree.  <CODE>AlternationExpression</CODE>
+stores its alternatives in the instance variables
+<CODE>alternative1</CODE> and <CODE>alternative2</CODE>, while
+<CODE>RepetitionExpression</CODE> holds the expression it repeats in its
+<CODE>repetition</CODE> instance variable.
+LiteralExpression has a <CODE>components</CODE> instance variable that
+holds a list of objects (probably characters).  These represent the literal
+string that must match the input sequence.</P>
+
+<A NAME="auto1070"></A>
+<P>The <CODE>match:</CODE> operation implements an interpreter for the
+regular expression.  Each of the classes defining the abstract syntax
+tree implements this operation.  It takes
+<CODE>inputState</CODE> as an argument representing the current state
+of the matching process, having read part of the input string.</P>
+
+<A NAME="auto1071"></A>
+<P>This current state is characterized by a set of input streams
+representing the set of inputs that the regular expression could have
+accepted so far.  (This is roughly equivalent to recording all states
+that the equivalent finite state automata would be in, having
+recognized the input stream to this point).</P>
+
+<A NAME="auto1072"></A>
+<P>The current state is most important to the <CODE>repeat</CODE> operation.
+For example, if the regular expression were</P>
+
+<A NAME="auto1073"></A>
+<PRE>
+    'a' repeat
+</PRE>
+
+<A NAME="auto1074"></A>
+<P>then the interpreter could match "<CODE>a</CODE>", "<CODE>aa</CODE>",
+"<CODE>aaa</CODE>", and so on.  If it were</P>
+
+<A NAME="auto1075"></A>
+<PRE>
+    'a' repeat &amp; 'bc'
+</PRE>
+
+<A NAME="auto1076"></A>
+<P>then it could match "<CODE>abc</CODE>", "<CODE>aabc</CODE>",
+"<CODE>aaabc</CODE>", and so on.  But if the regular expression were</P>
+
+<A NAME="auto1077"></A>
+<PRE>
+    'a' repeat &amp; 'abc'
+</PRE>
+
+<A NAME="auto1078"></A>
+<P>then matching the input "<CODE>aabc</CODE>" against the subexpression
+"<CODE>'a' repeat</CODE>" would yield two input streams, one having matched
+one character of the input, and the other having matched two
+characters.  Only the stream that has accepted one character will
+match the remaining "<CODE>abc</CODE>".</P>
+
+<A NAME="seqexp-smalltk"></A>
+<P>Now we consider the definitions of <CODE>match:</CODE> for each class
+defining the regular expression. The definition for
+<CODE>SequenceExpression</CODE> matches each of its subexpressions in
+sequence.  Usually it will eliminate input streams from its
+<CODE>inputState</CODE>.</P>
+
+<A NAME="auto1079"></A>
+<PRE>
+    match: inputState
+        ^ expression2 match: (expression1 match: inputState).
+</PRE>
+
+<A NAME="smallaltexp"></A>
+<P>An <CODE>AlternationExpression</CODE> will return a state that consists
+of the union of states from either alternative.  The definition of
+<CODE>match:</CODE> for <CODE>AlternationExpression</CODE> is</P>
+
+<A NAME="auto1080"></A>
+<PRE>
+    match: inputState
+        | finalState |
+        finalState := alternative1 match: inputState.
+        finalState addAll: (alternative2 match: inputState).
+        ^ finalState
+</PRE>
+
+<A NAME="repeatexp-smalltk"></A>
+<P>The <CODE>match:</CODE> operation for <CODE>RepetitionExpression</CODE>
+tries to find as many states that could match as possible:</P>
+
+<A NAME="auto1081"></A>
+<PRE>
+    match: inputState
+        | aState finalState |
+        aState := inputState.
+        finalState := inputState copy.
+        [aState isEmpty]
+            whileFalse:
+                [aState := repetition match: aState.
+                finalState addAll: aState].
+            ^ finalState
+</PRE>
+
+<A NAME="auto1082"></A>
+<P>Its output state usually contains more states than its input state,
+because a <CODE>RepetitionExpression</CODE> can match one, two, or many
+occurrences of <CODE>repetition</CODE> on the input state. The output
+states represent all these possibilities, allowing subsequent elements
+of the regular expression to decide which state is the correct one.</P>
+
+<A NAME="literal-small"></A>
+<P>Finally, the definition of <CODE>match:</CODE> for
+<CODE>LiteralExpression</CODE> tries to match its components against each
+possible input stream.  It keeps only those input streams that have a
+match:</P>
+
+<A NAME="auto1083"></A>
+<PRE>
+    match: inputState
+        | finalState tStream |
+        finalState := Set new.
+        inputState
+            do:
+                [:stream | tStream := stream copy.
+                    (tStream nextAvailable:
+                         components size
+                    ) = components
+                        ifTrue: [finalState add: tStream]
+                ].
+            ^ finalState
+</PRE>
+
+<A NAME="auto1084"></A>
+<P>The <CODE>nextAvailable:</CODE> message advances the input stream.  This
+is the only <CODE>match:</CODE> operation that advances the stream.
+Notice how the state that's returned contains a copy of the input
+stream, thereby ensuring that matching a literal never changes the
+input stream.  This is important because each alternative of an
+<CODE>AlternationExpression</CODE> should see identical copies of
+the input stream.</P>
+
+<A NAME="abssyntree2"></A>
+<P>Now that we've defined the classes that make up an abstract syntax
+tree, we can describe how to build it.
+Rather than write a parser for regular expressions, we'll define
+some operations on the <CODE>RegularExpression</CODE> classes so that
+evaluating a Smalltalk expression will produce an abstract syntax tree
+for the corresponding regular expression.  That lets us use the
+built-in Smalltalk compiler as if it were a parser for regular
+expressions.</P>
+
+<A NAME="buildabssyn"></A>
+<P>To build the abstract syntax tree, we'll need to define
+"<CODE>|</CODE>", "<CODE>repeat</CODE>", and "<CODE>&amp;</CODE>" as
+operations on <CODE>RegularExpression</CODE>. These operations are
+defined in class <CODE>RegularExpression</CODE> like this:</P>
+
+<A NAME="auto1085"></A>
+<PRE>
+    &amp; aNode
+        ^ SequenceExpression new
+            expression1: self expression2: aNode asRExp
+    
+    repeat
+        ^ RepetitionExpression new repetition: self
+    
+    | aNode
+        ^ AlternationExpression new
+        alternative1: self alternative2: aNode asRExp
+    
+    asRExp 
+        ^ self
+</PRE>
+
+<A NAME="auto1086"></A>
+<P>The <CODE>asRExp</CODE> operation will convert literals into
+<CODE>RegularExpressions</CODE>.   These operations are defined in class
+<CODE>String</CODE>:</P>
+
+<A NAME="auto1087"></A>
+<PRE>
+    &amp; aNode
+        ^ SequenceExpression new
+            expression1: self asRExp expression2: aNode asRExp
+    
+    repeat
+        ^ RepetitionExpression new repetition: self
+    
+    | aNode
+        ^ AlternationExpression new
+            alternative1: self asRExp alternative2: aNode asRExp
+    
+    asRExp
+        ^ LiteralExpression new components: self
+</PRE>
+
+<A NAME="smalltkv-use-interp"></A>
+<P>If we defined these operations higher up in the class hierarchy
+(<CODE>SequenceableCollection</CODE> in Smalltalk-80,
+<CODE>IndexedCollection</CODE> in Smalltalk/V), then they would
+also be defined for classes such as <CODE>Array</CODE> and
+<CODE>OrderedCollection</CODE>.  This would let
+regular expressions match sequences of any kind of object.</P>
+
+<A NAME="auto1088"></A>
+<P>The second example is a system for manipulating and evaluating
+Boolean expressions implemented in C++.  The terminal symbols in this
+language are Boolean variables, that is, the constants
+<CODE>true</CODE> and <CODE>false</CODE>.   Nonterminal symbols represent
+expressions containing the operators <CODE>and</CODE>, <CODE>or</CODE>, and
+<CODE>not</CODE>.  The grammar is defined as
+follows<A NAME="fn1"></A><A HREF="#footnote1"><SUP>1</SUP></A>:</P>
+
+<A NAME="auto1089"></A>
+<PRE>
+    BooleanExp ::= VariableExp | Constant | OrExp | AndExp | NotExp |
+                   '(' BooleanExp ')'
+    AndExp ::= BooleanExp  'and' BooleanExp
+    OrExp ::= BooleanExp  'or' BooleanExp
+    NotExp ::= 'not' BooleanExp
+    Constant ::= 'true' |  'false'
+    VariableExp ::= 'A' | 'B' | ... | 'X' | 'Y' | 'Z'
+</PRE>
+
+<A NAME="auto1090"></A>
+<P>We define two operations on Boolean expressions. The first,
+<CODE>Evaluate</CODE>, evaluates a Boolean expression in a context
+that assigns a true or false value to each variable.  The second
+operation, <CODE>Replace</CODE>, produces a new Boolean expression by
+replacing a variable with an expression. <CODE>Replace</CODE> shows
+how the Interpreter pattern can be used for more than just evaluating
+expressions. In this case, it manipulates the expression itself.</P>
+
+<A NAME="variableexp"></A>
+<P>We give details of just the <CODE>BooleanExp</CODE>,
+<CODE>VariableExp</CODE>, and <CODE>AndExp</CODE> classes here. Classes
+<CODE>OrExp</CODE> and <CODE>NotExp</CODE> are similar to <CODE>AndExp</CODE>.
+The <CODE>Constant</CODE> class represents the Boolean constants.</P>
+
+<A NAME="auto1091"></A>
+<P><CODE>BooleanExp</CODE> defines the interface for all classes that define
+a Boolean expression:</P>
+
+<A NAME="auto1092"></A>
+<PRE>
+    class BooleanExp {
+    public:
+        BooleanExp();
+        virtual ~BooleanExp();
+    
+        virtual bool Evaluate(Context&amp;) = 0;
+        virtual BooleanExp* Replace(const char*, BooleanExp&amp;) = 0;
+        virtual BooleanExp* Copy() const = 0;
+    };
+</PRE>
+
+<A NAME="auto1093"></A>
+<P>The class <CODE>Context</CODE> defines a mapping from variables to
+Boolean values, which we represent with the C++ constants
+<CODE>true</CODE> and <CODE>false</CODE>. <CODE>Context</CODE> has the
+following interface:</P>
+
+<A NAME="auto1094"></A>
+<PRE>
+    class Context {
+    public:
+        bool Lookup(const char*) const;
+        void Assign(VariableExp*, bool);
+    };
+</PRE>
+
+<A NAME="auto1095"></A>
+<P>A <CODE>VariableExp</CODE> represents a named variable:</P>
+
+<A NAME="auto1096"></A>
+<PRE>
+    class VariableExp : public BooleanExp {
+    public:
+        VariableExp(const char*);
+        virtual ~VariableExp();
+    
+        virtual bool Evaluate(Context&amp;);
+        virtual BooleanExp* Replace(const char*, BooleanExp&amp;);
+        virtual BooleanExp* Copy() const;
+    private:
+        char* _name;
+    };
+</PRE>
+
+<A NAME="auto1097"></A>
+<P>The constructor takes the variable's name as an argument:</P>
+
+<A NAME="auto1098"></A>
+<PRE>
+    VariableExp::VariableExp (const char* name) {
+        _name = strdup(name);
+    }
+</PRE>
+
+<A NAME="auto1099"></A>
+<P>Evaluating a variable returns its value in the current context.</P>
+
+<A NAME="auto1100"></A>
+<PRE>
+    bool VariableExp::Evaluate (Context&amp; aContext) {
+        return aContext.Lookup(_name);
+    }
+</PRE>
+
+<A NAME="auto1101"></A>
+<P>Copying a variable returns a new <CODE>VariableExp</CODE>:</P>
+
+<A NAME="auto1102"></A>
+<PRE>
+    BooleanExp* VariableExp::Copy () const {
+        return new VariableExp(_name);
+    }
+</PRE>
+
+<A NAME="auto1103"></A>
+<P>To replace a variable with an expression, we check to see if the
+variable has the same name as the one it is passed as an argument:</P>
+
+<A NAME="auto1104"></A>
+<PRE>
+    BooleanExp* VariableExp::Replace (
+        const char* name, BooleanExp&amp; exp
+    ) {
+        if (strcmp(name, _name) == 0) {
+            return exp.Copy();
+        } else {
+            return new VariableExp(_name);
+       }
+    }
+</PRE>
+
+<A NAME="andexp"></A>
+<P>An <CODE>AndExp</CODE> represents an expression made by ANDing two
+Boolean expressions together.</P>
+
+<A NAME="auto1105"></A>
+<PRE>
+    class AndExp : public BooleanExp {
+    public:
+        AndExp(BooleanExp*, BooleanExp*);
+        virtual ~ AndExp();
+    
+        virtual bool Evaluate(Context&amp;);
+        virtual BooleanExp* Replace(const char*, BooleanExp&amp;);
+        virtual BooleanExp* Copy() const;
+    private:
+        BooleanExp* _operand1;
+        BooleanExp* _operand2;
+    };
+    
+    AndExp::AndExp (BooleanExp* op1, BooleanExp* op2) {
+        _operand1 = op1;
+        _operand2 = op2;
+    }
+</PRE>
+
+<A NAME="auto1106"></A>
+<P>Evaluating an <CODE>AndExp</CODE> evaluates its operands and returns
+the logical "and" of the results.</P>
+
+<A NAME="auto1107"></A>
+<PRE>
+    bool AndExp::Evaluate (Context&amp; aContext) {
+        return
+            _operand1->Evaluate(aContext) &amp;&amp;
+            _operand2->Evaluate(aContext);
+    }
+</PRE>
+
+<A NAME="auto1108"></A>
+<P>An <CODE>AndExp</CODE> implements <CODE>Copy</CODE> and <CODE>Replace</CODE> by
+making recursive calls on its operands:</P>
+
+<A NAME="auto1109"></A>
+<PRE>
+    BooleanExp* AndExp::Copy () const {
+        return
+            new AndExp(_operand1->Copy(), _operand2->Copy());
+    }
+    
+    BooleanExp* AndExp::Replace (const char* name, BooleanExp&amp; exp) {
+        return
+            new AndExp(
+                _operand1->Replace(name, exp),
+                _operand2->Replace(name, exp)
+            );
+    }
+</PRE>
+
+<A NAME="auto1110"></A>
+<P>Now we can define the Boolean expression</P>
+
+<A NAME="auto1111"></A>
+<PRE>
+    (true and x) or (y and (not x))
+</PRE>
+
+<A NAME="auto1112"></A>
+<P>and evaluate it for a given assignment of <CODE>true</CODE> or
+<CODE>false</CODE> to the variables <CODE>x</CODE> and <CODE>y</CODE>:</P>
+
+<A NAME="auto1113"></A>
+<PRE>
+    BooleanExp* expression;
+    Context context;
+    
+    VariableExp* x = new VariableExp("X");
+    VariableExp* y = new VariableExp("Y");
+    
+    expression = new OrExp(
+        new AndExp(new Constant(true), x),
+        new AndExp(y, new NotExp(x))
+    );
+    
+    context.Assign(x, false);
+    context.Assign(y, true);
+    
+    bool result = expression->Evaluate(context);
+</PRE>
+
+<A NAME="auto1114"></A>
+<P>The expression evaluates to <CODE>true</CODE> for this assignment to
+<CODE>x</CODE> and <CODE>y</CODE>.  We can evaluate the expression with a
+different assignment to the variables simply by changing the
+context.</P>
+
+<A NAME="auto1115"></A>
+<P>Finally, we can replace the variable <CODE>y</CODE> with a new expression and
+then reevaluate it:</P>
+
+<A NAME="auto1116"></A>
+<PRE>
+    VariableExp* z = new VariableExp("Z");
+    NotExp not_z(z);
+    
+    BooleanExp* replacement = expression->Replace("Y", not_z);
+    
+    context.Assign(z, true);
+    
+    result = replacement->Evaluate(context);
+</PRE>
+
+<A NAME="auto1117"></A>
+<P>This example illustrates an important point about the Interpreter
+pattern: many kinds of operations can "interpret" a sentence.  Of
+the three operations defined for <CODE>BooleanExp</CODE>,
+<CODE>Evaluate</CODE> fits our idea of what an interpreter should do most
+closely&#151;that is, it interprets a program or expression and returns a
+simple result.</P>
+
+<A NAME="variable-w-interp2"></A>
+<P>However, <CODE>Replace</CODE> can be viewed as an interpreter as well.
+It's an interpreter whose context is the name of the variable being
+replaced along with the expression that replaces it, and whose result
+is a new expression.  Even <CODE>Copy</CODE> can be thought of as an
+interpreter with an empty context.  It may seem a little strange to
+consider <CODE>Replace</CODE> and <CODE>Copy</CODE> to be interpreters, because
+these are just basic operations on trees.  The examples in
+<A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A> illustrate how all three operations can be
+refactored into a separate "interpreter" visitor, thus showing that
+the similarity is deep.</P>
+
+<A NAME="auto1118"></A>
+<P>The Interpreter pattern is more than just an operation distributed
+over a class hierarchy that uses the <A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>
+pattern.  We consider <CODE>Evaluate</CODE> an interpreter because we
+think of the <CODE>BooleanExp</CODE> class hierarchy as representing a
+language.  Given a similar class hierarchy for representing automotive
+part assemblies, it's unlikely we'd consider operations like
+<CODE>Weight</CODE> and <CODE>Copy</CODE> as interpreters even though they
+are distributed over a class hierarchy that uses the Composite
+pattern&#151;we just don't think of automotive parts as a language.  It's
+a matter of perspective; if we started publishing grammars of
+automotive parts, then we could consider operations on those parts to
+be ways of interpreting the language.</P>
+
+<A NAME="knownuses"><A>
+<H2><A HREF="#relatedpatterns"><IMG SRC="gifsb/down3.gif" BORDER=0 
+ALT="next: Related Patterns"></A> Known Uses</H2> 
+
+<A NAME="smalltalk-use-interp"></A>
+<A NAME="spectalk-use-interp"></A>
+<P>The Interpreter pattern is widely used in compilers implemented with
+object-oriented languages, as the Smalltalk compilers are.  SPECTalk
+uses the pattern to interpret descriptions of input file
+formats [<A HREF="bibfs.htm#szafron_tools92" TARGET="_mainDisplayFrame">Sza92</A>].  The QOCA constraint-solving toolkit
+uses it to evaluate constraints [<A HREF="bibfs.htm#qoca" TARGET="_mainDisplayFrame">HHMV92</A>].</P>
+
+<A NAME="auto1119"></A>
+<P>Considered in its most general form (i.e., an operation distributed
+over a class hierarchy based on the Composite pattern), nearly every
+use of the Composite pattern will also contain the Interpreter
+pattern.  But the Interpreter pattern should be reserved for those
+cases in which you want to think of the class hierarchy as defining a
+language.</P>
+
+<A NAME="relatedpatterns"></A>
+<H2><A HREF="#last"><IMG SRC="gifsb/down3.gif" BORDER=0 ALT="next: 
+navigation"></A> Related Patterns</H2> 
+
+<A NAME="auto1120"></A>
+<P><A HREF="pat4cfs.htm" TARGET="_mainDisplayFrame">Composite (163)</A>:
+The abstract syntax tree is an instance of the Composite pattern.</P>
+
+<A NAME="auto1121"></A>
+<P><A HREF="pat4ffs.htm" TARGET="_mainDisplayFrame">Flyweight (195)</A>
+shows how to share terminal symbols within the abstract syntax
+tree.</P>
+
+<A NAME="auto1122"></A>
+<P><A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame">Iterator (257)</A>:
+The interpreter can use an Iterator to traverse the structure.</P>
+
+<A NAME="auto1123"></A>
+<P><A HREF="pat5kfs.htm" TARGET="_mainDisplayFrame">Visitor (331)</A> can
+be used to maintain the behavior in each node in the abstract syntax
+tree in one class.</P>
+
+<A NAME="last"></A>
+<P><A HREF="#intent"><IMG SRC="gifsb/up3.gif" BORDER=0></A><BR>
+<A HREF="pat5dfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/rightar3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5dfs.htm"
+        TARGET="_mainDisplayFrame">Iterator</A><BR>
+<A HREF="pat5bfs.htm" TARGET="_mainDisplayFrame"><IMG SRC="gifsb/leftarr3.gif"
+        ALIGN=TOP BORDER=0></A> <A HREF="pat5bfs.htm"
+        TARGET="_mainDisplayFrame">Command</A>
+</P>
+
+<HR>
+
+<A NAME="footnote1"></A>
+<P><SUP>1</SUP>For simplicity, we ignore operator precedence and
+assume it's the responsibility of whichever object constructs the
+syntax tree.
+</P>
+
+</BODY>
+
+</HTML>
+
