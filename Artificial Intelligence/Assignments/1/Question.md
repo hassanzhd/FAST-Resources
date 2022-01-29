@@ -1,0 +1,2 @@
+Choose any topic of your choice either research or product based.
+Describe the project methodology followed in order to make the desired intelligent system. And it's phases/ stages link with other subjects.
