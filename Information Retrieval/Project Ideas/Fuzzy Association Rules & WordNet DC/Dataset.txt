@@ -1,0 +1,1 @@
+Use the dataset available with Fuzzy Frequent itemsets DC

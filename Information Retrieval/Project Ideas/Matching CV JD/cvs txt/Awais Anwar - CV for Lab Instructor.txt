@@ -1,0 +1,98 @@
+﻿----------------------- Page 1-----------------------
+
+                                                                                                                                                                            
+AWAIS ANWAR                                                                                                                                                                 
+
+                                                                                                                                                  
+OBJECTIVE                                                                                                                                         
+                                                                                                                                                  
+Being a committed team player, want to be a part of renowned organization, to contribute towards                                                Skills  
+the growth of organization, based on my expertise and further my personal capabilities by learning                                               •  MS Office  
+from the new exposure within the structured framework of organization.                                                                           •  C++  
+                                                                                                                                                 •  SQL using Oracle  
+EXPERIENCE                                                                                                                                          11g  
+                                                                                                                                                 •  Agile  
+  
+                                                                                                                                                    development  
+      •    40 Days internship atTECHLOGIX from July 23, 2012 to August 31, 2012.   
+                                                                                                                                                    process   
+            During Internship I worked on “Software Testing” & “Servers Maintenance”.  
+                                                                                                                                                      
+  
+                                                                                                                                                      
+EDUCATION                                                                                                                                         
+                                                                                                                                                  
+  
+                                                                                                                                                  
+ Computer System Engineering, B. Sc.                                                                   2010 – 2014                                
+  The Islamia University ,Bahawalpur , Pakistan  
+  CGPA 3.50/4.0  
+    
+  Pre-Engineering, F. Sc.                                                                 August 2006 – October 2009  
+  Superior  College ,Muzaffargarh,Pakistan  
+  %AGE 76.00  
+    
+  Matriculation                                                                           August 2004 – September 2006  
+  Govt. High School ,Muzaffargarh,Pakistan  
+  %AGE  72.28  
+   
+CERTIFICATIONS  
+  
+      •               10 Days LAMP Server (Linux, Apache, MySQL, PHP) and Virtual Machine  
+           Certification  
+      •              Workshop on FPGA System Design using Verilog HDL  
+      •              MS Visual Studio (Visual C++, Visual Basic) Certification  
+      •              Cisco Certified Network Administrator(CCNA-Composite ,VOIP  
+  
+Achievements  
+  
+      •    Throughout  1st  Position Scholarship holder in Class  
+
+             
+  
+FIELDS OF INTERESTS  
+  
+      •     Programming in C++/Java  
+      •     Data Structures   
+      •     Database Management System using Oracle  
+      •    Software Development  
+  
+  
+  
+
+----------------------- Page 2-----------------------
+
+  
+PERSONAL INFORMATION  
+                                                                                                                                
+   CNIC                                   32304-9379331-7  
+                                                                                                                                
+   Date Of Birth                          24-October-1991  
+                                           + 
+   Blood Group                           A ve  
+                                                                                                                                
+   Marital Status                        Single  
+   Religion                               Islam  
+   Father                                Anwar Ali                                                                              
+
+Project Profile:-  
+
+Final Year project:  
+
+         Name                   :Malicious Email Detection & Filtering System  
+ Language            :Java, JSP, SQL,HTML  
+    Tools & Method:Eclipse, Spring Tool Suite, Oracle 11g , Agile Development (Scrum)  
+         Abstract  :The objective of our project is to suspect the E-mails which consist of offensive,  
+                                     harmful, anti-social elements and block them which  help of identifying  
+                                     the suspicious user.  
+         Team Size: 4  
+         Role                   :Database Developer,Team Leader  
+    College Name                :University College of Engineering and Technology, IUB, Bahawalpur  
+  
+
+Semester Project:  
+
+     •     Implementation of Event Driven Programming using OpenGL  
+  
+                                                                                                                                        
+  

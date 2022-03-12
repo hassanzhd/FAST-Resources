@@ -1,0 +1,61 @@
+﻿----------------------- Page 1-----------------------
+
+Ebad Ali  
+Email:      ebadalie@gmail.com  
+Mobile:   +923022689940  
+Res:          +923022689940  
+Add:       A-10,  Centre point, Block-21, Gulshan-e-Iqbal, Karachi, Pakistan  
+  
+
+             
+            Professional Experience and Responsibilities  
+
+                 
+                 •    Junior Android Developer at Salsoft Technologies Pvt.Ltd (2013)  
+                                  o  Responsible for Design Integration and Android Application Development.  
+                                          
+                 •    Internee At PIA-Computer Center (2013)  
+                                  o  Responsible for Developing a Network Inventory System for the data center.  
+                                  o  Developed a website on Asp.Net  
+                 •    Participated in  PROBRAINS 2012  
+
+                                     o  Built Face Recognition & SMS Triggered Authorization System for DICE (U.E.T Taxila) 2012     
+
+                 •    Participated in  PROBRAINS 2011   
+                                 o  Presented  RC-CAR.  
+                                       Keyboard controlling Remote control car.  
+                        
+                 •    Sound knowledge of Software Development Life Cycles.  
+                 •    Sufficient working experience in   
+                                 o  C++.  
+                                 o  Core Java Programming.  
+                                 o  C#.  
+                                 o  Android Application Development .  
+                                 o  Windows Phone 8 Application Development.  
+                                 o  Asp.Net.  
+                                 o  Entity Framework  
+                                 o  Html, Java Script and JQuery.  
+                 •    Well-organized, self-motivated, efficient, quick learner and very strong analysis capacity.  
+                 •    Ability to plan, organize, and prioritize my work and to meet on time the deadlines.  
+                 •    Ability to work alone or as a member of a large team to accomplish desired results.  
+                        
+
+             
+            Projects  
+
+                        
+               Some of the Project highlights are as follows  
+                 
+             
+                 •   Angry Bird   
+                       Replicated Desktop version of ROVIO ENTERTAINMENT’s Angry Bird. An OpenGL based Computer Graphic project,  
+                      Written in C++ with a physic Engine, Box2D.   
+                            o  Multi-Level Game  
+                            o  Box2d usage for collision detection making collision smother  
+                            o  Texturing and Animation Of Objects over a projectile  
+                            o  Special Effect such as: sound and Text display  
+                            o  Application Of Multiple Forces ( e.g. : Impulse, Impact , Gravity  )  
+                 
+                 
+
+                                                                                                                                                                      1  
