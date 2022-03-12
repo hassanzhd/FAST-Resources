@@ -1,0 +1,201 @@
+﻿----------------------- Page 1-----------------------
+
+                                                                                                    
+  
+  
+  
+  
+
+                                                                                                             
+  
+
+                                           House # DK-314,Street #8B, Near Gulbagh General Strore  
+                                                        Dhok Kashmerian, Rwalpindi  
+                                                                    Mobile:+92.344.8534083  
+                                                             Email: ghulamjaffar110@gmail.com  
+  
+  
+OBJECTIVE  
+
+To seek a challenging and motivating career that  provides opportunity to work  in a challenging,  motivating  
+and dynamic environment. That foster  & rewards  positive attitude,  proactive work style and shared goals  
+that will effectively utilize my communication,  leadership,  professional, organizational and technical skills.  
+  
+  
+ACADEMIC QUA LIFICATION:  
+  
+MS                                  MS in Information Security (MSIS)                                                               
+                                    National University of Science and Technology (NUST) Islamabad  
+                                     
+Bachelors                           Bachelors in Computer Sciences (BCS)  
+                                    National University FAST Islamabad (2006 – 2010).                                               
+
+H.S.S.C                             Higher Secondary School Certificate   
+                                    FSc (2004 to 2006)                                                                              
+                                                                                          
+S.S.C                               Secondary School Certificate  
+                                    Metric (2004)                                                                                   
+  
+  
+TEACHING/PRESENTATION EXPERIENCE:  
+  
+I have one semester teaching experience in BZU (DG Khan Campus). It increase may confidence to communicate with   
+other in best way.      
+  
+PROFESSIONAL EXPERIENCE:  
+  
+    11Values Pvt Ltd,  Rawalpindi,  Pakistan  
+    Dates:  June 2014 –  Present  
+    Job Title:  Senior Software  Engineer (Unity 3D)  
+  
+  
+    NimbleGeeks Pvt Ltd,  Islamabad,  Pakistan  
+    Dates:  June 2010 – Jan 2014  
+    Job Title:  Software  Engineer  
+      
+    Strengthening Participatory Organization (SPO)  Data Base, NGO Pakistan   
+    Dates:  Jan 2010 - June 2010  
+    Job Title:   Developer  
+  
+PROJECTS:  
+  
+    Wing of Invasion (Game)  
+    Type / Completed On:  Professional /  Present  
+    I am working as software engineer on Wing of Invasion,  project coordinator and application architect in  
+     development of Wing of Invasion. Wing of Invasion is fully functional and multi-platform game with online  
+     purchasing.   
+      
+    Technologies:                Unity 3D Pro, Sketch Up, Blender, Unity Assets Store.  
+    Role:                           Software Engineer  
+    Responsibilities:               Creating game mechanics, creating models in blender and rigging it, compatibility  
+     with multiple platforms.  
+
+----------------------- Page 2-----------------------
+
+  
+  Survival Island (Game)  
+  Type / Completed On:  Professional / July 2014  
+I am working as software engineer on Survival Island,  project coordinator and application architect in  
+ development of Survival Island. Survival Island is fully functional and multi-platform game with add support.   
+  
+Technologies:              Unity 3D Pro, Sketch Up, Blender, Unity Assets Store.  
+Role:                         Software Engineer  
+Responsibilities:             Creating game mechanics, creating models in blender and rigging it, compatibility  
+ with multiple platforms. You have to complete different tasks to survive on island.  
+  
+  Save the Baby (Game)  
+  Type / Completed On:  Professional /  May 2014  
+I am working as software engineer on Save the Baby,  project coordinator and application architect in  
+ development of Save the Baby. Save the Baby is fully functional and multi-platform game with add support.   
+  
+Technologies:              Unity 3D Pro, Sketch Up, Blender, Unity Assets Store.  
+Role:                         Software Engineer  
+Responsibilities:             Creating game mechanics, creating models in blender and rigging it, compatibility  
+ with multiple platforms. You have to catch baby to save which will fall from building which have caught   
+the fire.  
+  
+  
+  
+  Visions, USA http://www.myvisionslive.com  
+  Type / Completed On:  Professional / Jan 2014  
+I am working as software engineer,  project coordinator and application architect in development of Visions  
+ online web base solution. Visions  is medical HER which fulfill all HL7 standards. It has different modules like   
+Financials, Appointment, E-claims, E-Commerce and Patient History etc.   
+Technologies:              ASP.NET using C#, SQL Server 2008, Visual Studio 2008, Java Script, XML,  
+                           Mirth Connect  
+Role:                         Software Engineer  
+Responsibilities:             Creating database design develops procedures, Reports, CSS/HTML validation.  
+                               HL7 test case requirement gathering, Mirth connect HL7 interfacing.  
+  
+  
+  
+  
+  
+  
+  
+  
+  EyeBase, USA http://www.visioncare.net  
+  Type / Completed On:  Professional / April 3013  
+I worked as software engineer  in development of  EyeBase desk top version.  EyeBase is medical EHR and certified  
+by  Drummond  Inc in USA.  Ever  use of  EyeBase in USA will get 44000$ as incentive from US government.  
+  
+  
+  
+Technologies:                  XML, Microsoft Access, Mirth Connect  
+Role:                         Team Lead / Software Engineer  
+Responsibilities:             Analysis of existing desktop application, database design, develops procedures,   
+                              Develop core function accordance with HL7, HL7 test cases validation.  
+                                
+  Strengthening Participatory Organization (SPO)  Data Base, NGO Pakistan http://www.spopk.org   
+  Type / Completed On:  Professional / January 2010  
+It was paid project we take from Strengthening Participatory Organization and maintain the data of  
+migrated people in NWFP.  
+Technologies:                  Microsoft Access,  
+Role:                         Developer  
+  
+
+----------------------- Page 3-----------------------
+
+      
+      
+    Responsibilities:                Analysis of business requirement of company, database design, develops procedures  
+                                     creates reports.  
+
+    Location based Mobile Application  
+    Type / Completed On: Stand Alone /  May 2010  
+    LBMA have different  module  
+    1:  Current  Position of  User  
+    2:  Finding Position of your  Friend  
+    3: Auto Observer  
+    4: Auto Profile Setting.  
+    We are implementing it  in Google Android platform  
+  
+    Technologies:                     Android, Google map  
+    Role:                            Team Lead  
+    Responsibilities:                Lead the project and coordination, testing the business functions   
+  
+QUA LIFICATION / SKILLS:  
+  
+      Skill Title  
+  
+  
+      -3 years of comprehensive experience in Software Development, Designing and testing  
+      -Well capable of developing Business Objects Commercial Applications.   
+      Implementation according with NIST and FIPS standards  
+      -Sound knowledge of Meaningful Use 2014 test cases and HL7 standards  
+      implementation  
+      -Sound knowledge of  Object  Oriented Programming  
+      -Strong analytical and problem solving skills.  
+      -Expert  in Debugging,  legacy systems and solving of  problems of  large and complex     
+      applications.  
+      -Team lead/Management and ability to work in stress environment  
+      -Working experience in - C#, Asp.Net, SQL Server, Unity 3D, Android, JSON, VB.net,  
+      Java, C++, Turbo C, VB6. -  MS Access, XML, JavaScript.  
+      - Pen testing BackTrack 5 R3, Zenmap, Cryptographic module       
+  
+ACHIEVEMENT / AWARDS:  
+  
+    Fully  Funded Outreach Scholarship  
+    Issued by:  Ministry of  IT & RD during 2006-2010  
+    Our  LBMA Project got  1st, 2nd, 3rd Position in Software Competition  
+    Issued by:  Directorate of Science & Technology NWFP /  Respectively 29th January, 3rd March, and  
+    4th March 2010.  
+  
+  
+  
+  
+  
+LANGUAGES:  
+  
+    English, Urdu, Punjabi, Saraiki  
+      
+  
+    
+HOBBIES / ACTIVITIES:  
+  
+    Web Surfing  
+  
+    Poetry  
+  
+    Novel Reading  
+    Note: References will be provided on request  
