@@ -1,0 +1,116 @@
+﻿----------------------- Page 1-----------------------
+
+            
+
+           Hafiz Muhammad Ali Raja  
+ House # 16, Block ‘x’, Satellite town, Bahawalpur, Pakistan                                             
+ Cell # +923216839854                   E-mail: alisherhaidri1984@gmail.com  
+
+Objective  
+     
+
+                    To become a better & better IT resource with a long term future in mind  
+
+Experience   
+  
+      •   Lab Assistant/ Network Assistant at Air University, Multan (Current)  
+
+      •   Lab Supervisor at COMSATS Institute of Information Technology, Sahiwal  
+
+      •   Lecturer/  Lab  In-charge  in  Computer  Science  Department  of  Allama  Iqbal  
+
+           College of Science & Commerce, Bahawalpur  
+
+Education  
+     
+
+  
+
+     •    BS (Computer Science)                   Air University Islamabad     
+
+     •    D.A.E (Mechanical)                      P.B.T.E Lahore                              
+
+     •    Matriculation (Science)                 B.I.S.E Bahawalpur                          
+
+Projects  
+  
+
+     •     “ Files Handling using C++ ”  
+
+     •     “ Library Management System using Visual C++ ”  
+
+     •     “ Bad News Bearer ”  
+
+     •     “ Database for DAEWOO bus service using PHP, MYSQL ”  
+
+     •     “ Snooker Club Management System Using C# ”  
+
+     •     “ 3D Interactive Segmentation and Visualization ”  
+
+     •     “ Online Ticketing Booking System using ASP.NET and SQL Server 2008 ”  
+
+       
+
+      Degree Project: “ Livewire Based Interactive Volumetric Segmentation ” using MATLAB  
+
+Detail: Segmentation in medical image analysis is very important part. In segmentation  
+
+there  are  some  simple  steps  are  involved  who  helps  the  doctors  and  medical  expert  to  
+
+detect  the  exact  location  and  area  of  the  disease.  Our  research  is  related  to  the  livewire  
+
+based interactive segmentation. This segmentation is using the livewire technique but also  
+
+involving the human interaction for the best accuracy. In this research we first implement  
+
+----------------------- Page 2-----------------------
+
+the livewire on 2D images which is taken from the 3D Brain volume. Here we prefer to use  
+
+the semi-automatic technique in segmentation.  
+
+Skills & Achievements  
+  
+Achievement  
+     •    Acceptance   of  Research   Paper   in   “The  International  Conference  on  Computer  
+          Science  &  Applications  2012”,  The  World  Congress  on  Engineering  &  Computer  
+          Science (WCECS) 2012, San Francisco, USA, 24-26 October, 2012.  
+            
+            
+Computer Skills  
+  
+
+     •         Teaching    
+
+     •         PHP & HTML, SQL, MySQL   
+
+     •         C++, C#, .NET  
+
+     •         Microsoft Office 97, 2007 & 2010 Intermediate (Power Point, Word, Excel)  
+
+     •         MS Office Suit  
+
+     •         MATLAB   
+
+References  
+
+Dr. Ijaz Mansoor Qureshi                         Associate Professor, Dept. of Electrical Engineering,  
+
+                                                 Air University, Islamabad  
+
+                                                 Ph. # 03215594604  
+
+Mr. Sabih ul Hassan                              Lecturer, Dept. of Computer Sciences, Air University,  
+
+                                                 Islamabad  
+
+                                                 Ph. # 03335516624  
+
+Mr. Sohail Jabbar                                Lecturer COMSATS Institute of Information Tech,  
+                                                 Sahiwal  
+
+                                                 Ph. # 03217617432  
+
+  
+
+  
