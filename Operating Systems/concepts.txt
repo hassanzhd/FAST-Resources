@@ -83,7 +83,7 @@ OS STRUCTURE: 5 basic structures:
 
 MONOLITHIC: Doesnot break into subsystems and has no distinction between user and kernel mode. Provides direct access to hardware.
 
-LAYERED: Another approach is to create multiple small layers. In which each layer depends upon the services the layer below. No lower layer can use services of upper layer. This can be inefficient as request for service from higher layer has to filter all lower layers but it does provides abstraction which makes the code less cohesive.
+LAYERED: Another approach is to create multiple small layers. In which each layer depends upon the services the layer below. No lower layer can use services of upper layer. This can be inefficient as request for service from higher layer has to filter all lower layers but it does provides abstraction that makes the code less cohesive.
 
 MICRO-KERNEL: In this approach all non-essential services are removed from the kernel and implemented as seprate processes. Security and performance can be enhanced as most services are performed at user mode rather than kernel mode. System expansion is easier as only new application programs need to be added and complete kernel is not be rebuild(same can achieved by Loadable Kernel Modules in Linux, the main benefit Monolithic kernel provides its process separation and stability. Modern MacOSX is a combination of Mach kernel and monolithic BSD, Linux on the other hand is entirely a Monolith). 
 
