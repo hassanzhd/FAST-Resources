@@ -66,9 +66,9 @@ PARAMETER PASSING: 3 ways to pass parameteres: Registers, Creating a block or ta
 TYPES: Types of system calls are: Process control, maintainance, file management, device management, information maintainance.
 
 LINKER: Linker combines object files by bringing in libraries converting into binary executable file.
-LOADER: Loaders brings the program into memory inorder for it to be executed. Modern systems dont bring in libraries into executable rather use DLLs that are loaded as needed.
+LOADER: Loaders brings the program into memory inorder for it to be executed. Modern systems dont bring in libraries into executable rather use DLLs that are loaded as needed. (Static Libraries are bundled together with the executable and dynamic libraries are linked at runtime, both have their pros and cons.)
 
-ABI is architecture equivalent of API. It determines how different components of binary code can interface for OS on a specific architecture, CPU etc.
+ABI is architecture equivalent of API. It determines how different components of binary code can interface between themselves and the OS on a specific architecture, CPU etc.
 
 OPERATING SYSTEM DESIGN AND IMPLEMENTATION: 
 Design starts by defining goals and specfications: 
@@ -81,11 +81,11 @@ It is very much needed to seprate these two inorder to reach maximum flexibility
 
 OS STRUCTURE: 5 basic structures: 
 
-MONOLYTHIC: Doesnot break into subsystems and has no distinction between user and kernel mode. Provides direct access to hardware.
+MONOLITHIC: Doesnot break into subsystems and has no distinction between user and kernel mode. Provides direct access to hardware.
 
-LAYERED: Another approach is to create multiple small layers. In which each layer depends upon the services the layer below. No lower layer can use services of upper layer. This can be inefficient as request for service from higher layer has to filter all lower layers.
+LAYERED: Another approach is to create multiple small layers. In which each layer depends upon the services the layer below. No lower layer can use services of upper layer. This can be inefficient as request for service from higher layer has to filter all lower layers but it does provides abstraction that makes the code less cohesive.
 
-MICRO-KERNEL: In this approach all non-essential services are removed from the kernel and implemented as seprate applications. Security and performance can be enhanced as most services are performed at user mode rather than kernel mode. System expansion is easier as only new application programs need to be added and complete kernel is not be rebuild. 
+MICRO-KERNEL: In this approach all non-essential services are removed from the kernel and implemented as seprate processes. Security and performance can be enhanced as most services are performed at user mode rather than kernel mode. System expansion is easier as only new application programs need to be added and complete kernel is not be rebuild(same can achieved by Loadable Kernel Modules in Linux, the main benefit Monolithic kernel provides its process separation and stability. Modern MacOSX is a combination of Mach kernel and monolithic BSD, Linux on the other hand is entirely a Monolith). 
 
 MODULES: Modern OS development is Object Oriented with small kernel. Modules is similar to layers in which each subsystem has clearly defined tasks. Kernel doesnot need to implement message passing as modules can communicate with each other.
 
@@ -99,17 +99,18 @@ Waiting:  The process is waiting for some event to occur
 Ready:  The process is waiting to be assigned to a processor
 Terminated:  The process has finished execution
 
-PROCESS CONTROL BLOCK: information associated with each process. 
+PROCESS CONTROL BLOCK(PCB): information associated with each process. 
 Process state, program counter, CPU registers, CPU scheduling information, memory management information, accounting information, I/O status information.
+In Linux process is defined in task_struct in include/linux/sched.h file. Have a look at it. Surprisingly both processes and threads use the same struct on Linux.
 
 Ready Queue: set of processes residing in main memory ready and waiting to be executed.
 Wait Queue: set of processes waiting for an event (i.e I/O)
 
 Time slice: the amount of time a process is allowed to run uninterrupted. 
 
-CONTEXT SWITCH: Whenever the OS switches from one process to another process, it must save the state of old process and load the state of new process via a context switch. Context switch is represented in PCB, the system does no useful work while switching. The more complex the os the longer it takes for context switch.
+CONTEXT SWITCH: Whenever the OS switches from one process to another process, it must save the state of old process and load the state of new process via a context switch. Context switch is represented in PCB, the system does no useful work while switching. The more complex the OS the longer it takes for context switch.
 
-Early version of iOS allowed one process to run and others suspended. One foreground process and other background processes in memory but not on display
+Early version of iOS allowed one user process to run and others suspended. (Kernel ran its services and processes in the background but only one user app could run at one time.)
 
 Process creation: Parent process creates a child process which in turn create more processes creating a tree. 
 Resource sharing options: All shared, subset shared, no shared
@@ -119,7 +120,7 @@ Process Termination: process excutes last statement and asks OS to delete it usi
 Zombie: No parent waiting for child process
 Orphan: Parent exited without invoking wait() for child process.
 
-Processes can be either independent or cooperating. Cooperating processes need inter process communication which can be enabled by message passing or shared memory.
+Processes can be either independent or cooperating. Cooperating processes need Inter Process Communication(IPC) which can be enabled by message passing or shared memory.
 
 Shared memory: an area of memory for processes that wish to communicate. Major issue is to provide a mechanism that will synchonize their actions when they access it. 
 Message passing: a mechanism for processes to communicate without resorting to shared variables. message size can either be fixed or variable. send()/ recieve() are used.
@@ -154,7 +155,10 @@ ADVANTAGES OF MULTITHREADING:
 1. Threads can be dedicated a single user event creating responsiveness
 2. All threads share the same address space
 3. Multiple cores can be utilized for parallel execution
-4. Faster creation and termination of activities
+4. Faster creation and termination of activities(because they're lighter)
+
+MS Windows has a concept of Fiber which is further division of work within threads context, usually threads are sufficient but there are some specific use cases wnere threads makes more sense.
+
 
 DISADVANTAGES OF MULTITHREADING:
 1. Coordinate termination must be created
